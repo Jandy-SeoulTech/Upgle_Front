@@ -1,63 +1,64 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import Toolbar from "@material-ui/core/Toolbar";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import SearchIcon from "@material-ui/icons/Search";
-import { Container, TextField } from "@material-ui/core";
-import { Link, useHistory } from "react-router-dom";
-import { memo } from "react";
-import PersonIcon from "@material-ui/icons/Person";
+import { css } from '@emotion/react';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
+import { Container, TextField } from '@material-ui/core';
+import { Link, useHistory } from 'react-router-dom';
+import { memo } from 'react';
+import PersonIcon from '@material-ui/icons/Person';
 
 const sections = [
-  { title: "Posts", url: "#" },
-  { title: "Events", url: "#" },
-  { title: "Community", url: "#" },
-  { title: "FAQ", url: "#" },
-  { title: "About", url: "#" },
+  { title: 'Posts', url: '#' },
+  { title: 'Events', url: '#' },
+  { title: 'Community', url: '#' },
+  { title: 'FAQ', url: '#' },
+  { title: 'About', url: '#' },
 ];
 
-const Header = () => {
+const Header = ({ user, onLogout }) => {
   const history = useHistory();
 
   return (
     <div
       css={{
-        width: "100%",
-        boxShadow: "0px 5px 11px 0px #E5E5E5",
-        marginBottom: "1rem",
+        width: '100%',
+        boxShadow: '0px 5px 11px 0px #E5E5E5',
+        marginBottom: '1rem',
       }}
     >
       <Container maxWidth="lg">
-        <Toolbar sx={{ alignItems: "center" }}>
+        <Toolbar sx={{ alignItems: 'center' }}>
           <TextField label="검색" size="small" sx={{ flex: 1 }} />
           <IconButton>
             <SearchIcon />
           </IconButton>
           <IconButton
             onClick={() => {
-              history.push("/mypage");
+              history.push('/mypage');
             }}
           >
             <PersonIcon />
           </IconButton>
-          {false ? (
+          {user ? (
             <Button
               color="inherit"
               variant="outlined"
               size="small"
-              sx={{ textDecoration: "none" }}
+              sx={{ textDecoration: 'none' }}
+              onClick={onLogout}
             >
-              SIGN OUT
+              Logout
             </Button>
           ) : (
             <Link to="/signin">
               <Button
                 variant="outlined"
                 size="small"
-                sx={{ textDecoration: "none" }}
+                sx={{ textDecoration: 'none' }}
               >
-                Sign In
+                Signin
               </Button>
             </Link>
           )}
@@ -65,7 +66,7 @@ const Header = () => {
         <Toolbar
           component="nav"
           variant="dense"
-          sx={{ justifyContent: "space-between", overflowX: "auto" }}
+          sx={{ justifyContent: 'space-between', overflowX: 'auto' }}
         >
           {sections.map((section) => (
             <Link
@@ -73,10 +74,10 @@ const Header = () => {
               key={section.title}
               style={{
                 flex: 1,
-                height: "3rem",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                height: '3rem',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
                 flexShrink: 0,
               }}
             >
