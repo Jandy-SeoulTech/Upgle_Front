@@ -3,8 +3,18 @@ import { Helmet } from 'react-helmet-async';
 import './App.css';
 import MainPage from './pages/MainPage';
 import SignupPage from './pages/SignupPage';
+import SigninPage from './pages/SigninPage';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { check } from './modules/user';
 
 function App() {
+  const dispath = useDispatch();
+
+  useEffect(() => {
+    dispath(check());
+  }, [dispath]);
+
   return (
     <BrowserRouter>
       <Helmet>
@@ -12,6 +22,7 @@ function App() {
       </Helmet>
       <Route path="/" exact component={MainPage} />
       <Route path="/signup" exact component={SignupPage} />
+      <Route path="/signin" exact component={SigninPage} />
     </BrowserRouter>
   );
 }
