@@ -1,5 +1,5 @@
 import { Button, Grid, TextField, Typography } from '@material-ui/core';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { isEmail } from '../../lib/util/validate';
 

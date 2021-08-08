@@ -1,119 +1,374 @@
-import React from 'react';
-import { Button, Grid, TextField, Typography } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Box, Button, Grid, TextField, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import {
+  isCode,
+  isEmail,
+  isNickname,
+  isPassword,
+} from '../../lib/util/validate';
+import { useEffect } from 'react';
 
-const styleValue = {
-  xsInput: 9,
-  mdInput: 10,
-  inputLabel: 3,
-  inputField: 9,
-};
+const Signup = ({
+  onCheckEmail,
+  onSendCode,
+  onCheckCode,
+  onCheckNickname,
+  emailChecked,
+  codeSent,
+  codeVerified,
+  nicknameChecked,
+  onNicknameChanged,
+  onSignup,
+  errorMessage,
+}) => {
+  const [email, setEmail] = useState('');
+  const [code, setCode] = useState('');
+  const [password, setPassword] = useState('');
+  const [repassword, setRepassword] = useState('');
+  const [nickname, setNickname] = useState('');
 
-const Signup = () => {
+  const [emailCheckedState, setEmailCheckedState] = useState(null);
+  const [nicknameCheckedState, setNicknameCheckedState] = useState(null);
+
+  const [emailError, setEmailError] = useState(false);
+  const [codeError, setCodeError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [repasswordError, setRepasswordError] = useState(false);
+  const [nicknameError, setNicknameError] = useState(false);
+
+  useEffect(() => {
+    setEmailCheckedState(emailChecked);
+  }, [emailChecked]);
+
+  useEffect(() => {
+    setNicknameCheckedState(nicknameChecked);
+  }, [nicknameChecked]);
+
+  const handleEmailChange = (e) => {
+    const {
+      target: { value },
+    } = e;
+    setEmail(value);
+    setEmailCheckedState(null);
+    if (!value) setEmailError(false);
+    else setEmailError(!isEmail(value));
+  };
+
+  const onSendCodeClick = () => {
+    onCheckEmail({ email });
+  };
+
+  useEffect(() => {
+    if (emailChecked) {
+      onSendCode({ email });
+    }
+  }, [emailChecked]);
+
+  useEffect(() => {
+    if (!codeSent) {
+      setCode('');
+    }
+  }, [codeSent]);
+
+  const handleCodeChange = (e) => {
+    const {
+      target: { value },
+    } = e;
+    if (isCode(value)) {
+      if (value.length <= 6) {
+        setCode(value);
+        setCodeError(false);
+      }
+    } else {
+      setCodeError(true);
+    }
+    if (!value) setCodeError(false);
+  };
+
+  const onCheckCodeClick = () => {
+    onCheckCode({ email, code });
+  };
+
+  const handlePasswordChange = (e) => {
+    const {
+      target: { value },
+    } = e;
+    setPassword(value);
+    if (repassword) {
+      setRepasswordError(value !== repassword);
+    }
+    if (!value) setPasswordError(false);
+    else setPasswordError(!isPassword(value));
+  };
+
+  const handleRepasswordChange = (e) => {
+    const {
+      target: { value },
+    } = e;
+    setRepassword(value);
+    setRepasswordError(value !== password);
+  };
+
+  const handleNicknameChange = (e) => {
+    const {
+      target: { value },
+    } = e;
+    setNickname(value);
+    if (nicknameCheckedState !== null) {
+      onNicknameChanged();
+    }
+    if (!value) setNicknameError(false);
+    else setNicknameError(!isNickname(value));
+  };
+
+  const onCheckNicknameClick = () => {
+    onCheckNickname({ nickname });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSignup({ email, password, nickname });
+  };
+
   return (
-    <Grid container>
+    <Grid
+      container
+      sx={{
+        height: '100vh',
+      }}
+    >
       <Grid
         item
+        container
         xs={12}
         md={6}
+        p={2}
         sx={{
-          // TODO: xs일 때, height 수정 필요
-          height: '100vh',
           background: 'url(https://source.unsplash.com/800x600/?talk)',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
         }}
-      ></Grid>
-
-      <Grid item container xs={12} md={6} p={5} alignItems="center" rowGap={0}>
-        <Grid item container xs={12} justifyContent="center">
-          <Typography variant="h1" fontSize="2rem" mb={4}>
-            회원가입
-          </Typography>
-        </Grid>
-
-        <Grid item container justifyContent="center" rowGap={{ xs: 1, md: 2 }}>
-          <Grid item container xs={styleValue.xsInput} md={styleValue.mdInput}>
-            <Grid item container xs={styleValue.inputLabel} alignItems="center">
-              <Typography>닉네임</Typography>
-            </Grid>
-            <Grid item xs={styleValue.inputField}>
-              <TextField size="small" fullWidth></TextField>
-            </Grid>
-          </Grid>
-
-          <Grid item container xs={styleValue.xsInput} md={styleValue.mdInput}>
-            <Grid item container xs={styleValue.inputLabel} alignItems="center">
-              <Typography>이메일</Typography>
-            </Grid>
-            <Grid item xs={styleValue.inputField}>
-              <TextField size="small" fullWidth></TextField>
-            </Grid>
-          </Grid>
-
-          <Grid item container xs={styleValue.xsInput} md={styleValue.mdInput}>
-            <Grid
-              item
-              container
-              xs={styleValue.inputLabel}
-              alignItems="center"
-            ></Grid>
-            <Grid item container xs={7} alignItems="center">
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Typography component="h1" variant="h5">
+          Logo
+        </Typography>
+      </Grid>
+      <Grid
+        item
+        container
+        xs={12}
+        md={6}
+        p={5}
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Typography component="h1" variant="h5">
+          회원가입
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} autoComplete="off">
+          <Grid container spacing={2} justifyContent="center">
+            <Grid item xs={12} md={8}>
               <TextField
-                size="small"
-                disabled
-                sx={{ bgcolor: 'whitesmoke', maxWidth: '180px' }}
-              ></TextField>
+                required
+                fullWidth
+                id="email"
+                label="이메일"
+                placeholder="example@domain.com"
+                name="email"
+                autoComplete="new-email"
+                error={emailError || emailChecked === false}
+                helperText={
+                  (emailError && '잘못된 이메일 형식입니다.') ||
+                  (emailCheckedState === false && '이미 가입한 이메일입니다.')
+                }
+                value={email}
+                onChange={handleEmailChange}
+                disabled={codeVerified || codeSent}
+              />
             </Grid>
-            <Grid
-              item
-              container
-              xs={2}
-              justifyContent="flex-end"
-              alignItems="center"
-            >
-              <Button
-                variant="contained"
-                size="small"
-                sx={{
-                  borderRadius: '50px',
-                  fontSize: '.8rem',
-                  height: 'fit-content',
-                }}
+            {!codeVerified ? (
+              <Grid item container xs={12} md={8}>
+                <Grid item xs={8}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="code"
+                    label="인증번호"
+                    placeholder="영문, 숫자 조합 6자리"
+                    name="code"
+                    autoComplete="code"
+                    error={codeError || codeVerified === false}
+                    helperText={
+                      codeError
+                        ? '영문, 숫자만 입력할 수 있습니다.'
+                        : emailChecked &&
+                          codeVerified === false &&
+                          '인증번호를 다시 확인해주세요.'
+                    }
+                    value={code}
+                    onChange={handleCodeChange}
+                    disabled={!codeSent}
+                  />
+                </Grid>
+                <Grid
+                  item
+                  container
+                  xs={4}
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Button
+                    disabled={!email || emailError || codeSent}
+                    onClick={onSendCodeClick}
+                    size="medium"
+                    sx={{
+                      display: !codeSent ? 'block' : 'none',
+                      borderRadius: '50vh',
+                      lineHeight: '1.2rem',
+                    }}
+                  >
+                    인증번호
+                    <br />
+                    전송
+                  </Button>
+                  <Button
+                    disabled={
+                      !email ||
+                      emailError ||
+                      !codeSent ||
+                      codeError ||
+                      code.length !== 6
+                    }
+                    onClick={onCheckCodeClick}
+                    size="medium"
+                    sx={{
+                      display: codeSent ? 'block' : 'none',
+                      borderRadius: '50vh',
+                      lineHeight: '1.2rem',
+                    }}
+                  >
+                    인증
+                  </Button>
+                </Grid>
+              </Grid>
+            ) : (
+              <Grid item container xs={12} md={8}>
+                <Typography pl={1}>✅ 이메일이 인증되었습니다.</Typography>
+              </Grid>
+            )}
+            <Grid item xs={12} md={8}>
+              <TextField
+                required
+                fullWidth
+                id="password"
+                name="password"
+                label="비밀번호"
+                placeholder="8 ~ 10자 영문, 숫자 조합"
+                type="password"
+                autoComplete="new-password"
+                error={passwordError}
+                helperText={
+                  passwordError && '영문, 숫자 포함 8자리 이상 입력해주세요.'
+                }
+                value={password}
+                onChange={handlePasswordChange}
+              />
+            </Grid>
+            <Grid item xs={12} md={8}>
+              <TextField
+                required
+                fullWidth
+                id="repassword"
+                name="repassword"
+                label="비밀번호 확인"
+                type="password"
+                autoComplete="new-repassword"
+                error={repasswordError}
+                helperText={
+                  repasswordError && '입력한 비밀번호와 일치하지 않습니다.'
+                }
+                value={repassword}
+                onChange={handleRepasswordChange}
+              />
+            </Grid>
+            <Grid item container xs={12} md={8}>
+              <Grid item xs={8}>
+                <TextField
+                  required
+                  fullWidth
+                  id="nickname"
+                  label="닉네임"
+                  placeholder="4 ~ 8자 제한"
+                  name="nickname"
+                  autoComplete="new-nickname"
+                  error={nicknameError || nicknameCheckedState === false}
+                  helperText={
+                    (nicknameError && '유효하지 않은 닉네임입니다.') ||
+                    (nicknameCheckedState === false &&
+                      '이미 사용중인 닉네임입니다.')
+                  }
+                  value={nickname}
+                  onChange={handleNicknameChange}
+                />
+              </Grid>
+              <Grid
+                item
+                container
+                xs={4}
+                justifyContent="center"
+                alignItems="center"
               >
-                인증
+                {!nicknameCheckedState ? (
+                  <Button
+                    disabled={nickname === '' || nicknameError}
+                    onClick={onCheckNicknameClick}
+                    size="medium"
+                    sx={{
+                      borderRadius: '50vh',
+                      lineHeight: '1.2rem',
+                    }}
+                  >
+                    중복 체크
+                  </Button>
+                ) : (
+                  <Typography>✅</Typography>
+                )}
+              </Grid>
+            </Grid>
+            <Grid item xs={12} md={8}>
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                disabled={
+                  !codeVerified ||
+                  password === '' ||
+                  repassword === '' ||
+                  repasswordError ||
+                  !nicknameCheckedState
+                }
+              >
+                가입하기
               </Button>
             </Grid>
           </Grid>
+        </Box>
 
-          <Grid item container xs={styleValue.xsInput} md={styleValue.mdInput}>
-            <Grid item container xs={styleValue.inputLabel} alignItems="center">
-              <Typography>비밀번호</Typography>
-            </Grid>
-            <Grid item xs={styleValue.inputField}>
-              <TextField size="small" fullWidth></TextField>
-            </Grid>
-          </Grid>
-
-          <Grid item container xs={styleValue.xsInput} md={styleValue.mdInput}>
-            <Grid item container xs={styleValue.inputLabel} alignItems="center">
-              <Typography>비밀번호 확인</Typography>
-            </Grid>
-            <Grid item xs={styleValue.inputField}>
-              <TextField size="small" fullWidth></TextField>
-            </Grid>
-          </Grid>
-
-          <Grid item xs={styleValue.xsInput} md={styleValue.mdInput} mt={2}>
-            <Button variant="contained" fullWidth>
-              가입
-            </Button>
-          </Grid>
-          <Grid item xs={styleValue.xsInput} md={styleValue.mdInput}>
-            <Typography textAlign="center" mt={1} sx={{ color: '#414CD9' }}>
-              <Link to="/signin">이미 계정이 있으신가요?</Link>
+        {errorMessage && (
+          <Grid item>
+            <Typography textAlign="center" mt={2} sx={{ color: 'red' }}>
+              {errorMessage}
             </Typography>
           </Grid>
+        )}
+
+        <Grid item>
+          <Typography textAlign="center" mt={1} sx={{ color: '#414CD9' }}>
+            <Link to="/signin">이미 계정이 있으신가요?</Link>
+          </Typography>
         </Grid>
       </Grid>
     </Grid>
