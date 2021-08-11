@@ -18,6 +18,7 @@ const Signup = ({
   codeSent,
   codeVerified,
   nicknameChecked,
+  onEmailChanged,
   onNicknameChanged,
   onSignup,
   errorMessage,
@@ -28,33 +29,25 @@ const Signup = ({
   const [repassword, setRepassword] = useState('');
   const [nickname, setNickname] = useState('');
 
-  const [emailCheckedState, setEmailCheckedState] = useState(null);
-  const [nicknameCheckedState, setNicknameCheckedState] = useState(null);
-
   const [emailError, setEmailError] = useState(false);
   const [codeError, setCodeError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [repasswordError, setRepasswordError] = useState(false);
   const [nicknameError, setNicknameError] = useState(false);
 
-  useEffect(() => {
-    setEmailCheckedState(emailChecked);
-  }, [emailChecked]);
-
-  useEffect(() => {
-    setNicknameCheckedState(nicknameChecked);
-  }, [nicknameChecked]);
-
   const handleEmailChange = (e) => {
     const {
       target: { value },
     } = e;
     setEmail(value);
-    setEmailCheckedState(null);
+    if (emailChecked !== null) {
+      onEmailChanged();
+    }
     if (!value) setEmailError(false);
     else setEmailError(!isEmail(value));
   };
 
+  // TODO: 이메일 중복 확인 및 인증번호 전송 같이 하도록
   const onSendCodeClick = () => {
     onCheckEmail({ email });
   };
@@ -64,12 +57,6 @@ const Signup = ({
       onSendCode({ email });
     }
   }, [emailChecked]);
-
-  useEffect(() => {
-    if (!codeSent) {
-      setCode('');
-    }
-  }, [codeSent]);
 
   const handleCodeChange = (e) => {
     const {
@@ -115,7 +102,7 @@ const Signup = ({
       target: { value },
     } = e;
     setNickname(value);
-    if (nicknameCheckedState !== null) {
+    if (nicknameChecked !== null) {
       onNicknameChanged();
     }
     if (!value) setNicknameError(false);
@@ -182,7 +169,7 @@ const Signup = ({
                 error={emailError || emailChecked === false}
                 helperText={
                   (emailError && '잘못된 이메일 형식입니다.') ||
-                  (emailCheckedState === false && '이미 가입한 이메일입니다.')
+                  (emailChecked === false && '이미 가입한 이메일입니다.')
                 }
                 value={email}
                 onChange={handleEmailChange}
@@ -304,11 +291,10 @@ const Signup = ({
                   placeholder="4 ~ 8자 제한"
                   name="nickname"
                   autoComplete="new-nickname"
-                  error={nicknameError || nicknameCheckedState === false}
+                  error={nicknameError || nicknameChecked === false}
                   helperText={
                     (nicknameError && '유효하지 않은 닉네임입니다.') ||
-                    (nicknameCheckedState === false &&
-                      '이미 사용중인 닉네임입니다.')
+                    (nicknameChecked === false && '이미 사용중인 닉네임입니다.')
                   }
                   value={nickname}
                   onChange={handleNicknameChange}
@@ -321,9 +307,9 @@ const Signup = ({
                 justifyContent="center"
                 alignItems="center"
               >
-                {!nicknameCheckedState ? (
+                {!nicknameChecked ? (
                   <Button
-                    disabled={nickname === '' || nicknameError}
+                    disabled={!nickname || nicknameError}
                     onClick={onCheckNicknameClick}
                     size="medium"
                     sx={{
@@ -345,10 +331,9 @@ const Signup = ({
                 fullWidth
                 disabled={
                   !codeVerified ||
-                  password === '' ||
-                  repassword === '' ||
+                  !password ||
                   repasswordError ||
-                  !nicknameCheckedState
+                  !nicknameChecked
                 }
               >
                 가입하기

@@ -6,6 +6,7 @@ import * as authAPI from '../lib/api/auth';
 import { takeLatest } from 'redux-saga/effects';
 
 const NICKNAME_CHANGED = 'auth/NICKNAME_CHANGED';
+const EMAIL_CHANGED = 'auth/EMAIL_CHANGED';
 const [
   CHECK_VERIFICATION_CODE,
   CHECK_VERIFICATION_CODE_SUCCESS,
@@ -27,6 +28,7 @@ const [SIGNIN, SIGNIN_SUCCESS, SIGNIN_FAILURE] =
 const INIT_AUTH = 'auth/INIT_AUTH';
 
 export const nicknameChanged = createAction(NICKNAME_CHANGED);
+export const emailChanged = createAction(EMAIL_CHANGED);
 export const checkVerificationCode = createAction(
   CHECK_VERIFICATION_CODE,
   ({ email, code }) => ({
@@ -96,6 +98,10 @@ const auth = handleActions(
     [NICKNAME_CHANGED]: (state) => ({
       ...state,
       nicknameChecked: null,
+    }),
+    [EMAIL_CHANGED]: (state) => ({
+      ...state,
+      emailChecked: null,
     }),
     [CHECK_NICKNAME_SUCCESS]: (state) => ({
       ...state,

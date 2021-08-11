@@ -51,15 +51,26 @@ const Header = ({ user, onLogout }) => {
               Logout
             </Button>
           ) : (
-            <Link to="/signin">
-              <Button
-                variant="outlined"
-                size="small"
-                sx={{ textDecoration: 'none' }}
-              >
-                Signin
-              </Button>
-            </Link>
+            <>
+              <Link to="/signin">
+                <Button
+                  variant="outlined"
+                  size="small"
+                  sx={{ textDecoration: 'none' }}
+                >
+                  로그인
+                </Button>
+              </Link>
+              <Link to="/signup">
+                <Button
+                  variant="outlined"
+                  size="small"
+                  sx={{ textDecoration: 'none' }}
+                >
+                  가입
+                </Button>
+              </Link>
+            </>
           )}
         </Toolbar>
         <Toolbar

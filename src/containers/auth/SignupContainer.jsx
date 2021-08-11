@@ -6,6 +6,7 @@ import {
   checkEmail,
   checkNickname,
   checkVerificationCode,
+  emailChanged,
   initAuth,
   nicknameChanged,
   sendVerificationCode,
@@ -28,6 +29,10 @@ const SignupContainer = (props) => {
 
   const onCheckEmail = ({ email }) => {
     dispatch(checkEmail({ email }));
+  };
+
+  const onEmailChanged = () => {
+    dispatch(emailChanged());
   };
 
   const onSendCode = ({ email }) => {
@@ -92,6 +97,7 @@ const SignupContainer = (props) => {
       codeSent={codeSent}
       codeVerified={codeVerified}
       nicknameChecked={nicknameChecked}
+      onEmailChanged={onEmailChanged}
       onNicknameChanged={onNicknameChanged}
       errorMessage={errorMessage}
     />
