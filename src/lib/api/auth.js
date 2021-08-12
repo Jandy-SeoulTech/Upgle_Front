@@ -47,9 +47,16 @@ export const googleOauth = async (token) => {
   const response = await axios({
     method: 'post',
     url: '/api/OAuth/google',
-    data: {
-      token,
-    },
+    data: { token },
+  });
+  return response.data;
+};
+
+export const naverOauth = async (token) => {
+  const response = await axios({
+    method: 'post',
+    url: '/api/OAuth/naver',
+    data: { token },
   });
   return response.data;
 };
