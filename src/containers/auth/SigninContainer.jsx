@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import Signin from '../../components/auth/Signin';
-import { signin, initAuth } from '../../modules/auth';
+import { signin, initAuth, oauthKakao } from '../../modules/auth';
 import { check } from '../../modules/user';
 
 const SigninContainer = (props) => {
@@ -11,9 +11,23 @@ const SigninContainer = (props) => {
   const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
+  const { Kakao } = window;
 
   const onLogin = ({ email, password }) => {
     dispatch(signin({ email, password }));
+  };
+
+  const onKakaoOauth = () => {
+    Kakao.Auth.login({
+      success: (response) => {
+        dispatch(oauthKakao(response.access_token));
+        console.log(response);
+        alert('로그인 되었습니다.');
+      },
+      fail: (error) => {
+        alert(JSON.stringify(error));
+      },
+    });
   };
 
   useEffect(() => {
@@ -43,7 +57,13 @@ const SigninContainer = (props) => {
     }
   }, [user, history]);
 
-  return <Signin onLogin={onLogin} errorMessage={errorMessage} />;
+  return (
+    <Signin
+      onLogin={onLogin}
+      errorMessage={errorMessage}
+      onKakaoOauth={onKakaoOauth}
+    />
+  );
 };
 
 export default SigninContainer;

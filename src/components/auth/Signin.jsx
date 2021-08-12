@@ -1,9 +1,9 @@
-import { Button, Grid, TextField, Typography } from '@material-ui/core';
-import React, { useRef, useState } from 'react';
+import { Avatar, Button, Grid, TextField, Typography } from '@material-ui/core';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { isEmail } from '../../lib/util/validate';
 
-const Signin = ({ onLogin, errorMessage }) => {
+const Signin = ({ onLogin, errorMessage, onKakaoOauth }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState(false);
@@ -35,20 +35,31 @@ const Signin = ({ onLogin, errorMessage }) => {
       <Grid
         item
         xs={12}
-        md={7}
+        md={6}
         sx={{
           background: 'url(https://source.unsplash.com/800x600/?talk)',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
         }}
       ></Grid>
-      <Grid item container md={5} xs={12} p={5} alignItems="center">
+      <Grid item container md={6} xs={12} p={5} alignItems="center">
         <Grid
           item
           container
           sx={{ height: 'fit-content' }}
           justifyContent="center"
         >
+          <Grid item xs={10}>
+            <Typography variant="h4" textAlign="center">
+              로그인
+            </Typography>
+          </Grid>
+          <Grid item xs={10}>
+            <Typography textAlign="center" mb={2}>
+              <Link to="/signup">Upgle이 처음이신가요? 간편 가입하기</Link>
+            </Typography>
+          </Grid>
+
           <Grid item xs={8} mb={4}>
             <TextField
               size="small"
@@ -72,11 +83,21 @@ const Signin = ({ onLogin, errorMessage }) => {
               type="password"
             ></TextField>
           </Grid>
-
           <Grid item xs={8}>
             <Button variant="contained" fullWidth onClick={handleLogin}>
               Signin
             </Button>
+          </Grid>
+          <Grid item container xs={8} mt={2}>
+            <Grid item container xs={4} justifyContent="center">
+              <Avatar onClick={onKakaoOauth}></Avatar>
+            </Grid>
+            <Grid item container xs={4} justifyContent="center">
+              <Avatar></Avatar>
+            </Grid>
+            <Grid item container xs={4} justifyContent="center">
+              <Avatar></Avatar>
+            </Grid>
           </Grid>
           {errorMessage && (
             <Grid item xs={8}>
@@ -85,12 +106,6 @@ const Signin = ({ onLogin, errorMessage }) => {
               </Typography>
             </Grid>
           )}
-
-          <Grid item xs={10}>
-            <Typography textAlign="center" mt={1} sx={{ color: '#414CD9' }}>
-              <Link to="/signup">you don't have any account?</Link>
-            </Typography>
-          </Grid>
         </Grid>
       </Grid>
     </Grid>
