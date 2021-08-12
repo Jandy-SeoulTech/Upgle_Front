@@ -1,5 +1,6 @@
 import { Avatar, Button, Grid, TextField, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
+import KakaoLogin from 'react-kakao-login';
 import { Link } from 'react-router-dom';
 import { isEmail } from '../../lib/util/validate';
 
@@ -90,7 +91,16 @@ const Signin = ({ onLogin, errorMessage, onKakaoOauth }) => {
           </Grid>
           <Grid item container xs={8} mt={2}>
             <Grid item container xs={4} justifyContent="center">
-              <Avatar onClick={onKakaoOauth}></Avatar>
+              <KakaoLogin
+                useLoginForm={true}
+                token={process.env.REACT_APP_KAKAO_SECRET}
+                onSuccess={(result) => {
+                  console.log(result);
+                  onKakaoOauth(result.response.access_token);
+                }}
+                onFail={(result) => console.log(result)}
+                render={(props) => <Avatar {...props}></Avatar>}
+              ></KakaoLogin>
             </Grid>
             <Grid item container xs={4} justifyContent="center">
               <Avatar></Avatar>

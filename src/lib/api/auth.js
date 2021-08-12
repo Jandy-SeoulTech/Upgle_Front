@@ -36,14 +36,11 @@ export const check = async () => {
 
 export const oauthKakao = async (token) => {
   const response = await axios({
-    method: 'get',
+    method: 'post',
     url: '/api/OAuth/kakao',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: token,
-    },
+    data: { token },
   });
-  return response.data[0];
+  return response.data;
 };
 
 export const oauthGoogle = async (token) => {

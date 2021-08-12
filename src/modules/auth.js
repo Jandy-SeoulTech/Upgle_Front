@@ -18,7 +18,7 @@ export const signin = createAction(SIGNIN, ({ email, password }) => ({
   password,
 }));
 export const oauthKakao = createAction(OAUTH_KAKAO, (token) => token);
-export const oauthGoogle = createAction(OAUTH_KAKAO, (token) => token);
+export const oauthGoogle = createAction(OAUTH_GOOGLE, (token) => token);
 export const initAuth = createAction(INIT_AUTH);
 
 const signinSaga = createRequestSaga(SIGNIN, authAPI.signin);
@@ -43,6 +43,14 @@ const posts = handleActions(
       auth,
     }),
     [SIGNIN_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
+    }),
+    [OAUTH_KAKAO_SUCCESS]: (state, { payload: auth }) => ({
+      ...state,
+      auth,
+    }),
+    [OAUTH_KAKAO_FAILURE]: (state, { payload: error }) => ({
       ...state,
       error,
     }),

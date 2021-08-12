@@ -11,23 +11,13 @@ const SigninContainer = (props) => {
   const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
-  const { Kakao } = window;
 
   const onLogin = ({ email, password }) => {
     dispatch(signin({ email, password }));
   };
 
-  const onKakaoOauth = () => {
-    Kakao.Auth.login({
-      success: (response) => {
-        dispatch(oauthKakao(response.access_token));
-        console.log(response);
-        alert('로그인 되었습니다.');
-      },
-      fail: (error) => {
-        alert(JSON.stringify(error));
-      },
-    });
+  const onKakaoOauth = (access_token) => {
+    dispatch(oauthKakao(access_token));
   };
 
   useEffect(() => {
