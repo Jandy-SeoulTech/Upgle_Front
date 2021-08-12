@@ -11,7 +11,7 @@ module.exports = function (app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'http://jandy.hisfolio.com',
+      target: 'http://34.64.247.1:4000',
       changeOrigin: true,
     }),
   );
