@@ -7,7 +7,6 @@ import {
   isNickname,
   isPassword,
 } from '../../lib/util/validate';
-import { useEffect } from 'react';
 
 const Signup = ({
   onCheckEmail,
@@ -44,19 +43,16 @@ const Signup = ({
       onEmailChanged();
     }
     if (!value) setEmailError(false);
-    else setEmailError(!isEmail(value));
-  };
-
-  // TODO: 이메일 중복 확인 및 인증번호 전송 같이 하도록
-  const onSendCodeClick = () => {
-    onCheckEmail({ email });
-  };
-
-  useEffect(() => {
-    if (emailChecked) {
-      onSendCode({ email });
+    else if (!isEmail(value)) setEmailError(true);
+    else {
+      setEmailError(false);
+      onCheckEmail({ email: value });
     }
-  }, [emailChecked]);
+  };
+
+  const onSendCodeClick = () => {
+    onSendCode({ email });
+  };
 
   const handleCodeChange = (e) => {
     const {
@@ -102,15 +98,15 @@ const Signup = ({
       target: { value },
     } = e;
     setNickname(value);
-    if (nicknameChecked !== null) {
+    if (!value) {
       onNicknameChanged();
     }
     if (!value) setNicknameError(false);
-    else setNicknameError(!isNickname(value));
-  };
-
-  const onCheckNicknameClick = () => {
-    onCheckNickname({ nickname });
+    else if (!isNickname(value)) setNicknameError(true);
+    else {
+      setNicknameError(false);
+      onCheckNickname({ nickname: value });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -168,8 +164,8 @@ const Signup = ({
                 autoComplete="new-email"
                 error={emailError || emailChecked === false}
                 helperText={
-                  (emailError && '잘못된 이메일 형식입니다.') ||
-                  (emailChecked === false && '이미 가입한 이메일입니다.')
+                  (emailError && '유효하지 않은 이메일 주소입니다.') ||
+                  (emailChecked === false && '이미 등록된 이메일입니다.')
                 }
                 value={email}
                 onChange={handleEmailChange}
@@ -208,7 +204,7 @@ const Signup = ({
                   alignItems="center"
                 >
                   <Button
-                    disabled={!email || emailError || codeSent}
+                    disabled={!email || emailError || !emailChecked || codeSent}
                     onClick={onSendCodeClick}
                     size="medium"
                     sx={{
@@ -282,7 +278,7 @@ const Signup = ({
               />
             </Grid>
             <Grid item container xs={12} md={8}>
-              <Grid item xs={8}>
+              <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
@@ -294,34 +290,13 @@ const Signup = ({
                   error={nicknameError || nicknameChecked === false}
                   helperText={
                     (nicknameError && '유효하지 않은 닉네임입니다.') ||
-                    (nicknameChecked === false && '이미 사용중인 닉네임입니다.')
+                    (nicknameChecked === false &&
+                      '이미 등록된 닉네임입니다.') ||
+                    (nicknameChecked === true && '사용 가능한 닉네임입니다.')
                   }
                   value={nickname}
                   onChange={handleNicknameChange}
                 />
-              </Grid>
-              <Grid
-                item
-                container
-                xs={4}
-                justifyContent="center"
-                alignItems="center"
-              >
-                {!nicknameChecked ? (
-                  <Button
-                    disabled={!nickname || nicknameError}
-                    onClick={onCheckNicknameClick}
-                    size="medium"
-                    sx={{
-                      borderRadius: '50vh',
-                      lineHeight: '1.2rem',
-                    }}
-                  >
-                    중복 체크
-                  </Button>
-                ) : (
-                  <Typography>✅</Typography>
-                )}
               </Grid>
             </Grid>
             <Grid item xs={12} md={8}>
