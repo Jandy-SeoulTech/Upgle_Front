@@ -4,8 +4,15 @@ import KakaoLogin from 'react-kakao-login';
 import { Link } from 'react-router-dom';
 import { isEmail } from '../../lib/util/validate';
 import GoogleLogin from 'react-google-login';
+import NaverLogin from 'react-naver-login';
 
-const Signin = ({ onLogin, errorMessage, onKakaoOauth, onGoogleOauth }) => {
+const Signin = ({
+  onLogin,
+  errorMessage,
+  onKakaoOauth,
+  onGoogleOauth,
+  onNaverOauth,
+}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState(false);
@@ -113,7 +120,7 @@ const Signin = ({ onLogin, errorMessage, onKakaoOauth, onGoogleOauth }) => {
               />
             </Grid>
             <Grid item container xs={4} justifyContent="center">
-              <Avatar></Avatar>
+              <Avatar id="naverIdLogin"></Avatar>
             </Grid>
           </Grid>
           {errorMessage && (
