@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import KakaoLogin from 'react-kakao-login';
 import { Link } from 'react-router-dom';
 import { isEmail } from '../../lib/util/validate';
+import GoogleLogin from 'react-google-login';
 
-const Signin = ({ onLogin, errorMessage, onKakaoOauth }) => {
+const Signin = ({ onLogin, errorMessage, onKakaoOauth, onGoogleOauth }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState(false);
@@ -103,7 +104,13 @@ const Signin = ({ onLogin, errorMessage, onKakaoOauth }) => {
               ></KakaoLogin>
             </Grid>
             <Grid item container xs={4} justifyContent="center">
-              <Avatar></Avatar>
+              <GoogleLogin
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                render={(props) => <Avatar {...props}></Avatar>}
+                onSuccess={(result) => onGoogleOauth(result.accessToken)}
+                onFailure={(result) => console.log(result)}
+                cookiePolicy={'single_host_origin'}
+              />
             </Grid>
             <Grid item container xs={4} justifyContent="center">
               <Avatar></Avatar>

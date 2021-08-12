@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import Signin from '../../components/auth/Signin';
-import { signin, initAuth, oauthKakao } from '../../modules/auth';
+import { signin, initAuth, kakaoOauth, googleOauth } from '../../modules/auth';
 import { check } from '../../modules/user';
 
 const SigninContainer = (props) => {
@@ -17,7 +17,11 @@ const SigninContainer = (props) => {
   };
 
   const onKakaoOauth = (access_token) => {
-    dispatch(oauthKakao(access_token));
+    dispatch(kakaoOauth(access_token));
+  };
+
+  const onGoogleOauth = (access_token) => {
+    dispatch(googleOauth(access_token));
   };
 
   useEffect(() => {
@@ -52,6 +56,7 @@ const SigninContainer = (props) => {
       onLogin={onLogin}
       errorMessage={errorMessage}
       onKakaoOauth={onKakaoOauth}
+      onGoogleOauth={onGoogleOauth}
     />
   );
 };

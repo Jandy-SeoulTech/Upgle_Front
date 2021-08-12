@@ -34,7 +34,7 @@ export const check = async () => {
   return response.data;
 };
 
-export const oauthKakao = async (token) => {
+export const kakaoOauth = async (token) => {
   const response = await axios({
     method: 'post',
     url: '/api/OAuth/kakao',
@@ -43,17 +43,12 @@ export const oauthKakao = async (token) => {
   return response.data;
 };
 
-export const oauthGoogle = async (token) => {
+export const googleOauth = async (token) => {
   const response = await axios({
     method: 'post',
     url: '/api/OAuth/google',
     data: {
-      token_type: token.token_type || 'bearer',
-      access_token: token.access_token,
-      scope: token.scope || '',
-      expires_in: token.expires_in || '',
-      id_token: token.id_token || '',
-      expires_at: token.expires_at || '',
+      token,
     },
   });
   return response.data;

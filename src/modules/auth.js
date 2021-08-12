@@ -7,28 +7,28 @@ import { takeLatest } from 'redux-saga/effects';
 
 const [SIGNIN, SIGNIN_SUCCESS, SIGNIN_FAILURE] =
   createRequestActionTypes('auth/LOGIN');
-const [OAUTH_KAKAO, OAUTH_KAKAO_SUCCESS, OAUTH_KAKAO_FAILURE] =
-  createRequestActionTypes('auth/OAUTH_KAKAO');
-const [OAUTH_GOOGLE, OAUTH_GOOGLE_SUCCESS, OAUTH_GOOGLE_FAILURE] =
-  createRequestActionTypes('auth/OAUTH_GOOGLE');
+const [KAKAO_OAUTH, KAKAO_OAUTH_SUCCESS, KAKAO_OAUTH_FAILURE] =
+  createRequestActionTypes('auth/KAKAO_OAUTH');
+const [GOOGLE_OAUTH, GOOGLE_OAUTH_SUCCESS, GOOGLE_OAUTH_FAILURE] =
+  createRequestActionTypes('auth/GOOGLE_OAUTH');
 const INIT_AUTH = 'auth/INIT_AUTH';
 
 export const signin = createAction(SIGNIN, ({ email, password }) => ({
   email,
   password,
 }));
-export const oauthKakao = createAction(OAUTH_KAKAO, (token) => token);
-export const oauthGoogle = createAction(OAUTH_GOOGLE, (token) => token);
+export const kakaoOauth = createAction(KAKAO_OAUTH, (token) => token);
+export const googleOauth = createAction(GOOGLE_OAUTH, (token) => token);
 export const initAuth = createAction(INIT_AUTH);
 
 const signinSaga = createRequestSaga(SIGNIN, authAPI.signin);
-const oauthKakaoSaga = createRequestSaga(OAUTH_KAKAO, authAPI.oauthKakao);
-const oauthGoogleSaga = createRequestSaga(OAUTH_GOOGLE, authAPI.oauthGoogle);
+const kakaoOauthSaga = createRequestSaga(KAKAO_OAUTH, authAPI.kakaoOauth);
+const googleOauthSaga = createRequestSaga(GOOGLE_OAUTH, authAPI.googleOauth);
 
 export function* authSaga() {
   yield takeLatest(SIGNIN, signinSaga);
-  yield takeLatest(OAUTH_KAKAO, oauthKakaoSaga);
-  yield takeLatest(OAUTH_GOOGLE, oauthGoogleSaga);
+  yield takeLatest(KAKAO_OAUTH, kakaoOauthSaga);
+  yield takeLatest(GOOGLE_OAUTH, googleOauthSaga);
 }
 
 const initialState = {
@@ -46,11 +46,19 @@ const posts = handleActions(
       ...state,
       error,
     }),
-    [OAUTH_KAKAO_SUCCESS]: (state, { payload: auth }) => ({
+    [KAKAO_OAUTH_SUCCESS]: (state, { payload: auth }) => ({
       ...state,
       auth,
     }),
-    [OAUTH_KAKAO_FAILURE]: (state, { payload: error }) => ({
+    [KAKAO_OAUTH_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
+    }),
+    [GOOGLE_OAUTH_SUCCESS]: (state, { payload: auth }) => ({
+      ...state,
+      auth,
+    }),
+    [GOOGLE_OAUTH_FAILURE]: (state, { payload: error }) => ({
       ...state,
       error,
     }),
