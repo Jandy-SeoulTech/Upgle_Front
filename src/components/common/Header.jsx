@@ -1,92 +1,182 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
+import Button from './Button';
 import SearchIcon from '@material-ui/icons/Search';
-import { Container, TextField } from '@material-ui/core';
+import {
+  IconButton,
+  Box,
+  Divider,
+  InputAdornment,
+  ListItemText,
+  MenuItem,
+  MenuList,
+  Paper,
+  Popper,
+  Typography,
+  ClickAwayListener,
+} from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
-import { memo } from 'react';
-import PersonIcon from '@material-ui/icons/Person';
-
-const sections = [
-  { title: 'Posts', url: '#' },
-  { title: 'Events', url: '#' },
-  { title: 'Community', url: '#' },
-  { title: 'FAQ', url: '#' },
-  { title: 'About', url: '#' },
-];
+import { memo, useState } from 'react';
+import TextField from './TextField';
+import { ReactComponent as LogoWithTextTemp } from '../../lib/assets/logoWithTextTemp.svg';
+import { ReactComponent as AlarmOff } from '../../lib/assets/alarmOff.svg';
+import { ReactComponent as alarmOn } from '../../lib/assets/alarmOn.svg';
+import { ReactComponent as UserProfile } from '../../lib/assets/userProfile.svg';
 
 const Header = ({ user, onLogout }) => {
   const history = useHistory();
+  const [menuAnchor, setMenuAnchor] = useState();
+
+  const handleMenu = (e) => {
+    if (!e) return;
+    setMenuAnchor(menuAnchor ? null : e.currentTarget);
+  };
 
   return (
-    <div
-      css={{
+    <Box
+      sx={{
+        padding: '0 50px',
         width: '100%',
-        boxShadow: '0px 5px 11px 0px #E5E5E5',
-        marginBottom: '1rem',
+        height: '65px',
+        alignItems: 'center',
+        boxShadow: '0 4px 2px -2px rgba(0, 0, 0, 0.25)',
+        display: 'flex',
+        justifyContent: 'space-between',
       }}
     >
-      <Container maxWidth="lg">
-        <Toolbar sx={{ alignItems: 'center' }}>
-          <TextField label="검색" size="small" sx={{ flex: 1 }} />
-          <IconButton>
-            <SearchIcon />
+      <LogoWithTextTemp />
+      <Link
+        to="/talent"
+        style={{
+          fontWeight: 'bold',
+          fontSize: '16px',
+          lineHeight: '22px',
+          textAlign: 'center',
+          marginLeft: '45.36px',
+          marginRight: '101.45px',
+        }}
+      >
+        재능 찾기
+      </Link>
+      {user && (
+        <Link
+          to="/mychannel"
+          style={{
+            fontWeight: 'bold',
+            fontSize: '16px',
+            lineHeight: '22px',
+            textAlign: 'center',
+          }}
+        >
+          마이 채널
+        </Link>
+      )}
+      <Box sx={{ flex: 1 }}></Box>
+      <TextField
+        sx={{
+          width: '450px',
+          marginRight: '196px',
+          '.MuiInput-input': { fontSize: '12px' },
+        }}
+        placeholder="배우고 싶은 재능을 검색해보세요"
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton size="small">
+                <SearchIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
+      {user ? (
+        <>
+          <IconButton sx={{ paddingRight: '21px' }}>
+            <AlarmOff />
           </IconButton>
-          <IconButton
-            onClick={() => {
-              history.push('/mypage');
+          <ClickAwayListener
+            onClickAway={() => {
+              setMenuAnchor(null);
             }}
           >
-            <PersonIcon />
-          </IconButton>
-          {user ? (
-            <Button
-              color="inherit"
-              variant="outlined"
-              size="small"
-              sx={{ textDecoration: 'none' }}
-              onClick={onLogout}
-            >
-              Logout
-            </Button>
-          ) : (
-            <Link to="/signin">
-              <Button
-                variant="outlined"
-                size="small"
-                sx={{ textDecoration: 'none' }}
+            <Box>
+              <IconButton sx={{ padding: 0 }} onClick={handleMenu}>
+                <UserProfile />
+              </IconButton>
+              <Popper
+                open={!!menuAnchor}
+                anchorEl={menuAnchor}
+                placement="bottom-end"
               >
-                Signin
-              </Button>
-            </Link>
-          )}
-        </Toolbar>
-        <Toolbar
-          component="nav"
-          variant="dense"
-          sx={{ justifyContent: 'space-between', overflowX: 'auto' }}
-        >
-          {sections.map((section) => (
-            <Link
-              to={`/${section.url}`}
-              key={section.title}
-              style={{
-                flex: 1,
-                height: '3rem',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexShrink: 0,
-              }}
-            >
-              {section.title}
-            </Link>
-          ))}
-        </Toolbar>
-      </Container>
-    </div>
+                <Paper
+                  sx={{
+                    width: '240px',
+                    height: '360px',
+                    boxShadow: '0px 0px 7px rgba(0, 0, 0, 0.3)',
+                    transform: 'translateY(14px)',
+                  }}
+                >
+                  <MenuList
+                    dense
+                    sx={{ width: '100%', height: '100%', padding: 0 }}
+                  >
+                    <Box
+                      sx={{
+                        height: '125px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        paddingLeft: '42px',
+                        alignItems: 'flex-start',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <Typography fontSize="25px" fontWeight="bold">
+                        {user.nickname}
+                      </Typography>
+                      <Typography fontSize="14px" color="#5F5F5F">
+                        {user.email}
+                      </Typography>
+                    </Box>
+                    <Divider />
+                    <MenuItem sx={{ height: '45px', fontSize: '16px' }}>
+                      <ListItemText>프로필</ListItemText>
+                    </MenuItem>
+                    <MenuItem sx={{ height: '45px', fontSize: '16px' }}>
+                      <ListItemText>모아 보기</ListItemText>
+                    </MenuItem>
+                    <MenuItem sx={{ height: '45px', fontSize: '16px' }}>
+                      <ListItemText>설정</ListItemText>
+                    </MenuItem>
+                    <Divider />
+                    <Box
+                      sx={{
+                        height: '100px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Button onClick={onLogout} sx={{ width: '102px' }}>
+                        로그아웃
+                      </Button>
+                    </Box>
+                  </MenuList>
+                </Paper>
+              </Popper>
+            </Box>
+          </ClickAwayListener>
+        </>
+      ) : (
+        <>
+          <Link to="/signin">
+            <Button sx={{ marginRight: '21px' }}>로그인</Button>
+          </Link>
+          <Link to="/signup">
+            <Button>회원 가입</Button>
+          </Link>
+        </>
+      )}
+    </Box>
   );
 };
 
