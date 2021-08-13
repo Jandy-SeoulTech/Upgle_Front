@@ -91,7 +91,7 @@ const Header = ({ user, onLogout }) => {
       />
       {user ? (
         <>
-          <IconButton sx={{ paddingRight: '21px' }}>
+          <IconButton sx={{ marginRight: '9px' }}>
             <AlarmOff />
           </IconButton>
           <ClickAwayListener
