@@ -43,12 +43,7 @@ const Footer = () => {
             </Link>
           ))}
         </Toolbar>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          align="center"
-          fontSize="90px"
-        >
+        <Typography variant="body2" color="text.secondary" align="center">
           {'Copyright © '}
           <Link color="inherit" href="https://material-ui.com/">
             jandy
