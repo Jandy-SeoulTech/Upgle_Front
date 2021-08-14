@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import Button from './Button';
-import SearchIcon from '@material-ui/icons/Search';
 import {
   IconButton,
   Box,
@@ -16,25 +15,34 @@ import {
   ClickAwayListener,
 } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import TextField from './TextField';
 import { ReactComponent as LogoWithTextTemp } from '../../lib/assets/logoWithTextTemp.svg';
 import { ReactComponent as AlarmOff } from '../../lib/assets/alarmOff.svg';
 import { ReactComponent as alarmOn } from '../../lib/assets/alarmOn.svg';
 import { ReactComponent as UserProfile } from '../../lib/assets/userProfile.svg';
+import { ReactComponent as SearchIcon } from '../../lib/assets/searchIcon.svg';
 import palette from '../../lib/styles/palette';
 
 const Header = ({ user, onLogout }) => {
   const [menuAnchor, setMenuAnchor] = useState();
   const history = useHistory();
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const updateScroll = () => {
+    setScrollPosition(window.scrollY || document.documentElement.scrollTop);
+  };
 
   const handleMenu = (e) => {
     if (!e) return;
     setMenuAnchor(menuAnchor ? null : e.currentTarget);
   };
 
+  useEffect(() => {
+    window.addEventListener('scroll', updateScroll);
+  });
+
   return (
-    <Box sx={HeaderWrapper}>
+    <Box sx={HeaderWrapper[`${scrollPosition === 0 ? 'top' : 'scrolled'}`]}>
       <LogoWithTextTemp css={logo} onClick={() => history.push('/')} />
       <Link to="/talent" css={navItem}>
         재능 찾기
@@ -120,14 +128,29 @@ const Header = ({ user, onLogout }) => {
   );
 };
 
-const HeaderWrapper = css`
-  padding: 0 50px;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.25);
-  display: flex;
-  justify-content: center;
+const HeaderWrapper = {
+  top: css`
+    padding: 0 50px;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+  `,
+  scrolled: css`
+    padding: 0 50px;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.25);
+  `,
+};
+
+const scrolled = css`
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 1);
 `;
 
 const logo = css`
@@ -156,9 +179,17 @@ const navItem = css`
 `;
 
 const search = css`
-  width: 450px;
+  width: calc(100% / 6 + 147px);
   margin-left: auto;
   margin-right: 5%;
+  .MuiInput-root {
+    &::before {
+      border-bottom: 2px solid ${palette.black} !important;
+    }
+    &::after {
+      border-bottom: 2px solid ${palette.black} !important;
+    }
+  }
   .MuiInput-input {
     font-size: 12px;
   }
