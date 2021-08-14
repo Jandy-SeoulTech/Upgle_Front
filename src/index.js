@@ -11,7 +11,6 @@ import createSagaMiddleware from 'redux-saga';
 import { HelmetProvider } from 'react-helmet-async';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import '@fontsource/noto-sans-kr';
-import '@fontsource/roboto';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
