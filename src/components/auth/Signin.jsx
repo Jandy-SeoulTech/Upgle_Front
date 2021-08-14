@@ -1,18 +1,13 @@
-import { Avatar, Button, Grid, TextField, Typography } from '@material-ui/core';
+import { Avatar, Grid, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import KakaoLogin from 'react-kakao-login';
 import { Link } from 'react-router-dom';
 import { isEmail } from '../../lib/util/validate';
 import GoogleLogin from 'react-google-login';
-import NaverLogin from 'react-naver-login';
+import TextField from '../common/TextField';
+import Button from '../common/Button';
 
-const Signin = ({
-  onLogin,
-  errorMessage,
-  onKakaoOauth,
-  onGoogleOauth,
-  onNaverOauth,
-}) => {
+const Signin = ({ onLogin, errorMessage, onKakaoOauth, onGoogleOauth }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState(false);

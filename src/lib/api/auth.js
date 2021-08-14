@@ -96,3 +96,12 @@ export const naverOauth = async (token) => {
   });
   return response.data;
 };
+
+export const setNickname = async ({ nickname }) => {
+  const response = await axios({
+    method: 'post',
+    url: '/api/Oauth/nickname',
+    data: { nickname },
+  });
+  return response.data;
+};

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Grid, TextField, Typography } from '@material-ui/core';
+import { Avatar, Divider, Grid, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import {
   isCode,
@@ -7,6 +7,11 @@ import {
   isNickname,
   isPassword,
 } from '../../lib/util/validate';
+import TextField from '../common/TextField';
+import Button from '../common/Button';
+import KakaoLogin from 'react-kakao-login';
+import GoogleLogin from 'react-google-login';
+import { ReactComponent as Logo } from '../../lib/assets/logoWithTextTemp.svg';
 
 const Signup = ({
   onCheckEmail,
@@ -20,6 +25,8 @@ const Signup = ({
   onEmailChanged,
   onNicknameChanged,
   onSignup,
+  onKakaoOauth,
+  onGoogleOauth,
   errorMessage,
 }) => {
   const [email, setEmail] = useState('');
@@ -126,18 +133,15 @@ const Signup = ({
         container
         xs={12}
         md={6}
-        p={2}
         sx={{
-          background: 'url(https://source.unsplash.com/800x600/?talk)',
+          backgroundImage: 'url(https://source.unsplash.com/800x600/?talk)',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
         }}
         justifyContent="center"
         alignItems="center"
       >
-        <Typography component="h1" variant="h5">
-          Logo
-        </Typography>
+        <Logo />
       </Grid>
       <Grid
         item
@@ -148,75 +152,89 @@ const Signup = ({
         justifyContent="center"
         alignItems="center"
       >
-        <Typography component="h1" variant="h5">
-          회원가입
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} autoComplete="off">
-          <Grid container spacing={2} justifyContent="center">
-            <Grid item xs={12} md={8}>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                label="이메일"
-                placeholder="example@domain.com"
-                name="email"
-                autoComplete="new-email"
-                error={emailError || emailChecked === false}
-                helperText={
-                  (emailError && '유효하지 않은 이메일 주소입니다.') ||
-                  (emailChecked === false && '이미 등록된 이메일입니다.')
-                }
-                value={email}
-                onChange={handleEmailChange}
-                disabled={codeVerified || codeSent}
-              />
-            </Grid>
-            {!codeVerified ? (
-              <Grid item container xs={12} md={8}>
-                <Grid item xs={8}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="code"
-                    label="인증번호"
-                    placeholder="영문, 숫자 조합 6자리"
-                    name="code"
-                    autoComplete="code"
-                    error={codeError || codeVerified === false}
-                    helperText={
-                      codeError
-                        ? '영문, 숫자만 입력할 수 있습니다.'
-                        : emailChecked &&
-                          codeVerified === false &&
-                          '인증번호를 다시 확인해주세요.'
-                    }
-                    value={code}
-                    onChange={handleCodeChange}
-                    disabled={!codeSent}
-                  />
-                </Grid>
-                <Grid
-                  item
-                  container
-                  xs={4}
-                  justifyContent="center"
-                  alignItems="center"
-                >
+        <Grid item xs={10}>
+          <Typography variant="h4" textAlign="center">
+            회원 가입
+          </Typography>
+        </Grid>
+        <Grid item xs={10}>
+          <Typography textAlign="center" mb={4}>
+            <Link to="/signin">이미 계정이 있으신가요? 로그인하기</Link>
+          </Typography>
+        </Grid>
+        <Grid
+          container
+          component="form"
+          onSubmit={handleSubmit}
+          xs={10}
+          rowGap={4}
+          justifyContent="center"
+        >
+          <Grid item xs={12} md={8}>
+            <TextField
+              required
+              fullWidth
+              id="email"
+              label="이메일"
+              placeholder="example@domain.com"
+              name="email"
+              autoComplete="new-email"
+              error={emailError || emailChecked === false}
+              helperText={
+                (emailError && '유효하지 않은 이메일 주소입니다.') ||
+                (emailChecked === false && '이미 등록된 이메일입니다.')
+              }
+              value={email}
+              onChange={handleEmailChange}
+              disabled={codeVerified || codeSent}
+            />
+          </Grid>
+          {!codeVerified ? (
+            <Grid item container xs={12} md={8}>
+              <Grid item xs={8}>
+                <TextField
+                  required
+                  fullWidth
+                  id="code"
+                  label="인증번호"
+                  placeholder="영문, 숫자 조합 6자리"
+                  name="code"
+                  autoComplete="code"
+                  error={codeError || codeVerified === false}
+                  helperText={
+                    codeError
+                      ? '영문, 숫자만 입력할 수 있습니다.'
+                      : emailChecked &&
+                        codeVerified === false &&
+                        '인증번호를 다시 확인해주세요.'
+                  }
+                  value={code}
+                  onChange={handleCodeChange}
+                  disabled={!codeSent}
+                />
+              </Grid>
+              <Grid
+                item
+                container
+                xs={4}
+                justifyContent="center"
+                alignItems="center"
+              >
+                {!codeSent ? (
                   <Button
                     disabled={!email || emailError || !emailChecked || codeSent}
                     onClick={onSendCodeClick}
-                    size="medium"
                     sx={{
-                      display: !codeSent ? 'block' : 'none',
                       borderRadius: '50vh',
-                      lineHeight: '1.2rem',
+                      lineHeight: '1rem',
+                      height: 'fit-content',
                     }}
                   >
                     인증번호
                     <br />
                     전송
                   </Button>
+                ) : (
                   <Button
                     disabled={
                       !email ||
@@ -226,110 +244,126 @@ const Signup = ({
                       code.length !== 6
                     }
                     onClick={onCheckCodeClick}
-                    size="medium"
-                    sx={{
-                      display: codeSent ? 'block' : 'none',
-                      borderRadius: '50vh',
-                      lineHeight: '1.2rem',
-                    }}
                   >
                     인증
                   </Button>
-                </Grid>
+                )}
               </Grid>
-            ) : (
-              <Grid item container xs={12} md={8}>
-                <Typography pl={1}>✅ 이메일이 인증되었습니다.</Typography>
-              </Grid>
-            )}
-            <Grid item xs={12} md={8}>
-              <TextField
-                required
-                fullWidth
-                id="password"
-                name="password"
-                label="비밀번호"
-                placeholder="8 ~ 10자 영문, 숫자 조합"
-                type="password"
-                autoComplete="new-password"
-                error={passwordError}
-                helperText={
-                  passwordError && '영문, 숫자 포함 8자리 이상 입력해주세요.'
-                }
-                value={password}
-                onChange={handlePasswordChange}
-              />
             </Grid>
-            <Grid item xs={12} md={8}>
-              <TextField
-                required
-                fullWidth
-                id="repassword"
-                name="repassword"
-                label="비밀번호 확인"
-                type="password"
-                autoComplete="new-repassword"
-                error={repasswordError}
-                helperText={
-                  repasswordError && '입력한 비밀번호와 일치하지 않습니다.'
-                }
-                value={repassword}
-                onChange={handleRepasswordChange}
-              />
-            </Grid>
+          ) : (
             <Grid item container xs={12} md={8}>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="nickname"
-                  label="닉네임"
-                  placeholder="4 ~ 8자 제한"
-                  name="nickname"
-                  autoComplete="new-nickname"
-                  error={nicknameError || nicknameChecked === false}
-                  helperText={
-                    (nicknameError && '유효하지 않은 닉네임입니다.') ||
-                    (nicknameChecked === false &&
-                      '이미 등록된 닉네임입니다.') ||
-                    (nicknameChecked === true && '사용 가능한 닉네임입니다.')
-                  }
-                  value={nickname}
-                  onChange={handleNicknameChange}
-                />
-              </Grid>
+              <Typography pl={1}>✅ 이메일이 인증되었습니다.</Typography>
             </Grid>
-            <Grid item xs={12} md={8}>
-              <Button
-                type="submit"
-                variant="contained"
+          )}
+          <Grid item xs={12} md={8}>
+            <TextField
+              required
+              fullWidth
+              id="password"
+              name="password"
+              label="비밀번호"
+              placeholder="8 ~ 10자 영문, 숫자 조합"
+              type="password"
+              autoComplete="new-password"
+              error={passwordError}
+              helperText={
+                passwordError && '영문, 숫자 포함 8자리 이상 입력해주세요.'
+              }
+              value={password}
+              onChange={handlePasswordChange}
+            />
+          </Grid>
+          <Grid item xs={12} md={8}>
+            <TextField
+              required
+              fullWidth
+              id="repassword"
+              name="repassword"
+              label="비밀번호 확인"
+              type="password"
+              autoComplete="new-repassword"
+              error={repasswordError}
+              helperText={
+                repasswordError && '입력한 비밀번호와 일치하지 않습니다.'
+              }
+              value={repassword}
+              onChange={handleRepasswordChange}
+            />
+          </Grid>
+          <Grid item container xs={12} md={8}>
+            <Grid item xs={12}>
+              <TextField
+                required
                 fullWidth
-                disabled={
-                  !codeVerified ||
-                  !password ||
-                  repasswordError ||
-                  !nicknameChecked
+                id="nickname"
+                label="닉네임"
+                placeholder="4 ~ 8자 제한"
+                name="nickname"
+                autoComplete="new-nickname"
+                error={nicknameError || nicknameChecked === false}
+                helperText={
+                  (nicknameError && '유효하지 않은 닉네임입니다.') ||
+                  (nicknameChecked === false && '이미 등록된 닉네임입니다.') ||
+                  (nicknameChecked === true && '사용 가능한 닉네임입니다.')
                 }
-              >
-                가입하기
-              </Button>
+                value={nickname}
+                onChange={handleNicknameChange}
+              />
             </Grid>
           </Grid>
-        </Box>
+          <Grid item xs={12} md={8} mt={2}>
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              disabled={
+                !codeVerified ||
+                !password ||
+                repasswordError ||
+                !nicknameChecked
+              }
+            >
+              가입하기
+            </Button>
+          </Grid>
+          <Grid item xs={12} md={10}>
+            <Divider>SNS 계정으로 간편하게 시작하세요!</Divider>
+          </Grid>
+          <Grid item container xs={8}>
+            <Grid item container xs={4} justifyContent="center">
+              <KakaoLogin
+                useLoginForm={true}
+                token={process.env.REACT_APP_KAKAO_SECRET}
+                onSuccess={(result) => {
+                  console.log(result);
+                  onKakaoOauth(result.response.access_token);
+                }}
+                onFail={(result) => console.log(result)}
+                render={(props) => <Avatar {...props}></Avatar>}
+              ></KakaoLogin>
+            </Grid>
+            <Grid item container xs={4} justifyContent="center">
+              <GoogleLogin
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                render={(props) => <Avatar {...props}></Avatar>}
+                onSuccess={(result) => onGoogleOauth(result.accessToken)}
+                onFailure={(result) => console.log(result)}
+                cookiePolicy={'single_host_origin'}
+              />
+            </Grid>
+            <Grid item container xs={4} justifyContent="center">
+              <Avatar id="naverIdLogin"></Avatar>
+            </Grid>
+          </Grid>
+        </Grid>
 
         {errorMessage && (
-          <Grid item>
+          <Grid item xs={12}>
             <Typography textAlign="center" mt={2} sx={{ color: 'red' }}>
               {errorMessage}
             </Typography>
           </Grid>
         )}
-
-        <Grid item>
-          <Typography textAlign="center" mt={1} sx={{ color: '#414CD9' }}>
-            <Link to="/signin">이미 계정이 있으신가요?</Link>
-          </Typography>
-        </Grid>
       </Grid>
     </Grid>
   );
