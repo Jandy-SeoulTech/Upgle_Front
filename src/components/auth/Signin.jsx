@@ -4,7 +4,6 @@ import KakaoLogin from 'react-kakao-login';
 import { Link } from 'react-router-dom';
 import { isEmail } from '../../lib/util/validate';
 import GoogleLogin from 'react-google-login';
-import NaverLogin from 'react-naver-login';
 
 const Signin = ({
   onLogin,
