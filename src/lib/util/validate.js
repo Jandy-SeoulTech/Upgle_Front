@@ -9,8 +9,9 @@ export function isCode(asValue) {
   return regExp.test(asValue);
 }
 
+// 8 ~ 10자 영문, 숫자 조합 특수문자 입력가능
 export function isPassword(asValue) {
-  var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,}$/; //  8 ~ 10자 영문, 숫자 조합
+  var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[A-Za-z\d$@$!%*#?&]{8,16}$/;
   return regExp.test(asValue);
 }
 

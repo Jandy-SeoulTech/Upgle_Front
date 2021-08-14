@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import Signin from '../../components/auth/Signin';
-import { signin, initAuth } from '../../modules/auth';
+import {
+  signin,
+  initAuth,
+  kakaoOauth,
+  googleOauth,
+  naverOauth,
+} from '../../modules/auth';
 import { check } from '../../modules/user';
 
 const SigninContainer = (props) => {
@@ -11,12 +17,45 @@ const SigninContainer = (props) => {
   const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
+  const { naver } = window;
+  const location = useLocation();
 
   const onLogin = ({ email, password }) => {
     dispatch(signin({ email, password }));
   };
 
+  const onKakaoOauth = (access_token) => {
+    dispatch(kakaoOauth(access_token));
+  };
+
+  const onGoogleOauth = (access_token) => {
+    dispatch(googleOauth(access_token));
+  };
+
+  const onNaverOauth = (access_token) => {
+    dispatch(naverOauth(access_token));
+  };
+
+  const initializeNaverLogin = () => {
+    const naverLogin = new naver.LoginWithNaverId({
+      clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
+      callbackUrl: 'http://localhost:3000/signin',
+      isPopup: false,
+      loginButton: { color: 'white', type: 1, height: '47' },
+    });
+    naverLogin.init();
+  };
+
+  const getNaverToken = () => {
+    if (!location.hash) return;
+    const token = location.hash.split('=')[1].split('&')[0];
+    onNaverOauth(token);
+    console.log(token);
+  };
+
   useEffect(() => {
+    initializeNaverLogin();
+    getNaverToken();
     return () => {
       dispatch(initAuth());
     };
@@ -24,7 +63,7 @@ const SigninContainer = (props) => {
 
   useEffect(() => {
     if (error) {
-      setErrorMessage('아이디와 패스워드를 다시 입력해주세요');
+      setErrorMessage('로그인에 실패했습니다');
     }
     if (auth) {
       dispatch(check());
@@ -43,7 +82,14 @@ const SigninContainer = (props) => {
     }
   }, [user, history]);
 
-  return <Signin onLogin={onLogin} errorMessage={errorMessage} />;
+  return (
+    <Signin
+      onLogin={onLogin}
+      errorMessage={errorMessage}
+      onKakaoOauth={onKakaoOauth}
+      onGoogleOauth={onGoogleOauth}
+    />
+  );
 };
 
 export default SigninContainer;

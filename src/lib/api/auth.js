@@ -69,3 +69,30 @@ export const check = async () => {
   });
   return response.data;
 };
+
+export const kakaoOauth = async (token) => {
+  const response = await axios({
+    method: 'post',
+    url: '/api/OAuth/kakao',
+    data: { token },
+  });
+  return response.data;
+};
+
+export const googleOauth = async (token) => {
+  const response = await axios({
+    method: 'post',
+    url: '/api/OAuth/google',
+    data: { token },
+  });
+  return response.data;
+};
+
+export const naverOauth = async (token) => {
+  const response = await axios({
+    method: 'post',
+    url: '/api/OAuth/naver',
+    data: { token },
+  });
+  return response.data;
+};
