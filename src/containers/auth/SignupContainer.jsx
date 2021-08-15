@@ -23,7 +23,7 @@ const SignupContainer = (props) => {
     codeSent,
     codeVerified,
     nicknameChecked,
-    signedUp,
+    success,
     error,
   } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.user);
@@ -107,15 +107,14 @@ const SignupContainer = (props) => {
   }, [error]);
 
   useEffect(() => {
-    if (signedUp) {
+    if (success) {
       alert('가입이 완료되었습니다!\n로그인 해주세요.');
       history.push('/signin');
     }
-  }, [signedUp, history]);
+  }, [success, history]);
 
   useEffect(() => {
     if (auth) {
-      alert('이미 가입한 계정이 있습니다.');
       history.push('/signin');
     }
   }, [auth, history]);

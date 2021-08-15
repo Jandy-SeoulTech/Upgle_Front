@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { Avatar, Divider, Grid, Typography } from '@material-ui/core';
+import {
+  Avatar,
+  Divider,
+  Grid,
+  Typography,
+  useMediaQuery,
+} from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import {
   isCode,
@@ -29,6 +35,7 @@ const Signup = ({
   onGoogleOauth,
   errorMessage,
 }) => {
+  const mobile = useMediaQuery('(max-width:960px)');
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const [password, setPassword] = useState('');
@@ -124,13 +131,14 @@ const Signup = ({
   return (
     <Grid
       container
-      sx={{
-        height: '100vh',
-      }}
+      alignItems={mobile ? 'start' : 'center'}
+      height="100vh"
+      py={0}
     >
       <Grid
         item
         container
+        alignSelf="start"
         xs={12}
         md={6}
         sx={{
@@ -138,6 +146,7 @@ const Signup = ({
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
         }}
+        height={mobile ? '48px' : '100vh'}
         justifyContent="center"
         alignItems="center"
       >
@@ -148,7 +157,8 @@ const Signup = ({
         container
         xs={12}
         md={6}
-        p={5}
+        p={mobile ? 2 : 5}
+        height="fit-content"
         justifyContent="center"
         alignItems="center"
       >
@@ -327,9 +337,11 @@ const Signup = ({
             </Button>
           </Grid>
           <Grid item xs={12} md={10}>
-            <Divider>SNS 계정으로 간편하게 시작하세요!</Divider>
+            <Divider>
+              {mobile ? 'SNS 간편 가입' : 'SNS 계정으로 간편하게 시작하세요!'}
+            </Divider>
           </Grid>
-          <Grid item container xs={8}>
+          <Grid item container xs={mobile ? 12 : 8}>
             <Grid item container xs={4} justifyContent="center">
               <KakaoLogin
                 useLoginForm={true}

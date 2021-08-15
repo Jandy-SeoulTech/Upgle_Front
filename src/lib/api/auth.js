@@ -103,5 +103,5 @@ export const setNickname = async ({ nickname }) => {
     url: '/api/Oauth/nickname',
     data: { nickname },
   });
-  return response.data;
+  return { ...response.data, nickname };
 };
