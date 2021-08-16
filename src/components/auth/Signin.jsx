@@ -231,9 +231,12 @@ const input = css`
     }
   }
   .MuiInputLabel-root {
-    color: black;
     font-weight: bold;
-    font-size: 12px;
+    font-size: 16px;
+  }
+  .MuiInputLabel-root.Mui-focused {
+    color: black;
+    font-size: 16px !important;
   }
 `;
 

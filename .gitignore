@@ -4,13 +4,9 @@
 /node_modules
 
 # production
-<<<<<<< HEAD
-.env
-=======
 .env
 /build
 
 # Local Netlify folder
 .netlify
 netlify.toml
->>>>>>> 68903fc (feat: 배포용 파일)
