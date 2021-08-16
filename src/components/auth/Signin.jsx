@@ -18,6 +18,7 @@ import Button from '../common/Button';
 import { ReactComponent as KakaoIcon } from '../../lib/assets/kakaoIcon.svg';
 import { ReactComponent as GoogleIcon } from '../../lib/assets/googleIcon.svg';
 import { ReactComponent as NaverIcon } from '../../lib/assets/naverIcon.svg';
+import palette from '../../lib/styles/palette';
 
 const Signin = ({ onLogin, errorMessage, onKakaoOauth, onGoogleOauth }) => {
   const [email, setEmail] = useState('');
@@ -44,19 +45,19 @@ const Signin = ({ onLogin, errorMessage, onKakaoOauth, onGoogleOauth }) => {
 
   return (
     <Grid container css={signinWrapper}>
-      <Grid item xs={12} md={6} css={[logoSection, m1200 && smallLogoSection]}>
+      <Grid item xs={12} lg={6} css={[logoSection, m1200 && smallLogoSection]}>
         <Link to="/">
           <LogoWithTextTemp2 />
         </Link>
       </Grid>
-      <Grid item container md={6} xs={12} p={5} alignItems="center">
+      <Grid item container lg={6} xs={12} p={5} alignItems="center">
         <Grid item container sx={sgininForm}>
           <Grid item xs={10}>
             <Typography variant="h4" textAlign="center" sx={signinTitle}>
               로그인
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item container xs={12} justifyContent="center">
             <Typography sx={signupLink}>
               <Link to="/signup">Upgle이 처음이신가요? 간편 가입하기</Link>
             </Typography>
@@ -200,19 +201,40 @@ const signinTitle = css`
   font-size: 34px;
   font-family: 'Noto Sans KR';
   text-align: center;
-  margin-bottom: 27px;
+  margin-bottom: 37px;
 `;
 
 const signupLink = css`
+  padding: 10px 20px;
+  width: fit-content;
   text-align: center;
   font-size: 14px;
-  margin-bottom: 55px;
+  font-weight: 500;
+  font-family: 'Noto Sans KR';
+  margin-bottom: 45px;
+  &:hover {
+    border-radius: 20px;
+    background-color: #e5e5e5;
+  }
 `;
 
 const input = css`
   width: 350px;
   height: 32px;
   margin-bottom: 7px;
+  .MuiInput-root {
+    &::before {
+      border-bottom: 1px solid ${palette.black} !important;
+    }
+    &::after {
+      border-bottom: 2px solid ${palette.black} !important;
+    }
+  }
+  .MuiInputLabel-root {
+    color: black;
+    font-weight: bold;
+    font-size: 12px;
+  }
 `;
 
 const signinButton = css`
@@ -223,7 +245,7 @@ const signinButton = css`
   border-radius: 10px;
   margin-top: 24px;
   &:hover {
-    background: black;
+    background: rgba(0, 0, 0, 0.8);
   }
 `;
 
@@ -245,6 +267,9 @@ const oAuthForm = css`
 
 const oAuthIcon = css`
   cursor: pointer;
+  &:hover {
+    filter: brightness(0.7);
+  }
 `;
 
 export default Signin;
