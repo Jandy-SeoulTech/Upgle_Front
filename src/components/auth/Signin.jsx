@@ -1,20 +1,29 @@
-import { Avatar, Button, Grid, TextField, Typography } from '@material-ui/core';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
+import {
+  Avatar,
+  Box,
+  Grid,
+  Typography,
+  useMediaQuery,
+} from '@material-ui/core';
 import React, { useState } from 'react';
 import KakaoLogin from 'react-kakao-login';
 import { Link } from 'react-router-dom';
 import { isEmail } from '../../lib/util/validate';
 import GoogleLogin from 'react-google-login';
+import { ReactComponent as LogoWithTextTemp2 } from '../../lib/assets/logoWithTextTemp2.svg';
+import TextField from '../common/TextField';
+import Button from '../common/Button';
+import { ReactComponent as KakaoIcon } from '../../lib/assets/kakaoIcon.svg';
+import { ReactComponent as GoogleIcon } from '../../lib/assets/googleIcon.svg';
+import { ReactComponent as NaverIcon } from '../../lib/assets/naverIcon.svg';
 
-const Signin = ({
-  onLogin,
-  errorMessage,
-  onKakaoOauth,
-  onGoogleOauth,
-  onNaverOauth,
-}) => {
+const Signin = ({ onLogin, errorMessage, onKakaoOauth, onGoogleOauth }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState(false);
+  const m1200 = useMediaQuery('(max-width: 1200px)');
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -34,105 +43,208 @@ const Signin = ({
   };
 
   return (
-    <Grid
-      container
-      sx={{
-        height: '100vh',
-      }}
-    >
-      <Grid
-        item
-        xs={12}
-        md={6}
-        sx={{
-          background: 'url(https://source.unsplash.com/800x600/?talk)',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-        }}
-      ></Grid>
+    <Grid container css={signinWrapper}>
+      <Grid item xs={12} md={6} css={[logoSection, m1200 && smallLogoSection]}>
+        <Link to="/">
+          <LogoWithTextTemp2 />
+        </Link>
+      </Grid>
       <Grid item container md={6} xs={12} p={5} alignItems="center">
-        <Grid
-          item
-          container
-          sx={{ height: 'fit-content' }}
-          justifyContent="center"
-        >
+        <Grid item container sx={sgininForm}>
           <Grid item xs={10}>
-            <Typography variant="h4" textAlign="center">
+            <Typography variant="h4" textAlign="center" sx={signinTitle}>
               로그인
             </Typography>
           </Grid>
-          <Grid item xs={10}>
-            <Typography textAlign="center" mb={2}>
+          <Grid item xs={12}>
+            <Typography sx={signupLink}>
               <Link to="/signup">Upgle이 처음이신가요? 간편 가입하기</Link>
             </Typography>
           </Grid>
 
-          <Grid item xs={8} mb={4}>
+          <Grid item container xs={12} mb={4} justifyContent="center">
             <TextField
               size="small"
               fullWidth
-              label="Email"
+              label="이메일"
               error={emailError}
               helperText={emailError && '잘못된 이메일 형식입니다.'}
               value={email}
               onChange={handleEmailChange}
               type="email"
+              sx={input}
             ></TextField>
           </Grid>
 
-          <Grid item xs={8} mb={4}>
+          <Grid item container xs={12} mb={4} justifyContent="center">
             <TextField
               size="small"
               fullWidth
-              label="Password"
+              label="비밀번호"
               value={password}
               onChange={handlePasswordChange}
               type="password"
+              sx={input}
             ></TextField>
           </Grid>
-          <Grid item xs={8}>
-            <Button variant="contained" fullWidth onClick={handleLogin}>
-              Signin
+          <Grid item container xs={12} mb={2} justifyContent="center">
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={handleLogin}
+              sx={signinButton}
+            >
+              로그인
             </Button>
           </Grid>
-          <Grid item container xs={8} mt={2}>
-            <Grid item container xs={4} justifyContent="center">
-              <KakaoLogin
-                useLoginForm={true}
-                token={process.env.REACT_APP_KAKAO_SECRET}
-                onSuccess={(result) => {
-                  console.log(result);
-                  onKakaoOauth(result.response.access_token);
-                }}
-                onFail={(result) => console.log(result)}
-                render={(props) => <Avatar {...props}></Avatar>}
-              ></KakaoLogin>
-            </Grid>
-            <Grid item container xs={4} justifyContent="center">
-              <GoogleLogin
-                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                render={(props) => <Avatar {...props}></Avatar>}
-                onSuccess={(result) => onGoogleOauth(result.accessToken)}
-                onFailure={(result) => console.log(result)}
-                cookiePolicy={'single_host_origin'}
-              />
-            </Grid>
-            <Grid item container xs={4} justifyContent="center">
-              <Avatar id="naverIdLogin"></Avatar>
-            </Grid>
-          </Grid>
           {errorMessage && (
-            <Grid item xs={8}>
+            <Grid item xs={12}>
               <Typography textAlign="center" mt={2} sx={{ color: 'red' }}>
                 {errorMessage}
               </Typography>
             </Grid>
           )}
+          <Grid item container xs={12} justifyContent="center">
+            <Box sx={findForm}>
+              <Grid item xs={5}>
+                <Link to="">비밀번호 찾기</Link>
+              </Grid>
+              <Grid item xs={5}>
+                <Link to="">이메일 찾기</Link>
+              </Grid>
+            </Box>
+          </Grid>
+          <Grid item container xs={12} justifyContent="center">
+            <Box sx={oAuthForm}>
+              <Grid item container xs={4} justifyContent="center">
+                <KakaoLogin
+                  useLoginForm={true}
+                  token={process.env.REACT_APP_KAKAO_SECRET}
+                  onSuccess={(result) => {
+                    console.log(result);
+                    onKakaoOauth(result.response.access_token);
+                  }}
+                  onFail={(result) => console.log(result)}
+                  render={(props) => (
+                    <KakaoIcon {...props} css={oAuthIcon}></KakaoIcon>
+                  )}
+                ></KakaoLogin>
+              </Grid>
+              <Grid item container xs={4} justifyContent="center">
+                <GoogleLogin
+                  clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                  render={(props) => (
+                    <GoogleIcon {...props} css={oAuthIcon}></GoogleIcon>
+                  )}
+                  onSuccess={(result) => onGoogleOauth(result.accessToken)}
+                  onFailure={(result) => console.log(result)}
+                  cookiePolicy={'single_host_origin'}
+                />
+              </Grid>
+              <Grid item container xs={4} justifyContent="center">
+                <div id="naverIdLogin"></div>
+                <NaverIcon css={oAuthIcon}></NaverIcon>
+              </Grid>
+            </Box>
+          </Grid>
         </Grid>
       </Grid>
     </Grid>
   );
 };
+
+const signinWrapper = css`
+  height: 100vh;
+  #naverIdLogin {
+    position: absolute;
+    z-index: 1;
+    a {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+    }
+    img {
+      opacity: 0;
+    }
+  }
+`;
+
+const logoSection = css`
+  background: url('/image/authBackground.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const smallLogoSection = css`
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 200px;
+  margin-bottom: 118px;
+  svg {
+    margin: 26px 0 0 32px;
+    width: 150px;
+  }
+`;
+
+const sgininForm = css`
+  height: fit-content;
+  justify-content: center;
+  align-items: center;
+`;
+
+const signinTitle = css`
+  font-weight: 700;
+  font-size: 34px;
+  font-family: 'Noto Sans KR';
+  text-align: center;
+  margin-bottom: 27px;
+`;
+
+const signupLink = css`
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 55px;
+`;
+
+const input = css`
+  width: 350px;
+  height: 32px;
+  margin-bottom: 7px;
+`;
+
+const signinButton = css`
+  width: 350px;
+  height: 62px;
+  background: black;
+  font-size: 20px;
+  border-radius: 10px;
+  margin-top: 24px;
+  &:hover {
+    background: black;
+  }
+`;
+
+const findForm = css`
+  width: 350px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-size: 14px;
+  color: #7b7b7b;
+`;
+
+const oAuthForm = css`
+  display: flex;
+  justify-content: center;
+  margin-top: 52px;
+  width: 350px;
+`;
+
+const oAuthIcon = css`
+  cursor: pointer;
+`;
 
 export default Signin;

@@ -50,7 +50,6 @@ const SigninContainer = (props) => {
     if (!location.hash) return;
     const token = location.hash.split('=')[1].split('&')[0];
     onNaverOauth(token);
-    console.log(token);
   };
 
   useEffect(() => {

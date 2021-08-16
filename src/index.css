@@ -1,5 +1,5 @@
 body {
-  min-width: 1200px;
+  width: 100vw;
   margin: 0;
   box-sizing: border-box;
   font-family: 'Barlow', 'Noto Sans KR', 'sans-serif' !important;
