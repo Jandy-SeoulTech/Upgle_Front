@@ -42,7 +42,7 @@ const Header = ({ user, onLogout }) => {
   });
 
   return (
-    <Box sx={HeaderWrapper[`${scrollPosition === 0 ? 'top' : 'scrolled'}`]}>
+    <Box sx={headerWrapper[`${scrollPosition === 0 ? 'top' : 'scrolled'}`]}>
       <LogoWithTextTemp css={logo} onClick={() => history.push('/')} />
       <Link to="/talent" css={navItem}>
         재능 찾기
@@ -128,30 +128,33 @@ const Header = ({ user, onLogout }) => {
   );
 };
 
-const HeaderWrapper = {
+const headerWrapper = {
   top: css`
     padding: 0 50px;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 65px;
     align-items: center;
     display: flex;
     justify-content: center;
+    position: fixed;
+    top: 0;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);
   `,
   scrolled: css`
     padding: 0 50px;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 65px;
+    position: fixed;
+    top: 0;
     align-items: center;
     display: flex;
     justify-content: center;
     box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.25);
+    background-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(2px);
   `,
 };
-
-const scrolled = css`
-  box-shadow: 0px 1px 10px rgba(0, 0, 0, 1);
-`;
 
 const logo = css`
   flex-shrink: 0;
