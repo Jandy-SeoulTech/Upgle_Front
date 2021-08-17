@@ -143,15 +143,7 @@ const Signup = ({
         </Link>
       </Grid>
 
-      <Grid
-        item
-        container
-        xs={12}
-        lg={6}
-        p={5}
-        alignItems="center"
-        sx={!m1200 && { marginLeft: '50vw' }}
-      >
+      <Grid item container xs={12} lg={6} p={5} alignItems="center">
         <Grid item container sx={form}>
           <Grid item xs={10}>
             <Typography variant="h4" textAlign="center" sx={title}>
@@ -393,12 +385,10 @@ const logoSection = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  height: 100vh;
-  width: 50vw;
 `;
 
 const smallLogoSection = css`
+  width: 100vw;
   justify-content: flex-start;
   align-items: flex-start;
   height: 200px;
