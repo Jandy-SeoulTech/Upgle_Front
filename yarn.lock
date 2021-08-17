@@ -1311,6 +1311,21 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@fontsource/barlow@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/barlow/-/barlow-4.5.0.tgz#379614975be4cbb2f1b4a3d3e30d081fbf00ab5f"
+  integrity sha512-GXDWy1hi40MgOH4j4AOZu1dWqVLTU67fkuwA10ZLXGsJoJNTT9dWpOYsmIkFDMiwuzfi6lR4O3tulnXuxkITtA==
+
+"@fontsource/noto-sans-kr@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-kr/-/noto-sans-kr-4.5.0.tgz#cfb2eb8928ec7e8ff088be4558adf28023adfcc1"
+  integrity sha512-2EFfUhkBWVjYurOHVdTbGWDqS7pbgKCcjfLhkh5iVxZFHwYbeqfnlb8l5pl1rgsLvj+lUSak2ezCydk1d4aIpA==
+
+"@fontsource/roboto@^4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/roboto/-/roboto-4.5.0.tgz#d6f925668ba6af46707f1040c43aff498ba204bb"
+  integrity sha512-ja4XYw/9kNRFM5Ndk9vwzHWsdBMXczyBazFkTXJQ74QQBnT0BbSsHn0pF60AU0Iznig1Wt9x3rADfG8LANvMpw==
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
@@ -9976,11 +9991,6 @@ react-kakao-login@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/react-kakao-login/-/react-kakao-login-2.1.0.tgz#674d7824284c7f88618d397cdd760745c85d78de"
   integrity sha512-yvwe9Qc5cG+ucDAWOoIW4QjMB55M0Y97v040pbjcmc3Ud+bYHbQ+SwcVkOBvfDynyQbLPPoGJ+iN8rCRD4lzJw==
-
-react-naver-login@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/react-naver-login/-/react-naver-login-0.1.4.tgz#d5b5a15632d810c397909c33c642adde60d1656b"
-  integrity sha512-ZFciTw96TyqSmCNjNqTqa8VeP1Y0Hl7Ult9uN6+Y6egpBSjLU8IwB1Y3gfltZYrPQC9uoqr6nICi4SX4JYhoGQ==
 
 react-redux@^7.2.4:
   version "7.2.4"
