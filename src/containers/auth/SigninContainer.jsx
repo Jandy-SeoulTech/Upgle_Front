@@ -1,60 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router';
+import { useHistory } from 'react-router';
 import Signin from '../../components/auth/Signin';
-import {
-  signin,
-  initAuth,
-  kakaoOauth,
-  googleOauth,
-  naverOauth,
-} from '../../modules/auth';
+import { signin, initAuth } from '../../modules/auth';
 import { check } from '../../modules/user';
 
-const SigninContainer = (props) => {
+const SigninContainer = ({ OAuthComponent }) => {
   const { auth, error } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.user);
   const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
-  const { naver } = window;
-  const location = useLocation();
 
   const onLogin = ({ email, password }) => {
     dispatch(signin({ email, password }));
   };
 
-  const onKakaoOauth = (access_token) => {
-    dispatch(kakaoOauth(access_token));
-  };
-
-  const onGoogleOauth = (access_token) => {
-    dispatch(googleOauth(access_token));
-  };
-
-  const onNaverOauth = (access_token) => {
-    dispatch(naverOauth(access_token));
-  };
-
-  const initializeNaverLogin = () => {
-    const naverLogin = new naver.LoginWithNaverId({
-      clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
-      callbackUrl: 'http://localhost:3000/signin',
-      isPopup: false,
-      loginButton: { color: 'white', type: 1, height: '47' },
-    });
-    naverLogin.init();
-  };
-
-  const getNaverToken = () => {
-    if (!location.hash) return;
-    const token = location.hash.split('=')[1].split('&')[0];
-    onNaverOauth(token);
-  };
-
   useEffect(() => {
-    initializeNaverLogin();
-    getNaverToken();
     return () => {
       dispatch(initAuth());
     };
@@ -79,7 +41,11 @@ const SigninContainer = (props) => {
           history.push('/nickname');
         } else {
           alert(`${user.nickname}님 안녕하세요!`);
-          history.push('/');
+          if (!user.profile) {
+            history.push('/uploadProfile');
+          } else {
+            history.push('/');
+          }
         }
       }
     }
@@ -89,8 +55,7 @@ const SigninContainer = (props) => {
     <Signin
       onLogin={onLogin}
       errorMessage={errorMessage}
-      onKakaoOauth={onKakaoOauth}
-      onGoogleOauth={onGoogleOauth}
+      OAuthComponent={OAuthComponent}
     />
   );
 };

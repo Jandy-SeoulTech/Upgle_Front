@@ -7,62 +7,23 @@ import {
   checkNickname,
   checkVerificationCode,
   emailChanged,
-  googleOauth,
   initAuth,
-  kakaoOauth,
-  naverOauth,
   nicknameChanged,
   sendVerificationCode,
   signup,
 } from '../../modules/auth';
+import { check } from '../../modules/user';
 
-const SignupContainer = (props) => {
-  const {
-    auth,
-    emailChecked,
-    codeSent,
-    codeVerified,
-    nicknameChecked,
-    success,
-    error,
-  } = useSelector((state) => state.auth);
+const SignupContainer = ({ OAuthComponent }) => {
+  const { auth, emailChecked, codeSent, codeVerified, nicknameChecked, error } =
+    useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.user);
+  const emailSendLoading = useSelector(
+    (state) => state.loading['auth/SEND_VERIFICATION_CODE'],
+  );
   const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
-  const { naver } = window;
-  const location = useLocation();
-
-  const onKakaoOauth = (access_token) => {
-    dispatch(kakaoOauth(access_token));
-  };
-
-  const onGoogleOauth = (access_token) => {
-    dispatch(googleOauth(access_token));
-  };
-
-  const onNaverOauth = (access_token) => {
-    dispatch(naverOauth(access_token));
-  };
-
-  const initializeNaverLogin = () => {
-    const naverLogin = new naver.LoginWithNaverId({
-      clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
-      callbackUrl:
-        process.env.NODE_ENV === 'development'
-          ? process.env.REACT_APP_NAVER_LOGIN_CALLBACK_URL
-          : process.env.REACT_APP_NAVER_LOGIN_CALLBACK_URL,
-      isPopup: false,
-      loginButton: { color: 'white', type: 1, height: '47' },
-    });
-    naverLogin.init();
-  };
-
-  const getNaverToken = () => {
-    if (!location.hash) return;
-    const token = location.hash.split('=')[1].split('&')[0];
-    onNaverOauth(token);
-  };
 
   const onCheckEmail = ({ email }) => {
     dispatch(checkEmail({ email }));
@@ -93,8 +54,6 @@ const SignupContainer = (props) => {
   };
 
   useEffect(() => {
-    initializeNaverLogin();
-    getNaverToken();
     return () => {
       dispatch(initAuth());
     };
@@ -104,28 +63,17 @@ const SignupContainer = (props) => {
     if (error) {
       setErrorMessage('이미 가입된 회원입니다.');
     }
-  }, [error]);
-
-  useEffect(() => {
-    if (success) {
-      alert('가입이 완료되었습니다!\n로그인 해주세요.');
-      history.push('/signin');
-    }
-  }, [success, history]);
-
-  useEffect(() => {
     if (auth) {
-      history.push('/signin');
+      dispatch(check());
     }
-  }, [auth, history]);
+  }, [auth, error, dispatch]);
 
   useEffect(() => {
     if (user) {
-      if (user.isAdmin) {
-        alert('관리자님 환영합니다!');
-        history.push('/admin');
+      alert(`${user.nickname}님 안녕하세요!`);
+      if (!user.profile) {
+        history.push('/uploadProfile');
       } else {
-        alert(`${user.nickname}님 안녕하세요!`);
         history.push('/');
       }
     }
@@ -144,9 +92,9 @@ const SignupContainer = (props) => {
       nicknameChecked={nicknameChecked}
       onEmailChanged={onEmailChanged}
       onNicknameChanged={onNicknameChanged}
-      onKakaoOauth={onKakaoOauth}
-      onGoogleOauth={onGoogleOauth}
       errorMessage={errorMessage}
+      emailSendLoading={emailSendLoading}
+      OAuthComponent={OAuthComponent}
     />
   );
 };

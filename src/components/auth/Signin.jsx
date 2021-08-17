@@ -2,19 +2,14 @@
 import { css } from '@emotion/react';
 import { Box, Grid, Typography, useMediaQuery } from '@material-ui/core';
 import { useState } from 'react';
-import KakaoLogin from 'react-kakao-login';
 import { Link } from 'react-router-dom';
 import { isEmail } from '../../lib/util/validate';
-import GoogleLogin from 'react-google-login';
 import { ReactComponent as LogoWithTextTemp2 } from '../../lib/assets/logoWithTextTemp2.svg';
 import TextField from '../common/TextField';
 import Button from '../common/Button';
-import { ReactComponent as KakaoIcon } from '../../lib/assets/kakaoIcon.svg';
-import { ReactComponent as GoogleIcon } from '../../lib/assets/googleIcon.svg';
-import { ReactComponent as NaverIcon } from '../../lib/assets/naverIcon.svg';
 import palette from '../../lib/styles/palette';
 
-const Signin = ({ onLogin, errorMessage, onKakaoOauth, onGoogleOauth }) => {
+const Signin = ({ onLogin, errorMessage, OAuthComponent }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState(false);
@@ -101,46 +96,12 @@ const Signin = ({ onLogin, errorMessage, onKakaoOauth, onGoogleOauth }) => {
           )}
           <Grid item container xs={12} justifyContent="center">
             <Box sx={findForm}>
-              <Grid item xs={5}>
-                <Link to="">비밀번호 찾기</Link>
-              </Grid>
-              <Grid item xs={5}>
-                <Link to="">이메일 찾기</Link>
-              </Grid>
+              <Link to="">비밀번호 찾기</Link>
+              <Link to="">이메일 찾기</Link>
             </Box>
           </Grid>
           <Grid item container xs={12} justifyContent="center">
-            <Box sx={oAuthForm}>
-              <Grid item container xs={4} justifyContent="center">
-                <KakaoLogin
-                  useLoginForm={true}
-                  token={process.env.REACT_APP_KAKAO_SECRET}
-                  onSuccess={(result) => {
-                    console.log(result);
-                    onKakaoOauth(result.response.access_token);
-                  }}
-                  onFail={(result) => console.log(result)}
-                  render={(props) => (
-                    <KakaoIcon {...props} css={oAuthIcon}></KakaoIcon>
-                  )}
-                ></KakaoLogin>
-              </Grid>
-              <Grid item container xs={4} justifyContent="center">
-                <GoogleLogin
-                  clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                  render={(props) => (
-                    <GoogleIcon {...props} css={oAuthIcon}></GoogleIcon>
-                  )}
-                  onSuccess={(result) => onGoogleOauth(result.accessToken)}
-                  onFailure={(result) => console.log(result)}
-                  cookiePolicy={'single_host_origin'}
-                />
-              </Grid>
-              <Grid item container xs={4} justifyContent="center">
-                <div id="naverIdLogin"></div>
-                <NaverIcon css={oAuthIcon}></NaverIcon>
-              </Grid>
-            </Box>
+            <OAuthComponent />
           </Grid>
         </Grid>
       </Grid>
@@ -257,26 +218,10 @@ const signinButton = css`
 const findForm = css`
   width: 21.875rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   text-align: center;
   font-size: 0.875rem;
   color: #7b7b7b;
-`;
-
-const oAuthForm = css`
-  display: flex;
-  justify-content: center;
-  margin-top: 3.25rem;
-  width: 21.875rem;
-`;
-
-const oAuthIcon = css`
-  width: 5rem;
-  height: 5rem;
-  cursor: pointer;
-  &:hover {
-    filter: brightness(0.7);
-  }
 `;
 
 export default Signin;
