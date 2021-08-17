@@ -50,7 +50,7 @@ const SetNicknameContainer = (props) => {
         history.push('/admin');
       } else {
         if (!user.nickname) {
-          alert('가입이 완료되었습니다!\n닉네임을 등록해주세요.');
+          alert('닉네임을 등록해주세요.');
         } else {
           alert(`${user.nickname}님 안녕하세요!`);
           history.push('/');
