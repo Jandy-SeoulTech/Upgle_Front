@@ -11,6 +11,8 @@ export default function Button(props) {
         padding: '6px 12px',
         borderRadius: '20px',
         fontSize: `${props.size === 'medium' ? '15px' : '13px'}`,
+        fontWeight: '600',
+        fontStyle: 'normal',
         border: '1px solid #E0E0E0',
         color: 'black',
         '&:hover': {

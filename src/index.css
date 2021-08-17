@@ -1,7 +1,8 @@
 body {
+  width: 100vw;
   margin: 0;
   box-sizing: border-box;
-  font-family: 'Roboto', 'Noto Sans KR', 'sans-serif' !important;
+  font-family: 'Barlow', 'Noto Sans KR', 'sans-serif' !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

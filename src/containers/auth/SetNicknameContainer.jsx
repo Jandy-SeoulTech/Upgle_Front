@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import SetNickname from '../../components/auth/SetNickname';
@@ -41,7 +41,7 @@ const SetNicknameContainer = (props) => {
       dispatch(setNicknameState({ nickname: setNicknameSuccess }));
       history.push('/');
     }
-  }, [setNicknameSuccess, history]);
+  }, [setNicknameSuccess, history, dispatch]);
 
   useEffect(() => {
     if (user) {
