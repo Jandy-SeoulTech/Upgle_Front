@@ -191,7 +191,7 @@ const smallLogoSection = css`
   justify-content: flex-start;
   align-items: flex-start;
   height: 12.5rem;
-  margin-bottom: 7.375rem;
+  margin-bottom: 6rem;
   svg {
     margin: 1.625rem 0 0 2rem;
     width: 9.375rem;

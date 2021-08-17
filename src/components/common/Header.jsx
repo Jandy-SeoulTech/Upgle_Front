@@ -129,7 +129,7 @@ const Header = ({ user, onLogout }) => {
           </Link>
           {!isMobile && (
             <Link to="/signup">
-              <Button sx={{ merginLeft: '21px' }}>회원 가입</Button>
+              <Button sx={{ marginLeft: '21px' }}>회원 가입</Button>
             </Link>
           )}
         </>
@@ -152,7 +152,7 @@ const headerWrapper = css`
 
 const headerScrolled = css`
   box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.25);
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(2px);
 `;
 
