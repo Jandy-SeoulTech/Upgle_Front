@@ -5,11 +5,13 @@ import createRequestSaga, {
   createRequestActionTypes,
 } from '../lib/util/createRequestSaga';
 
+const SET_NICKNAME_STATE = 'user/SET_NICKNAME_STATE';
 const [CHECK, CHECK_SUCCESS, CHECK_FAILURE] =
   createRequestActionTypes('user/CHECK');
 const LOGOUT = 'user/LOGOUT';
 const INITIAL_USER = 'user/INITIAL_USER';
 
+export const setNicknameState = createAction(SET_NICKNAME_STATE);
 export const check = createAction(CHECK);
 export const logout = createAction(LOGOUT);
 export const initialUser = createAction(INITIAL_USER);
@@ -30,6 +32,10 @@ const initialState = {
 
 export default handleActions(
   {
+    [SET_NICKNAME_STATE]: (state, { payload: { nickname } }) => ({
+      ...state,
+      user: { ...state.user, nickname },
+    }),
     [INITIAL_USER]: (state) => initialState,
     [CHECK]: (state) => ({
       ...state,
