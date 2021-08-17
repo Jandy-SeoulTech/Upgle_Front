@@ -24,6 +24,12 @@ const [SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILURE] =
   createRequestActionTypes('auth/SIGNUP');
 const [SIGNIN, SIGNIN_SUCCESS, SIGNIN_FAILURE] =
   createRequestActionTypes('auth/LOGIN');
+const [KAKAO_OAUTH, KAKAO_OAUTH_SUCCESS, KAKAO_OAUTH_FAILURE] =
+  createRequestActionTypes('auth/KAKAO_OAUTH');
+const [GOOGLE_OAUTH, GOOGLE_OAUTH_SUCCESS, GOOGLE_OAUTH_FAILURE] =
+  createRequestActionTypes('auth/GOOGLE_OAUTH');
+const [NAVER_OAUTH, NAVER_OAUTH_SUCCESS, NAVER_OAUTH_FAILURE] =
+  createRequestActionTypes('auth/NAVER_OAUTH');
 const INIT_AUTH = 'auth/INIT_AUTH';
 
 export const nicknameChanged = createAction(NICKNAME_CHANGED);
@@ -55,6 +61,9 @@ export const signin = createAction(SIGNIN, ({ email, password }) => ({
   email,
   password,
 }));
+export const kakaoOauth = createAction(KAKAO_OAUTH, (token) => token);
+export const googleOauth = createAction(GOOGLE_OAUTH, (token) => token);
+export const naverOauth = createAction(NAVER_OAUTH, (token) => token);
 export const initAuth = createAction(INIT_AUTH);
 
 const checkVerificationCodeSaga = createRequestSaga(
@@ -72,6 +81,10 @@ const checkNicknameSaga = createRequestSaga(
 );
 const signupSaga = createRequestSaga(SIGNUP, authAPI.signup);
 const signinSaga = createRequestSaga(SIGNIN, authAPI.signin);
+const kakaoOauthSaga = createRequestSaga(KAKAO_OAUTH, authAPI.kakaoOauth);
+const googleOauthSaga = createRequestSaga(GOOGLE_OAUTH, authAPI.googleOauth);
+const naverOauthSaga = createRequestSaga(NAVER_OAUTH, authAPI.naverOauth);
+
 export function* authSaga() {
   yield takeLatest(CHECK_VERIFICATION_CODE, checkVerificationCodeSaga);
   yield takeLatest(SEND_VERIFICATION_CODE, sendVerificationCodeSaga);
@@ -79,6 +92,9 @@ export function* authSaga() {
   yield takeLatest(CHECK_NICKNAME, checkNicknameSaga);
   yield takeLatest(SIGNUP, signupSaga);
   yield takeLatest(SIGNIN, signinSaga);
+  yield takeLatest(KAKAO_OAUTH, kakaoOauthSaga);
+  yield takeLatest(GOOGLE_OAUTH, googleOauthSaga);
+  yield takeLatest(NAVER_OAUTH, naverOauthSaga);
 }
 
 const initialState = {
@@ -143,6 +159,30 @@ const auth = handleActions(
       auth,
     }),
     [SIGNIN_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
+    }),
+    [KAKAO_OAUTH_SUCCESS]: (state, { payload: auth }) => ({
+      ...state,
+      auth,
+    }),
+    [KAKAO_OAUTH_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
+    }),
+    [GOOGLE_OAUTH_SUCCESS]: (state, { payload: auth }) => ({
+      ...state,
+      auth,
+    }),
+    [GOOGLE_OAUTH_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
+    }),
+    [NAVER_OAUTH_SUCCESS]: (state, { payload: auth }) => ({
+      ...state,
+      auth,
+    }),
+    [NAVER_OAUTH_FAILURE]: (state, { payload: error }) => ({
       ...state,
       error,
     }),

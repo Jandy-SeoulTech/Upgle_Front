@@ -4,5 +4,9 @@
 /node_modules
 
 # production
-/build
 .env
+/build
+
+# Local Netlify folder
+.netlify
+netlify.toml
