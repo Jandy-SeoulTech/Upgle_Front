@@ -1,13 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import {
-  Avatar,
-  Box,
-  Grid,
-  Typography,
-  useMediaQuery,
-} from '@material-ui/core';
-import React, { useState } from 'react';
+import { Box, Grid, Typography, useMediaQuery } from '@material-ui/core';
+import { useState } from 'react';
 import KakaoLogin from 'react-kakao-login';
 import { Link } from 'react-router-dom';
 import { isEmail } from '../../lib/util/validate';

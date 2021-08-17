@@ -26,8 +26,8 @@ import { ReactComponent as SearchIcon } from '../../lib/assets/searchIcon.svg';
 import palette from '../../lib/styles/palette';
 
 const Header = ({ user, onLogout }) => {
-  const [menuAnchor, setMenuAnchor] = useState();
   const history = useHistory();
+  const [menuAnchor, setMenuAnchor] = useState();
   const [scrollPosition, setScrollPosition] = useState(0);
   const m1200 = useMediaQuery('(max-width: 1199px)');
   const isMobile = useMediaQuery('(max-width: 600px)');

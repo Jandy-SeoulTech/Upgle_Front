@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import Main from '../../components/common/Main';
 import { getPostList } from '../../modules/posts';
 
 const MainContainer = (props) => {
+  const { user } = useSelector((state) => state.user);
   const [postList] = useState([
     {
       id: 1,
@@ -37,6 +39,13 @@ const MainContainer = (props) => {
     },
   ]);
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (user && !user.nickname) {
+      history.push('/nickname');
+    }
+  }, [user, history]);
 
   useEffect(() => {
     dispatch(getPostList());

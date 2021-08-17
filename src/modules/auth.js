@@ -5,7 +5,10 @@ import createRequestSaga, {
 import * as authAPI from '../lib/api/auth';
 import { takeLatest } from 'redux-saga/effects';
 
+const [SET_NICKNAME, SET_NICKNAME_SUCCESS, SET_NICKNAME_FAILURE] =
+  createRequestActionTypes('auth/SET_NICKNAME');
 const NICKNAME_CHANGED = 'auth/NICKNAME_CHANGED';
+const EMAIL_CHANGED = 'auth/EMAIL_CHANGED';
 const [
   CHECK_VERIFICATION_CODE,
   CHECK_VERIFICATION_CODE_SUCCESS,
@@ -32,7 +35,11 @@ const [NAVER_OAUTH, NAVER_OAUTH_SUCCESS, NAVER_OAUTH_FAILURE] =
   createRequestActionTypes('auth/NAVER_OAUTH');
 const INIT_AUTH = 'auth/INIT_AUTH';
 
+export const setNickname = createAction(SET_NICKNAME, ({ nickname }) => ({
+  nickname,
+}));
 export const nicknameChanged = createAction(NICKNAME_CHANGED);
+export const emailChanged = createAction(EMAIL_CHANGED);
 export const checkVerificationCode = createAction(
   CHECK_VERIFICATION_CODE,
   ({ email, code }) => ({
@@ -66,6 +73,7 @@ export const googleOauth = createAction(GOOGLE_OAUTH, (token) => token);
 export const naverOauth = createAction(NAVER_OAUTH, (token) => token);
 export const initAuth = createAction(INIT_AUTH);
 
+const setNicknameSaga = createRequestSaga(SET_NICKNAME, authAPI.setNickname);
 const checkVerificationCodeSaga = createRequestSaga(
   CHECK_VERIFICATION_CODE,
   authAPI.checkVerificationCode,
@@ -86,6 +94,7 @@ const googleOauthSaga = createRequestSaga(GOOGLE_OAUTH, authAPI.googleOauth);
 const naverOauthSaga = createRequestSaga(NAVER_OAUTH, authAPI.naverOauth);
 
 export function* authSaga() {
+  yield takeLatest(SET_NICKNAME, setNicknameSaga);
   yield takeLatest(CHECK_VERIFICATION_CODE, checkVerificationCodeSaga);
   yield takeLatest(SEND_VERIFICATION_CODE, sendVerificationCodeSaga);
   yield takeLatest(CHECK_EMAIL, checkEmailSaga);
@@ -103,15 +112,28 @@ const initialState = {
   codeSent: null,
   codeVerified: null,
   nicknameChecked: null,
-  signedUp: null,
+  success: null,
+  setNicknameSuccess: null,
   error: null,
 };
 
 const auth = handleActions(
   {
+    [SET_NICKNAME_SUCCESS]: (state, { meta: { nickname } }) => ({
+      ...state,
+      setNicknameSuccess: nickname,
+    }),
+    [SET_NICKNAME_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
+    }),
     [NICKNAME_CHANGED]: (state) => ({
       ...state,
       nicknameChecked: null,
+    }),
+    [EMAIL_CHANGED]: (state) => ({
+      ...state,
+      emailChecked: null,
     }),
     [CHECK_NICKNAME_SUCCESS]: (state) => ({
       ...state,
@@ -148,7 +170,7 @@ const auth = handleActions(
     }),
     [SIGNUP_SUCCESS]: (state) => ({
       ...state,
-      signedUp: true,
+      success: true,
     }),
     [SIGNUP_FAILURE]: (state, { payload: error }) => ({
       ...state,
