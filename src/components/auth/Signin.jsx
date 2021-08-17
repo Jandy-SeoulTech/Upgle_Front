@@ -24,7 +24,7 @@ const Signin = ({ onLogin, errorMessage, onKakaoOauth, onGoogleOauth }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState(false);
-  const m1200 = useMediaQuery('(max-width: 1200px)');
+  const m1200 = useMediaQuery('(max-width: 1199px)');
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -187,6 +187,7 @@ const logoSection = css`
 `;
 
 const smallLogoSection = css`
+  width: 100vw;
   justify-content: flex-start;
   align-items: flex-start;
   height: 200px;

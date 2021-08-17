@@ -13,6 +13,7 @@ import {
   Popper,
   Typography,
   ClickAwayListener,
+  useMediaQuery,
 } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
 import { memo, useEffect, useState } from 'react';
@@ -28,6 +29,9 @@ const Header = ({ user, onLogout }) => {
   const [menuAnchor, setMenuAnchor] = useState();
   const history = useHistory();
   const [scrollPosition, setScrollPosition] = useState(0);
+  const m1200 = useMediaQuery('(max-width: 1199px)');
+  const isMobile = useMediaQuery('(max-width: 600px)');
+
   const updateScroll = () => {
     setScrollPosition(window.scrollY || document.documentElement.scrollTop);
   };
@@ -52,19 +56,23 @@ const Header = ({ user, onLogout }) => {
           마이 채널
         </Link>
       )}
-      <TextField
-        sx={search}
-        placeholder="배우고 싶은 재능을 검색해보세요"
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton size="small">
-                <SearchIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-      />
+      <Box sx={{ flex: 1 }}></Box>
+      {!m1200 && (
+        <TextField
+          sx={search}
+          placeholder="배우고 싶은 재능을 검색해보세요"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton size="small">
+                  <SearchIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      )}
+
       {user ? (
         <>
           <IconButton sx={{ marginRight: '9px' }}>
@@ -117,11 +125,13 @@ const Header = ({ user, onLogout }) => {
       ) : (
         <>
           <Link to="/signin">
-            <Button sx={{ marginRight: '21px' }}>로그인</Button>
+            <Button>로그인</Button>
           </Link>
-          <Link to="/signup">
-            <Button>회원 가입</Button>
-          </Link>
+          {!isMobile && (
+            <Link to="/signup">
+              <Button sx={{ merginLeft: '21px' }}>회원 가입</Button>
+            </Link>
+          )}
         </>
       )}
     </Box>
@@ -129,9 +139,9 @@ const Header = ({ user, onLogout }) => {
 };
 
 const headerWrapper = css`
-  padding: 0 50px;
+  padding: 0 3.125rem;
   width: 100vw;
-  height: 65px;
+  height: 4.0625rem;
   align-items: center;
   display: flex;
   justify-content: center;
@@ -147,16 +157,18 @@ const headerScrolled = css`
 `;
 
 const logo = css`
+  width: 9.375rem;
+  height: 2.045625rem;
   flex-shrink: 0;
   cursor: pointer;
 `;
 
 const navItem = css`
-  width: 160px;
-  height: 65px;
-  line-height: 65px;
+  width: 10rem;
+  height: 4.0625rem;
+  line-height: 4.0625rem;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 1rem;
   text-align: center;
   color: ${palette.black};
   transition: all 0.1s;
@@ -172,8 +184,7 @@ const navItem = css`
 `;
 
 const search = css`
-  width: calc(100% / 6 + 147px);
-  margin-left: auto;
+  width: calc(100% / 6 + 9.1875rem);
   margin-right: 5%;
   .MuiInput-root {
     &::before {
@@ -184,31 +195,31 @@ const search = css`
     }
   }
   .MuiInput-input {
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 `;
 
 const menuWrapper = css`
-  width: 240px;
-  height: 360px;
+  width: 15rem;
+  height: 22.5rem;
   box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.3);
-  transform: translateY(14px);
+  transform: translateY(0.875rem);
   .MuiList-root {
     width: 100%;
     height: 100%;
     padding: 0;
     .userInfo {
-      height: 125px;
+      height: 7.8125rem;
       display: flex;
       flex-direction: column;
-      padding-left: 42px;
+      padding-left: 2.6875rem;
       align-items: flex-start;
       justify-content: center;
     }
     .MuiListItem-root {
-      height: 45px;
-      font-size: 16px;
-      padding-left: 26px;
+      height: 2.8125rem;
+      font-size: 1rem;
+      padding-left: 1.625rem;
       &:hover {
         .MuiTypography-root {
           font-weight: bold;
@@ -216,12 +227,12 @@ const menuWrapper = css`
       }
     }
     .menuFotter {
-      height: 100px;
+      height: 6.25rem;
       display: flex;
       justify-content: center;
       align-items: center;
       .MuiButton-root {
-        width: 102px;
+        width: 6.375rem;
       }
     }
   }
