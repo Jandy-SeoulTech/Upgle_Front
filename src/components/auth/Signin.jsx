@@ -163,14 +163,14 @@ const signinWrapper = css`
       content: '';
       display: block;
       position: absolute;
-      width: 80px;
-      height: 80px;
+      width: 5rem;
+      height: 5rem;
       border-radius: 50%;
       background-color: rgba(0, 0, 0, 0.3);
     }
     img {
-      width: 80px;
-      height: 80px;
+      width: 5rem;
+      height: 5rem;
       border-radius: 50%;
       opacity: 0;
     }
@@ -190,11 +190,11 @@ const smallLogoSection = css`
   width: 100vw;
   justify-content: flex-start;
   align-items: flex-start;
-  height: 200px;
-  margin-bottom: 118px;
+  height: 12.5rem;
+  margin-bottom: 7.375rem;
   svg {
-    margin: 26px 0 0 32px;
-    width: 150px;
+    margin: 1.625rem 0 0 2rem;
+    width: 9.375rem;
   }
 `;
 
@@ -206,30 +206,30 @@ const sgininForm = css`
 
 const signinTitle = css`
   font-weight: 700;
-  font-size: 34px;
+  font-size: 2.125rem;
   font-family: 'Noto Sans KR';
   text-align: center;
-  margin-bottom: 37px;
+  margin-bottom: 2.3125rem;
 `;
 
 const signupLink = css`
-  padding: 10px 20px;
+  padding: 0.625rem 1.25rem;
   width: fit-content;
   text-align: center;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   font-family: 'Noto Sans KR';
-  margin-bottom: 45px;
+  margin-bottom: 2.8125rem;
   &:hover {
-    border-radius: 20px;
+    border-radius: 1.25rem;
     background-color: #e5e5e5;
   }
 `;
 
 const input = css`
-  width: 350px;
-  height: 32px;
-  margin-bottom: 7px;
+  width: 21.875rem;
+  height: 2rem;
+  margin-bottom: 0.4375rem;
   .MuiInput-root {
     &::before {
       border-bottom: 1px solid ${palette.black} !important;
@@ -240,43 +240,45 @@ const input = css`
   }
   .MuiInputLabel-root {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 1rem;
   }
   .MuiInputLabel-root.Mui-focused {
     color: black;
-    font-size: 16px !important;
+    font-size: 1rem !important;
   }
 `;
 
 const signinButton = css`
-  width: 350px;
-  height: 62px;
+  width: 21.875rem;
+  height: 3.875rem;
   background: black;
-  font-size: 20px;
-  border-radius: 10px;
-  margin-top: 24px;
+  font-size: 1.25rem;
+  border-radius: 0.625rem;
+  margin-top: 1.5rem;
   &:hover {
     background: rgba(0, 0, 0, 0.8);
   }
 `;
 
 const findForm = css`
-  width: 350px;
+  width: 21.875rem;
   display: flex;
   justify-content: center;
   text-align: center;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #7b7b7b;
 `;
 
 const oAuthForm = css`
   display: flex;
   justify-content: center;
-  margin-top: 52px;
-  width: 350px;
+  margin-top: 3.25rem;
+  width: 21.875rem;
 `;
 
 const oAuthIcon = css`
+  width: 5rem;
+  height: 5rem;
   cursor: pointer;
   &:hover {
     filter: brightness(0.7);
