@@ -153,12 +153,19 @@ const signinWrapper = css`
   #naverIdLogin {
     position: absolute;
     z-index: 1;
-    a {
+    &:hover::before {
+      content: '';
+      display: block;
+      position: absolute;
       width: 80px;
       height: 80px;
       border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.3);
     }
     img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
       opacity: 0;
     }
   }
