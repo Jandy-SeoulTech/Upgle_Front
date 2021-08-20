@@ -7,10 +7,10 @@ export default function Button(props) {
       size="small"
       {...props}
       sx={{
-        height: `${props.size === 'medium' ? '45px' : '30px'}`,
-        padding: '6px 12px',
+        height: `${props.size === 'medium' ? '2.8125rem' : '1.875rem'}`,
+        padding: '0.375rem 0.75rem',
         borderRadius: '20px',
-        fontSize: `${props.size === 'medium' ? '15px' : '13px'}`,
+        fontSize: `${props.size === 'medium' ? '1rem' : '0.8125rem'}`,
         fontWeight: '600',
         fontStyle: 'normal',
         border: '1px solid #E0E0E0',
