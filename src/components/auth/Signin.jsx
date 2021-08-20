@@ -101,12 +101,8 @@ const Signin = ({ onLogin, errorMessage, onKakaoOauth, onGoogleOauth }) => {
           )}
           <Grid item container xs={12} justifyContent="center">
             <Box sx={findForm}>
-              <Grid item xs={5}>
-                <Link to="">비밀번호 찾기</Link>
-              </Grid>
-              <Grid item xs={5}>
-                <Link to="">이메일 찾기</Link>
-              </Grid>
+              <Link to="">비밀번호 찾기</Link>
+              <Link to="">이메일 찾기</Link>
             </Box>
           </Grid>
           <Grid item container xs={12} justifyContent="center">
@@ -257,7 +253,7 @@ const signinButton = css`
 const findForm = css`
   width: 21.875rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   text-align: center;
   font-size: 0.875rem;
   color: #7b7b7b;
