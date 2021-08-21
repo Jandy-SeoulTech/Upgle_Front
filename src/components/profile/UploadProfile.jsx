@@ -17,16 +17,20 @@ import UploadIntroduce from './UploadIntroduce';
 import UploadImage from './UploadImage';
 
 const steps = [
-  'wellTalent',
-  'interestTalent',
+  'welltalent',
+  'interesttalent',
   'department',
   'introduce',
-  'image',
+  'src',
 ];
 
-const UploadProfile = (props) => {
+const UploadProfile = ({
+  user,
+  profile,
+  handleChangeFiled,
+  handleUploadProfile,
+}) => {
   const [activeStep, setActiveStep] = useState(0);
-  const [skipFlag, setSkipFlag] = useState(false);
   const m1200 = useMediaQuery('(max-width: 1199px)');
 
   const handleBack = () => {
@@ -35,21 +39,45 @@ const UploadProfile = (props) => {
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
-    setSkipFlag(false);
   };
 
   const getStepContent = (step) => {
     switch (step) {
       case 0:
-        return <UploadWellTalent setSkipFlag={setSkipFlag} />;
+        return (
+          <UploadWellTalent
+            welltalent={profile.welltalent}
+            handleChangeFiled={handleChangeFiled}
+          />
+        );
       case 1:
-        return <UploadInterestTalent setSkipFlag={setSkipFlag} />;
+        return (
+          <UploadInterestTalent
+            interesttalent={profile.interesttalent}
+            handleChangeFiled={handleChangeFiled}
+          />
+        );
       case 2:
-        return <UploadDepartment setSkipFlag={setSkipFlag} />;
+        return (
+          <UploadDepartment
+            department={profile.department}
+            handleChangeFiled={handleChangeFiled}
+          />
+        );
       case 3:
-        return <UploadIntroduce setSkipFlag={setSkipFlag} />;
+        return (
+          <UploadIntroduce
+            introduce={profile.introduce}
+            handleChangeFiled={handleChangeFiled}
+          />
+        );
       case 4:
-        return <UploadImage setSkipFlag={setSkipFlag} />;
+        return (
+          <UploadImage
+            src={profile.src}
+            handleChangeFiled={handleChangeFiled}
+          />
+        );
       default:
         throw new Error('Unknown step');
     }
@@ -71,7 +99,7 @@ const UploadProfile = (props) => {
           css={[uploadFormHeader, m1200 && smallUploadFormHeader]}
         >
           <Typography variant="h4" css={UploadFormTitle}>
-            반갑습니다, {props.user.nickname}님!
+            반갑습니다, {user.nickname}님!
           </Typography>
           <Typography css={UploadFormDescription}>
             업글을 이용하기 전에
@@ -99,13 +127,16 @@ const UploadProfile = (props) => {
             ) : (
               <Box sx={{ flex: 1 }}></Box>
             )}
-            <Button onClick={handleNext} css={!skipFlag && skipButton}>
-              {skipFlag ? (
+            <Button
+              onClick={handleNext}
+              css={profile[steps[activeStep]].length === 0 && skipButton}
+            >
+              {profile[steps[activeStep]].length === 0 ? (
+                '건너뛰기'
+              ) : (
                 <>
                   계속 <ArrowRight />
                 </>
-              ) : (
-                '건너뛰기'
               )}
             </Button>
           </Box>

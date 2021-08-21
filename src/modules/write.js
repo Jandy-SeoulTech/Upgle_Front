@@ -10,15 +10,11 @@ const CHANGE_PROFILE = 'profile/CHANGE_PROFILE';
 const [UPLOAD_PROFILE, UPLOAD_PROFILE_SUCCESS, UPLOAD_PROFILE_FAILURE] =
   createRequestActionTypes('profile/UPLOAD_PROFILE');
 
-export const initialize = createAction(INITIALIZE_PROFILE, (mode) => mode);
-export const changeField = createAction(
-  CHANGE_PROFILE,
-  ({ mode, key, value }) => ({
-    mode,
-    key,
-    value,
-  }),
-);
+export const initializeProfile = createAction(INITIALIZE_PROFILE);
+export const changeField = createAction(CHANGE_PROFILE, ({ key, value }) => ({
+  key,
+  value,
+}));
 export const uploadProfile = createAction(
   UPLOAD_PROFILE,
   ({ userId, department, introduce, welltalent, interesttalent, src }) => ({
@@ -43,10 +39,10 @@ export function* writeSaga() {
 const initialState = {
   profile: {
     department: '',
-    introduce: null,
-    welltalent: null,
+    introduce: '',
+    welltalent: [],
     interesttalent: [],
-    src: null,
+    src: '',
   },
 };
 
