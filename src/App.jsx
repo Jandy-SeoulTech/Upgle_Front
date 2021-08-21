@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { check } from './modules/user';
 import SetNicknamePage from './pages/SetNicknamePage';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ function App() {
       <Route path="/signup" exact component={SignupPage} />
       <Route path="/signin" exact component={SigninPage} />
       <Route path="/nickname" exact component={SetNicknamePage} />
+      <Route path="/profile/:id" component={ProfilePage} />
     </BrowserRouter>
   );
 }
