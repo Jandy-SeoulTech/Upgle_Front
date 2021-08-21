@@ -1,36 +1,43 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Box, Grid, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import palette from '../../lib/styles/palette';
 import TextField from '../common/TextField';
 
-const UploadDepartment = ({ setSkipFlag }) => {
-  const [wellTalent, setWellTalent] = useState('');
-
+const UploadDepartment = ({ department, handleChangeFiled }) => {
+  const [lengthError, setLengthError] = useState();
   const handleCahngeWellTalent = (e) => {
-    setWellTalent(e.target.value);
-    if (e.target.value !== '') setSkipFlag(true);
-    else setSkipFlag(false);
+    if (e.target.value.length > 20) {
+      setLengthError(true);
+      return;
+    }
+    setLengthError(false);
+    handleChangeFiled({
+      key: 'department',
+      value: e.target.value,
+    });
   };
 
   return (
-    <Box css={UploadWellTalentWrapper}>
+    <Box css={UploadDepartmentWrapper}>
       <Typography css={title}>현재 소속되어 있는 곳이 있나요?</Typography>
 
       <Grid container spacing={2}></Grid>
 
       <TextField
         placeholder="20자 이내로 작성해주세요"
-        value={wellTalent}
+        value={department}
         onChange={handleCahngeWellTalent}
-        css={talentInput}
+        css={departmentInput}
+        error={lengthError}
+        helperText={lengthError && '길이 제한을 초과했습니다.'}
       />
     </Box>
   );
 };
 
-const UploadWellTalentWrapper = css`
+const UploadDepartmentWrapper = css`
   display: flex;
   flex-direction: column;
 `;
@@ -44,7 +51,7 @@ const title = css`
   }
 `;
 
-const talentInput = css`
+const departmentInput = css`
   width: 21.875rem;
   margin-top: 12.5625rem;
 `;
