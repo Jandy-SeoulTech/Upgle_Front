@@ -79,7 +79,11 @@ const SigninContainer = (props) => {
           history.push('/nickname');
         } else {
           alert(`${user.nickname}님 안녕하세요!`);
-          history.push('/');
+          if (!user.profile) {
+            history.push('/uploadProfile');
+          } else {
+            history.push('/');
+          }
         }
       }
     }

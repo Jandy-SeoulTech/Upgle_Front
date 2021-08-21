@@ -15,6 +15,7 @@ import {
   sendVerificationCode,
   signup,
 } from '../../modules/auth';
+import { check } from '../../modules/user';
 
 const SignupContainer = (props) => {
   const {
@@ -58,12 +59,6 @@ const SignupContainer = (props) => {
     naverLogin.init();
   };
 
-  const getNaverToken = () => {
-    if (!location.hash) return;
-    const token = location.hash.split('=')[1].split('&')[0];
-    onNaverOauth(token);
-  };
-
   const onCheckEmail = ({ email }) => {
     dispatch(checkEmail({ email }));
   };
@@ -93,8 +88,6 @@ const SignupContainer = (props) => {
   };
 
   useEffect(() => {
-    initializeNaverLogin();
-    getNaverToken();
     return () => {
       dispatch(initAuth());
     };
@@ -104,20 +97,10 @@ const SignupContainer = (props) => {
     if (error) {
       setErrorMessage('이미 가입된 회원입니다.');
     }
-  }, [error]);
-
-  useEffect(() => {
-    if (success) {
-      alert('가입이 완료되었습니다!\n로그인 해주세요.');
-      history.push('/signin');
-    }
-  }, [success, history]);
-
-  useEffect(() => {
     if (auth) {
-      history.push('/signin');
+      dispatch(check());
     }
-  }, [auth, history]);
+  }, [auth, error, dispatch]);
 
   useEffect(() => {
     if (user) {
@@ -126,6 +109,11 @@ const SignupContainer = (props) => {
         history.push('/admin');
       } else {
         alert(`${user.nickname}님 안녕하세요!`);
+        if (!user.profile) {
+          history.push('/uploadProfile');
+        } else {
+          history.push('/');
+        }
         history.push('/');
       }
     }
