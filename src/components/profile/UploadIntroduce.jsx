@@ -4,32 +4,43 @@ import { Box, Grid, TextareaAutosize, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import palette from '../../lib/styles/palette';
 
-const UploadIntroduce = ({ setSkipFlag }) => {
-  const [wellTalent, setWellTalent] = useState('');
+const UploadIntroduce = ({ introduce, handleChangeFiled }) => {
+  const [lengthError, setLengthError] = useState();
 
   const handleCahngeWellTalent = (e) => {
-    setWellTalent(e.target.value);
-    if (e.target.value !== '') setSkipFlag(true);
-    else setSkipFlag(false);
+    if (e.target.value.length > 300) {
+      setLengthError(true);
+      return;
+    }
+    setLengthError(false);
+    handleChangeFiled({
+      key: 'introduce',
+      value: e.target.value,
+    });
   };
 
   return (
-    <Box css={UploadWellTalentWrapper}>
+    <Box css={UploadIntroduceWrapper}>
       <Typography css={title}>간단하게 자신에 대해 소개해주세요</Typography>
 
       <TextareaAutosize
         placeholder="300자 이내로 작성해주세요."
-        value={wellTalent}
+        value={introduce}
         minRows={10}
         maxRows={16}
         onChange={handleCahngeWellTalent}
         css={introduceForm}
       />
+      {lengthError && (
+        <Typography sx={{ color: 'red', fontSize: '0.75rem' }}>
+          길이 제한을 초과했습니다.
+        </Typography>
+      )}
     </Box>
   );
 };
 
-const UploadWellTalentWrapper = css`
+const UploadIntroduceWrapper = css`
   display: flex;
   flex-direction: column;
 `;
