@@ -26,6 +26,7 @@ const UploadDepartment = ({ department, handleChangeFiled }) => {
       <Grid container spacing={2}></Grid>
 
       <TextField
+        autoFocus
         placeholder="20자 이내로 작성해주세요"
         value={department}
         onChange={handleCahngeWellTalent}

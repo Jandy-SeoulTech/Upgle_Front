@@ -104,18 +104,7 @@ const SignupContainer = (props) => {
 
   useEffect(() => {
     if (user) {
-      if (user.isAdmin) {
-        alert('관리자님 환영합니다!');
-        history.push('/admin');
-      } else {
-        alert(`${user.nickname}님 안녕하세요!`);
-        if (!user.profile) {
-          history.push('/uploadProfile');
-        } else {
-          history.push('/');
-        }
-        history.push('/');
-      }
+      history.push('/');
     }
   }, [user, history]);
 

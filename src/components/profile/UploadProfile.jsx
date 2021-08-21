@@ -16,19 +16,17 @@ import UploadDepartment from './UploadDepartment';
 import UploadIntroduce from './UploadIntroduce';
 import UploadImage from './UploadImage';
 
-const steps = [
-  'welltalent',
-  'interesttalent',
-  'department',
-  'introduce',
-  'src',
-];
-
 const UploadProfile = ({
   user,
-  profile,
+  welltalent,
+  interesttalent,
+  department,
+  introduce,
+  images,
   handleChangeFiled,
   handleUploadProfile,
+  uploadImage,
+  initializeImage,
 }) => {
   const [activeStep, setActiveStep] = useState(0);
   const m1200 = useMediaQuery('(max-width: 1199px)');
@@ -41,41 +39,112 @@ const UploadProfile = ({
     setActiveStep(activeStep + 1);
   };
 
+  const handleNextButton = (step) => {
+    switch (step) {
+      case 0:
+        return (
+          <Button
+            onClick={handleNext}
+            css={welltalent.length === 0 && skipButton}
+          >
+            {welltalent.length === 0 ? (
+              '건너뛰기'
+            ) : (
+              <>
+                계속 <ArrowRight />
+              </>
+            )}
+          </Button>
+        );
+      case 1:
+        return (
+          <Button
+            onClick={handleNext}
+            css={interesttalent.length === 0 && skipButton}
+          >
+            {interesttalent.length === 0 ? (
+              '건너뛰기'
+            ) : (
+              <>
+                계속 <ArrowRight />
+              </>
+            )}
+          </Button>
+        );
+      case 2:
+        return (
+          <Button onClick={handleNext} css={department === '' && skipButton}>
+            {department === '' ? (
+              '건너뛰기'
+            ) : (
+              <>
+                계속 <ArrowRight />
+              </>
+            )}
+          </Button>
+        );
+      case 3:
+        return (
+          <Button onClick={handleNext} css={introduce === '' && skipButton}>
+            {introduce === '' ? (
+              '건너뛰기'
+            ) : (
+              <>
+                계속 <ArrowRight />
+              </>
+            )}
+          </Button>
+        );
+      case 4:
+        return (
+          <Button
+            onClick={handleUploadProfile}
+            css={images.length === 0 && skipButton}
+          >
+            {images.length === 0 ? '건너뛰기' : '제출'}
+          </Button>
+        );
+      default:
+        throw new Error('Unknown step');
+    }
+  };
+
   const getStepContent = (step) => {
     switch (step) {
       case 0:
         return (
           <UploadWellTalent
-            welltalent={profile.welltalent}
+            welltalent={welltalent}
             handleChangeFiled={handleChangeFiled}
           />
         );
       case 1:
         return (
           <UploadInterestTalent
-            interesttalent={profile.interesttalent}
+            interesttalent={interesttalent}
             handleChangeFiled={handleChangeFiled}
           />
         );
       case 2:
         return (
           <UploadDepartment
-            department={profile.department}
+            department={department}
             handleChangeFiled={handleChangeFiled}
           />
         );
       case 3:
         return (
           <UploadIntroduce
-            introduce={profile.introduce}
+            introduce={introduce}
             handleChangeFiled={handleChangeFiled}
           />
         );
       case 4:
         return (
           <UploadImage
-            src={profile.src}
-            handleChangeFiled={handleChangeFiled}
+            images={images}
+            uploadImage={uploadImage}
+            initializeImage={initializeImage}
           />
         );
       default:
@@ -127,18 +196,7 @@ const UploadProfile = ({
             ) : (
               <Box sx={{ flex: 1 }}></Box>
             )}
-            <Button
-              onClick={handleNext}
-              css={profile[steps[activeStep]].length === 0 && skipButton}
-            >
-              {profile[steps[activeStep]].length === 0 ? (
-                '건너뛰기'
-              ) : (
-                <>
-                  계속 <ArrowRight />
-                </>
-              )}
-            </Button>
+            {handleNextButton(activeStep)}
           </Box>
         </Grid>
       </Grid>

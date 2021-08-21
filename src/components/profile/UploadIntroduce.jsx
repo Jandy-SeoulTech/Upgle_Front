@@ -24,6 +24,7 @@ const UploadIntroduce = ({ introduce, handleChangeFiled }) => {
       <Typography css={title}>간단하게 자신에 대해 소개해주세요</Typography>
 
       <TextareaAutosize
+        autoFocus
         placeholder="300자 이내로 작성해주세요."
         value={introduce}
         minRows={10}

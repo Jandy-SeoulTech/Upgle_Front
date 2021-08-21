@@ -37,28 +37,37 @@ export function* writeSaga() {
 }
 
 const initialState = {
-  profile: {
+  writeProfile: {
     department: '',
     introduce: '',
     welltalent: [],
     interesttalent: [],
-    src: '',
   },
+  profile: null,
+  error: null,
 };
 
 export default handleActions(
   {
     [CHANGE_PROFILE]: (state, { payload: { key, value } }) => ({
       ...state,
-      profile: { ...state.profile, [key]: value },
+      writeProfile: { ...state.writeProfile, [key]: value },
     }),
     [INITIALIZE_PROFILE]: (state) => ({
       ...state,
       profile: initialState.profile,
     }),
+    [UPLOAD_PROFILE]: (state) => ({
+      ...state,
+      error: null,
+    }),
     [UPLOAD_PROFILE_SUCCESS]: (state, { payload: profile }) => ({
       ...state,
       profile,
+    }),
+    [UPLOAD_PROFILE_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
     }),
   },
   initialState,

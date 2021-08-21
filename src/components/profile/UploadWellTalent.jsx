@@ -55,6 +55,7 @@ const UploadWellTalent = ({ welltalent, handleChangeFiled }) => {
       </Grid>
 
       <TextField
+        autoFocus
         placeholder="최대 10개까지 입력해주세요"
         value={input}
         onChange={handleCahngeTalent}

@@ -338,7 +338,6 @@ const Signup = ({
                   useLoginForm={true}
                   token={process.env.REACT_APP_KAKAO_SECRET}
                   onSuccess={(result) => {
-                    console.log(result);
                     onKakaoOauth(result.response.access_token);
                   }}
                   onFail={(result) => console.log(result)}
