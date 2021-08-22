@@ -112,7 +112,6 @@ const initialState = {
   codeSent: null,
   codeVerified: null,
   nicknameChecked: null,
-  success: null,
   setNicknameSuccess: null,
   error: null,
 };
@@ -168,9 +167,9 @@ const auth = handleActions(
       ...state,
       emailChecked: false,
     }),
-    [SIGNUP_SUCCESS]: (state) => ({
+    [SIGNUP_SUCCESS]: (state, { payload: auth }) => ({
       ...state,
-      success: true,
+      auth,
     }),
     [SIGNUP_FAILURE]: (state, { payload: error }) => ({
       ...state,

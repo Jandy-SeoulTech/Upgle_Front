@@ -7,9 +7,18 @@
  <a href='https://upgle.hisfolio.com'><img src='https://img.shields.io/badge/Test%20on-netlify-yellow'></a>
 </p>
 
-Upgle은 서로 잘하는 재능을 공유하고, 배울 수 있는 사이트입니다.
+# 재능 공유 플랫폼 Upgle
+> 자신이 잘하는 분야를 화상 채팅을 이용하여 배우고 싶은 사람들과 실시간으로 인터랙션 하며 무료로 공유할 수 있는 플랫폼입니다.   
 
-# 💡 Front-End 기술 스택 (Technique Used)
+**Upgle** 은 웹 사이트 환경에서 자신이 잘하는 분야를 공유하는 공유자와 배우고 싶은 분야를 배우는 사람들이 실시간으로 인터렉션 할 수 있게 도와주는 사이트입니다.
+   
+비슷한 재능을 공유할 수 있는 **채널**에 가입해서 실시간 채팅, 화상, 음성 등으로 다른 사람들과 소통하면서 자신의 재능을 공유하거나, 키워나가세요!
+
+## 서비스 결과물
+
+9월 초에 업데이트 예정
+
+## 💡 Front-End 기술 스택 (Technique Used)
 
 <table><tbody>
   <tr align="center" valign="middle">
@@ -47,7 +56,7 @@ Upgle은 서로 잘하는 재능을 공유하고, 배울 수 있는 사이트입
 </tbody></table>
 
 
-# 🖥 컴퓨터 구성 / 필수 조건 안내 (Prerequisites)
+## 🖥 컴퓨터 구성 / 필수 조건 안내 (Prerequisites)
 * ECMAScript 6 지원 브라우저 사용
 * 권장: Google Chrome 버젼 77 이상
 * __IE환경에서 작동이 안될 수도 있습니다.__
@@ -56,7 +65,7 @@ Upgle은 서로 잘하는 재능을 공유하고, 배울 수 있는 사이트입
 --- | --- | --- | --- | --- |
  56+ ✔ | 32+ ✔ | 16+ ✔ | 42+ ✔ | 8+ ✔ |
 
-# ✍ 설치 및 실행 안내 (Installation & Execution Process)
+## ✍ 설치 및 실행 안내 (Installation & Execution Process)
 1. 업글 원격 저장소를 클론합니다.
 ```bash
 $ git clone https://github.com/Jandy-SeoulTech/Jandy_Web_Front
@@ -72,11 +81,36 @@ $ yarn start
 ```
 4. 브라우저에 http://localhost:3000 를 입력하여 사이트에 접속 할 수 있습니다.
 
-# 👨‍👨‍👦‍👦 팀 정보 (Team Information)
-- 최민준(기획자) (chmhj9997@gmail.com), Github Id: KeisLuv5991
-- 김연수(디자이너) (kimys0509@naver.com)
-- 김성태(프론트엔드) (md2eoseo@gmail.com), Github Id: md2eoseo
-- 황인서(프론트엔드) (sjsjsj1246@gmail.com), Github Id: sjsjsj1246
-- 조인혁(백엔드) (ss112d86@gmail.com),   Github Id: InHyeok-J
-- 홍성웅(백엔드) (iqeq1945@gmail.com),     Github Id: iqeq1945
+## 👨‍👩‍👧‍👦 팀 정보(Team Information)
+<table>
+   <tr>
+      <td colspan="2" align="center"><strong>Front-End Developer</strong></td>
+      <td colspan="2" align="center"><strong>Back-End Developer</strong></td>
+      <td colspan="1" align="center"><strong>Product Manager</strong></td>
+      <td colspan="1" align="center"><strong>Product Designer</strong></td>
+
+   </tr>
+  <tr>
+    <td align="center">
+    <a href="https://github.com/md2eoseo"><img src="https://avatars.githubusercontent.com/u/8054085?v=4" width="150px;" alt="김성태"/><br /><sub><b>김성태</b></sub></a><br />
+    </td>
+     <td align="center">
+        <a href="https://github.com/sjsjsj1246"><img src="https://avatars.githubusercontent.com/u/24623403?v=4" width="150px" alt="황인서"/><br /><sub><b>황인서</b></sub></a>
+     </td>
+     <td align="center">
+        <a href="https://github.com/InHyeok-J"><img src="https://avatars.githubusercontent.com/u/28949213?v=4" width="150px" alt="조인혁"/><br /><sub><b>조인혁</b></sub></a>
+     </td>
+     <td align="center">
+        <a href="https://github.com/iqeq1945"><img src="https://avatars.githubusercontent.com/u/50164778?v=4" width="150px" alt="홍성웅"/><br /><sub><b>홍성웅</b></sub></a>
+     </td>
+     <td align="center">
+        <a href="https://github.com/KeisLuv5991"><img src="https://avatars.githubusercontent.com/u/38745815?v=4" width="150px" alt="최민준"/><br /><sub><b>최민준</b></sub></a>
+     </td>
+     <td align="center">
+        <a href="##"><img src="https://user-images.githubusercontent.com/28949213/129733334-66bf8833-ce33-4e1a-9503-d01f700635af.png" width="150px" alt="김연수"/><br /><sub><b>김연수</b></sub></a>
+     </td>
+  <tr>
+    
+
+</table>
 
