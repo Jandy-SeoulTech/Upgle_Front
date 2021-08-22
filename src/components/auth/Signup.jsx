@@ -1,13 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useState } from 'react';
-import {
-  Box,
-  Divider,
-  Grid,
-  Typography,
-  useMediaQuery,
-} from '@material-ui/core';
+import { Divider, Grid, Typography, useMediaQuery } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import {
   isCode,
@@ -17,29 +11,25 @@ import {
 } from '../../lib/util/validate';
 import TextField from '../common/TextField';
 import Button from '../common/Button';
-import KakaoLogin from 'react-kakao-login';
-import GoogleLogin from 'react-google-login';
 import palette from '../../lib/styles/palette';
 import { ReactComponent as LogoWithTextTemp2 } from '../../lib/assets/logoWithTextTemp2.svg';
-import { ReactComponent as KakaoIcon } from '../../lib/assets/kakaoIcon.svg';
-import { ReactComponent as GoogleIcon } from '../../lib/assets/googleIcon.svg';
-import { ReactComponent as NaverIcon } from '../../lib/assets/naverIcon.svg';
+import ReactLoading from 'react-loading';
 
 const Signup = ({
   onCheckEmail,
-  onSendCode,
   onCheckCode,
   onCheckNickname,
   emailChecked,
-  codeSent,
-  codeVerified,
   nicknameChecked,
   onEmailChanged,
   onNicknameChanged,
+  onSendCode,
+  codeSent,
+  codeVerified,
   onSignup,
-  onKakaoOauth,
-  onGoogleOauth,
   errorMessage,
+  emailSendLoading,
+  OAuthComponent,
 }) => {
   const m600 = useMediaQuery('(max-width:600px)');
   const m1200 = useMediaQuery('(max-width: 1200px)');
@@ -57,18 +47,60 @@ const Signup = ({
   const [nicknameError, setNicknameError] = useState(false);
 
   const handleEmailChange = (e) => {
-    const {
-      target: { value },
-    } = e;
-    setEmail(value);
+    const email = e.target.value;
+    setEmail(email);
     if (emailChecked !== null) {
       onEmailChanged();
     }
-    if (!value) setEmailError(false);
-    else if (!isEmail(value)) setEmailError(true);
-    else {
+    if (!email) setEmailError(false);
+    else if (isEmail(email)) {
       setEmailError(false);
-      onCheckEmail({ email: value });
+      onCheckEmail({ email: email });
+    } else {
+      setEmailError(true);
+    }
+  };
+
+  const handleCodeChange = (e) => {
+    const code = e.target.value;
+    if (!code) setCodeError(false);
+    if (isCode(code)) {
+      if (code.length <= 6) {
+        setCode(code);
+        setCodeError(false);
+      }
+    } else {
+      setCodeError(true);
+    }
+  };
+
+  const handlePasswordChange = (e) => {
+    const password = e.target.value;
+    setPassword(password);
+    if (repassword) {
+      setRepasswordError(password !== repassword);
+    }
+    if (!password) setPasswordError(false);
+    else setPasswordError(!isPassword(password));
+  };
+
+  const handleRepasswordChange = (e) => {
+    const value = e.target.value;
+    setRepassword(value);
+    setRepasswordError(value !== password);
+  };
+
+  const handleNicknameChange = (e) => {
+    const nickname = e.target.value;
+    setNickname(nickname);
+    if (!nickname) {
+      setNicknameError(false);
+      onNicknameChanged();
+    } else if (isNickname(nickname)) {
+      setNicknameError(false);
+      onCheckNickname({ nickname });
+    } else {
+      setNicknameError(true);
     }
   };
 
@@ -76,59 +108,8 @@ const Signup = ({
     onSendCode({ email });
   };
 
-  const handleCodeChange = (e) => {
-    const {
-      target: { value },
-    } = e;
-    if (isCode(value)) {
-      if (value.length <= 6) {
-        setCode(value);
-        setCodeError(false);
-      }
-    } else {
-      setCodeError(true);
-    }
-    if (!value) setCodeError(false);
-  };
-
   const onCheckCodeClick = () => {
     onCheckCode({ email, code });
-  };
-
-  const handlePasswordChange = (e) => {
-    const {
-      target: { value },
-    } = e;
-    setPassword(value);
-    if (repassword) {
-      setRepasswordError(value !== repassword);
-    }
-    if (!value) setPasswordError(false);
-    else setPasswordError(!isPassword(value));
-  };
-
-  const handleRepasswordChange = (e) => {
-    const {
-      target: { value },
-    } = e;
-    setRepassword(value);
-    setRepasswordError(value !== password);
-  };
-
-  const handleNicknameChange = (e) => {
-    const {
-      target: { value },
-    } = e;
-    setNickname(value);
-    if (!value) {
-      onNicknameChanged();
-    }
-    if (!value) setNicknameError(false);
-    else if (!isNickname(value)) setNicknameError(true);
-    else {
-      setNicknameError(false);
-      onCheckNickname({ nickname: value });
-    }
   };
 
   const handleSubmit = () => {
@@ -200,20 +181,32 @@ const Signup = ({
                 sx={(input, codeInput)}
               />
               {!codeSent ? (
-                <Button
-                  disabled={!email || emailError || !emailChecked || codeSent}
-                  onClick={onSendCodeClick}
-                  sx={{
-                    width: '80px',
-                    height: '45px',
-                    borderRadius: '50vh',
-                    lineHeight: '1rem',
-                  }}
-                >
-                  인증번호
-                  <br />
-                  전송
-                </Button>
+                emailSendLoading ? (
+                  <ReactLoading
+                    type="spinningBubbles"
+                    color={palette.black}
+                    style={{
+                      margin: '0 20px',
+                      width: '40px',
+                      height: '40px',
+                    }}
+                  />
+                ) : (
+                  <Button
+                    disabled={!email || emailError || !emailChecked || codeSent}
+                    onClick={onSendCodeClick}
+                    sx={{
+                      width: '80px',
+                      height: '45px',
+                      borderRadius: '50vh',
+                      lineHeight: '1rem',
+                    }}
+                  >
+                    인증번호
+                    <br />
+                    전송
+                  </Button>
+                )
               ) : (
                 <Button
                   disabled={
@@ -324,37 +317,7 @@ const Signup = ({
           </Grid>
 
           <Grid item container xs={12} justifyContent="center">
-            <Box sx={oAuthForm}>
-              <Grid item container xs={4} justifyContent="center">
-                <KakaoLogin
-                  useLoginForm={true}
-                  token={process.env.REACT_APP_KAKAO_SECRET}
-                  onSuccess={(result) => {
-                    console.log(result);
-                    onKakaoOauth(result.response.access_token);
-                  }}
-                  onFail={(result) => console.log(result)}
-                  render={(props) => (
-                    <KakaoIcon {...props} css={oAuthIcon}></KakaoIcon>
-                  )}
-                ></KakaoLogin>
-              </Grid>
-              <Grid item container xs={4} justifyContent="center">
-                <GoogleLogin
-                  clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                  render={(props) => (
-                    <GoogleIcon {...props} css={oAuthIcon}></GoogleIcon>
-                  )}
-                  onSuccess={(result) => onGoogleOauth(result.accessToken)}
-                  onFailure={(result) => console.log(result)}
-                  cookiePolicy={'single_host_origin'}
-                />
-              </Grid>
-              <Grid item container xs={4} justifyContent="center">
-                <div id="naverIdLogin"></div>
-                <NaverIcon css={oAuthIcon}></NaverIcon>
-              </Grid>
-            </Box>
+            <OAuthComponent />
           </Grid>
         </Grid>
       </Grid>
@@ -464,20 +427,6 @@ const submitButton = css`
   margin-bottom: 12px;
   &:hover {
     background: rgba(0, 0, 0, 0.8);
-  }
-`;
-
-const oAuthForm = css`
-  display: flex;
-  justify-content: center;
-  margin-top: 26px;
-  width: 350px;
-`;
-
-const oAuthIcon = css`
-  cursor: pointer;
-  &:hover {
-    filter: brightness(0.7);
   }
 `;
 
