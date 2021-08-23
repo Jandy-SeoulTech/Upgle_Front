@@ -28,8 +28,8 @@ function App() {
       <Route path="/signin" component={SigninPage} />
       <Route path="/nickname" component={SetNicknamePage} />
       <Route path="/myChannel" component={MyChannelPage} />
-      <Route path="/channel/:id" component={ChannelProfilePage} />
-      <Route path="/channel/home/:id" exact component={ChannelHomePage} />
+      <Route path="/channelProfile/:id" exact component={ChannelProfilePage} />
+      <Route path="/channelHome/:id" exact component={ChannelHomePage} />
     </BrowserRouter>
   );
 }
