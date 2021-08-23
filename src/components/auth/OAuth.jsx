@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Box, Grid } from '@material-ui/core';
-import React from 'react';
 import KakaoLogin from 'react-kakao-login';
 import GoogleLogin from 'react-google-login';
 import { ReactComponent as KakaoIcon } from '../../lib/assets/kakaoIcon.svg';

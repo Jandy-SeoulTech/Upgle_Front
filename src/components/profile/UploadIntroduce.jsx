@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Box, Grid, TextareaAutosize, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import { Box, TextareaAutosize, Typography } from '@material-ui/core';
+import { useState } from 'react';
 import palette from '../../lib/styles/palette';
 
 const UploadIntroduce = ({ introduce, handleChangeFiled }) => {

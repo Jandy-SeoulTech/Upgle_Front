@@ -1,9 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import Button from '../common/Button';
-import { Box, Grid, Paper, Typography, useMediaQuery } from '@material-ui/core';
-import { Link, useHistory } from 'react-router-dom';
-import { memo, useEffect, useState } from 'react';
+import { Box, Grid, Typography, useMediaQuery } from '@material-ui/core';
+import { useState } from 'react';
 import { ReactComponent as LogoWithTextTemp } from '../../lib/assets/logoWithTextTemp.svg';
 import { ReactComponent as LogoWithTextTemp2 } from '../../lib/assets/logoWithTextTemp2.svg';
 import { ReactComponent as Rafiki } from '../../lib/assets/rafiki.svg';

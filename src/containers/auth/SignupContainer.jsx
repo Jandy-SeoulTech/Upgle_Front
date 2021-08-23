@@ -8,6 +8,9 @@ import {
   checkVerificationCode,
   emailChanged,
   initAuth,
+  googleOauth,
+  kakaoOauth,
+  naverOauth,
   nicknameChanged,
   sendVerificationCode,
   signup,
@@ -24,6 +27,39 @@ const SignupContainer = ({ OAuthComponent }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
+  const { naver } = window;
+  const location = useLocation();
+
+  const onKakaoOauth = (access_token) => {
+    dispatch(kakaoOauth(access_token));
+  };
+
+  const onGoogleOauth = (access_token) => {
+    dispatch(googleOauth(access_token));
+  };
+
+  const onNaverOauth = (access_token) => {
+    dispatch(naverOauth(access_token));
+  };
+
+  const initializeNaverLogin = () => {
+    const naverLogin = new naver.LoginWithNaverId({
+      clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
+      callbackUrl:
+        process.env.NODE_ENV === 'development'
+          ? process.env.REACT_APP_NAVER_LOGIN_CALLBACK_URL
+          : process.env.REACT_APP_NAVER_LOGIN_CALLBACK_URL,
+      isPopup: false,
+      loginButton: { color: 'white', type: 1, height: '47' },
+    });
+    naverLogin.init();
+  };
+
+  const getNaverToken = () => {
+    if (!location.hash) return;
+    const token = location.hash.split('=')[1].split('&')[0];
+    onNaverOauth(token);
+  };
 
   const onCheckEmail = ({ email }) => {
     dispatch(checkEmail({ email }));
@@ -54,6 +90,8 @@ const SignupContainer = ({ OAuthComponent }) => {
   };
 
   useEffect(() => {
+    initializeNaverLogin();
+    getNaverToken();
     return () => {
       dispatch(initAuth());
     };
@@ -87,6 +125,8 @@ const SignupContainer = ({ OAuthComponent }) => {
       nicknameChecked={nicknameChecked}
       onEmailChanged={onEmailChanged}
       onNicknameChanged={onNicknameChanged}
+      onKakaoOauth={onKakaoOauth}
+      onGoogleOauth={onGoogleOauth}
       errorMessage={errorMessage}
       emailSendLoading={emailSendLoading}
       OAuthComponent={OAuthComponent}
