@@ -1,6 +1,6 @@
 import React from 'react';
-import OAuthContainer from '../containers/auth/OAuthContainer';
-import SignupContainer from '../containers/auth/SignupContainer';
+import OAuthContainer from '../../containers/auth/OAuthContainer';
+import SignupContainer from '../../containers/auth/SignupContainer';
 
 const SignupPage = (props) => (
   <>
