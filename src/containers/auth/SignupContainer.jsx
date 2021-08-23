@@ -7,26 +7,23 @@ import {
   checkNickname,
   checkVerificationCode,
   emailChanged,
-  googleOauth,
   initAuth,
+  googleOauth,
   kakaoOauth,
   naverOauth,
   nicknameChanged,
   sendVerificationCode,
   signup,
 } from '../../modules/auth';
+import { check } from '../../modules/user';
 
-const SignupContainer = (props) => {
-  const {
-    auth,
-    emailChecked,
-    codeSent,
-    codeVerified,
-    nicknameChecked,
-    success,
-    error,
-  } = useSelector((state) => state.auth);
+const SignupContainer = ({ OAuthComponent }) => {
+  const { auth, emailChecked, codeSent, codeVerified, nicknameChecked, error } =
+    useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.user);
+  const emailSendLoading = useSelector(
+    (state) => state.loading['auth/SEND_VERIFICATION_CODE'],
+  );
   const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
@@ -104,30 +101,14 @@ const SignupContainer = (props) => {
     if (error) {
       setErrorMessage('이미 가입된 회원입니다.');
     }
-  }, [error]);
-
-  useEffect(() => {
-    if (success) {
-      alert('가입이 완료되었습니다!\n로그인 해주세요.');
-      history.push('/signin');
-    }
-  }, [success, history]);
-
-  useEffect(() => {
     if (auth) {
-      history.push('/signin');
+      dispatch(check());
     }
-  }, [auth, history]);
+  }, [auth, error, dispatch]);
 
   useEffect(() => {
     if (user) {
-      if (user.isAdmin) {
-        alert('관리자님 환영합니다!');
-        history.push('/admin');
-      } else {
-        alert(`${user.nickname}님 안녕하세요!`);
-        history.push('/');
-      }
+      history.push('/');
     }
   }, [user, history]);
 
@@ -147,6 +128,8 @@ const SignupContainer = (props) => {
       onKakaoOauth={onKakaoOauth}
       onGoogleOauth={onGoogleOauth}
       errorMessage={errorMessage}
+      emailSendLoading={emailSendLoading}
+      OAuthComponent={OAuthComponent}
     />
   );
 };

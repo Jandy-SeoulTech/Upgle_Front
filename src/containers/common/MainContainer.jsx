@@ -42,8 +42,9 @@ const MainContainer = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    if (user && !user.nickname) {
-      history.push('/nickname');
+    if (user) {
+      if (!user.nickname) history.push('/nickname');
+      else if (!user.profile) history.push('/uploadProfile');
     }
   }, [user, history]);
 

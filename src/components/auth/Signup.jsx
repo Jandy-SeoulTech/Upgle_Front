@@ -1,13 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useState } from 'react';
-import {
-  Box,
-  Divider,
-  Grid,
-  Typography,
-  useMediaQuery,
-} from '@material-ui/core';
+import { Grid, Typography, useMediaQuery } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import {
   isCode,
@@ -17,32 +11,28 @@ import {
 } from '../../lib/util/validate';
 import TextField from '../common/TextField';
 import Button from '../common/Button';
-import KakaoLogin from 'react-kakao-login';
-import GoogleLogin from 'react-google-login';
 import palette from '../../lib/styles/palette';
 import { ReactComponent as LogoWithTextTemp2 } from '../../lib/assets/logoWithTextTemp2.svg';
-import { ReactComponent as KakaoIcon } from '../../lib/assets/kakaoIcon.svg';
-import { ReactComponent as GoogleIcon } from '../../lib/assets/googleIcon.svg';
-import { ReactComponent as NaverIcon } from '../../lib/assets/naverIcon.svg';
+import ReactLoading from 'react-loading';
 
 const Signup = ({
   onCheckEmail,
-  onSendCode,
   onCheckCode,
   onCheckNickname,
   emailChecked,
-  codeSent,
-  codeVerified,
   nicknameChecked,
   onEmailChanged,
   onNicknameChanged,
+  onSendCode,
+  codeSent,
+  codeVerified,
   onSignup,
-  onKakaoOauth,
-  onGoogleOauth,
   errorMessage,
+  emailSendLoading,
+  OAuthComponent,
 }) => {
   const m600 = useMediaQuery('(max-width:600px)');
-  const m1200 = useMediaQuery('(max-width: 1200px)');
+  const m1200 = useMediaQuery('(max-width: 1199px)');
 
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
@@ -57,18 +47,60 @@ const Signup = ({
   const [nicknameError, setNicknameError] = useState(false);
 
   const handleEmailChange = (e) => {
-    const {
-      target: { value },
-    } = e;
-    setEmail(value);
+    const email = e.target.value;
+    setEmail(email);
     if (emailChecked !== null) {
       onEmailChanged();
     }
-    if (!value) setEmailError(false);
-    else if (!isEmail(value)) setEmailError(true);
-    else {
+    if (!email) setEmailError(false);
+    else if (isEmail(email)) {
       setEmailError(false);
-      onCheckEmail({ email: value });
+      onCheckEmail({ email: email });
+    } else {
+      setEmailError(true);
+    }
+  };
+
+  const handleCodeChange = (e) => {
+    const code = e.target.value;
+    if (!code) setCodeError(false);
+    if (isCode(code)) {
+      if (code.length <= 6) {
+        setCode(code);
+        setCodeError(false);
+      }
+    } else {
+      setCodeError(true);
+    }
+  };
+
+  const handlePasswordChange = (e) => {
+    const password = e.target.value;
+    setPassword(password);
+    if (repassword) {
+      setRepasswordError(password !== repassword);
+    }
+    if (!password) setPasswordError(false);
+    else setPasswordError(!isPassword(password));
+  };
+
+  const handleRepasswordChange = (e) => {
+    const value = e.target.value;
+    setRepassword(value);
+    setRepasswordError(value !== password);
+  };
+
+  const handleNicknameChange = (e) => {
+    const nickname = e.target.value;
+    setNickname(nickname);
+    if (!nickname) {
+      setNicknameError(false);
+      onNicknameChanged();
+    } else if (isNickname(nickname)) {
+      setNicknameError(false);
+      onCheckNickname({ nickname });
+    } else {
+      setNicknameError(true);
     }
   };
 
@@ -76,59 +108,8 @@ const Signup = ({
     onSendCode({ email });
   };
 
-  const handleCodeChange = (e) => {
-    const {
-      target: { value },
-    } = e;
-    if (isCode(value)) {
-      if (value.length <= 6) {
-        setCode(value);
-        setCodeError(false);
-      }
-    } else {
-      setCodeError(true);
-    }
-    if (!value) setCodeError(false);
-  };
-
   const onCheckCodeClick = () => {
     onCheckCode({ email, code });
-  };
-
-  const handlePasswordChange = (e) => {
-    const {
-      target: { value },
-    } = e;
-    setPassword(value);
-    if (repassword) {
-      setRepasswordError(value !== repassword);
-    }
-    if (!value) setPasswordError(false);
-    else setPasswordError(!isPassword(value));
-  };
-
-  const handleRepasswordChange = (e) => {
-    const {
-      target: { value },
-    } = e;
-    setRepassword(value);
-    setRepasswordError(value !== password);
-  };
-
-  const handleNicknameChange = (e) => {
-    const {
-      target: { value },
-    } = e;
-    setNickname(value);
-    if (!value) {
-      onNicknameChanged();
-    }
-    if (!value) setNicknameError(false);
-    else if (!isNickname(value)) setNicknameError(true);
-    else {
-      setNicknameError(false);
-      onCheckNickname({ nickname: value });
-    }
   };
 
   const handleSubmit = () => {
@@ -143,25 +124,17 @@ const Signup = ({
         </Link>
       </Grid>
 
-      <Grid
-        item
-        container
-        xs={12}
-        lg={6}
-        p={5}
-        alignItems="center"
-        sx={!m1200 && { marginLeft: '50vw' }}
-      >
-        <Grid item container sx={form}>
+      <Grid item container xs={12} lg={6} sx={form}>
+        <Grid item container justifyContent="center" alignItems="center">
           <Grid item xs={10}>
             <Typography variant="h4" textAlign="center" sx={title}>
-              회원 가입
+              간편 회원 가입
             </Typography>
           </Grid>
 
           <Grid item container xs={12} justifyContent="center">
             <Typography sx={link}>
-              <Link to="/signin">이미 계정이 있으신가요? 로그인하기</Link>
+              <Link to="/signin">이미 가입된 회원이신가요? 로그인하기</Link>
             </Typography>
           </Grid>
 
@@ -208,20 +181,25 @@ const Signup = ({
                 sx={(input, codeInput)}
               />
               {!codeSent ? (
-                <Button
-                  disabled={!email || emailError || !emailChecked || codeSent}
-                  onClick={onSendCodeClick}
-                  sx={{
-                    width: '80px',
-                    height: '45px',
-                    borderRadius: '50vh',
-                    lineHeight: '1rem',
-                  }}
-                >
-                  인증번호
-                  <br />
-                  전송
-                </Button>
+                emailSendLoading ? (
+                  <ReactLoading
+                    type="spinningBubbles"
+                    color={palette.black}
+                    style={{
+                      margin: '0 20px',
+                      width: '40px',
+                      height: '40px',
+                    }}
+                  />
+                ) : (
+                  <Button
+                    disabled={!email || emailError || !emailChecked || codeSent}
+                    onClick={onSendCodeClick}
+                    css={sendCodeButton}
+                  >
+                    인증번호 전송
+                  </Button>
+                )
               ) : (
                 <Button
                   disabled={
@@ -232,13 +210,7 @@ const Signup = ({
                     code.length !== 6
                   }
                   onClick={onCheckCodeClick}
-                  sx={{
-                    width: '70px',
-                    height: '40px',
-                    margin: '0 5px',
-                    borderRadius: '50vh',
-                    fontSize: '14px',
-                  }}
+                  css={verifyCodeButton}
                 >
                   인증
                 </Button>
@@ -325,44 +297,14 @@ const Signup = ({
             </Grid>
           )}
 
-          <Grid item xs={12} md={10}>
-            <Divider>
-              {m600 ? 'SNS 간편 가입' : 'SNS 계정으로 간편하게 시작하세요!'}
-            </Divider>
+          <Grid item xs={12} md={10} mt={2} textAlign="center">
+            <Typography>
+              {m600 ? 'SNS 간편 가입' : 'SNS 계정으로 간편하게 시작해보세요'}
+            </Typography>
           </Grid>
 
           <Grid item container xs={12} justifyContent="center">
-            <Box sx={oAuthForm}>
-              <Grid item container xs={4} justifyContent="center">
-                <KakaoLogin
-                  useLoginForm={true}
-                  token={process.env.REACT_APP_KAKAO_SECRET}
-                  onSuccess={(result) => {
-                    console.log(result);
-                    onKakaoOauth(result.response.access_token);
-                  }}
-                  onFail={(result) => console.log(result)}
-                  render={(props) => (
-                    <KakaoIcon {...props} css={oAuthIcon}></KakaoIcon>
-                  )}
-                ></KakaoLogin>
-              </Grid>
-              <Grid item container xs={4} justifyContent="center">
-                <GoogleLogin
-                  clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                  render={(props) => (
-                    <GoogleIcon {...props} css={oAuthIcon}></GoogleIcon>
-                  )}
-                  onSuccess={(result) => onGoogleOauth(result.accessToken)}
-                  onFailure={(result) => console.log(result)}
-                  cookiePolicy={'single_host_origin'}
-                />
-              </Grid>
-              <Grid item container xs={4} justifyContent="center">
-                <div id="naverIdLogin"></div>
-                <NaverIcon css={oAuthIcon}></NaverIcon>
-              </Grid>
-            </Box>
+            <OAuthComponent />
           </Grid>
         </Grid>
       </Grid>
@@ -375,12 +317,19 @@ const wrapper = css`
   #naverIdLogin {
     position: absolute;
     z-index: 1;
-    a {
-      width: 80px;
-      height: 80px;
+    &:hover::before {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 5rem;
+      height: 5rem;
       border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.3);
     }
     img {
+      width: 5rem;
+      height: 5rem;
+      border-radius: 50%;
       opacity: 0;
     }
   }
@@ -399,49 +348,53 @@ const logoSection = css`
 `;
 
 const smallLogoSection = css`
+  width: 100vw;
   justify-content: flex-start;
   align-items: flex-start;
-  height: 200px;
-  margin-bottom: 118px;
+  height: 12.5rem;
+  margin-bottom: 6rem;
   svg {
-    margin: 26px 0 0 32px;
-    width: 150px;
+    margin: 1.625rem 0 0 2rem;
+    width: 9.375rem;
   }
-  position: static;
 `;
 
 const form = css`
+  padding: 4rem 2rem;
+  margin-left: 50vw;
   height: fit-content;
+  width: 50vw;
+  display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 const title = css`
   font-weight: 700;
-  font-size: 34px;
+  font-size: 2.125rem;
   font-family: 'Noto Sans KR';
   text-align: center;
-  margin-bottom: 37px;
+  margin-bottom: 2.3125rem;
 `;
 
 const link = css`
-  padding: 10px 20px;
+  padding: 0.625rem 1.25rem;
   width: fit-content;
   text-align: center;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   font-family: 'Noto Sans KR';
-  margin-bottom: 45px;
+  margin-bottom: 2.8125rem;
   &:hover {
-    border-radius: 20px;
+    border-radius: 1.25rem;
     background-color: #e5e5e5;
   }
 `;
 
 const input = css`
-  width: 350px;
-  height: 32px;
-  margin-bottom: 7px;
+  width: 21.875rem;
+  height: 2rem;
+  margin-bottom: 0.4375rem;
   .MuiInput-root {
     &::before {
       border-bottom: 1px solid ${palette.black} !important;
@@ -452,42 +405,43 @@ const input = css`
   }
   .MuiInputLabel-root {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 1rem;
   }
   .MuiInputLabel-root.Mui-focused {
     color: black;
-    font-size: 16px !important;
+    font-size: 1rem !important;
   }
 `;
 
 const codeInput = css`
-  width: 270px;
+  width: 200px;
+  margin-right: 70px;
+`;
+
+const sendCodeButton = css`
+  width: 80px;
+  height: 45px;
+  line-height: 1rem;
+  border-radius: 50vh;
+`;
+
+const verifyCodeButton = css`
+  width: 70px;
+  height: 40px;
+  margin: 0 5px;
+  border-radius: 50vh;
+  font-size: 14px;
 `;
 
 const submitButton = css`
-  width: 350px;
-  height: 62px;
+  width: 21.875rem;
+  height: 3.875rem;
   background: black;
-  font-size: 20px;
-  border-radius: 10px;
-  margin-top: 36px;
-  margin-bottom: 12px;
+  font-size: 1.25rem;
+  border-radius: 0.625rem;
+  margin-top: 2rem;
   &:hover {
     background: rgba(0, 0, 0, 0.8);
-  }
-`;
-
-const oAuthForm = css`
-  display: flex;
-  justify-content: center;
-  margin-top: 26px;
-  width: 350px;
-`;
-
-const oAuthIcon = css`
-  cursor: pointer;
-  &:hover {
-    filter: brightness(0.7);
   }
 `;
 
