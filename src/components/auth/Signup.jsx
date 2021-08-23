@@ -342,9 +342,11 @@ const logoSection = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  height: 100vh;
-  width: 50vw;
+  @media (min-width: 1200px) {
+    position: fixed;
+    height: 100vh;
+    width: 50vw;
+  }
 `;
 
 const smallLogoSection = css`
@@ -360,13 +362,17 @@ const smallLogoSection = css`
 `;
 
 const form = css`
-  padding: 4rem 2rem;
   margin-left: 50vw;
+  padding: 4rem 2rem;
   height: fit-content;
   width: 50vw;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (max-width: 1200px) {
+    padding-top: 0;
+    margin-left: 0;
+  }
 `;
 
 const title = css`
@@ -414,8 +420,17 @@ const input = css`
 `;
 
 const codeInput = css`
+  width: 16.875rem;
   width: 200px;
   margin-right: 70px;
+  @media (max-width: 1200px) {
+    width: 200px;
+    margin-right: 70px;
+  }
+  @media (max-width: 600px) {
+    width: 150px;
+    margin-right: 50px;
+  }
 `;
 
 const sendCodeButton = css`
@@ -423,14 +438,31 @@ const sendCodeButton = css`
   height: 45px;
   line-height: 1rem;
   border-radius: 50vh;
+  @media (max-width: 1200px) {
+    width: 80px;
+    height: 45px;
+    line-height: 1.2rem;
+  }
+  @media (max-width: 600px) {
+    width: 62.5px;
+    height: 36px;
+    line-height: 1.2rem;
+  }
 `;
 
 const verifyCodeButton = css`
-  width: 70px;
-  height: 40px;
-  margin: 0 5px;
+  width: 80px;
+  height: 45px;
+  line-height: 1rem;
   border-radius: 50vh;
-  font-size: 14px;
+  @media (max-width: 1200px) {
+    width: 80px;
+    height: 45px;
+  }
+  @media (max-width: 600px) {
+    width: 62.5px;
+    height: 36px;
+  }
 `;
 
 const submitButton = css`
