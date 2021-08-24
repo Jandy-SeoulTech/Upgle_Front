@@ -5,6 +5,8 @@ import user, { userSaga } from './user';
 import chat, { chatSaga } from './chat';
 import channel, { channelSaga } from './channel';
 import channels, { channelsSaga } from './channels';
+import write, { writeSaga } from './write';
+import image, { imageSaga } from './image';
 import loading from './loading';
 import { all } from 'redux-saga/effects';
 
@@ -16,6 +18,8 @@ const rootReducer = combineReducers({
   channel,
   channels,
   loading,
+  write,
+  image,
 });
 
 export function* rootSaga() {
@@ -27,6 +31,7 @@ export function* rootSaga() {
     channelSaga(),
     channelsSaga(),
   ]);
+  yield all([postsSaga(), authSaga(), userSaga(), writeSaga(), imageSaga()]);
 }
 
 export default rootReducer;

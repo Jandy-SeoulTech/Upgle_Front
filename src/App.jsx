@@ -10,6 +10,7 @@ import SetNicknamePage from './pages/profile/SetNicknamePage';
 import ChannelHomePage from './pages/channel/ChannelHomePage';
 import ChannelProfilePage from './pages/channel/ChannelProfilePage';
 import MyChannelPage from './pages/channel/MyChannelPage';
+import UploadProfilePage from './pages/UploadProfilePage';
 
 function App() {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ function App() {
       <Route path="/signup" component={SignupPage} />
       <Route path="/signin" component={SigninPage} />
       <Route path="/nickname" component={SetNicknamePage} />
+      <Route path="/uploadProfile" exact component={UploadProfilePage} />
       <Route path="/myChannel" component={MyChannelPage} />
       <Route path="/channelProfile/:id" exact component={ChannelProfilePage} />
       <Route path="/channelHome/:id" exact component={ChannelHomePage} />
