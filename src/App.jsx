@@ -1,14 +1,14 @@
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import MainPage from './pages/MainPage';
-import SignupPage from './pages/SignupPage';
-import SigninPage from './pages/SigninPage';
+import SignupPage from './pages/auth/SignupPage';
+import SigninPage from './pages/auth/SigninPage';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { check } from './modules/user';
-import SetNicknamePage from './pages/SetNicknamePage';
-import ProfilePage from './pages/ProfilePage';
-import UploadProfilePage from './pages/UploadProfilePage';
+import SetNicknamePage from './pages/profile/SetNicknamePage';
+import ProfilePage from './pages/profile/ProfilePage';
+import UploadProfilePage from './pages/profile/UploadProfilePage';
 
 function App() {
   const dispatch = useDispatch();
