@@ -11,6 +11,21 @@ import { useParams } from 'react-router-dom';
 import palette from '../../lib/styles/palette';
 import { ReactComponent as DepartmentIcon } from '../../lib/assets/departmentIcon.svg';
 import { ReactComponent as EditProfileIcon } from '../../lib/assets/editProfileIcon.svg';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+
+const randomColor = (title) => {
+  const colors = [
+    '#FFFFFF',
+    '#FFB49D',
+    '#FFAAB4',
+    '#FF9898',
+    '#87EEC3',
+    '#B9EEFF',
+    '#9CC4FF',
+    '#BEC7FF',
+  ];
+  return colors[title.length % colors.length];
+};
 
 const Profile = ({ errorMessage }) => {
   const { id } = useParams();
@@ -21,6 +36,61 @@ const Profile = ({ errorMessage }) => {
   const reviews = [
     '팝핀 정말 잘춰요~기본기를 정말 탄탄하게 알려줘서 처음 배우는 사람도 재미있게 배울 수 있어요! 댄싱퀸펭귄님 최고!',
     '진짜 너무 친절하세요~제가 못질은 처음이라서 질문을 계속 물어봐서 귀찮을만도 한데 하나하나 알려주서 잘 배울 수 있었어요. 못질 기본기 없으신 분들은 펭귄님 채널 추천!!!',
+  ];
+  const rightInfosA = [
+    {
+      title: '머핀이 잘 부풀지 않을때 어떻게 해야할까?',
+      date: '2021.08.11',
+      imgUrl: 'https://picsum.photos/200',
+    },
+    {
+      title:
+        '홈페이지를 만들 때 사용할 수 있는 여러 무료 이미지 홈페이지를 만들 때 사용할 수 있는 여러 무료 이미지 홈페이지를 만들 때 사용할 수 있는 여러 무료 이미지 ...',
+      date: '2021.08.11',
+      imgUrl: 'https://picsum.photos/200',
+    },
+    {
+      title: '머핀이 잘?',
+      date: '2021.08.11',
+    },
+    {
+      title: '머핀이 잘 부풀지 않을때 어떻게 해야할까',
+      date: '2021.08.11',
+    },
+    {
+      title: '잘 부풀지 않을때 어떻게 해야할까?',
+      date: '2021.08.11',
+    },
+    {
+      title: '머핀이 잘 부풀지 않을때 어떻게 해야할까??',
+      date: '2021.08.11',
+    },
+    {
+      title: '머핀이 잘 부풀지 않을때 어떻게 해야할까???',
+      date: '2021.08.11',
+    },
+    {
+      title: '머핀이 잘 부풀지 않을때 어떻게 해야할까?',
+      date: '2021.08.11',
+      imgUrl: 'https://picsum.photos/200',
+    },
+  ];
+  const rightInfosB = [
+    { name: '팝핀으로 우주 정복하기', imgUrl: 'https://picsum.photos/100' },
+    { name: '팝핀으로 우주' },
+    { name: '팝핀으로 우주 정복하기', imgUrl: 'https://picsum.photos/100' },
+    { name: '팝핀으로 우주 정복하기' },
+  ];
+  const rightInfosC = [
+    {
+      name: '건강한 다이어트 식단 만들어 먹기',
+      imgUrl: 'https://picsum.photos/100',
+    },
+    {
+      name: '초보자도 쉽게 하는 목공 교실',
+      imgUrl: 'https://picsum.photos/100',
+    },
+    { name: '인물사진 기초 클래스', imgUrl: 'https://picsum.photos/100' },
   ];
 
   return (
@@ -116,8 +186,161 @@ const Profile = ({ errorMessage }) => {
             </Button>
           </Grid>
         </Grid>
-        <Grid item container xs={9} css={rightProfile} justifyContent="center">
-          <Typography>Channel</Typography>
+
+        <Grid item container xs={9} css={rightProfile}>
+          <Grid item container xs={12} height="fit-content" mb={5}>
+            <Grid item mb={1}>
+              <Typography css={reviewLabel}>모아 보기</Typography>
+            </Grid>
+            <Grid item container columns={{ xs: 4 }} spacing={2}>
+              {rightInfosA.length === 0 ? (
+                <Grid item xs={1} css={archiveCell}>
+                  <Grid
+                    css={archiveCard}
+                    sx={{
+                      backgroundColor: 'white',
+                      backgroundImage:
+                        'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 75.52%, rgba(0, 0, 0, 0.4) 100%)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <AddCircleOutlineIcon width="36px" />
+                    <Typography fontSize="14px" color="black" mt={1}>
+                      아카이브를 남겨보세요.
+                    </Typography>
+                  </Grid>
+                </Grid>
+              ) : (
+                rightInfosA.map((info) => (
+                  <Grid item xs={1} css={archiveCell}>
+                    <Grid
+                      css={archiveCard}
+                      sx={{
+                        backgroundColor: randomColor(info.title),
+                        backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.510208) 75.52%, rgba(0, 0, 0, 0.79) 100%), url(${info.imgUrl})`,
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'cover',
+                        display: 'flex',
+                        alignItems: 'flex-end',
+                      }}
+                    >
+                      <Grid
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          padding: '12.5px',
+                        }}
+                      >
+                        <Typography
+                          gutterBottom
+                          component="div"
+                          sx={archiveTitle}
+                        >
+                          {info.title}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            fontSize: '8px',
+                            width: 'fit-content',
+                            alignSelf: 'flex-end',
+                          }}
+                        >
+                          {info.date}
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                ))
+              )}
+            </Grid>
+          </Grid>
+
+          <Grid item container xs={12} height="fit-content" mb={5}>
+            <Grid item mb={4}>
+              <Typography css={reviewLabel}>오픈 채널</Typography>
+            </Grid>
+            <Grid item container columns={{ xs: 4 }} columnGap={6}>
+              {rightInfosB.length === 0 ? (
+                <Grid
+                  item
+                  xs={1}
+                  sx={{
+                    backgroundColor: '#C4C4C4',
+                    borderRadius: '50%',
+                    height: '125px',
+                    width: '125px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <AddCircleOutlineIcon fontSize="large" />
+                </Grid>
+              ) : (
+                rightInfosB.map((info) => (
+                  <Grid item xs={1} css={openChannelCell}>
+                    <Grid css={openChannelCard}>
+                      <Avatar
+                        alt={info.name}
+                        src={info.imgUrl ? info.imgUrl : 'none'}
+                        sx={{
+                          backgroundColor: randomColor(info.name),
+                          width: '100%',
+                          height: '125px',
+                        }}
+                      />
+                      <Typography sx={openChannelName}>{info.name}</Typography>
+                    </Grid>
+                  </Grid>
+                ))
+              )}
+            </Grid>
+          </Grid>
+
+          <Grid item container xs={12} height="fit-content" mb={5}>
+            <Grid item mb={4}>
+              <Typography css={reviewLabel}>참여 채널</Typography>
+            </Grid>
+            <Grid item container columns={{ xs: 4 }} columnGap={6}>
+              {rightInfosC.length === 0 ? (
+                <Grid
+                  item
+                  xs={1}
+                  sx={{
+                    backgroundColor: '#C4C4C4',
+                    borderRadius: '50%',
+                    height: '125px',
+                    width: '125px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <AddCircleOutlineIcon fontSize="large" />
+                </Grid>
+              ) : (
+                rightInfosC.map((info) => (
+                  <Grid item xs={1} css={openChannelCell}>
+                    <Grid css={openChannelCard}>
+                      <Avatar
+                        alt={info.name}
+                        src={info.imgUrl ? info.imgUrl : 'none'}
+                        sx={{
+                          backgroundColor: randomColor(info.name),
+                          width: '100%',
+                          height: '125px',
+                        }}
+                      />
+                      <Typography sx={openChannelName}>{info.name}</Typography>
+                    </Grid>
+                  </Grid>
+                ))
+              )}
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
     </Grid>
@@ -234,7 +457,7 @@ const reviewLabel = css`
   border-radius: 24px;
   padding: 0 8px;
   margin: 4px 0;
-  font-weight: 600;
+  font-weight: 700;
 `;
 
 const reviewNum = css`
@@ -259,7 +482,51 @@ const editProfileButton = css`
 `;
 
 const rightProfile = css`
-  height: 800px;
+  padding-left: 50px;
+`;
+
+const archiveCell = css`
+  width: 165px;
+  height: 240px;
+`;
+
+const archiveCard = css`
+  border-radius: 5px;
+  height: 100%;
+  color: white;
+`;
+
+const archiveTitle = css`
+  font-size: 12px;
+  font-weight: 700;
+  height: 36px;
+  width: 124px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.2rem;
+  height: 2.4rem;
+`;
+
+const openChannelCell = css`
+  width: 125px;
+  height: 170px;
+`;
+
+const openChannelCard = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const openChannelName = css`
+  margin-top: 15px;
+  font-size: 14px;
+  text-align: center;
+  word-break: keep-all;
 `;
 
 export default Profile;
