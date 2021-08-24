@@ -70,12 +70,7 @@ const SignupContainer = ({ OAuthComponent }) => {
 
   useEffect(() => {
     if (user) {
-      alert(`${user.nickname}님 안녕하세요!`);
-      if (!user.profile) {
-        history.push('/uploadProfile');
-      } else {
-        history.push('/');
-      }
+      history.push('/');
     }
   }, [user, history]);
 

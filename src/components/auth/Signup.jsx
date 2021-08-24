@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useState } from 'react';
-import { Divider, Grid, Typography, useMediaQuery } from '@material-ui/core';
+import { Grid, Typography, useMediaQuery } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import {
   isCode,
@@ -32,7 +32,7 @@ const Signup = ({
   OAuthComponent,
 }) => {
   const m600 = useMediaQuery('(max-width:600px)');
-  const m1200 = useMediaQuery('(max-width: 1200px)');
+  const m1200 = useMediaQuery('(max-width: 1199px)');
 
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
@@ -124,25 +124,17 @@ const Signup = ({
         </Link>
       </Grid>
 
-      <Grid
-        item
-        container
-        xs={12}
-        lg={6}
-        p={5}
-        alignItems="center"
-        sx={!m1200 && { marginLeft: '50vw' }}
-      >
-        <Grid item container sx={form}>
+      <Grid item container xs={12} lg={6} sx={form}>
+        <Grid item container justifyContent="center" alignItems="center">
           <Grid item xs={10}>
             <Typography variant="h4" textAlign="center" sx={title}>
-              회원 가입
+              간편 회원 가입
             </Typography>
           </Grid>
 
           <Grid item container xs={12} justifyContent="center">
             <Typography sx={link}>
-              <Link to="/signin">이미 계정이 있으신가요? 로그인하기</Link>
+              <Link to="/signin">이미 가입된 회원이신가요? 로그인하기</Link>
             </Typography>
           </Grid>
 
@@ -186,7 +178,7 @@ const Signup = ({
                 value={code}
                 onChange={handleCodeChange}
                 disabled={!codeSent}
-                sx={(input, codeInput)}
+                css={(input, codeInput)}
               />
               {!codeSent ? (
                 emailSendLoading ? (
@@ -194,7 +186,8 @@ const Signup = ({
                     type="spinningBubbles"
                     color={palette.black}
                     style={{
-                      margin: '0 20px',
+                      marginLeft: m600 ? '15px' : '30px',
+                      marginRight: m600 ? '35px' : '50px',
                       width: '40px',
                       height: '40px',
                     }}
@@ -203,16 +196,9 @@ const Signup = ({
                   <Button
                     disabled={!email || emailError || !emailChecked || codeSent}
                     onClick={onSendCodeClick}
-                    sx={{
-                      width: '80px',
-                      height: '45px',
-                      borderRadius: '50vh',
-                      lineHeight: '1rem',
-                    }}
+                    css={sendCodeButton}
                   >
-                    인증번호
-                    <br />
-                    전송
+                    인증번호 전송
                   </Button>
                 )
               ) : (
@@ -225,13 +211,7 @@ const Signup = ({
                     code.length !== 6
                   }
                   onClick={onCheckCodeClick}
-                  sx={{
-                    width: '70px',
-                    height: '40px',
-                    margin: '0 5px',
-                    borderRadius: '50vh',
-                    fontSize: '14px',
-                  }}
+                  css={checkCodeButton}
                 >
                   인증
                 </Button>
@@ -318,10 +298,10 @@ const Signup = ({
             </Grid>
           )}
 
-          <Grid item xs={12} md={10}>
-            <Divider>
-              {m600 ? 'SNS 간편 가입' : 'SNS 계정으로 간편하게 시작하세요!'}
-            </Divider>
+          <Grid item xs={12} md={10} mt="120px" textAlign="center">
+            <Typography>
+              {m600 ? 'SNS 간편 가입' : 'SNS 계정으로 간편하게 시작해보세요'}
+            </Typography>
           </Grid>
 
           <Grid item container xs={12} justifyContent="center">
@@ -338,12 +318,19 @@ const wrapper = css`
   #naverIdLogin {
     position: absolute;
     z-index: 1;
-    a {
-      width: 80px;
-      height: 80px;
+    &:hover::before {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 5rem;
+      height: 5rem;
       border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.3);
     }
     img {
+      width: 5rem;
+      height: 5rem;
+      border-radius: 50%;
       opacity: 0;
     }
   }
@@ -356,55 +343,65 @@ const logoSection = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  height: 100vh;
-  width: 50vw;
+  @media (min-width: 1200px) {
+    position: fixed;
+    height: 100vh;
+    width: 50vw;
+  }
 `;
 
 const smallLogoSection = css`
+  width: 100vw;
   justify-content: flex-start;
   align-items: flex-start;
-  height: 200px;
-  margin-bottom: 118px;
+  height: 12.5rem;
+  margin-bottom: 6rem;
   svg {
-    margin: 26px 0 0 32px;
-    width: 150px;
+    margin: 1.625rem 0 0 2rem;
+    width: 9.375rem;
   }
-  position: static;
 `;
 
 const form = css`
+  margin-left: 50vw;
+  padding: 4rem 2rem;
   height: fit-content;
+  width: 50vw;
+  display: flex;
   justify-content: center;
   align-items: center;
+  @media (max-width: 1199px) {
+    padding-top: 0;
+    margin-left: 0;
+  }
 `;
 
 const title = css`
   font-weight: 700;
-  font-size: 34px;
+  font-size: 2.125rem;
   font-family: 'Noto Sans KR';
   text-align: center;
-  margin-bottom: 37px;
+  margin-bottom: 2.3125rem;
 `;
 
 const link = css`
-  padding: 10px 20px;
+  padding: 0.625rem 1.25rem;
   width: fit-content;
   text-align: center;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   font-family: 'Noto Sans KR';
-  margin-bottom: 45px;
+  margin-bottom: 2.8125rem;
   &:hover {
-    border-radius: 20px;
+    border-radius: 1.25rem;
     background-color: #e5e5e5;
   }
 `;
 
 const input = css`
-  width: 350px;
-  height: 32px;
-  margin-bottom: 7px;
+  width: 21.875rem;
+  height: 2rem;
+  margin-bottom: 0.4375rem;
   .MuiInput-root {
     &::before {
       border-bottom: 1px solid ${palette.black} !important;
@@ -415,26 +412,51 @@ const input = css`
   }
   .MuiInputLabel-root {
     font-weight: bold;
-    font-size: 16px;
+    font-size: 1rem;
   }
   .MuiInputLabel-root.Mui-focused {
     color: black;
-    font-size: 16px !important;
+    font-size: 1rem !important;
   }
 `;
 
 const codeInput = css`
-  width: 270px;
+  width: 200px;
+  margin-right: 30px;
+  @media (max-width: 600px) {
+    width: 142.5px;
+  }
+`;
+
+const sendCodeButton = css`
+  width: 100px;
+  margin-right: 20px;
+  height: 40px;
+  border-radius: 50vh;
+  @media (max-width: 600px) {
+    width: 80px;
+    margin-right: 10px;
+  }
+`;
+
+const checkCodeButton = css`
+  width: 64px;
+  margin-right: 56px;
+  height: 40px;
+  border-radius: 50vh;
+  @media (max-width: 600px) {
+    margin-right: 26px;
+  }
 `;
 
 const submitButton = css`
-  width: 350px;
-  height: 62px;
+  width: 21.875rem;
+  height: 3.875rem;
   background: black;
-  font-size: 20px;
-  border-radius: 10px;
-  margin-top: 36px;
-  margin-bottom: 12px;
+  font-size: 1.25rem;
+  border-radius: 0.625rem;
+  margin-top: 50px;
+
   &:hover {
     background: rgba(0, 0, 0, 0.8);
   }

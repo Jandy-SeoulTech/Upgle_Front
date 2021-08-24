@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { check } from './modules/user';
 import SetNicknamePage from './pages/SetNicknamePage';
 import ProfilePage from './pages/ProfilePage';
+import UploadProfilePage from './pages/UploadProfilePage';
 
 function App() {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ function App() {
       <Route path="/signin" exact component={SigninPage} />
       <Route path="/nickname" exact component={SetNicknamePage} />
       <Route path="/profile/:id" component={ProfilePage} />
+      <Route path="/uploadProfile" exact component={UploadProfilePage} />
     </BrowserRouter>
   );
 }
