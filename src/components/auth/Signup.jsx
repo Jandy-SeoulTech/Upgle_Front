@@ -178,7 +178,7 @@ const Signup = ({
                 value={code}
                 onChange={handleCodeChange}
                 disabled={!codeSent}
-                sx={(input, codeInput)}
+                css={(input, codeInput)}
               />
               {!codeSent ? (
                 emailSendLoading ? (
@@ -186,7 +186,8 @@ const Signup = ({
                     type="spinningBubbles"
                     color={palette.black}
                     style={{
-                      margin: '0 20px',
+                      marginLeft: m600 ? '15px' : '30px',
+                      marginRight: m600 ? '35px' : '50px',
                       width: '40px',
                       height: '40px',
                     }}
@@ -210,7 +211,7 @@ const Signup = ({
                     code.length !== 6
                   }
                   onClick={onCheckCodeClick}
-                  css={verifyCodeButton}
+                  css={checkCodeButton}
                 >
                   인증
                 </Button>
@@ -297,7 +298,7 @@ const Signup = ({
             </Grid>
           )}
 
-          <Grid item xs={12} md={10} mt={2} textAlign="center">
+          <Grid item xs={12} md={10} mt="120px" textAlign="center">
             <Typography>
               {m600 ? 'SNS 간편 가입' : 'SNS 계정으로 간편하게 시작해보세요'}
             </Typography>
@@ -369,7 +370,7 @@ const form = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  @media (max-width: 1200px) {
+  @media (max-width: 1199px) {
     padding-top: 0;
     margin-left: 0;
   }
@@ -420,48 +421,31 @@ const input = css`
 `;
 
 const codeInput = css`
-  width: 16.875rem;
   width: 200px;
-  margin-right: 70px;
-  @media (max-width: 1200px) {
-    width: 200px;
-    margin-right: 70px;
-  }
+  margin-right: 30px;
   @media (max-width: 600px) {
-    width: 150px;
-    margin-right: 50px;
+    width: 142.5px;
   }
 `;
 
 const sendCodeButton = css`
-  width: 80px;
-  height: 45px;
-  line-height: 1rem;
+  width: 100px;
+  margin-right: 20px;
+  height: 40px;
   border-radius: 50vh;
-  @media (max-width: 1200px) {
-    width: 80px;
-    height: 45px;
-    line-height: 1.2rem;
-  }
   @media (max-width: 600px) {
-    width: 62.5px;
-    height: 36px;
-    line-height: 1.2rem;
+    width: 80px;
+    margin-right: 10px;
   }
 `;
 
-const verifyCodeButton = css`
-  width: 80px;
-  height: 45px;
-  line-height: 1rem;
+const checkCodeButton = css`
+  width: 64px;
+  margin-right: 56px;
+  height: 40px;
   border-radius: 50vh;
-  @media (max-width: 1200px) {
-    width: 80px;
-    height: 45px;
-  }
   @media (max-width: 600px) {
-    width: 62.5px;
-    height: 36px;
+    margin-right: 26px;
   }
 `;
 
@@ -471,7 +455,8 @@ const submitButton = css`
   background: black;
   font-size: 1.25rem;
   border-radius: 0.625rem;
-  margin-top: 2rem;
+  margin-top: 50px;
+
   &:hover {
     background: rgba(0, 0, 0, 0.8);
   }
