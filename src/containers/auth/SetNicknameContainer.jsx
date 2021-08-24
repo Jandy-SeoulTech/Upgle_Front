@@ -8,7 +8,7 @@ import {
   nicknameChanged,
   setNickname,
 } from '../../modules/auth';
-import { setNicknameState } from '../../modules/user';
+import { check, setNicknameState } from '../../modules/user';
 
 const SetNicknameContainer = (props) => {
   const { user } = useSelector((state) => state.user);
@@ -39,6 +39,7 @@ const SetNicknameContainer = (props) => {
   useEffect(() => {
     if (!!setNicknameSuccess) {
       dispatch(setNicknameState({ nickname: setNicknameSuccess }));
+      dispatch(check());
       history.push('/');
     }
   }, [setNicknameSuccess, history, dispatch]);
