@@ -70,7 +70,7 @@ const Signup = ({
         setCodeError(false);
       }
     } else {
-      setCodeError(true);
+      setCodeError('영문, 숫자만 입력할 수 있습니다.');
     }
   };
 
@@ -105,11 +105,21 @@ const Signup = ({
   };
 
   const onSendCodeClick = () => {
-    onSendCode({ email });
+    if (!email || emailError || !emailChecked || codeSent) {
+      setEmailError('유효한 이메일을 입력해주세요.');
+    } else {
+      setEmailError(false);
+      onSendCode({ email });
+    }
   };
 
   const onCheckCodeClick = () => {
-    onCheckCode({ email, code });
+    if (!email || emailError || !codeSent || codeError || code.length !== 6) {
+      setCodeError('유효한 인증번호를 입력해주세요.');
+    } else {
+      setCodeError(false);
+      onCheckCode({ email, code });
+    }
   };
 
   const handleSubmit = () => {
@@ -170,7 +180,7 @@ const Signup = ({
                 error={codeError || codeVerified === false}
                 helperText={
                   codeError
-                    ? '영문, 숫자만 입력할 수 있습니다.'
+                    ? codeError
                     : emailChecked &&
                       codeVerified === false &&
                       '인증번호를 다시 확인해주세요.'
@@ -193,26 +203,12 @@ const Signup = ({
                     }}
                   />
                 ) : (
-                  <Button
-                    disabled={!email || emailError || !emailChecked || codeSent}
-                    onClick={onSendCodeClick}
-                    css={sendCodeButton}
-                  >
+                  <Button onClick={onSendCodeClick} css={sendCodeButton}>
                     인증번호 전송
                   </Button>
                 )
               ) : (
-                <Button
-                  disabled={
-                    !email ||
-                    emailError ||
-                    !codeSent ||
-                    codeError ||
-                    code.length !== 6
-                  }
-                  onClick={onCheckCodeClick}
-                  css={checkCodeButton}
-                >
+                <Button onClick={onCheckCodeClick} css={checkCodeButton}>
                   인증
                 </Button>
               )}
@@ -259,7 +255,7 @@ const Signup = ({
               size="small"
               fullWidth
               label="닉네임"
-              placeholder="4 ~ 8자 제한"
+              placeholder="10자 이내"
               autoComplete="new-nickname"
               error={nicknameError || nicknameChecked === false}
               helperText={
@@ -298,7 +294,7 @@ const Signup = ({
             </Grid>
           )}
 
-          <Grid item xs={12} md={10} mt="120px" textAlign="center">
+          <Grid item xs={12} md={10} mt="80px" textAlign="center">
             <Typography>
               {m600 ? 'SNS 간편 가입' : 'SNS 계정으로 간편하게 시작해보세요'}
             </Typography>
@@ -433,6 +429,11 @@ const sendCodeButton = css`
   margin-right: 20px;
   height: 40px;
   border-radius: 50vh;
+  background: black;
+  color: white;
+  &:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
   @media (max-width: 600px) {
     width: 80px;
     margin-right: 10px;
@@ -444,6 +445,11 @@ const checkCodeButton = css`
   margin-right: 56px;
   height: 40px;
   border-radius: 50vh;
+  background: black;
+  color: white;
+  &:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
   @media (max-width: 600px) {
     margin-right: 26px;
   }
