@@ -8,7 +8,7 @@ import { changeField, uploadProfile } from '../../modules/write';
 
 const UploadProfileContainer = (props) => {
   const { user } = useSelector((state) => state.user);
-  const { department, introduce, welltalent, interesttalent } = useSelector(
+  const { department, introduce, wellTalent, interestTalent } = useSelector(
     (state) => state.write.writeProfile,
   );
   const { profile, error } = useSelector((state) => state.write);
@@ -26,8 +26,8 @@ const UploadProfileContainer = (props) => {
         userId: user.id,
         department,
         introduce,
-        welltalent,
-        interesttalent,
+        wellTalent,
+        interestTalent,
         src: images[0] || null,
       }),
     );
@@ -63,8 +63,8 @@ const UploadProfileContainer = (props) => {
       user={user}
       department={department}
       introduce={introduce}
-      welltalent={welltalent}
-      interesttalent={interesttalent}
+      wellTalent={wellTalent}
+      interestTalent={interestTalent}
       images={images}
       handleChangeFiled={handleChangeFiled}
       handleUploadProfile={handleUploadProfile}

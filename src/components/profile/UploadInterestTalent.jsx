@@ -6,7 +6,7 @@ import palette from '../../lib/styles/palette';
 import TextField from '../common/TextField';
 import ClearIcon from '@material-ui/icons/Clear';
 
-const UploadInterestTalent = ({ interesttalent, handleChangeFiled }) => {
+const UploadInterestTalent = ({ interestTalent, handleChangeFiled }) => {
   const [input, setInput] = useState('');
 
   const handleCahngeTalent = (e) => {
@@ -20,10 +20,10 @@ const UploadInterestTalent = ({ interesttalent, handleChangeFiled }) => {
   };
 
   const handleCreateTalent = () => {
-    if (interesttalent.length < 10) {
+    if (interestTalent.length < 10) {
       handleChangeFiled({
-        key: 'interesttalent',
-        value: interesttalent.concat(input),
+        key: 'interestTalent',
+        value: interestTalent.concat(input),
       });
     }
     setInput('');
@@ -31,8 +31,8 @@ const UploadInterestTalent = ({ interesttalent, handleChangeFiled }) => {
 
   const handleDeleteTalent = (index) => {
     handleChangeFiled({
-      key: 'interesttalent',
-      value: interesttalent.filter((talent, i) => index !== i),
+      key: 'interestTalent',
+      value: interestTalent.filter((talent, i) => index !== i),
     });
   };
 
@@ -43,7 +43,7 @@ const UploadInterestTalent = ({ interesttalent, handleChangeFiled }) => {
       </Typography>
 
       <Grid container spacing={1} css={talentWrapper}>
-        {interesttalent.map((talent, i) => (
+        {interestTalent.map((talent, i) => (
           <Grid item key={i}>
             <Box
               onClick={() => {
@@ -64,8 +64,8 @@ const UploadInterestTalent = ({ interesttalent, handleChangeFiled }) => {
         onChange={handleCahngeTalent}
         onKeyPress={handleKeyPress}
         css={talentInput}
-        error={interesttalent.length >= 10}
-        helperText={interesttalent.length >= 10 && '더이상 추가할 수 없습니다.'}
+        error={interestTalent.length >= 10}
+        helperText={interestTalent.length >= 10 && '더이상 추가할 수 없습니다.'}
       />
     </Box>
   );

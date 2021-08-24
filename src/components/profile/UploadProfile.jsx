@@ -18,8 +18,8 @@ import UploadImage from './UploadImage';
 
 const UploadProfile = ({
   user,
-  welltalent,
-  interesttalent,
+  wellTalent,
+  interestTalent,
   department,
   introduce,
   images,
@@ -45,9 +45,9 @@ const UploadProfile = ({
         return (
           <Button
             onClick={handleNext}
-            css={welltalent.length === 0 && skipButton}
+            css={wellTalent.length === 0 && skipButton}
           >
-            {welltalent.length === 0 ? (
+            {wellTalent.length === 0 ? (
               '건너뛰기'
             ) : (
               <>
@@ -60,9 +60,9 @@ const UploadProfile = ({
         return (
           <Button
             onClick={handleNext}
-            css={interesttalent.length === 0 && skipButton}
+            css={interestTalent.length === 0 && skipButton}
           >
-            {interesttalent.length === 0 ? (
+            {interestTalent.length === 0 ? (
               '건너뛰기'
             ) : (
               <>
@@ -114,14 +114,14 @@ const UploadProfile = ({
       case 0:
         return (
           <UploadWellTalent
-            welltalent={welltalent}
+            wellTalent={wellTalent}
             handleChangeFiled={handleChangeFiled}
           />
         );
       case 1:
         return (
           <UploadInterestTalent
-            interesttalent={interesttalent}
+            interestTalent={interestTalent}
             handleChangeFiled={handleChangeFiled}
           />
         );

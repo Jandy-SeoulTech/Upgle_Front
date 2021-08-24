@@ -6,7 +6,7 @@ import palette from '../../lib/styles/palette';
 import TextField from '../common/TextField';
 import ClearIcon from '@material-ui/icons/Clear';
 
-const UploadWellTalent = ({ welltalent, handleChangeFiled }) => {
+const UploadWellTalent = ({ wellTalent, handleChangeFiled }) => {
   const [input, setInput] = useState('');
 
   const handleCahngeTalent = (e) => {
@@ -20,16 +20,16 @@ const UploadWellTalent = ({ welltalent, handleChangeFiled }) => {
   };
 
   const handleCreateTalent = () => {
-    if (welltalent.length < 10) {
-      handleChangeFiled({ key: 'welltalent', value: welltalent.concat(input) });
+    if (wellTalent.length < 10) {
+      handleChangeFiled({ key: 'wellTalent', value: wellTalent.concat(input) });
     }
     setInput('');
   };
 
   const handleDeleteTalent = (index) => {
     handleChangeFiled({
-      key: 'welltalent',
-      value: welltalent.filter((talent, i) => index !== i),
+      key: 'wellTalent',
+      value: wellTalent.filter((talent, i) => index !== i),
     });
   };
 
@@ -40,7 +40,7 @@ const UploadWellTalent = ({ welltalent, handleChangeFiled }) => {
       </Typography>
 
       <Grid container spacing={1} css={talentWrapper}>
-        {welltalent.map((talent, i) => (
+        {wellTalent.map((talent, i) => (
           <Grid item key={i}>
             <Box
               onClick={() => {
@@ -61,8 +61,8 @@ const UploadWellTalent = ({ welltalent, handleChangeFiled }) => {
         onChange={handleCahngeTalent}
         onKeyPress={handleKeyPress}
         css={talentInput}
-        error={welltalent.length >= 10}
-        helperText={welltalent.length >= 10 && '더이상 추가할 수 없습니다.'}
+        error={wellTalent.length >= 10}
+        helperText={wellTalent.length >= 10 && '더이상 추가할 수 없습니다.'}
       />
     </Box>
   );

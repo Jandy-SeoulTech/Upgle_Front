@@ -17,12 +17,12 @@ export const changeField = createAction(CHANGE_PROFILE, ({ key, value }) => ({
 }));
 export const uploadProfile = createAction(
   UPLOAD_PROFILE,
-  ({ userId, department, introduce, welltalent, interesttalent, src }) => ({
+  ({ userId, department, introduce, wellTalent, interestTalent, src }) => ({
     userId,
     department,
     introduce,
-    welltalent,
-    interesttalent,
+    wellTalent,
+    interestTalent,
     src,
   }),
 );
@@ -40,8 +40,8 @@ const initialState = {
   writeProfile: {
     department: '',
     introduce: '',
-    welltalent: [],
-    interesttalent: [],
+    wellTalent: [],
+    interestTalent: [],
   },
   profile: null,
   error: null,
