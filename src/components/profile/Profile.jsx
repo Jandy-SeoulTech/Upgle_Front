@@ -2,12 +2,13 @@
 import { css } from '@emotion/react';
 import {
   Avatar,
-  Button,
+  Box,
   Grid,
   Typography,
   useMediaQuery,
 } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
+import Button from '../common/Button';
 import palette from '../../lib/styles/palette';
 import { ReactComponent as DepartmentIcon } from '../../lib/assets/departmentIcon.svg';
 import { ReactComponent as EditProfileIcon } from '../../lib/assets/editProfileIcon.svg';
@@ -45,7 +46,7 @@ const Profile = ({ errorMessage }) => {
     },
     {
       title:
-        '홈페이지를 만들 때 사용할 수 있는 여러 무료 이미지 홈페이지를 만들 때 사용할 수 있는 여러 무료 이미지 홈페이지를 만들 때 사용할 수 있는 여러 무료 이미지 ...',
+        '홈페이지를 만들 때 사용할 수 있는 여러 무료 이미지 홈페이지를 만들 때 사용할 수 있는 여러 무료 이미지 홈페이지를 만들 때 사용할 수 있는 여러 무료 이미지',
       date: '2021.08.11',
       imgUrl: 'https://picsum.photos/200',
     },
@@ -134,7 +135,7 @@ const Profile = ({ errorMessage }) => {
                 ))}
               </Grid>
             </Grid>
-            <Grid item container mb={3}>
+            <Grid item container mt={4} mb={6}>
               <Grid
                 item
                 container
@@ -142,7 +143,7 @@ const Profile = ({ errorMessage }) => {
                 alignItems="center"
               >
                 <Typography css={followLabel}>팔로워</Typography>
-                <Typography css={followNum}>12</Typography>
+                <Button sx={orangeSmallLabel}>123</Button>
               </Grid>
               <Grid
                 item
@@ -151,7 +152,7 @@ const Profile = ({ errorMessage }) => {
                 alignItems="center"
               >
                 <Typography css={followLabel}>팔로잉</Typography>
-                <Typography css={followNum}>123</Typography>
+                <Button sx={orangeSmallLabel}>123</Button>
               </Grid>
             </Grid>
             <Grid item container>
@@ -161,7 +162,7 @@ const Profile = ({ errorMessage }) => {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Typography css={reviewLabel}>긍정 리뷰</Typography>
+                <Button sx={orangeLabel}>긍정 리뷰</Button>
                 <Typography css={reviewNum}>123</Typography>
               </Grid>
               {reviews.map((review) => (
@@ -176,10 +177,10 @@ const Profile = ({ errorMessage }) => {
             alignItems="center"
             mb={2}
           >
-            <Button css={editProfileButton}>
+            <Button sx={editProfileButton}>
               <EditProfileIcon />
               <Typography
-                sx={{ marginLeft: '8px', fontSize: '20px', fontWeight: '600' }}
+                sx={{ marginLeft: '10px', fontSize: '20px', fontWeight: '700' }}
               >
                 프로필 수정
               </Typography>
@@ -190,14 +191,15 @@ const Profile = ({ errorMessage }) => {
         <Grid item container xs={9} css={rightProfile}>
           <Grid item container xs={12} height="fit-content" mb={5}>
             <Grid item mb={1}>
-              <Typography css={reviewLabel}>모아 보기</Typography>
+              <Button sx={orangeLabel}>모아 보기</Button>
             </Grid>
             <Grid item container columns={{ xs: 4 }} spacing={2}>
               {rightInfosA.length === 0 ? (
                 <Grid item xs={1} css={archiveCell}>
                   <Grid
-                    css={archiveCard}
                     sx={{
+                      borderRadius: '5px',
+                      height: '100%',
                       backgroundColor: 'white',
                       backgroundImage:
                         'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 75.52%, rgba(0, 0, 0, 0.4) 100%)',
@@ -207,8 +209,8 @@ const Profile = ({ errorMessage }) => {
                       alignItems: 'center',
                     }}
                   >
-                    <AddCircleOutlineIcon width="36px" />
-                    <Typography fontSize="14px" color="black" mt={1}>
+                    <AddCircleOutlineIcon fontSize="large" />
+                    <Typography fontSize="14px" mt={1}>
                       아카이브를 남겨보세요.
                     </Typography>
                   </Grid>
@@ -221,10 +223,6 @@ const Profile = ({ errorMessage }) => {
                       sx={{
                         backgroundColor: randomColor(info.title),
                         backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.510208) 75.52%, rgba(0, 0, 0, 0.79) 100%), url(${info.imgUrl})`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundSize: 'cover',
-                        display: 'flex',
-                        alignItems: 'flex-end',
                       }}
                     >
                       <Grid
@@ -235,6 +233,7 @@ const Profile = ({ errorMessage }) => {
                         }}
                       >
                         <Typography
+                          className="archiveTitle"
                           gutterBottom
                           component="div"
                           sx={archiveTitle}
@@ -260,7 +259,7 @@ const Profile = ({ errorMessage }) => {
 
           <Grid item container xs={12} height="fit-content" mb={5}>
             <Grid item mb={4}>
-              <Typography css={reviewLabel}>오픈 채널</Typography>
+              <Button sx={orangeLabel}>오픈 채널</Button>
             </Grid>
             <Grid item container columns={{ xs: 4 }} columnGap={6}>
               {rightInfosB.length === 0 ? (
@@ -281,18 +280,25 @@ const Profile = ({ errorMessage }) => {
                 </Grid>
               ) : (
                 rightInfosB.map((info) => (
-                  <Grid item xs={1} css={openChannelCell}>
-                    <Grid css={openChannelCard}>
-                      <Avatar
-                        alt={info.name}
-                        src={info.imgUrl ? info.imgUrl : 'none'}
+                  <Grid item xs={1} css={channelCell}>
+                    <Grid css={channelCard}>
+                      <Box
                         sx={{
+                          backgroundImage: `url(${info.imgUrl})`,
                           backgroundColor: randomColor(info.name),
+                          backgroundRepeat: 'no-repeat',
+                          backgroundSize: 'cover',
                           width: '100%',
                           height: '125px',
+                          borderRadius: '50%',
+                          ':hover': {
+                            backgroundImage: info.imgUrl
+                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${info.imgUrl})`
+                              : 'linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%)',
+                          },
                         }}
-                      />
-                      <Typography sx={openChannelName}>{info.name}</Typography>
+                      ></Box>
+                      <Typography sx={channelName}>{info.name}</Typography>
                     </Grid>
                   </Grid>
                 ))
@@ -302,7 +308,7 @@ const Profile = ({ errorMessage }) => {
 
           <Grid item container xs={12} height="fit-content" mb={5}>
             <Grid item mb={4}>
-              <Typography css={reviewLabel}>참여 채널</Typography>
+              <Button sx={orangeLabel}>참여 채널</Button>
             </Grid>
             <Grid item container columns={{ xs: 4 }} columnGap={6}>
               {rightInfosC.length === 0 ? (
@@ -323,18 +329,25 @@ const Profile = ({ errorMessage }) => {
                 </Grid>
               ) : (
                 rightInfosC.map((info) => (
-                  <Grid item xs={1} css={openChannelCell}>
-                    <Grid css={openChannelCard}>
-                      <Avatar
-                        alt={info.name}
-                        src={info.imgUrl ? info.imgUrl : 'none'}
+                  <Grid item xs={1} css={channelCell}>
+                    <Grid css={channelCard}>
+                      <Box
                         sx={{
+                          backgroundImage: `url(${info.imgUrl})`,
                           backgroundColor: randomColor(info.name),
+                          backgroundRepeat: 'no-repeat',
+                          backgroundSize: 'cover',
                           width: '100%',
                           height: '125px',
+                          borderRadius: '50%',
+                          ':hover': {
+                            backgroundImage: info.imgUrl
+                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${info.imgUrl})`
+                              : 'linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%)',
+                          },
                         }}
-                      />
-                      <Typography sx={openChannelName}>{info.name}</Typography>
+                      ></Box>
+                      <Typography sx={channelName}>{info.name}</Typography>
                     </Grid>
                   </Grid>
                 ))
@@ -378,6 +391,7 @@ const leftProfileTop = css`
   justify-content: center;
   align-items: center;
   padding: 10px 5px;
+  margin-bottom: 36px;
 `;
 
 const avatar = css`
@@ -394,7 +408,7 @@ const nickname = css`
 
 const introduce = css`
   font-size: 14px;
-  margin-bottom: 8px;
+  margin-bottom: 20px;
 `;
 
 const department = css`
@@ -412,7 +426,7 @@ const leftProfileMiddle = css`
 `;
 
 const talentLabel = css`
-  font-size: 1.2rem;
+  font-size: 16px;
   font-weight: 700;
   margin-bottom: 10px;
 `;
@@ -421,47 +435,61 @@ const talentTags = css`
   display: flex;
   flex-wrap: wrap;
   gap: 10px 10px;
-  margin-bottom: 24px;
+  margin-bottom: 30px;
 `;
 
 const talentTag = css`
   border-radius: 14px;
-  background-color: ${palette.gray};
+  background-color: #7b7b7b;
   color: ${palette.white};
   text-align: center;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 700;
   width: fit-content;
   height: fit-content;
   padding: 4px 10px;
 `;
 
 const followLabel = css`
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 16px;
 `;
 
-const followNum = css`
-  font-size: 12px;
-  height: fit-content;
-  border: 1px solid ${palette.gray};
-  border-radius: 24px;
+const orangeLabel = css`
+  background-color: #fff;
+  color: black;
+  font-size: 16px;
+  font-weight: 700;
+  height: 32px;
+  border: 1px solid gray;
+  border-radius: 32px;
   padding: 0 8px;
   margin: 4px 0;
+  &:hover {
+    border-color: #ff511b;
+    background-color: #ff511b;
+    color: white;
+  }
 `;
-
-const reviewLabel = css`
+const orangeSmallLabel = css`
+  background-color: #fff;
+  color: black;
   font-size: 14px;
-  height: fit-content;
+  font-weight: 500;
+  height: 24px;
   border: 1px solid gray;
   border-radius: 24px;
   padding: 0 8px;
   margin: 4px 0;
-  font-weight: 700;
+  width: fit-content;
+  &:hover {
+    border-color: #ff511b;
+    background-color: #ff511b;
+    color: white;
+  }
 `;
 
 const reviewNum = css`
-  font-size: 14px;
+  font-size: 16px;
 `;
 
 const reviewText = css`
@@ -472,7 +500,7 @@ const reviewText = css`
 const editProfileButton = css`
   color: ${palette.black};
   width: 95%;
-  height: 42px;
+  height: 50px;
   border-radius: 8px;
   background-color: ${palette.black};
   color: white;
@@ -491,38 +519,44 @@ const archiveCell = css`
 `;
 
 const archiveCard = css`
+  cursor: pointer;
   border-radius: 5px;
   height: 100%;
   color: white;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: flex-end;
+  &:not(:hover) .archiveTitle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
 `;
 
 const archiveTitle = css`
+  transition: all ease 0.2s;
   font-size: 12px;
   font-weight: 700;
-  height: 36px;
   width: 124px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  line-height: 1.2rem;
-  height: 2.4rem;
 `;
 
-const openChannelCell = css`
+const channelCell = css`
   width: 125px;
   height: 170px;
 `;
 
-const openChannelCard = css`
+const channelCard = css`
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
 
-const openChannelName = css`
+const channelName = css`
   margin-top: 15px;
   font-size: 14px;
   text-align: center;
