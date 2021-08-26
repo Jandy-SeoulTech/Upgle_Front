@@ -147,6 +147,7 @@ const headerWrapper = css`
   justify-content: center;
   position: fixed;
   top: 0;
+  z-index: 1000;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
 `;
 
