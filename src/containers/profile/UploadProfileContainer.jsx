@@ -57,10 +57,10 @@ const UploadProfileContainer = (props) => {
     }
   }, [history, user]);
 
-  if (!user) return 'loading';
+  // if (!user) return 'loading';
   return (
     <UploadProfile
-      user={user}
+      // user={user}
       department={department}
       introduce={introduce}
       wellTalent={wellTalent}

@@ -8,7 +8,7 @@ const ChannelCard = ({ channelInfo }) => {
   const history = useHistory();
 
   const handleMoveChannel = () => {
-    history.push(`/channel/${channelInfo.id}`);
+    history.push(`/channelProfile/${channelInfo.id}`);
   };
 
   return (

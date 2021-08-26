@@ -100,7 +100,7 @@ const listTitle = css`
 `;
 
 const asignChatListWrapper = css`
-  margin-top: 11.8125rem;
+  margin-top: 6.21875rem;
 `;
 
 const openChannelWrapper = css`
