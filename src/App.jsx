@@ -26,7 +26,7 @@ function App() {
       <Route path="/signup" exact component={SignupPage} />
       <Route path="/signin" exact component={SigninPage} />
       <Route path="/nickname" exact component={SetNicknamePage} />
-      <Route path="/profile/:id" component={ProfilePage} />
+      <Route path="/profile/:userId" component={ProfilePage} />
       <Route path="/uploadProfile" exact component={UploadProfilePage} />
     </BrowserRouter>
   );

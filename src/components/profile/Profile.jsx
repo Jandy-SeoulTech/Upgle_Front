@@ -12,7 +12,9 @@ import Button from '../common/Button';
 import palette from '../../lib/styles/palette';
 import { ReactComponent as DepartmentIcon } from '../../lib/assets/departmentIcon.svg';
 import { ReactComponent as EditProfileIcon } from '../../lib/assets/editProfileIcon.svg';
+import AddIcon from '@material-ui/icons/Add';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import CheckIcon from '@material-ui/icons/Check';
 
 const randomColor = (title) => {
   const colors = [
@@ -28,12 +30,10 @@ const randomColor = (title) => {
   return colors[title.length % colors.length];
 };
 
-const Profile = ({ errorMessage }) => {
+const Profile = ({ getProfileLoading, me, user, profile, errorMessage }) => {
   const { id } = useParams();
   const m1200 = useMediaQuery('(max-width: 1199px)');
 
-  const wellTalent = ['팝핀', '방송 댄스', '못질'];
-  const interestTalent = ['스페인어', '베이킹', '달리기'];
   const reviews = [
     '팝핀 정말 잘춰요~기본기를 정말 탄탄하게 알려줘서 처음 배우는 사람도 재미있게 배울 수 있어요! 댄싱퀸펭귄님 최고!',
     '진짜 너무 친절하세요~제가 못질은 처음이라서 질문을 계속 물어봐서 귀찮을만도 한데 하나하나 알려주서 잘 배울 수 있었어요. 못질 기본기 없으신 분들은 펭귄님 채널 추천!!!',
@@ -94,44 +94,78 @@ const Profile = ({ errorMessage }) => {
     { name: '인물사진 기초 클래스', imgUrl: 'https://picsum.photos/100' },
   ];
 
+  if (getProfileLoading) {
+    return (
+      <Grid container css={wrapper}>
+        프로필 가져오는 중...
+      </Grid>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <Grid container css={wrapper}>
+        프로필이 없는 사용자입니다.
+      </Grid>
+    );
+  }
+
   return (
     <Grid container css={wrapper}>
       <Grid item container xs={12} css={widthContainer}>
         <Grid item container xs={3} css={leftProfile}>
           <Grid item container css={leftProfileTop}>
             <Grid item>
-              <Avatar css={avatar} />
+              <Avatar css={avatar} src={profile.profile.profileImage.src} />
             </Grid>
             <Grid item>
-              <Typography css={nickname}>nickname</Typography>
+              <Typography css={nickname}>{profile.nickname}</Typography>
             </Grid>
-            <Grid item>
+            {!me && !user.followers.map((el) => el.id).includes(profile.id) ? (
+              <Button sx={followButton}>
+                <AddIcon />
+                <Typography className="title">팔로우</Typography>
+              </Button>
+            ) : (
+              <Button sx={followingButton}>
+                <CheckIcon />
+                <Typography className="title">팔로잉</Typography>
+              </Button>
+            )}
+            <Grid item alignSelf="flex-start">
               <Typography css={introduce}>
-                안녕하세요. 저는 춤추는 것을 좋아합니다. 다양한 재능을 배우고
-                싶어요
+                {profile.profile.introduce}
               </Typography>
             </Grid>
             <Grid item container css={department}>
               <DepartmentIcon />
               <Typography sx={{ marginLeft: '8px', fontSize: '14px' }}>
-                과기대 컴공
+                {profile.profile.department}
               </Typography>
             </Grid>
           </Grid>
           <Grid item container css={leftProfileMiddle}>
             <Grid item container px={1}>
-              <Typography css={talentLabel}>잘하는 재능</Typography>
+              <Grid item xs={12}>
+                <Typography css={talentLabel}>잘하는 재능</Typography>
+              </Grid>{' '}
               <Grid item css={talentTags}>
-                {wellTalent.map((talent) => (
-                  <Typography css={talentTag}>{talent}</Typography>
+                {profile.profile.wellTalent.map((talent, i) => (
+                  <Typography key={i} css={talentTag}>
+                    {talent.contents}
+                  </Typography>
                 ))}
               </Grid>
             </Grid>
             <Grid item container px={1}>
-              <Typography css={talentLabel}>관심있는 재능</Typography>
+              <Grid item xs={12}>
+                <Typography css={talentLabel}>관심있는 재능</Typography>
+              </Grid>
               <Grid item css={talentTags}>
-                {interestTalent.map((talent) => (
-                  <Typography css={talentTag}>{talent}</Typography>
+                {profile.profile.interestTalent.map((talent, i) => (
+                  <Typography key={i} css={talentTag}>
+                    {talent.contents}
+                  </Typography>
                 ))}
               </Grid>
             </Grid>
@@ -143,7 +177,9 @@ const Profile = ({ errorMessage }) => {
                 alignItems="center"
               >
                 <Typography css={followLabel}>팔로워</Typography>
-                <Button sx={orangeSmallLabel}>123</Button>
+                <Button sx={orangeSmallLabel}>
+                  {profile.followers.length}
+                </Button>
               </Grid>
               <Grid
                 item
@@ -152,7 +188,9 @@ const Profile = ({ errorMessage }) => {
                 alignItems="center"
               >
                 <Typography css={followLabel}>팔로잉</Typography>
-                <Button sx={orangeSmallLabel}>123</Button>
+                <Button sx={orangeSmallLabel}>
+                  {profile.followings.length}
+                </Button>
               </Grid>
             </Grid>
             <Grid item container>
@@ -165,27 +203,35 @@ const Profile = ({ errorMessage }) => {
                 <Button sx={orangeLabel}>긍정 리뷰</Button>
                 <Typography css={reviewNum}>123</Typography>
               </Grid>
-              {reviews.map((review) => (
-                <Typography css={reviewText}>{review}</Typography>
+              {reviews.map((review, i) => (
+                <Typography key={i} css={reviewText}>
+                  {review}
+                </Typography>
               ))}
             </Grid>
           </Grid>
-          <Grid
-            item
-            container
-            justifyContent="center"
-            alignItems="center"
-            mb={2}
-          >
-            <Button sx={editProfileButton}>
-              <EditProfileIcon />
-              <Typography
-                sx={{ marginLeft: '10px', fontSize: '20px', fontWeight: '700' }}
-              >
-                프로필 수정
-              </Typography>
-            </Button>
-          </Grid>
+          {me && (
+            <Grid
+              item
+              container
+              justifyContent="center"
+              alignItems="center"
+              mb={2}
+            >
+              <Button sx={editProfileButton}>
+                <EditProfileIcon />
+                <Typography
+                  sx={{
+                    marginLeft: '10px',
+                    fontSize: '20px',
+                    fontWeight: '700',
+                  }}
+                >
+                  프로필 수정
+                </Typography>
+              </Button>
+            </Grid>
+          )}
         </Grid>
 
         <Grid item container xs={9} css={rightProfile}>
@@ -193,7 +239,7 @@ const Profile = ({ errorMessage }) => {
             <Grid item mb={1}>
               <Button sx={orangeLabel}>모아 보기</Button>
             </Grid>
-            <Grid item container columns={{ xs: 4 }} spacing={2}>
+            <Grid item container columns={4} spacing={2}>
               {rightInfosA.length === 0 ? (
                 <Grid item xs={1} css={archiveCell}>
                   <Grid
@@ -216,8 +262,8 @@ const Profile = ({ errorMessage }) => {
                   </Grid>
                 </Grid>
               ) : (
-                rightInfosA.map((info) => (
-                  <Grid item xs={1} css={archiveCell}>
+                rightInfosA.map((info, i) => (
+                  <Grid key={i} item xs={1} css={archiveCell}>
                     <Grid
                       css={archiveCard}
                       sx={{
@@ -261,7 +307,7 @@ const Profile = ({ errorMessage }) => {
             <Grid item mb={4}>
               <Button sx={orangeLabel}>오픈 채널</Button>
             </Grid>
-            <Grid item container columns={{ xs: 4 }} columnGap={6}>
+            <Grid item container columns={4}>
               {rightInfosB.length === 0 ? (
                 <Grid
                   item
@@ -279,8 +325,8 @@ const Profile = ({ errorMessage }) => {
                   <AddCircleOutlineIcon fontSize="large" />
                 </Grid>
               ) : (
-                rightInfosB.map((info) => (
-                  <Grid item xs={1} css={channelCell}>
+                rightInfosB.map((info, i) => (
+                  <Grid key={i} item xs={1} css={channelCell}>
                     <Grid css={channelCard}>
                       <Box
                         sx={{
@@ -288,7 +334,7 @@ const Profile = ({ errorMessage }) => {
                           backgroundColor: randomColor(info.name),
                           backgroundRepeat: 'no-repeat',
                           backgroundSize: 'cover',
-                          width: '100%',
+                          width: '125px',
                           height: '125px',
                           borderRadius: '50%',
                           ':hover': {
@@ -310,7 +356,7 @@ const Profile = ({ errorMessage }) => {
             <Grid item mb={4}>
               <Button sx={orangeLabel}>참여 채널</Button>
             </Grid>
-            <Grid item container columns={{ xs: 4 }} columnGap={6}>
+            <Grid item container columns={4}>
               {rightInfosC.length === 0 ? (
                 <Grid
                   item
@@ -328,8 +374,8 @@ const Profile = ({ errorMessage }) => {
                   <AddCircleOutlineIcon fontSize="large" />
                 </Grid>
               ) : (
-                rightInfosC.map((info) => (
-                  <Grid item xs={1} css={channelCell}>
+                rightInfosC.map((info, i) => (
+                  <Grid key={i} item xs={1} css={channelCell}>
                     <Grid css={channelCard}>
                       <Box
                         sx={{
@@ -337,7 +383,7 @@ const Profile = ({ errorMessage }) => {
                           backgroundColor: randomColor(info.name),
                           backgroundRepeat: 'no-repeat',
                           backgroundSize: 'cover',
-                          width: '100%',
+                          width: '125px',
                           height: '125px',
                           borderRadius: '50%',
                           ':hover': {
@@ -403,10 +449,55 @@ const avatar = css`
 const nickname = css`
   font-size: 1.4rem;
   font-weight: 700;
-  margin-bottom: 14px;
+`;
+
+const followButton = css`
+  background-color: #ff511b;
+  color: white;
+  width: 180px;
+  height: 40px;
+  border: none;
+  border-radius: 40px;
+  padding: 0 8px;
+  margin: 20px 0;
+
+  .title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-left: 6px;
+  }
+
+  &:hover {
+    border: none;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
+      linear-gradient(0deg, #ff511b, #ff511b);
+  }
+`;
+
+const followingButton = css`
+  color: #ff511b;
+  width: 180px;
+  height: 40px;
+  border-color: #ff511b;
+  border-radius: 40px;
+  padding: 0 8px;
+  margin: 20px 0;
+
+  .title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-left: 6px;
+  }
+
+  &:hover {
+    border-color: #ff511b;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)),
+      linear-gradient(0deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9));
+  }
 `;
 
 const introduce = css`
+  justify-self: flex-start;
   font-size: 14px;
   margin-bottom: 20px;
 `;

@@ -1,53 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useParams } from 'react-router';
 import Profile from '../../components/profile/Profile';
-import { initAuth } from '../../modules/auth';
+import { getProfile, initProfile } from '../../modules/profile';
 import { check } from '../../modules/user';
 
 const ProfileContainer = () => {
   const { auth, error } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.user);
+  const { profile } = useSelector((state) => state.profile);
+  const getProfileLoading = useSelector(
+    (state) => state.loading['profile/GET_PROFILE'],
+  );
+
   const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
-  const history = useHistory();
+  const { userId } = useParams();
 
   useEffect(() => {
+    dispatch(getProfile({ userId }));
     return () => {
-      dispatch(initAuth());
+      dispatch(initProfile());
     };
   }, [dispatch]);
 
   useEffect(() => {
-    if (error) {
-      setErrorMessage('로그인에 실패했습니다');
-    }
     if (auth) {
       dispatch(check());
     }
   }, [auth, error, dispatch]);
 
   useEffect(() => {
-    if (user) {
-      if (user.isAdmin) {
-        alert('관리자님 환영합니다!');
-        history.push('/admin');
-      } else {
-        if (!user.nickname) {
-          history.push('/nickname');
-        } else {
-          alert(`${user.nickname}님 안녕하세요!`);
-          if (!user.profile) {
-            history.push('/uploadProfile');
-          } else {
-            history.push('/');
-          }
-        }
-      }
+    if (user && profile) {
+      console.log(user.id);
+      console.log(profile.id);
+    } else {
+      console.log('로그인 유저 없음');
     }
-  }, [user, history]);
+  }, [user, profile]);
 
-  return <Profile errorMessage={errorMessage} />;
+  return (
+    <Profile
+      getProfileLoading={getProfileLoading}
+      me={Boolean(user?.id === profile?.id)}
+      user={user}
+      profile={profile}
+      errorMessage={errorMessage}
+    />
+  );
 };
 
 export default ProfileContainer;

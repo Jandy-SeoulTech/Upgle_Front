@@ -1,5 +1,13 @@
 import axios from 'axios';
 
+export const getProfile = async ({ userId }) => {
+  const response = await axios({
+    url: `/api/Profile/${userId}`,
+    method: 'GET',
+  });
+  return response.data;
+};
+
 export const uploadProfile = async ({
   userId,
   department,
