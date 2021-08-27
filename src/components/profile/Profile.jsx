@@ -16,6 +16,8 @@ import AddIcon from '@material-ui/icons/Add';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import CheckIcon from '@material-ui/icons/Check';
 import { getRandomColor } from '../../lib/util/random';
+import { useState } from 'react';
+import Modal from '../common/Modal';
 
 const Profile = ({
   getProfileLoading,
@@ -29,6 +31,13 @@ const Profile = ({
 }) => {
   const { id } = useParams();
   const m1200 = useMediaQuery('(max-width: 1199px)');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const tabs = [
+    { key: 'followers', name: '팔로워', data: '' },
+    { key: 'followings', name: '팔로잉', data: '' },
+    { key: 'reviews', name: '전체 리뷰', data: '' },
+  ];
+  const [currentTab, setCurrentTab] = useState('followers');
 
   const reviews = [
     '팝핀 정말 잘춰요~기본기를 정말 탄탄하게 알려줘서 처음 배우는 사람도 재미있게 배울 수 있어요! 댄싱퀸펭귄님 최고!',
@@ -90,6 +99,11 @@ const Profile = ({
     { name: '인물사진 기초 클래스', imgUrl: 'https://picsum.photos/100' },
   ];
 
+  const openModal = (initialTab) => {
+    setCurrentTab(initialTab);
+    setIsModalOpen(true);
+  };
+
   if (getProfileLoading) {
     return (
       <Grid container css={wrapper}>
@@ -108,6 +122,13 @@ const Profile = ({
 
   return (
     <Grid container css={wrapper}>
+      <Modal
+        isOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        tabs={tabs}
+        currentTab={currentTab}
+        setCurrentTab={setCurrentTab}
+      />
       <Grid item container xs={12} css={widthContainer}>
         <Grid item container xs={3} css={leftProfile}>
           <Grid item container css={leftProfileTop}>
@@ -186,7 +207,10 @@ const Profile = ({
                 alignItems="center"
               >
                 <Typography css={followLabel}>팔로워</Typography>
-                <Button sx={orangeSmallLabel}>
+                <Button
+                  sx={orangeSmallLabel}
+                  onClick={() => openModal('followers')}
+                >
                   {profile.followers.length}
                 </Button>
               </Grid>
@@ -197,7 +221,10 @@ const Profile = ({
                 alignItems="center"
               >
                 <Typography css={followLabel}>팔로잉</Typography>
-                <Button sx={orangeSmallLabel}>
+                <Button
+                  sx={orangeSmallLabel}
+                  onClick={() => openModal('followings')}
+                >
                   {profile.followings.length}
                 </Button>
               </Grid>
@@ -209,7 +236,9 @@ const Profile = ({
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Button sx={orangeLabel}>긍정 리뷰</Button>
+                <Button sx={orangeLabel} onClick={() => openModal('reviews')}>
+                  긍정 리뷰
+                </Button>
                 <Typography css={reviewNum}>123</Typography>
               </Grid>
               {reviews.map((review, i) => (
