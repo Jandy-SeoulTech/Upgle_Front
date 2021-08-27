@@ -15,20 +15,7 @@ import { ReactComponent as EditProfileIcon } from '../../lib/assets/editProfileI
 import AddIcon from '@material-ui/icons/Add';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import CheckIcon from '@material-ui/icons/Check';
-
-const randomColor = (title) => {
-  const colors = [
-    '#FFFFFF',
-    '#FFB49D',
-    '#FFAAB4',
-    '#FF9898',
-    '#87EEC3',
-    '#B9EEFF',
-    '#9CC4FF',
-    '#BEC7FF',
-  ];
-  return colors[title.length % colors.length];
-};
+import { getRandomColor } from '../../lib/util/random';
 
 const Profile = ({
   getProfileLoading,
@@ -288,7 +275,7 @@ const Profile = ({
                     <Grid
                       css={archiveCard}
                       sx={{
-                        backgroundColor: randomColor(info.title),
+                        backgroundColor: getRandomColor(info.title),
                         backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.510208) 75.52%, rgba(0, 0, 0, 0.79) 100%), url(${info.imgUrl})`,
                       }}
                     >
@@ -352,7 +339,7 @@ const Profile = ({
                       <Box
                         sx={{
                           backgroundImage: `url(${info.imgUrl})`,
-                          backgroundColor: randomColor(info.name),
+                          backgroundColor: getRandomColor(info.name),
                           backgroundRepeat: 'no-repeat',
                           backgroundSize: 'cover',
                           width: '125px',
@@ -401,7 +388,7 @@ const Profile = ({
                       <Box
                         sx={{
                           backgroundImage: `url(${info.imgUrl})`,
-                          backgroundColor: randomColor(info.name),
+                          backgroundColor: getRandomColor(info.name),
                           backgroundRepeat: 'no-repeat',
                           backgroundSize: 'cover',
                           width: '125px',
