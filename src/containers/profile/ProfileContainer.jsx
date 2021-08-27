@@ -20,6 +20,7 @@ const ProfileContainer = () => {
     (state) => state.loading['profile/GET_PROFILE'],
   );
 
+  const [isMe, setIsMe] = useState();
   const [isFollowing, setIsFollowing] = useState();
   const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
@@ -48,6 +49,7 @@ const ProfileContainer = () => {
 
   useEffect(() => {
     if (user && profile) {
+      setIsMe(Boolean(user?.id === profile?.id));
       setIsFollowing(
         Boolean(
           profile?.followers.map((el) => el.followerId).includes(user?.id),
@@ -61,7 +63,7 @@ const ProfileContainer = () => {
   return (
     <Profile
       getProfileLoading={getProfileLoading}
-      me={Boolean(user?.id === profile?.id)}
+      isMe={isMe}
       isFollowing={isFollowing}
       user={user}
       profile={profile}

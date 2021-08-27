@@ -19,7 +19,7 @@ import { getRandomColor } from '../../lib/util/random';
 
 const Profile = ({
   getProfileLoading,
-  me,
+  isMe,
   isFollowing,
   user,
   profile,
@@ -117,29 +117,30 @@ const Profile = ({
             <Grid item>
               <Typography css={nickname}>{profile.nickname}</Typography>
             </Grid>
-            {!me && !isFollowing ? (
-              isFollowing !== undefined && (
+            {!isMe &&
+              (!isFollowing ? (
+                isFollowing !== undefined && (
+                  <Button
+                    sx={followButton}
+                    onClick={() => {
+                      onFollow({ followingId: profile.id });
+                    }}
+                  >
+                    <AddIcon />
+                    <Typography className="title">팔로우</Typography>
+                  </Button>
+                )
+              ) : (
                 <Button
-                  sx={followButton}
+                  sx={followingButton}
                   onClick={() => {
-                    onFollow({ followingId: profile.id });
+                    onUnfollow({ followingId: profile.id });
                   }}
                 >
-                  <AddIcon />
-                  <Typography className="title">팔로우</Typography>
+                  <CheckIcon />
+                  <Typography className="title">팔로잉</Typography>
                 </Button>
-              )
-            ) : (
-              <Button
-                sx={followingButton}
-                onClick={() => {
-                  onUnfollow({ followingId: profile.id });
-                }}
-              >
-                <CheckIcon />
-                <Typography className="title">팔로잉</Typography>
-              </Button>
-            )}
+              ))}
             <Grid item alignSelf="flex-start">
               <Typography css={introduce}>
                 {profile.profile.introduce}
@@ -156,7 +157,7 @@ const Profile = ({
             <Grid item container px={1}>
               <Grid item xs={12}>
                 <Typography css={talentLabel}>잘하는 재능</Typography>
-              </Grid>{' '}
+              </Grid>
               <Grid item css={talentTags}>
                 {profile.profile.wellTalent.map((talent, i) => (
                   <Typography key={i} css={talentTag}>
@@ -218,7 +219,7 @@ const Profile = ({
               ))}
             </Grid>
           </Grid>
-          {me && (
+          {isMe && (
             <Grid
               item
               container
@@ -457,6 +458,7 @@ const avatar = css`
 const nickname = css`
   font-size: 1.4rem;
   font-weight: 700;
+  margin-bottom: 10px;
 `;
 
 const followButton = css`
@@ -467,7 +469,7 @@ const followButton = css`
   border: none;
   border-radius: 40px;
   padding: 0 8px;
-  margin: 20px 0;
+  margin: 5px 0;
 
   .title {
     font-size: 16px;
@@ -489,7 +491,7 @@ const followingButton = css`
   border-color: #ff511b;
   border-radius: 40px;
   padding: 0 8px;
-  margin: 20px 0;
+  margin: 5px 0;
 
   .title {
     font-size: 16px;
@@ -507,6 +509,7 @@ const followingButton = css`
 const introduce = css`
   justify-self: flex-start;
   font-size: 14px;
+  margin-top: 10px;
   margin-bottom: 20px;
 `;
 
