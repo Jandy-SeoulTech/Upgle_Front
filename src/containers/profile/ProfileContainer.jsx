@@ -2,38 +2,57 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import Profile from '../../components/profile/Profile';
-import { getProfile, initProfile } from '../../modules/profile';
+import {
+  follow,
+  getProfile,
+  initProfile,
+  unfollow,
+} from '../../modules/profile';
 import { check } from '../../modules/user';
 
 const ProfileContainer = () => {
-  const { auth, error } = useSelector((state) => state.auth);
+  const { auth, error: authError } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.user);
-  const { profile } = useSelector((state) => state.profile);
+  const { profile, error: profileError } = useSelector(
+    (state) => state.profile,
+  );
   const getProfileLoading = useSelector(
     (state) => state.loading['profile/GET_PROFILE'],
   );
 
+  const [isFollowing, setIsFollowing] = useState();
   const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
   const { userId } = useParams();
+
+  const onFollow = ({ followingId }) => {
+    dispatch(follow({ followingId }));
+  };
+
+  const onUnfollow = ({ followingId }) => {
+    dispatch(unfollow({ followingId }));
+  };
 
   useEffect(() => {
     dispatch(getProfile({ userId }));
     return () => {
       dispatch(initProfile());
     };
-  }, [dispatch]);
+  }, [userId, dispatch]);
 
   useEffect(() => {
     if (auth) {
       dispatch(check());
     }
-  }, [auth, error, dispatch]);
+  }, [auth, authError, dispatch]);
 
   useEffect(() => {
     if (user && profile) {
-      console.log(user.id);
-      console.log(profile.id);
+      setIsFollowing(
+        Boolean(
+          profile?.followers.map((el) => el.followerId).includes(user?.id),
+        ),
+      );
     } else {
       console.log('로그인 유저 없음');
     }
@@ -43,8 +62,11 @@ const ProfileContainer = () => {
     <Profile
       getProfileLoading={getProfileLoading}
       me={Boolean(user?.id === profile?.id)}
+      isFollowing={isFollowing}
       user={user}
       profile={profile}
+      onFollow={onFollow}
+      onUnfollow={onUnfollow}
       errorMessage={errorMessage}
     />
   );

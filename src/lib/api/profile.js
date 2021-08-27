@@ -8,6 +8,24 @@ export const getProfile = async ({ userId }) => {
   return response.data;
 };
 
+export const follow = async ({ followingId }) => {
+  const response = await axios({
+    url: `/api/Profile/follow`,
+    method: 'POST',
+    data: { followingId },
+  });
+  return response.data;
+};
+
+export const unfollow = async ({ followingId }) => {
+  const response = await axios({
+    url: `/api/Profile/unfollow`,
+    method: 'POST',
+    data: { followingId },
+  });
+  return response.data;
+};
+
 export const uploadProfile = async ({
   userId,
   department,

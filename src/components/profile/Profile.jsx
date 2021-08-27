@@ -30,7 +30,16 @@ const randomColor = (title) => {
   return colors[title.length % colors.length];
 };
 
-const Profile = ({ getProfileLoading, me, user, profile, errorMessage }) => {
+const Profile = ({
+  getProfileLoading,
+  me,
+  isFollowing,
+  user,
+  profile,
+  onFollow,
+  onUnfollow,
+  errorMessage,
+}) => {
   const { id } = useParams();
   const m1200 = useMediaQuery('(max-width: 1199px)');
 
@@ -121,13 +130,25 @@ const Profile = ({ getProfileLoading, me, user, profile, errorMessage }) => {
             <Grid item>
               <Typography css={nickname}>{profile.nickname}</Typography>
             </Grid>
-            {!me && !user.followers.map((el) => el.id).includes(profile.id) ? (
-              <Button sx={followButton}>
-                <AddIcon />
-                <Typography className="title">팔로우</Typography>
-              </Button>
+            {!me && !isFollowing ? (
+              isFollowing !== undefined && (
+                <Button
+                  sx={followButton}
+                  onClick={() => {
+                    onFollow({ followingId: profile.id });
+                  }}
+                >
+                  <AddIcon />
+                  <Typography className="title">팔로우</Typography>
+                </Button>
+              )
             ) : (
-              <Button sx={followingButton}>
+              <Button
+                sx={followingButton}
+                onClick={() => {
+                  onUnfollow({ followingId: profile.id });
+                }}
+              >
                 <CheckIcon />
                 <Typography className="title">팔로잉</Typography>
               </Button>
