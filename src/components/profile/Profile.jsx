@@ -13,7 +13,6 @@ import palette from '../../lib/styles/palette';
 import { ReactComponent as DepartmentIcon } from '../../lib/assets/departmentIcon.svg';
 import { ReactComponent as EditProfileIcon } from '../../lib/assets/editProfileIcon.svg';
 import AddIcon from '@material-ui/icons/Add';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import CheckIcon from '@material-ui/icons/Check';
 import { getRandomColor } from '../../lib/util/random';
 import { useState } from 'react';
@@ -179,25 +178,37 @@ const Profile = ({
               <Grid item xs={12}>
                 <Typography css={talentLabel}>잘하는 재능</Typography>
               </Grid>
-              <Grid item css={talentTags}>
-                {profile.profile.wellTalent.map((talent, i) => (
-                  <Typography key={i} css={talentTag}>
-                    {talent.contents}
-                  </Typography>
-                ))}
-              </Grid>
+              {profile.profile.wellTalent.length === 0 ? (
+                <Grid item css={noTags}>
+                  등록된 재능이 없습니다.
+                </Grid>
+              ) : (
+                <Grid item css={talentTags}>
+                  {profile.profile.wellTalent.map((talent, i) => (
+                    <Typography key={i} css={talentTag}>
+                      {talent.contents}
+                    </Typography>
+                  ))}
+                </Grid>
+              )}
             </Grid>
             <Grid item container px={1}>
               <Grid item xs={12}>
                 <Typography css={talentLabel}>관심있는 재능</Typography>
               </Grid>
-              <Grid item css={talentTags}>
-                {profile.profile.interestTalent.map((talent, i) => (
-                  <Typography key={i} css={talentTag}>
-                    {talent.contents}
-                  </Typography>
-                ))}
-              </Grid>
+              {profile.profile.interestTalent.length === 0 ? (
+                <Grid item css={noTags}>
+                  등록된 재능이 없습니다.
+                </Grid>
+              ) : (
+                <Grid item css={talentTags}>
+                  {profile.profile.interestTalent.map((talent, i) => (
+                    <Typography key={i} css={talentTag}>
+                      {talent.contents}
+                    </Typography>
+                  ))}
+                </Grid>
+              )}
             </Grid>
             <Grid item container mt={4} mb={6}>
               <Grid
@@ -279,25 +290,8 @@ const Profile = ({
             </Grid>
             <Grid item container columns={4} spacing={2}>
               {rightInfosA.length === 0 ? (
-                <Grid item xs={1} css={archiveCell}>
-                  <Grid
-                    sx={{
-                      borderRadius: '5px',
-                      height: '100%',
-                      backgroundColor: 'white',
-                      backgroundImage:
-                        'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 75.52%, rgba(0, 0, 0, 0.4) 100%)',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <AddCircleOutlineIcon fontSize="large" />
-                    <Typography fontSize="14px" mt={1}>
-                      아카이브를 남겨보세요.
-                    </Typography>
-                  </Grid>
+                <Grid item xs={12} css={noContents}>
+                  아직 등록된 글이 없습니다.
                 </Grid>
               ) : (
                 rightInfosA.map((info, i) => (
@@ -347,20 +341,8 @@ const Profile = ({
             </Grid>
             <Grid item container columns={4}>
               {rightInfosB.length === 0 ? (
-                <Grid
-                  item
-                  xs={1}
-                  sx={{
-                    backgroundColor: '#C4C4C4',
-                    borderRadius: '50%',
-                    height: '125px',
-                    width: '125px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <AddCircleOutlineIcon fontSize="large" />
+                <Grid item xs={12} css={noContents}>
+                  오픈된 채널이 없습니다.
                 </Grid>
               ) : (
                 rightInfosB.map((info, i) => (
@@ -396,20 +378,8 @@ const Profile = ({
             </Grid>
             <Grid item container columns={4}>
               {rightInfosC.length === 0 ? (
-                <Grid
-                  item
-                  xs={1}
-                  sx={{
-                    backgroundColor: '#C4C4C4',
-                    borderRadius: '50%',
-                    height: '125px',
-                    width: '125px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <AddCircleOutlineIcon fontSize="large" />
+                <Grid item xs={12} css={noContents}>
+                  참여하는 채널이 없습니다.
                 </Grid>
               ) : (
                 rightInfosC.map((info, i) => (
@@ -692,6 +662,21 @@ const channelName = css`
   font-size: 14px;
   text-align: center;
   word-break: keep-all;
+`;
+
+const noTags = css`
+  font-size: 12px;
+  color: #5f5f5f;
+  text-align: center;
+  margin: 10px auto 30px auto;
+`;
+
+const noContents = css`
+  font-size: 14px;
+  color: #5f5f5f;
+  text-align: center;
+  height: 200px;
+  line-height: 200px;
 `;
 
 export default Profile;
