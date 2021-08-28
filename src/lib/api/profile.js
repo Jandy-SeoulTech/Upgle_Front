@@ -26,6 +26,22 @@ export const unfollow = async ({ followingId }) => {
   return response.data;
 };
 
+export const getFollowers = async ({ userId }) => {
+  const response = await axios({
+    url: `/api/Profile/followerlist/${userId}`,
+    method: 'GET',
+  });
+  return response.data;
+};
+
+export const getFollowings = async ({ userId }) => {
+  const response = await axios({
+    url: `/api/Profile/followinglist/${userId}`,
+    method: 'GET',
+  });
+  return response.data;
+};
+
 export const uploadProfile = async ({
   userId,
   department,

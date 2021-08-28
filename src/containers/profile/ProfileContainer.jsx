@@ -4,6 +4,8 @@ import { useParams } from 'react-router';
 import Profile from '../../components/profile/Profile';
 import {
   follow,
+  getFollowers,
+  getFollowings,
   getProfile,
   initProfile,
   unfollow,
@@ -13,9 +15,12 @@ import { check } from '../../modules/user';
 const ProfileContainer = () => {
   const { auth, error: authError } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.user);
-  const { profile, error: profileError } = useSelector(
-    (state) => state.profile,
-  );
+  const {
+    profile,
+    followers,
+    followings,
+    error: profileError,
+  } = useSelector((state) => state.profile);
   const getProfileLoading = useSelector(
     (state) => state.loading['profile/GET_PROFILE'],
   );
@@ -32,6 +37,14 @@ const ProfileContainer = () => {
 
   const onUnfollow = ({ followingId }) => {
     dispatch(unfollow({ followingId }));
+  };
+
+  const onGetFollowers = () => {
+    dispatch(getFollowers({ userId }));
+  };
+
+  const onGetFollowings = () => {
+    dispatch(getFollowings({ userId }));
   };
 
   useEffect(() => {
@@ -67,8 +80,12 @@ const ProfileContainer = () => {
       isFollowing={isFollowing}
       user={user}
       profile={profile}
+      followers={followers}
+      followings={followings}
       onFollow={onFollow}
       onUnfollow={onUnfollow}
+      onGetFollowers={onGetFollowers}
+      onGetFollowings={onGetFollowings}
       errorMessage={errorMessage}
     />
   );
