@@ -17,8 +17,8 @@ import UploadImage from './UploadImage';
 
 const UploadProfile = ({
   user,
-  welltalent,
-  interesttalent,
+  wellTalent,
+  interestTalent,
   department,
   introduce,
   images,
@@ -44,9 +44,9 @@ const UploadProfile = ({
         return (
           <Button
             onClick={handleNext}
-            css={welltalent.length === 0 && skipButton}
+            css={wellTalent.length === 0 && skipButton}
           >
-            {welltalent.length === 0 ? (
+            {wellTalent.length === 0 ? (
               '건너뛰기'
             ) : (
               <>
@@ -59,9 +59,9 @@ const UploadProfile = ({
         return (
           <Button
             onClick={handleNext}
-            css={interesttalent.length === 0 && skipButton}
+            css={interestTalent.length === 0 && skipButton}
           >
-            {interesttalent.length === 0 ? (
+            {interestTalent.length === 0 ? (
               '건너뛰기'
             ) : (
               <>
@@ -113,14 +113,14 @@ const UploadProfile = ({
       case 0:
         return (
           <UploadWellTalent
-            welltalent={welltalent}
+            wellTalent={wellTalent}
             handleChangeFiled={handleChangeFiled}
           />
         );
       case 1:
         return (
           <UploadInterestTalent
-            interesttalent={interesttalent}
+            interestTalent={interestTalent}
             handleChangeFiled={handleChangeFiled}
           />
         );
@@ -255,23 +255,26 @@ const smallUploadFormHeader = css`
 const UploadFormTitle = css`
   font-family: 'Barlow', 'Noto Sans KR';
   font-weight: bold;
-  font-size: 34px;
-  margin-left: 67px;
-  margin-top: 110px;
+  font-size: 2.125rem;
+  width: 23.75rem;
+  margin-left: 3.4375rem;
+  margin-top: 6.875rem;
+  word-wrap: break-word;
+  word-break: keep-all;
 `;
 
 const UploadFormDescription = css`
   font-family: 'Barlow', 'Noto Sans KR';
   font-weight: 700;
-  font-size: 24px;
-  margin-left: 67px;
-  margin-top: 52px;
+  font-size: 1.25rem;
+  margin-left: 3.4375rem;
+  margin-top: 3.75rem;
 `;
 
 const uploadFormTitleLogo = css`
   position: relative;
-  top: 220px;
-  left: 280px;
+  top: 12rem;
+  left: 17.5rem;
 `;
 
 const uploadFormSection = css`
