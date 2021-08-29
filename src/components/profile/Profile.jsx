@@ -202,7 +202,15 @@ const Profile = ({
   if (getProfileLoading) {
     return (
       <Grid container css={wrapper}>
-        프로필 가져오는 중...
+        <ReactLoading
+          type="spinningBubbles"
+          color="black"
+          style={{
+            margin: '60px auto 0 auto',
+            width: '60px',
+            height: '60px',
+          }}
+        />
       </Grid>
     );
   }
@@ -516,6 +524,8 @@ const wrapper = css`
   margin-top: 4.0625rem;
   display: flex;
   justify-content: center;
+  align-items: center;
+  min-height: 80vh;
   background-color: #f0f0f0;
 `;
 
