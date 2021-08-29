@@ -7,21 +7,19 @@ import { ReactComponent as MoreIcon } from '../../lib/assets/moreIcon.svg';
 import palette from '../../lib/styles/palette';
 
 import Button from '../common/Button';
-import ChannelCard from './ChannelCard';
-import ChatCard from './ChatCard';
 
-const ChannelProfile = ({ channelData }) => {
+const ChannelProfile = ({ channel, like, collection }) => {
   return (
     <>
       <Box css={head}>
-        <Avatar src={channelData.image} css={headeIcon} />
+        <Avatar src={'channel.image'} css={headeIcon} />
         <Box css={headContent}>
           <Box>
-            <Typography css={headTitle}>{channelData.title}</Typography>
+            <Typography css={headTitle}>{channel.name}</Typography>
             <Typography css={headTotal}>
-              재능 공유 멤버 : {channelData.total}
+              재능 공유 멤버 : {channel.participants.length}
             </Typography>
-            <Typography css={headLike}>좋아요 : {channelData.like}</Typography>
+            <Typography css={headLike}>좋아요 : {like}</Typography>
           </Box>
           <Box css={headButtonWrapper}>
             <Button className="partButton">
@@ -38,20 +36,18 @@ const ChannelProfile = ({ channelData }) => {
       <Box css={ChannelProfileWrapper}>
         <Box>
           <Typography css={sectionTitle}>채널 소개</Typography>
-          <Typography css={channelDescription}>
-            {channelData.description}
-          </Typography>
+          <Typography css={channelDescription}>{channel.introduce}</Typography>
         </Box>
         <Box>
           <Typography css={sectionTitle}>채널 정보</Typography>
           <Box css={channelInfo}>
             <Typography css={channelCategory}>
-              {channelData.category}
+              {channel.category.category.name}
             </Typography>
             <Grid container spacing={2} css={channelTagList}>
-              {channelData.tags.map((tag) => (
-                <Grid item>
-                  <Typography css={channelTag}>{tag}</Typography>
+              {channel.tags.map((tag) => (
+                <Grid item key={tag.tagId}>
+                  <Typography css={channelTag}>{tag.name}</Typography>
                 </Grid>
               ))}
             </Grid>
@@ -64,16 +60,17 @@ const ChannelProfile = ({ channelData }) => {
               <Typography css={adminTitle}>관리자</Typography>
               <Avatar
                 css={channelAdmin}
-                src={channelData.admin.profile.profileImage.src}
+                src={'channel.admin.profile.profileImage.src'}
               />
               <Typography css={adminNickname}>
-                {channelData.admin.nickname}
+                {channel.admin.nickname}
               </Typography>
             </Box>
             <Box css={participantList}>
-              {channelData.participants.map((user) => (
+              {channel.participants.map((user) => (
                 <Avatar
-                  src={user.profile.profileImage.src}
+                  key={user.id}
+                  src={'user.profile.profileImage.src'}
                   css={channelParticipant}
                 />
               ))}
@@ -84,8 +81,8 @@ const ChannelProfile = ({ channelData }) => {
         <Box>
           <Typography css={sectionTitle}>모아보기</Typography>
           <Grid container spacing={3}>
-            {channelData.collection.map((collection) => (
-              <Grid item>
+            {collection.map((collection) => (
+              <Grid item key={collection.id}>
                 <Paper
                   css={[
                     channelCollection,
@@ -114,7 +111,7 @@ const ChannelProfile = ({ channelData }) => {
 
 const head = css`
   width: 100%;
-  margin-top: 65px;
+  margin-top: 3.75rem;
   padding: 5rem calc((100% - 59.125rem) / 2);
   background-color: #f0f0f0;
   display: flex;

@@ -24,7 +24,7 @@ const ChannerHome = ({ channel, ChatListComponent }) => {
 };
 
 const channerHomeWrapper = css`
-  margin-top: 60px;
+  margin-top: 3.75rem;
   margin-bottom: 10rem;
   height: 30rem;
   width: 70vw;

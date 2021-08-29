@@ -4,7 +4,6 @@ import auth, { authSaga } from './auth';
 import user, { userSaga } from './user';
 import chat, { chatSaga } from './chat';
 import channel, { channelSaga } from './channel';
-import channels, { channelsSaga } from './channels';
 import write, { writeSaga } from './write';
 import image, { imageSaga } from './image';
 import loading from './loading';
@@ -16,7 +15,6 @@ const rootReducer = combineReducers({
   user,
   chat,
   channel,
-  channels,
   loading,
   write,
   image,
@@ -29,9 +27,9 @@ export function* rootSaga() {
     userSaga(),
     chatSaga(),
     channelSaga(),
-    channelsSaga(),
+    writeSaga(),
+    imageSaga(),
   ]);
-  yield all([postsSaga(), authSaga(), userSaga(), writeSaga(), imageSaga()]);
 }
 
 export default rootReducer;

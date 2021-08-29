@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import MyChannel from '../../components/channel/MyChannel';
+import { getMychannel } from '../../modules/channel';
 
 const MyChannelContainer = () => {
   const [asignChatList] = useState([
@@ -33,81 +35,20 @@ const MyChannelContainer = () => {
       channel: '건강한 다이어트 식단 만들기',
     },
   ]);
-  const [openChannelList] = useState([
-    {
-      id: 1,
-      title: '팝핀으로 우주 정복하기',
-      total: 832,
-      category: '댄스',
-      tag: ['댄스', '팝핀', '공연'],
-      adminId: 58,
-    },
-    {
-      id: 2,
-      title: '팝핀으로 우주 정복하기',
-      total: 832,
-      category: '댄스',
-      tag: ['댄스', '팝핀', '공연'],
-      adminId: 58,
-    },
-    {
-      id: 3,
-      title: '팝핀으로 우주 정복하기',
-      total: 832,
-      category: '댄스',
-      tag: ['댄스', '팝핀', '공연'],
-      adminId: 53,
-    },
-    {
-      id: 4,
-      title: '팝핀으로 우주 정복하기',
-      total: 832,
-      category: '댄스',
-      tag: ['댄스', '팝핀', '공연'],
-      adminId: 54,
-    },
-  ]);
+  const { myChannel } = useSelector((state) => state.channel);
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  const [partChannelList] = useState([
-    {
-      id: 1,
-      title: '팝핀으로 우주 정복하기',
-      total: 832,
-      category: '댄스',
-      tag: ['댄스', '팝핀', '공연'],
-      adminId: 58,
-    },
-    {
-      id: 2,
-      title: '팝핀으로 우주 정복하기',
-      total: 832,
-      category: '댄스',
-      tag: ['댄스', '팝핀', '공연'],
-      adminId: 58,
-    },
-    {
-      id: 3,
-      title: '팝핀으로 우주 정복하기',
-      total: 832,
-      category: '댄스',
-      tag: ['댄스', '팝핀', '공연'],
-      adminId: 53,
-    },
-    {
-      id: 4,
-      title: '팝핀으로 우주 정복하기',
-      total: 832,
-      category: '댄스',
-      tag: ['댄스', '팝핀', '공연'],
-      adminId: 54,
-    },
-  ]);
-  if (!asignChatList || !openChannelList || !partChannelList) return '로딩중';
+  useEffect(() => {
+    dispatch(getMychannel());
+  }, [dispatch]);
+
+  if (!asignChatList || !myChannel) return '로딩중';
   return (
     <MyChannel
       asignChatList={asignChatList}
-      openChannelList={openChannelList}
-      partChannelList={partChannelList}
+      adminChannl={myChannel.adminChannl}
+      participantChannel={myChannel.participantChannel}
     />
   );
 };

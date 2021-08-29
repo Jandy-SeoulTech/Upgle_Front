@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Avatar, Box, Grid, Paper, Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
+import { useHistory } from 'react-router';
 import { ReactComponent as Amico } from '../../lib/assets/amico.svg';
 import palette from '../../lib/styles/palette';
 
@@ -8,61 +9,77 @@ import Button from '../common/Button';
 import ChannelCard from './ChannelCard';
 import ChatCard from './ChatCard';
 
-const MyChannel = ({ asignChatList, openChannelList, partChannelList }) => {
+const MyChannel = ({ asignChatList, adminChannl, participantChannel }) => {
+  const history = useHistory();
   return (
     <Box css={myChannelWrapper}>
-      <Box css={myChannelTitle}>
-        <Amico />
-        <Typography>
-          자신이 잘하는 재능을 공유하거나, 관심있는 재능을 배울 수 있는 재능
-          공유 채널을 만들어보세요.
-        </Typography>
-        <Button>채널 만들기</Button>
-      </Box>
+      <Box css={myChannelContent}>
+        <Box css={myChannelTitle}>
+          <Amico />
+          <Typography>
+            자신이 잘하는 재능을 공유하거나, 관심있는 재능을 배울 수 있는 재능
+            공유 채널을 만들어보세요.
+          </Typography>
+          <Button
+            onClick={() => {
+              history.push('/createChannel');
+            }}
+          >
+            채널 만들기
+          </Button>
+        </Box>
 
-      <Box css={asignChatListWrapper}>
-        <Typography css={listTitle}>참여 채팅방</Typography>
-        <Grid container spacing={2}>
-          {asignChatList.map((chatInfo) => (
-            <Grid key={chatInfo.id} item>
-              <ChatCard chatInfo={chatInfo} />
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
+        <Box css={asignChatListWrapper}>
+          <Typography css={listTitle}>참여 채팅방</Typography>
+          <Grid container spacing={2}>
+            {asignChatList.map((chatInfo) => (
+              <Grid key={chatInfo.id} item>
+                <ChatCard chatInfo={chatInfo} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
 
-      <Box css={openChannelWrapper}>
-        <Typography css={listTitle}>오픈 채널</Typography>
-        <Grid container spacing={2}>
-          {openChannelList.map((channelInfo) => (
-            <Grid key={channelInfo.id} item>
-              <ChannelCard channelInfo={channelInfo} />
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
+        <Box css={openChannelWrapper}>
+          <Typography css={listTitle}>오픈 채널</Typography>
+          <Grid container spacing={2}>
+            {adminChannl.map((channel) => (
+              <Grid key={channel.id} item>
+                <ChannelCard channel={channel} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
 
-      <Box css={partChannelWrapper}>
-        <Typography css={listTitle}>참여 채널</Typography>
-        <Grid container spacing={2}>
-          {partChannelList.map((channelInfo) => (
-            <Grid key={channelInfo.id} item>
-              <ChannelCard channelInfo={channelInfo} />
-            </Grid>
-          ))}
-        </Grid>
+        <Box css={partChannelWrapper}>
+          <Typography css={listTitle}>참여 채널</Typography>
+          <Grid container spacing={2}>
+            {participantChannel.map((channel) => (
+              <Grid key={channel.id} item>
+                <ChannelCard channel={channel} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
       </Box>
     </Box>
   );
 };
 
 const myChannelWrapper = css`
-  width: 71.25rem;
+  display: flex;
+  justify-content: center;
+  margin-top: 7.4375rem;
+  margin-bottom: 4rem;
+`;
+
+const myChannelContent = css`
+  width: 75rem;
+  padding: 0 2rem;
   height: fit-content;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin: 9.1875rem auto 50px auto;
 `;
 
 const myChannelTitle = css`
@@ -73,7 +90,7 @@ const myChannelTitle = css`
   justify-content: center;
 
   .MuiTypography-root {
-    margin-top: 6.25rem;
+    margin-top: 5rem;
     margin-bottom: 1.875rem;
     font-family: 'Noto Sans KR';
     font-size: 1rem;
@@ -100,7 +117,7 @@ const listTitle = css`
 `;
 
 const asignChatListWrapper = css`
-  margin-top: 6.21875rem;
+  margin-top: 5.25rem;
 `;
 
 const openChannelWrapper = css`
