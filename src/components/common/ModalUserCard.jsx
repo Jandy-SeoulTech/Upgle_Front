@@ -59,7 +59,7 @@ function ModalUserCard({
                   onFollow({ followingId: user.id });
                   if (profileUserId === loggedInUser.id)
                     onProfileFollow({
-                      followingId: profileUserId,
+                      followingId: user.id,
                       isMe: true,
                     });
                 }}
@@ -76,7 +76,7 @@ function ModalUserCard({
                 onUnfollow({ followingId: user.id });
                 if (profileUserId === loggedInUser.id)
                   onProfileUnfollow({
-                    followingId: profileUserId,
+                    followingId: user.id,
                     isMe: true,
                   });
               }}
