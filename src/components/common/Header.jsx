@@ -15,7 +15,7 @@ import {
   ClickAwayListener,
   useMediaQuery,
 } from '@material-ui/core';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { memo, useEffect, useState } from 'react';
 import TextField from './TextField';
 import { ReactComponent as LogoWithTextTemp } from '../../lib/assets/logoWithTextTemp.svg';
@@ -31,6 +31,7 @@ const Header = ({ user, onLogout }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const m1200 = useMediaQuery('(max-width: 1199px)');
   const isMobile = useMediaQuery('(max-width: 600px)');
+  const { pathname } = useLocation();
 
   const updateScroll = () => {
     setScrollPosition(window.scrollY || document.documentElement.scrollTop);
@@ -53,11 +54,29 @@ const Header = ({ user, onLogout }) => {
       })}
     >
       <LogoWithTextTemp css={logo} onClick={() => history.push('/')} />
-      <Link to="/talent" css={navItem}>
+      <Link
+        to="/talent"
+        css={[
+          navItem(isMobile),
+          pathname === '/talent' &&
+            css`
+              border-bottom: 3px solid ${palette.orange} !important;
+            `,
+        ]}
+      >
         재능 찾기
       </Link>
       {user && (
-        <Link to="/mychannel" css={navItem}>
+        <Link
+          to="/myChannel"
+          css={[
+            navItem(isMobile),
+            pathname === '/myChannel' &&
+              css`
+                border-bottom: 3px solid ${palette.orange} !important;
+              `,
+          ]}
+        >
           마이 채널
         </Link>
       )}
@@ -164,6 +183,7 @@ const headerWrapper = ({ isMobile, scrolled }) => css`
     ? '0px 1px 10px rgba(0, 0, 0, 0.25);'
     : '0px 1px 1px rgba(0, 0, 0, 0.25);'};
   backdrop-filter: ${scrolled && 'blur(2px);'};
+  z-index: 1000;
 `;
 
 const logo = css`
