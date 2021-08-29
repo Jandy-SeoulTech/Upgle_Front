@@ -6,6 +6,7 @@ import chat, { chatSaga } from './chat';
 import channel, { channelSaga } from './channel';
 import write, { writeSaga } from './write';
 import image, { imageSaga } from './image';
+import profile, { profileSaga } from './profile';
 import loading from './loading';
 import { all } from 'redux-saga/effects';
 
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   loading,
   write,
   image,
+  profile,
 });
 
 export function* rootSaga() {
@@ -29,6 +31,7 @@ export function* rootSaga() {
     channelSaga(),
     writeSaga(),
     imageSaga(),
+    profileSaga(),
   ]);
 }
 

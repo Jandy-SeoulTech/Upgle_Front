@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import SetNickname from '../../components/auth/SetNickname';
+import SetNickname from '../../components/profile/SetNickname';
 import {
   checkNickname,
   initAuth,
