@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import Profile from '../../components/profile/Profile';
 import {
-  follow,
   getFollowers,
   getFollowings,
   getProfile,
   initProfile,
-  unfollow,
+  profileFollow,
+  profileUnfollow,
 } from '../../modules/profile';
-import { check } from '../../modules/user';
+import { check, follow, unfollow } from '../../modules/user';
 
 const ProfileContainer = () => {
   const { auth, error: authError } = useSelector((state) => state.auth);
@@ -43,6 +43,14 @@ const ProfileContainer = () => {
 
   const onUnfollow = ({ followingId }) => {
     dispatch(unfollow({ followingId }));
+  };
+
+  const onProfileFollow = ({ followingId, isMe }) => {
+    dispatch(profileFollow({ followingId, isMe }));
+  };
+
+  const onProfileUnfollow = ({ followingId, isMe }) => {
+    dispatch(profileUnfollow({ followingId, isMe }));
   };
 
   const onGetFollowers = () => {
@@ -92,6 +100,8 @@ const ProfileContainer = () => {
       followings={followings}
       onFollow={onFollow}
       onUnfollow={onUnfollow}
+      onProfileFollow={onProfileFollow}
+      onProfileUnfollow={onProfileUnfollow}
       onGetFollowers={onGetFollowers}
       onGetFollowings={onGetFollowings}
       errorMessage={errorMessage}

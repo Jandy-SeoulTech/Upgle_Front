@@ -6,7 +6,15 @@ import CheckIcon from '@material-ui/icons/Check';
 import { useEffect, useState } from 'react';
 import Button from './Button';
 
-function ModalUserCard({ loggedInUser, user, onFollow, onUnfollow }) {
+function ModalUserCard({
+  loggedInUser,
+  profileUserId,
+  user,
+  onFollow,
+  onUnfollow,
+  onProfileFollow,
+  onProfileUnfollow,
+}) {
   const [isMe, setIsMe] = useState();
   const [isFollowing, setIsFollowing] = useState();
 
@@ -49,6 +57,11 @@ function ModalUserCard({ loggedInUser, user, onFollow, onUnfollow }) {
                 onClick={() => {
                   setIsFollowing(true);
                   onFollow({ followingId: user.id });
+                  if (profileUserId === loggedInUser.id)
+                    onProfileFollow({
+                      followingId: profileUserId,
+                      isMe: true,
+                    });
                 }}
               >
                 <AddIcon />
@@ -61,6 +74,11 @@ function ModalUserCard({ loggedInUser, user, onFollow, onUnfollow }) {
               onClick={() => {
                 setIsFollowing(false);
                 onUnfollow({ followingId: user.id });
+                if (profileUserId === loggedInUser.id)
+                  onProfileUnfollow({
+                    followingId: profileUserId,
+                    isMe: true,
+                  });
               }}
             >
               <CheckIcon />

@@ -33,6 +33,8 @@ const Profile = ({
   followings,
   onFollow,
   onUnfollow,
+  onProfileFollow,
+  onProfileUnfollow,
   onGetFollowers,
   onGetFollowings,
   errorMessage,
@@ -72,9 +74,12 @@ const Profile = ({
                 <ModalUserCard
                   key={i}
                   loggedInUser={user}
+                  profileUserId={profile.id}
                   user={follower}
                   onFollow={onFollow}
                   onUnfollow={onUnfollow}
+                  onProfileFollow={onProfileFollow}
+                  onProfileUnfollow={onProfileUnfollow}
                 />
               ))
             )}
@@ -104,9 +109,12 @@ const Profile = ({
                 <ModalUserCard
                   key={i}
                   loggedInUser={user}
+                  profileUserId={profile.id}
                   user={following}
                   onFollow={onFollow}
                   onUnfollow={onUnfollow}
+                  onProfileFollow={onProfileFollow}
+                  onProfileUnfollow={onProfileUnfollow}
                 />
               ))
             )}
@@ -232,6 +240,7 @@ const Profile = ({
                     sx={followButton}
                     onClick={() => {
                       onFollow({ followingId: profile.id });
+                      onProfileFollow({ followingId: user.id, isMe: false });
                     }}
                   >
                     <AddIcon />
@@ -243,6 +252,7 @@ const Profile = ({
                   sx={followingButton}
                   onClick={() => {
                     onUnfollow({ followingId: profile.id });
+                    onProfileUnfollow({ followingId: user.id, isMe: false });
                   }}
                 >
                   <CheckIcon />
