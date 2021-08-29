@@ -32,6 +32,7 @@ function Modal({ isOpen, setIsModalOpen, tabs, currentTab, setCurrentTab }) {
           borderRadius: '10px',
         },
       }}
+      ariaHideApp={false}
     >
       <Grid container width="100%">
         <Grid

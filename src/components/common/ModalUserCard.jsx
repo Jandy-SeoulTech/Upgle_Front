@@ -15,9 +15,9 @@ function ModalUserCard({ loggedInUser, user, onFollow, onUnfollow }) {
       setIsMe(Boolean(loggedInUser?.id === user?.id));
       setIsFollowing(
         Boolean(
-          user?.followers
-            ?.map((el) => el.followerId)
-            .includes(loggedInUser?.id),
+          loggedInUser?.followings
+            ?.map((el) => el.followingId)
+            .includes(user?.id),
         ),
       );
     }

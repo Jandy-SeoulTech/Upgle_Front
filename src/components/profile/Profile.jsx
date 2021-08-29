@@ -19,9 +19,12 @@ import { useState } from 'react';
 import Modal from '../common/Modal';
 import { useEffect } from 'react';
 import ModalUserCard from '../common/ModalUserCard';
+import ReactLoading from 'react-loading';
 
 const Profile = ({
   getProfileLoading,
+  getFollowersLoading,
+  getFollowingsLoading,
   isMe,
   isFollowing,
   user,
@@ -40,56 +43,78 @@ const Profile = ({
   const [tabs, setTabs] = useState([
     { key: 'followers', name: '팔로워', data: <></>, onTab: onGetFollowers },
     { key: 'followings', name: '팔로잉', data: <></>, onTab: onGetFollowings },
-    { key: 'reviews', name: '전체 리뷰', data: <></> },
+    { key: 'reviews', name: '전체 리뷰', data: <></>, onTab: () => {} },
   ]);
   const [currentTab, setCurrentTab] = useState('followers');
 
   useEffect(() => {
     const newTabs = [...tabs];
     if (followers) {
-      newTabs.find((tab) => tab.key === 'followers').data = (
-        <Grid>
-          {followers.length === 0 ? (
-            <Typography textAlign="center" marginTop="60px">
-              {profile?.nickname}님을 팔로우하는 유저가 없습니다.
-            </Typography>
-          ) : (
-            followers.map((follower, i) => (
-              <ModalUserCard
-                key={i}
-                loggedInUser={user}
-                user={follower}
-                onFollow={onFollow}
-                onUnfollow={onUnfollow}
-              />
-            ))
-          )}
-        </Grid>
-      );
+      newTabs.find((tab) => tab.key === 'followers').data =
+        getFollowersLoading ? (
+          <ReactLoading
+            type="spinningBubbles"
+            color="black"
+            style={{
+              margin: '60px auto 0 auto',
+              width: '60px',
+              height: '60px',
+            }}
+          />
+        ) : (
+          <Grid>
+            {followers.length === 0 ? (
+              <Typography textAlign="center" marginTop="60px">
+                {profile?.nickname}님을 팔로우하는 유저가 없습니다.
+              </Typography>
+            ) : (
+              followers.map((follower, i) => (
+                <ModalUserCard
+                  key={i}
+                  loggedInUser={user}
+                  user={follower}
+                  onFollow={onFollow}
+                  onUnfollow={onUnfollow}
+                />
+              ))
+            )}
+          </Grid>
+        );
     }
     if (followings) {
-      newTabs.find((tab) => tab.key === 'followings').data = (
-        <Grid>
-          {followings.length === 0 ? (
-            <Typography textAlign="center" marginTop="60px">
-              {profile?.nickname}님이 팔로우하는 유저가 없습니다.
-            </Typography>
-          ) : (
-            followings.map((following, i) => (
-              <ModalUserCard
-                key={i}
-                loggedInUser={user}
-                user={following}
-                onFollow={onFollow}
-                onUnfollow={onUnfollow}
-              />
-            ))
-          )}
-        </Grid>
-      );
+      newTabs.find((tab) => tab.key === 'followings').data =
+        getFollowingsLoading ? (
+          <ReactLoading
+            type="spinningBubbles"
+            color="black"
+            style={{
+              margin: '60px auto 0 auto',
+              width: '60px',
+              height: '60px',
+            }}
+          />
+        ) : (
+          <Grid>
+            {followings.length === 0 ? (
+              <Typography textAlign="center" marginTop="60px">
+                {profile?.nickname}님이 팔로우하는 유저가 없습니다.
+              </Typography>
+            ) : (
+              followings.map((following, i) => (
+                <ModalUserCard
+                  key={i}
+                  loggedInUser={user}
+                  user={following}
+                  onFollow={onFollow}
+                  onUnfollow={onUnfollow}
+                />
+              ))
+            )}
+          </Grid>
+        );
     }
     setTabs(newTabs);
-  }, [followers, followings]);
+  }, [followers, followings, getFollowersLoading, getFollowingsLoading]);
 
   const reviews = [
     '팝핀 정말 잘춰요~기본기를 정말 탄탄하게 알려줘서 처음 배우는 사람도 재미있게 배울 수 있어요! 댄싱퀸펭귄님 최고!',
