@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 
 const Main = ({ postList }) => {
   return (
-    <div css={MainWrapper}>
+    <div style={{ marginTop: '3.75rem' }}>
       {postList.map((post) => (
         <div key={post.id}>
           <h1>{post.title}</h1>

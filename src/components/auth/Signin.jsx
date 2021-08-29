@@ -222,6 +222,9 @@ const findForm = css`
   text-align: center;
   font-size: 0.875rem;
   color: #7b7b7b;
+  a:first-child {
+    margin-right: 3.125rem;
+  }
 `;
 
 export default Signin;

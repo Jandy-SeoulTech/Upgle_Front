@@ -347,7 +347,6 @@ const logoSection = css`
 `;
 
 const smallLogoSection = css`
-  width: 100vw;
   justify-content: flex-start;
   align-items: flex-start;
   height: 12.5rem;

@@ -46,7 +46,12 @@ const Header = ({ user, onLogout }) => {
   });
 
   return (
-    <Box css={[headerWrapper, scrollPosition !== 0 && headerScrolled]}>
+    <Box
+      css={headerWrapper({
+        isMobile: isMobile,
+        scrolled: scrollPosition !== 0,
+      })}
+    >
       <LogoWithTextTemp css={logo} onClick={() => history.push('/')} />
       <Link to="/talent" css={navItem}>
         재능 찾기
@@ -75,7 +80,14 @@ const Header = ({ user, onLogout }) => {
 
       {user ? (
         <>
-          <IconButton sx={{ marginRight: '9px' }}>
+          <IconButton
+            css={[
+              iconButotn,
+              css`
+                margin-right: 1.3125rem;
+              `,
+            ]}
+          >
             <AlarmOff />
           </IconButton>
           <ClickAwayListener
@@ -84,7 +96,7 @@ const Header = ({ user, onLogout }) => {
             }}
           >
             <Box>
-              <IconButton sx={{ padding: 0 }} onClick={handleMenu}>
+              <IconButton css={iconButotn} onClick={handleMenu}>
                 <UserProfile />
               </IconButton>
               <Popper
@@ -138,23 +150,20 @@ const Header = ({ user, onLogout }) => {
   );
 };
 
-const headerWrapper = css`
-  padding: 0 3.125rem;
+const headerWrapper = ({ isMobile, scrolled }) => css`
+  padding: ${isMobile ? '0 1rem' : '0 3.125rem;'};
   width: 100vw;
-  height: 4.0625rem;
+  height: 3.75rem;
   align-items: center;
   display: flex;
   justify-content: center;
   position: fixed;
   top: 0;
-  z-index: 1000;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
-`;
-
-const headerScrolled = css`
-  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.25);
-  background-color: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(2px);
+  background-color: ${scrolled && 'rgba(255, 255, 255, 0.7)'};
+  box-shadow: ${scrolled
+    ? '0px 1px 10px rgba(0, 0, 0, 0.25);'
+    : '0px 1px 1px rgba(0, 0, 0, 0.25);'};
+  backdrop-filter: ${scrolled && 'blur(2px);'};
 `;
 
 const logo = css`
@@ -164,10 +173,10 @@ const logo = css`
   cursor: pointer;
 `;
 
-const navItem = css`
-  width: 10rem;
-  height: 4.0625rem;
-  line-height: 4.0625rem;
+const navItem = (isMobile) => css`
+  width: ${isMobile ? '5rem;' : '10rem;'};
+  height: 3.75rem;
+  line-height: 3.75rem;
   font-weight: bold;
   font-size: 1rem;
   text-align: center;
@@ -237,6 +246,12 @@ const menuWrapper = css`
       }
     }
   }
+`;
+
+const iconButotn = css`
+  width: 2.1875rem;
+  height: 2.1875rem;
+  padding: 0;
 `;
 
 export default memo(Header);
