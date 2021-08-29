@@ -425,8 +425,9 @@ const codeInput = css`
 `;
 
 const sendCodeButton = css`
-  width: 100px;
-  margin-right: 20px;
+  font-family: 'Noto Sans KR';
+  width: 105px;
+  margin-right: 15px;
   height: 40px;
   border-radius: 50vh;
   background: black;
@@ -441,6 +442,7 @@ const sendCodeButton = css`
 `;
 
 const checkCodeButton = css`
+  font-family: 'Noto Sans KR';
   width: 64px;
   margin-right: 56px;
   height: 40px;
