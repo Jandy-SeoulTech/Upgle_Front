@@ -175,14 +175,8 @@ const Profile = ({
     { name: '팝핀으로 우주', channelImg: { src: 'https://picsum.photos/100' } },
     {
       name: '팝핀으로 우주 정복하기',
-      channelImg: { src: 'https://picsum.photos/100' },
+      channelImg: { src: null },
     },
-    {
-      name: '팝핀으로 우주 정복하기',
-      channelImg: { src: 'https://picsum.photos/100' },
-    },
-  ];
-  const rightInfosC = [
     {
       name: '팝핀으로 우주 정복하기',
       channelImg: { src: 'https://picsum.photos/100' },
@@ -391,11 +385,11 @@ const Profile = ({
         </Grid>
 
         <Grid item container css={rightProfile}>
-          <Grid item container xs={12} height="fit-content" mb={5}>
-            <Grid item mb={1}>
+          <Grid item container xs={12} height="fit-content" mb={6.25}>
+            <Grid item mb={2.5}>
               <Button sx={orangeLabel}>모아 보기</Button>
             </Grid>
-            <Grid item container columns={4} spacing={2}>
+            <Grid item container columns={4} spacing="22px">
               {rightInfosA.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   아직 등록된 글이 없습니다.
@@ -442,17 +436,19 @@ const Profile = ({
             </Grid>
           </Grid>
 
-          <Grid item container xs={12} height="fit-content" mb={5}>
+          <Grid item container xs={12} height="fit-content" mb={6.25}>
             <Grid item mb={4}>
               <Button sx={orangeLabel}>오픈 채널</Button>
             </Grid>
-            <Grid item container columns={4}>
-              {myChannel?.adminChannl.length === 0 ? (
+            <Grid item container columns={5}>
+              {/* {myChannel?.adminChannl.length === 0 ? ( */}
+              {rightInfosB.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   오픈된 채널이 없습니다.
                 </Grid>
               ) : (
-                myChannel?.adminChannl.map((channel, i) => (
+                // myChannel?.adminChannl.map((channel, i) => (
+                rightInfosB.map((channel, i) => (
                   <Grid key={i} item xs={1} css={channelCell}>
                     <Grid css={channelCard}>
                       <Box
@@ -479,7 +475,7 @@ const Profile = ({
             </Grid>
           </Grid>
 
-          <Grid item container xs={12} height="fit-content" mb={5}>
+          <Grid item container xs={12} height="fit-content" mb={6.25}>
             <Grid item mb={4}>
               <Button sx={orangeLabel}>참여 채널</Button>
             </Grid>
@@ -716,16 +712,17 @@ const editProfileButton = css`
 `;
 
 const rightProfile = css`
-  width: 726px;
+  width: 776px;
   padding-left: 50px;
 `;
 
 const archiveCell = css`
-  width: 165px;
-  height: 240px;
+  height: 256px;
 `;
 
 const archiveCard = css`
+  width: 165px;
+  height: 240px;
   cursor: pointer;
   border-radius: 5px;
   height: 100%;
@@ -765,7 +762,7 @@ const channelCard = css`
 
 const channelName = css`
   margin-top: 15px;
-  font-size: 14px;
+  font-size: 12px;
   text-align: center;
   word-break: keep-all;
 `;
