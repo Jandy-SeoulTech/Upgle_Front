@@ -138,7 +138,7 @@ const followButton = css`
   &:hover {
     border: none;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
-      linear-gradient(0deg, #ff511b, #ff511b);
+      #ff511b;
   }
 `;
 

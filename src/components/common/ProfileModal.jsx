@@ -28,7 +28,7 @@ function ProfileModal({
         setIsModalOpen(false);
       }}
       style={{
-        overlay: { backgroundColor: '#000000B2', marginTop: '4.0625rem' },
+        overlay: { backgroundColor: '#000000B2', marginTop: '3.75rem' },
         content: {
           backgroundColor: '#fff',
           maxWidth: '800px',
