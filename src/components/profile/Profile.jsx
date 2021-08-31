@@ -31,6 +31,7 @@ const Profile = ({
   profile,
   followers,
   followings,
+  myChannel,
   onFollow,
   onUnfollow,
   onProfileFollow,
@@ -167,34 +168,32 @@ const Profile = ({
     },
   ];
   const rightInfosB = [
-    { name: '팝핀으로 우주 정복하기', imgUrl: 'https://picsum.photos/100' },
-    { name: '팝핀으로 우주' },
-    { name: '팝핀으로 우주 정복하기', imgUrl: 'https://picsum.photos/100' },
-    { name: '팝핀으로 우주 정복하기' },
+    {
+      name: '팝핀으로 우주 정복하기',
+      channelImg: { src: 'https://picsum.photos/100' },
+    },
+    { name: '팝핀으로 우주', channelImg: { src: 'https://picsum.photos/100' } },
+    {
+      name: '팝핀으로 우주 정복하기',
+      channelImg: { src: 'https://picsum.photos/100' },
+    },
+    {
+      name: '팝핀으로 우주 정복하기',
+      channelImg: { src: 'https://picsum.photos/100' },
+    },
   ];
   const rightInfosC = [
     {
-      name: '건강한 다이어트 식단 만들어 먹기',
-      imgUrl: 'https://picsum.photos/100',
+      name: '팝핀으로 우주 정복하기',
+      channelImg: { src: 'https://picsum.photos/100' },
     },
     {
-      name: '초보자도 쉽게 하는 목공 교실',
-      imgUrl: 'https://picsum.photos/100',
+      name: '팝핀으로 우주 정복하기',
+      channelImg: { src: 'https://picsum.photos/100' },
     },
-    { name: '인물사진 기초 클래스', imgUrl: 'https://picsum.photos/100' },
   ];
 
   const openModal = (initialTab) => {
-    switch (initialTab) {
-      case 'followers':
-        onGetFollowers();
-        break;
-      case 'followings':
-        onGetFollowings();
-        break;
-      default:
-        break;
-    }
     setCurrentTab(initialTab);
     setIsModalOpen(true);
   };
@@ -446,31 +445,31 @@ const Profile = ({
               <Button sx={orangeLabel}>오픈 채널</Button>
             </Grid>
             <Grid item container columns={4}>
-              {rightInfosB.length === 0 ? (
+              {myChannel?.adminChannl.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   오픈된 채널이 없습니다.
                 </Grid>
               ) : (
-                rightInfosB.map((info, i) => (
+                myChannel?.adminChannl.map((channel, i) => (
                   <Grid key={i} item xs={1} css={channelCell}>
                     <Grid css={channelCard}>
                       <Box
                         sx={{
-                          backgroundImage: `url(${info.imgUrl})`,
-                          backgroundColor: getRandomColor(info.name),
+                          backgroundImage: `url(${channel.channelImg.src})`,
+                          backgroundColor: getRandomColor(channel.name),
                           backgroundRepeat: 'no-repeat',
                           backgroundSize: 'cover',
                           width: '125px',
                           height: '125px',
                           borderRadius: '50%',
                           ':hover': {
-                            backgroundImage: info.imgUrl
-                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${info.imgUrl})`
+                            backgroundImage: channel.channelImg.src
+                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${channel.channelImg.src})`
                               : 'linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%)',
                           },
                         }}
                       ></Box>
-                      <Typography sx={channelName}>{info.name}</Typography>
+                      <Typography sx={channelName}>{channel.name}</Typography>
                     </Grid>
                   </Grid>
                 ))
@@ -483,31 +482,31 @@ const Profile = ({
               <Button sx={orangeLabel}>참여 채널</Button>
             </Grid>
             <Grid item container columns={4}>
-              {rightInfosC.length === 0 ? (
+              {myChannel?.participantChannel.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   참여하는 채널이 없습니다.
                 </Grid>
               ) : (
-                rightInfosC.map((info, i) => (
+                myChannel?.participantChannel.map((channel, i) => (
                   <Grid key={i} item xs={1} css={channelCell}>
                     <Grid css={channelCard}>
                       <Box
                         sx={{
-                          backgroundImage: `url(${info.imgUrl})`,
-                          backgroundColor: getRandomColor(info.name),
+                          backgroundImage: `url(${channel.channelImg.src})`,
+                          backgroundColor: getRandomColor(channel.name),
                           backgroundRepeat: 'no-repeat',
                           backgroundSize: 'cover',
                           width: '125px',
                           height: '125px',
                           borderRadius: '50%',
                           ':hover': {
-                            backgroundImage: info.imgUrl
-                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${info.imgUrl})`
+                            backgroundImage: channel.channelImg.src
+                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${channel.channelImg.src})`
                               : 'linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%)',
                           },
                         }}
                       ></Box>
-                      <Typography sx={channelName}>{info.name}</Typography>
+                      <Typography sx={channelName}>{channel.name}</Typography>
                     </Grid>
                   </Grid>
                 ))
