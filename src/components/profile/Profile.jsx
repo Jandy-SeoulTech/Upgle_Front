@@ -479,13 +479,15 @@ const Profile = ({
             <Grid item mb={4}>
               <Button sx={orangeLabel}>참여 채널</Button>
             </Grid>
-            <Grid item container columns={4}>
-              {myChannel?.participantChannel.length === 0 ? (
+            <Grid item container columns={5}>
+              {/* {myChannel?.participantChannel.length === 0 ? ( */}
+              {rightInfosB.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   참여하는 채널이 없습니다.
                 </Grid>
               ) : (
-                myChannel?.participantChannel.map((channel, i) => (
+                // myChannel?.participantChannel.map((channel, i) => (
+                rightInfosB.map((channel, i) => (
                   <Grid key={i} item xs={1} css={channelCell}>
                     <Grid css={channelCard}>
                       <Box
