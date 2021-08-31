@@ -231,15 +231,12 @@ const Profile = ({
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
       />
-      <Grid item container xs={12} css={widthContainer}>
-        <Grid item container xs={3} css={leftProfile}>
+      <Grid item container xs={12} css={widthContainer} justifyContent="center">
+        <Grid item container css={leftProfile}>
           <Grid item container css={leftProfileTop}>
-            <Grid item>
-              <Avatar css={avatar} src={profile.profile.profileImage.src} />
-            </Grid>
-            <Grid item>
-              <Typography css={nickname}>{profile.nickname}</Typography>
-            </Grid>
+            <Avatar css={avatar} src={profile.profile.profileImage.src} />
+
+            <Typography css={nickname}>{profile.nickname}</Typography>
             {!isMe &&
               (!isFollowing ? (
                 isFollowing !== undefined && (
@@ -266,11 +263,7 @@ const Profile = ({
                   <Typography className="title">팔로잉</Typography>
                 </Button>
               ))}
-            <Grid item alignSelf="flex-start">
-              <Typography css={introduce}>
-                {profile.profile.introduce}
-              </Typography>
-            </Grid>
+            <Typography css={introduce}>{profile.profile.introduce}</Typography>
             <Grid item container css={department}>
               <DepartmentIcon />
               <Typography sx={{ marginLeft: '8px', fontSize: '14px' }}>
@@ -278,7 +271,7 @@ const Profile = ({
               </Typography>
             </Grid>
           </Grid>
-          <Grid item container css={leftProfileMiddle}>
+          <Grid item container css={leftProfileBottom}>
             <Grid item container px={1}>
               <Grid item xs={12}>
                 <Typography css={talentLabel}>잘하는 재능</Typography>
@@ -315,7 +308,7 @@ const Profile = ({
                 </Grid>
               )}
             </Grid>
-            <Grid item container mt={4} mb={6}>
+            <Grid item container mt={6} mb={6} rowGap={2.5}>
               <Grid
                 item
                 container
@@ -351,6 +344,7 @@ const Profile = ({
                 container
                 justifyContent="space-between"
                 alignItems="center"
+                mb={2}
               >
                 <Button sx={orangeLabel} onClick={() => openModal('reviews')}>
                   긍정 리뷰
@@ -388,7 +382,7 @@ const Profile = ({
           )}
         </Grid>
 
-        <Grid item container xs={9} css={rightProfile}>
+        <Grid item container css={rightProfile}>
           <Grid item container xs={12} height="fit-content" mb={5}>
             <Grid item mb={1}>
               <Button sx={orangeLabel}>모아 보기</Button>
@@ -529,16 +523,16 @@ const wrapper = css`
 `;
 
 const widthContainer = css`
-  margin-top: 30px;
-  max-width: 960px;
+  padding: 72px 30px;
 `;
 
 const leftProfile = css`
+  width: 364px;
   background-color: #fff;
   height: fit-content;
   border: 2px;
   border-radius: 5px;
-  padding: 10px;
+  padding: 50px 25px 20px 25px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -551,36 +545,34 @@ const leftProfileTop = css`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 10px 5px;
-  margin-bottom: 36px;
+  margin-bottom: 60px;
 `;
 
 const avatar = css`
-  width: 120px;
-  height: 120px;
-  margin: 20px auto 10px auto;
+  width: 180px;
+  height: 180px;
+  margin-bottom: 15px;
 `;
 
 const nickname = css`
-  font-size: 1.4rem;
+  font-size: 24px;
   font-weight: 700;
-  margin-bottom: 10px;
 `;
 
 const followButton = css`
   background-color: #ff511b;
   color: white;
-  width: 180px;
-  height: 40px;
+  width: 240px;
+  height: 50px;
   border: none;
-  border-radius: 40px;
+  border-radius: 50px;
   padding: 0 8px;
-  margin: 5px 0;
+  margin: 30px 0;
 
   .title {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 700;
-    margin-left: 6px;
+    margin-left: 20px;
   }
 
   &:hover {
@@ -592,17 +584,17 @@ const followButton = css`
 
 const followingButton = css`
   color: #ff511b;
-  width: 180px;
-  height: 40px;
+  width: 240px;
+  height: 50px;
   border-color: #ff511b;
-  border-radius: 40px;
+  border-radius: 50px;
   padding: 0 8px;
-  margin: 5px 0;
+  margin: 30px 0;
 
   .title {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 700;
-    margin-left: 6px;
+    margin-left: 20px;
   }
 
   &:hover {
@@ -613,9 +605,9 @@ const followingButton = css`
 `;
 
 const introduce = css`
-  justify-self: flex-start;
+  align-self: flex-start;
   font-size: 14px;
-  margin-top: 10px;
+  margin-top: 45px;
   margin-bottom: 20px;
 `;
 
@@ -624,30 +616,29 @@ const department = css`
   align-items: center;
 `;
 
-const leftProfileMiddle = css`
+const leftProfileBottom = css`
   height: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 10px 5px;
-  margin-bottom: 14px;
 `;
 
 const talentLabel = css`
   font-size: 16px;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 `;
 
 const talentTags = css`
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 10px;
+  gap: 15px 12px;
   margin-bottom: 30px;
 `;
 
 const talentTag = css`
-  border-radius: 14px;
+  border-radius: 20px;
   background-color: #7b7b7b;
   color: ${palette.white};
   text-align: center;
@@ -655,7 +646,7 @@ const talentTag = css`
   font-weight: 700;
   width: fit-content;
   height: fit-content;
-  padding: 4px 10px;
+  padding: 6px 17px;
 `;
 
 const followLabel = css`
@@ -671,7 +662,6 @@ const orangeLabel = css`
   border: 1px solid gray;
   border-radius: 32px;
   padding: 0 8px;
-  margin: 4px 0;
   &:hover {
     border-color: #ff511b;
     background-color: #ff511b;
@@ -697,15 +687,16 @@ const orangeSmallLabel = css`
 `;
 
 const reviewNum = css`
-  font-size: 16px;
+  font-size: 14px;
 `;
 
 const reviewText = css`
   font-size: 12px;
-  margin: 5px;
+  margin-bottom: 20px;
 `;
 
 const editProfileButton = css`
+  margin-top: 56px;
   color: ${palette.black};
   width: 95%;
   height: 50px;
@@ -718,6 +709,7 @@ const editProfileButton = css`
 `;
 
 const rightProfile = css`
+  width: 726px;
   padding-left: 50px;
 `;
 
