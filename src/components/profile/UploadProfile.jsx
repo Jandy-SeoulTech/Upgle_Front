@@ -25,8 +25,6 @@ const UploadProfile = ({
   images,
   handleChangeFiled,
   handleUploadProfile,
-  uploadImage,
-  initializeImage,
 }) => {
   const [activeStep, setActiveStep] = useState(0);
   const m1200 = useMediaQuery('(max-width: 1199px)');
@@ -140,13 +138,7 @@ const UploadProfile = ({
           />
         );
       case 4:
-        return (
-          <UploadImage
-            images={images}
-            uploadImage={uploadImage}
-            initializeImage={initializeImage}
-          />
-        );
+        return <UploadImage />;
       default:
         throw new Error('Unknown step');
     }
