@@ -5,6 +5,7 @@ import AddIcon from '@material-ui/icons/Add';
 import CheckIcon from '@material-ui/icons/Check';
 import { useEffect, useState } from 'react';
 import Button from './Button';
+import { Link } from 'react-router-dom';
 
 function ModalUserCard({
   loggedInUser,
@@ -34,11 +35,20 @@ function ModalUserCard({
   return (
     <Grid container py={4}>
       <Grid item container xs={2}>
-        <Avatar css={avatar} src={user?.profile?.profileImage.src} />
+        <Avatar
+          css={avatar}
+          src={user?.profile?.profileImage.src}
+          onClick={() => (window.location.href = `/profile/${user.id}`)}
+        />
       </Grid>
       <Grid item container xs={8} alignContent="center" rowGap={0.5}>
         <Grid item xs={12}>
-          <Typography css={nickname}>{user.nickname}</Typography>
+          <Typography
+            css={nickname}
+            onClick={() => (window.location.href = `/profile/${user.id}`)}
+          >
+            {user.nickname}
+          </Typography>
         </Grid>
         <Grid item xs={12} css={talentTags}>
           {user?.profile?.wellTalent.map((talent, i) => (
@@ -91,12 +101,14 @@ function ModalUserCard({
 }
 
 const avatar = css`
+  cursor: pointer;
   width: 75px;
   height: 75px;
   margin: auto;
 `;
 
 const nickname = css`
+  cursor: pointer;
   font-size: 1.2rem;
   font-weight: 700;
 `;
