@@ -263,13 +263,21 @@ const Profile = ({
                   <Typography className="title">팔로잉</Typography>
                 </Button>
               ))}
-            <Typography css={introduce}>{profile.profile.introduce}</Typography>
-            <Grid item container css={department}>
-              <DepartmentIcon />
-              <Typography sx={{ marginLeft: '8px', fontSize: '14px' }}>
-                {profile.profile.department}
+            {profile.profile.introduce !== '' && (
+              <Typography css={introduce}>
+                {profile.profile.introduce}
               </Typography>
-            </Grid>
+            )}
+            {profile.profile.department !== '' && (
+              <Grid item container css={department}>
+                <DepartmentIcon />
+                <Typography sx={{ marginLeft: '8px', fontSize: '14px' }}>
+                  {profile.profile.department}
+                </Typography>
+              </Grid>
+            )}
+            {(profile.profile.introduce !== '' ||
+              profile.profile.department !== '') && <Grid item mb={4}></Grid>}
           </Grid>
           <Grid item container css={leftProfileBottom}>
             <Grid item container px={1}>
@@ -545,7 +553,6 @@ const leftProfileTop = css`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 60px;
 `;
 
 const avatar = css`
