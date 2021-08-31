@@ -15,7 +15,7 @@ import {
   ClickAwayListener,
   useMediaQuery,
 } from '@material-ui/core';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { memo, useEffect, useState } from 'react';
 import TextField from './TextField';
 import { ReactComponent as LogoWithTextTemp } from '../../lib/assets/logoWithTextTemp.svg';
@@ -31,6 +31,7 @@ const Header = ({ user, onLogout }) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const m1200 = useMediaQuery('(max-width: 1199px)');
   const isMobile = useMediaQuery('(max-width: 600px)');
+  const { pathname } = useLocation();
 
   const updateScroll = () => {
     setScrollPosition(window.scrollY || document.documentElement.scrollTop);
@@ -46,13 +47,36 @@ const Header = ({ user, onLogout }) => {
   });
 
   return (
-    <Box css={[headerWrapper, scrollPosition !== 0 && headerScrolled]}>
+    <Box
+      css={headerWrapper({
+        isMobile: isMobile,
+        scrolled: scrollPosition !== 0,
+      })}
+    >
       <LogoWithTextTemp css={logo} onClick={() => history.push('/')} />
-      <Link to="/talent" css={navItem}>
+      <Link
+        to="/talent"
+        css={[
+          navItem(isMobile),
+          pathname === '/talent' &&
+            css`
+              border-bottom: 3px solid ${palette.orange} !important;
+            `,
+        ]}
+      >
         재능 찾기
       </Link>
       {user && (
-        <Link to="/mychannel" css={navItem}>
+        <Link
+          to="/myChannel"
+          css={[
+            navItem(isMobile),
+            pathname === '/myChannel' &&
+              css`
+                border-bottom: 3px solid ${palette.orange} !important;
+              `,
+          ]}
+        >
           마이 채널
         </Link>
       )}
@@ -75,7 +99,14 @@ const Header = ({ user, onLogout }) => {
 
       {user ? (
         <>
-          <IconButton sx={{ marginRight: '9px' }}>
+          <IconButton
+            css={[
+              iconButotn,
+              css`
+                margin-right: 1.3125rem;
+              `,
+            ]}
+          >
             <AlarmOff />
           </IconButton>
           <ClickAwayListener
@@ -84,7 +115,7 @@ const Header = ({ user, onLogout }) => {
             }}
           >
             <Box>
-              <IconButton sx={{ padding: 0 }} onClick={handleMenu}>
+              <IconButton css={iconButotn} onClick={handleMenu}>
                 <UserProfile />
               </IconButton>
               <Popper
@@ -104,7 +135,11 @@ const Header = ({ user, onLogout }) => {
                     </Box>
                     <Divider />
                     <MenuItem>
-                      <ListItemText>프로필</ListItemText>
+                      <ListItemText
+                        onClick={() => history.push(`/profile/${user.id}`)}
+                      >
+                        프로필
+                      </ListItemText>
                     </MenuItem>
                     <MenuItem>
                       <ListItemText>모아 보기</ListItemText>
@@ -138,22 +173,21 @@ const Header = ({ user, onLogout }) => {
   );
 };
 
-const headerWrapper = css`
-  padding: 0 3.125rem;
+const headerWrapper = ({ isMobile, scrolled }) => css`
+  padding: ${isMobile ? '0 1rem' : '0 3.125rem;'};
   width: 100vw;
-  height: 4.0625rem;
+  height: 3.75rem;
   align-items: center;
   display: flex;
   justify-content: center;
   position: fixed;
   top: 0;
-  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
-`;
-
-const headerScrolled = css`
-  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.25);
-  background-color: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(2px);
+  background-color: ${scrolled && 'rgba(255, 255, 255, 0.7)'};
+  box-shadow: ${scrolled
+    ? '0px 1px 10px rgba(0, 0, 0, 0.25);'
+    : '0px 1px 1px rgba(0, 0, 0, 0.25);'};
+  backdrop-filter: ${scrolled && 'blur(2px);'};
+  z-index: 1000;
 `;
 
 const logo = css`
@@ -163,10 +197,10 @@ const logo = css`
   cursor: pointer;
 `;
 
-const navItem = css`
-  width: 10rem;
-  height: 4.0625rem;
-  line-height: 4.0625rem;
+const navItem = (isMobile) => css`
+  width: ${isMobile ? '5rem;' : '10rem;'};
+  height: 3.75rem;
+  line-height: 3.75rem;
   font-weight: bold;
   font-size: 1rem;
   text-align: center;
@@ -236,6 +270,12 @@ const menuWrapper = css`
       }
     }
   }
+`;
+
+const iconButotn = css`
+  width: 2.1875rem;
+  height: 2.1875rem;
+  padding: 0;
 `;
 
 export default memo(Header);

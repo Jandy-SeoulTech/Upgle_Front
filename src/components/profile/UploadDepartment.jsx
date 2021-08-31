@@ -27,12 +27,11 @@ const UploadDepartment = ({ department, handleChangeFiled }) => {
 
       <TextField
         autoFocus
-        placeholder="20자 이내로 작성해주세요"
+        label="20자 이내로 작성해주세요"
         value={department}
         onChange={handleCahngeWellTalent}
-        css={departmentInput}
+        css={departmentInput(lengthError)}
         error={lengthError}
-        helperText={lengthError && '길이 제한을 초과했습니다.'}
       />
     </Box>
   );
@@ -52,9 +51,15 @@ const title = css`
   }
 `;
 
-const departmentInput = css`
+const departmentInput = (error) => css`
   width: 21.875rem;
   margin-top: 12.5625rem;
+  .MuiInput-underline:after {
+    border-bottom-color: ${error && palette.red};
+  }
+  & label.MuiInputLabel-root {
+    color: ${error && palette.red};
+  }
 `;
 
 export default UploadDepartment;

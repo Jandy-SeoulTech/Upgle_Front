@@ -49,7 +49,7 @@ const UploadProfileContainer = (props) => {
     if (error) {
       alert('등록을 실패했습니다.');
     }
-  }, [history, profile, error]);
+  }, [history, profile, dispatch, error]);
 
   useEffect(() => {
     if (user && user.profile) {

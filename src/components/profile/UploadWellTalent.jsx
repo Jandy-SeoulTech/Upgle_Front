@@ -8,8 +8,14 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 const UploadWellTalent = ({ wellTalent, handleChangeFiled }) => {
   const [input, setInput] = useState('');
+  const [lengthError, setLengthError] = useState(false);
 
   const handleCahngeTalent = (e) => {
+    if (e.target.value.length > 10) {
+      setLengthError(true);
+      return;
+    }
+    setLengthError(false);
     setInput(e.target.value);
   };
 
@@ -56,13 +62,17 @@ const UploadWellTalent = ({ wellTalent, handleChangeFiled }) => {
 
       <TextField
         autoFocus
-        placeholder="최대 10개까지 입력해주세요"
+        label="엔터를 쳐서 태그를 등록해주세요. (최대 10개)"
         value={input}
         onChange={handleCahngeTalent}
         onKeyPress={handleKeyPress}
         css={talentInput}
-        error={wellTalent.length >= 10}
-        helperText={wellTalent.length >= 10 && '더이상 추가할 수 없습니다.'}
+        error={wellTalent.length >= 10 || lengthError}
+        helperText={
+          wellTalent.length >= 10
+            ? '더이상 추가할 수 없습니다.'
+            : lengthError && '10자 이내로 입력해주세요'
+        }
       />
     </Box>
   );
@@ -127,6 +137,9 @@ const talentWrapper = css`
 const talentInput = css`
   width: 21.875rem;
   margin-top: 7.75rem;
+  .MuiInputLabel-root {
+    color: black !important;
+  }
 `;
 
 export default UploadWellTalent;

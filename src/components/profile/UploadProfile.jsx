@@ -1,9 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import Button from '../common/Button';
-import { Box, Grid, Paper, Typography, useMediaQuery } from '@material-ui/core';
-import { Link, useHistory } from 'react-router-dom';
-import { memo, useEffect, useState } from 'react';
+import { Box, Grid, Typography, useMediaQuery } from '@material-ui/core';
+import { useState } from 'react';
 import { ReactComponent as LogoWithTextTemp } from '../../lib/assets/logoWithTextTemp.svg';
 import { ReactComponent as LogoWithTextTemp2 } from '../../lib/assets/logoWithTextTemp2.svg';
 import { ReactComponent as Rafiki } from '../../lib/assets/rafiki.svg';
@@ -168,7 +167,7 @@ const UploadProfile = ({
           css={[uploadFormHeader, m1200 && smallUploadFormHeader]}
         >
           <Typography variant="h4" css={UploadFormTitle}>
-            반갑습니다, {user.nickname}님!
+            반갑습니다, 가나다라마바사아자차카타님!
           </Typography>
           <Typography css={UploadFormDescription}>
             업글을 이용하기 전에
@@ -256,23 +255,26 @@ const smallUploadFormHeader = css`
 const UploadFormTitle = css`
   font-family: 'Barlow', 'Noto Sans KR';
   font-weight: bold;
-  font-size: 34px;
-  margin-left: 67px;
-  margin-top: 110px;
+  font-size: 2.125rem;
+  width: 23.75rem;
+  margin-left: 3.4375rem;
+  margin-top: 6.875rem;
+  word-wrap: break-word;
+  word-break: keep-all;
 `;
 
 const UploadFormDescription = css`
   font-family: 'Barlow', 'Noto Sans KR';
   font-weight: 700;
-  font-size: 24px;
-  margin-left: 67px;
-  margin-top: 52px;
+  font-size: 1.25rem;
+  margin-left: 3.4375rem;
+  margin-top: 3.75rem;
 `;
 
 const uploadFormTitleLogo = css`
   position: relative;
-  top: 220px;
-  left: 280px;
+  top: 12rem;
+  left: 17.5rem;
 `;
 
 const uploadFormSection = css`
