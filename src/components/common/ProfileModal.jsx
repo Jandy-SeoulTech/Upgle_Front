@@ -88,13 +88,15 @@ const header = css`
   position: fixed;
   z-index: 1;
   width: 798px;
-  height: 52px;
+  height: 60px;
   background-color: #fff;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  border-bottom: 1px solid #e0e0e0;
 `;
 
 const tabButton = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   font-size: 18px;
   font-weight: 700;
   color: black;
@@ -112,7 +114,7 @@ const closeButton = css`
 `;
 
 const contents = css`
-  margin-top: 52px;
+  margin-top: 60px;
   height: fit-content;
   overflow: scroll;
 `;

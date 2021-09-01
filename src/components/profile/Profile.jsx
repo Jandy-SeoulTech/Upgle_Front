@@ -55,70 +55,92 @@ const Profile = ({
     if (followers) {
       newTabs.find((tab) => tab.key === 'followers').data =
         getFollowersLoading ? (
-          <ReactLoading
-            type="spinningBubbles"
-            color="black"
-            style={{
-              margin: '60px auto 0 auto',
-              width: '60px',
-              height: '60px',
-            }}
-          />
+          <Grid
+            container
+            height="67vh"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <ReactLoading
+              type="spinningBubbles"
+              color="black"
+              style={{
+                width: '60px',
+                height: '60px',
+              }}
+            />
+          </Grid>
+        ) : followers.length === 0 ? (
+          <Grid
+            container
+            height="67vh"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Typography css={noContents}>
+              {profile?.nickname}님을 팔로우하는 유저가 없습니다.
+            </Typography>
+          </Grid>
         ) : (
           <Grid>
-            {followers.length === 0 ? (
-              <Typography textAlign="center" marginTop="60px">
-                {profile?.nickname}님을 팔로우하는 유저가 없습니다.
-              </Typography>
-            ) : (
-              followers.map((follower, i) => (
-                <ModalUserCard
-                  key={i}
-                  loggedInUser={user}
-                  profileUserId={profile.id}
-                  user={follower}
-                  onFollow={onFollow}
-                  onUnfollow={onUnfollow}
-                  onProfileFollow={onProfileFollow}
-                  onProfileUnfollow={onProfileUnfollow}
-                />
-              ))
-            )}
+            {followers.map((follower, i) => (
+              <ModalUserCard
+                key={i}
+                loggedInUser={user}
+                profileUserId={profile.id}
+                user={follower}
+                onFollow={onFollow}
+                onUnfollow={onUnfollow}
+                onProfileFollow={onProfileFollow}
+                onProfileUnfollow={onProfileUnfollow}
+              />
+            ))}
           </Grid>
         );
     }
     if (followings) {
       newTabs.find((tab) => tab.key === 'followings').data =
         getFollowingsLoading ? (
-          <ReactLoading
-            type="spinningBubbles"
-            color="black"
-            style={{
-              margin: '60px auto 0 auto',
-              width: '60px',
-              height: '60px',
-            }}
-          />
+          <Grid
+            container
+            height="67vh"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <ReactLoading
+              type="spinningBubbles"
+              color="black"
+              style={{
+                width: '60px',
+                height: '60px',
+              }}
+            />
+          </Grid>
+        ) : followings.length === 0 ? (
+          <Grid
+            container
+            height="67vh"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Typography css={noContents}>
+              {profile?.nickname}님이 팔로우하는 유저가 없습니다.
+            </Typography>
+          </Grid>
         ) : (
           <Grid>
-            {followings.length === 0 ? (
-              <Typography textAlign="center" marginTop="60px">
-                {profile?.nickname}님이 팔로우하는 유저가 없습니다.
-              </Typography>
-            ) : (
-              followings.map((following, i) => (
-                <ModalUserCard
-                  key={i}
-                  loggedInUser={user}
-                  profileUserId={profile.id}
-                  user={following}
-                  onFollow={onFollow}
-                  onUnfollow={onUnfollow}
-                  onProfileFollow={onProfileFollow}
-                  onProfileUnfollow={onProfileUnfollow}
-                />
-              ))
-            )}
+            {followings.map((following, i) => (
+              <ModalUserCard
+                key={i}
+                loggedInUser={user}
+                profileUserId={profile.id}
+                user={following}
+                onFollow={onFollow}
+                onUnfollow={onUnfollow}
+                onProfileFollow={onProfileFollow}
+                onProfileUnfollow={onProfileUnfollow}
+              />
+            ))}
           </Grid>
         );
     }
@@ -231,6 +253,12 @@ const Profile = ({
             <Avatar css={avatar} src={profile.profile.profileImage.src} />
 
             <Typography css={nickname}>{profile.nickname}</Typography>
+
+            {(profile.profile.introduce === '' ||
+              profile.profile.department === '') && (
+              <Grid item mb="35px"></Grid>
+            )}
+
             {!isMe &&
               (!isFollowing ? (
                 isFollowing !== undefined && (
@@ -372,6 +400,7 @@ const Profile = ({
                 <EditProfileIcon />
                 <Typography
                   sx={{
+                    fontFamily: 'Noto Sans KR',
                     marginLeft: '10px',
                     fontSize: '20px',
                     fontWeight: '700',
@@ -421,6 +450,7 @@ const Profile = ({
                         </Typography>
                         <Typography
                           sx={{
+                            fontFamily: 'Noto Sans KR',
                             fontSize: '8px',
                             width: 'fit-content',
                             alignSelf: 'flex-end',
@@ -560,6 +590,7 @@ const avatar = css`
 `;
 
 const nickname = css`
+  font-family: 'Barlow', 'Noto Sans KR', 'sans-serif' !important;
   font-size: 24px;
   font-weight: 700;
 `;
@@ -575,6 +606,7 @@ const followButton = css`
   margin: 30px 0;
 
   .title {
+    font-family: 'Noto Sans KR', 'sans-serif' !important;
     font-size: 20px;
     font-weight: 700;
     margin-left: 20px;
@@ -597,6 +629,7 @@ const followingButton = css`
   margin: 30px 0;
 
   .title {
+    font-family: 'Noto Sans KR', 'sans-serif' !important;
     font-size: 20px;
     font-weight: 700;
     margin-left: 20px;
@@ -610,6 +643,7 @@ const followingButton = css`
 `;
 
 const introduce = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   align-self: flex-start;
   font-size: 14px;
   margin-top: 45px;
@@ -617,6 +651,7 @@ const introduce = css`
 `;
 
 const department = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   display: flex;
   align-items: center;
 `;
@@ -630,12 +665,14 @@ const leftProfileBottom = css`
 `;
 
 const talentLabel = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   font-size: 16px;
   font-weight: 700;
   margin-bottom: 20px;
 `;
 
 const talentTags = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   display: flex;
   flex-wrap: wrap;
   gap: 15px 12px;
@@ -655,10 +692,12 @@ const talentTag = css`
 `;
 
 const followLabel = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   font-size: 16px;
 `;
 
 const orangeLabel = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   background-color: #fff;
   color: black;
   font-size: 16px;
@@ -674,6 +713,7 @@ const orangeLabel = css`
   }
 `;
 const orangeSmallLabel = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   background-color: #fff;
   color: black;
   font-size: 14px;
@@ -692,10 +732,12 @@ const orangeSmallLabel = css`
 `;
 
 const reviewNum = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   font-size: 14px;
 `;
 
 const reviewText = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   font-size: 12px;
   margin-bottom: 20px;
 `;
@@ -743,10 +785,11 @@ const archiveCard = css`
 `;
 
 const archiveTitle = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   transition: all ease 0.2s;
   font-size: 12px;
   font-weight: 700;
-  width: 124px;
+  width: 140px;
 `;
 
 const channelCell = css`
@@ -763,6 +806,7 @@ const channelCard = css`
 `;
 
 const channelName = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   margin-top: 15px;
   font-size: 12px;
   text-align: center;
@@ -770,6 +814,7 @@ const channelName = css`
 `;
 
 const noTags = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   font-size: 12px;
   color: #5f5f5f;
   text-align: center;
@@ -777,6 +822,7 @@ const noTags = css`
 `;
 
 const noContents = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   font-size: 14px;
   color: #5f5f5f;
   text-align: center;
