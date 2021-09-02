@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { TextField as MuiTextField } from '@material-ui/core';
 
 export default function TextField(props) {
-  return <MuiTextField variant="standard" {...props} css={[defaultStyle]} />;
+  return <MuiTextField variant="standard" {...props} css={defaultStyle} />;
 }
 
 const defaultStyle = css`
