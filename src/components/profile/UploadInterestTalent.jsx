@@ -3,30 +3,15 @@ import { css } from '@emotion/react';
 import { Box, Grid, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import palette from '../../lib/styles/palette';
-import TextField from '../common/TextField';
 import ClearIcon from '@material-ui/icons/Clear';
+import { TalentInput } from '../TextField';
 
 const UploadInterestTalent = ({ interestTalent, handleChangeFiled }) => {
-  const [input, setInput] = useState('');
-
-  const handleCahngeTalent = (e) => {
-    setInput(e.target.value);
-  };
-
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleCreateTalent();
-    }
-  };
-
-  const handleCreateTalent = () => {
-    if (interestTalent.length < 10) {
-      handleChangeFiled({
-        key: 'interestTalent',
-        value: interestTalent.concat(input),
-      });
-    }
-    setInput('');
+  const handleCreateTalent = (input) => {
+    handleChangeFiled({
+      key: 'interestTalent',
+      value: interestTalent.concat(input),
+    });
   };
 
   const handleDeleteTalent = (index) => {
@@ -57,15 +42,11 @@ const UploadInterestTalent = ({ interestTalent, handleChangeFiled }) => {
         ))}
       </Grid>
 
-      <TextField
+      <TalentInput
         autoFocus
-        placeholder="최대 10개까지 입력해주세요"
-        value={input}
-        onChange={handleCahngeTalent}
-        onKeyPress={handleKeyPress}
+        tallent={interestTalent}
+        createTalent={handleCreateTalent}
         css={talentInput}
-        error={interestTalent.length >= 10}
-        helperText={interestTalent.length >= 10 && '더이상 추가할 수 없습니다.'}
       />
     </Box>
   );

@@ -4,11 +4,11 @@ import { Avatar, Box, Grid, Paper, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router';
 import { ReactComponent as Participants } from '../../lib/assets/participants.svg';
 
-const ChannelCard = ({ channelInfo }) => {
+const ChannelCard = ({ channel }) => {
   const history = useHistory();
 
   const handleMoveChannel = () => {
-    history.push(`/channelProfile/${channelInfo.id}`);
+    history.push(`/channelProfile/${channel.id}`);
   };
 
   return (
@@ -22,14 +22,14 @@ const ChannelCard = ({ channelInfo }) => {
         <Avatar css={channelIcon}></Avatar>
       </Grid>
       <Grid item xs={6} css={rightContent}>
-        <Typography css={title}>{channelInfo.title}</Typography>
+        <Typography css={title}>{channel.name}</Typography>
         <Typography css={total}>
-          <Participants css={icon} /> {channelInfo.total}
+          <Participants css={icon} /> {channel.participants.length}
         </Typography>
-        <Typography css={category}>{channelInfo.category}</Typography>
+        <Typography css={category}>{channel.category.category.name}</Typography>
         <Box css={tagList}>
-          {channelInfo.tag.map((tag, index) => (
-            <Typography key={index}>#{tag}</Typography>
+          {channel.tags.map((tag) => (
+            <Typography key={tag.tagId}>#{tag.tag.name}</Typography>
           ))}
         </Box>
       </Grid>

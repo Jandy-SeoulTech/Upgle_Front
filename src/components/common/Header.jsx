@@ -57,7 +57,7 @@ const Header = ({ user, onLogout }) => {
       <Link
         to="/talent"
         css={[
-          navItem,
+          navItem(isMobile),
           pathname === '/talent' &&
             css`
               border-bottom: 3px solid ${palette.orange} !important;
@@ -70,7 +70,7 @@ const Header = ({ user, onLogout }) => {
         <Link
           to="/myChannel"
           css={[
-            navItem,
+            navItem(isMobile),
             pathname === '/myChannel' &&
               css`
                 border-bottom: 3px solid ${palette.orange} !important;
@@ -183,6 +183,7 @@ const headerWrapper = ({ isMobile, scrolled }) => css`
     ? '0px 1px 10px rgba(0, 0, 0, 0.25);'
     : '0px 1px 1px rgba(0, 0, 0, 0.25);'};
   backdrop-filter: ${scrolled && 'blur(2px);'};
+  z-index: 1000;
 `;
 
 const logo = css`

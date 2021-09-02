@@ -8,7 +8,7 @@ const ChannerHome = ({ channel, ChatListComponent }) => {
       <Grid item xs={6}>
         <Typography variant="h4">잡담방</Typography>
         <Box css={talkWrapper}>
-          <ChatListComponent namespace={`channel-${channel.id}`} />
+          <ChatListComponent namespace={`channel-${1}`} />
         </Box>
       </Grid>
       <Grid item xs={6}>
@@ -24,7 +24,7 @@ const ChannerHome = ({ channel, ChatListComponent }) => {
 };
 
 const channerHomeWrapper = css`
-  margin-top: 60px;
+  margin-top: 3.75rem;
   margin-bottom: 10rem;
   height: 30rem;
   width: 70vw;
