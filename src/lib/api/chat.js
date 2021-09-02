@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export const getMessages = async (channelId) => {
+export const getMessages = async ({ channelId, lastId }) => {
   const response = await axios({
-    url: `/api/Chat/channel/${channelId}`,
+    url: `/api/Chat/channel/${channelId}?lastId=${lastId}`,
     method: 'GET',
   });
   return response.data;
