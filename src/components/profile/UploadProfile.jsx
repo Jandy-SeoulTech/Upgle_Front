@@ -1,28 +1,20 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import Button from '../common/Button';
-import { Box, Grid, Paper, Typography, useMediaQuery } from '@material-ui/core';
-import { Link, useHistory } from 'react-router-dom';
-import { memo, useEffect, useState } from 'react';
+import { Box, Grid, Typography, useMediaQuery } from '@material-ui/core';
+import { useState } from 'react';
 import { ReactComponent as LogoWithTextTemp } from '../../lib/assets/logoWithTextTemp.svg';
 import { ReactComponent as LogoWithTextTemp2 } from '../../lib/assets/logoWithTextTemp2.svg';
 import { ReactComponent as Rafiki } from '../../lib/assets/rafiki.svg';
 import { ReactComponent as ArrowLeft } from '../../lib/assets/arrowLeft.svg';
-import { ReactComponent as ArrowRight } from '../../lib/assets/arrowRight.svg';
 import palette from '../../lib/styles/palette';
-import UploadWellTalent from './UploadWellTalent';
-import UploadInterestTalent from './UploadInterestTalent';
-import UploadDepartment from './UploadDepartment';
-import UploadIntroduce from './UploadIntroduce';
-import UploadImage from './UploadImage';
+
+import NextButton from './NextButton';
+import { UploadProfileForms } from '../UploadProfileForms';
 
 const UploadProfile = ({
   user,
-  wellTalent,
-  interestTalent,
-  department,
-  introduce,
-  images,
+  data,
   handleChangeFiled,
   handleUploadProfile,
 }) => {
@@ -34,113 +26,10 @@ const UploadProfile = ({
   };
 
   const handleNext = () => {
-    setActiveStep(activeStep + 1);
-  };
-
-  const handleNextButton = (step) => {
-    switch (step) {
-      case 0:
-        return (
-          <Button
-            onClick={handleNext}
-            css={wellTalent.length === 0 && skipButton}
-          >
-            {wellTalent.length === 0 ? (
-              '건너뛰기'
-            ) : (
-              <>
-                계속 <ArrowRight />
-              </>
-            )}
-          </Button>
-        );
-      case 1:
-        return (
-          <Button
-            onClick={handleNext}
-            css={interestTalent.length === 0 && skipButton}
-          >
-            {interestTalent.length === 0 ? (
-              '건너뛰기'
-            ) : (
-              <>
-                계속 <ArrowRight />
-              </>
-            )}
-          </Button>
-        );
-      case 2:
-        return (
-          <Button onClick={handleNext} css={department === '' && skipButton}>
-            {department === '' ? (
-              '건너뛰기'
-            ) : (
-              <>
-                계속 <ArrowRight />
-              </>
-            )}
-          </Button>
-        );
-      case 3:
-        return (
-          <Button onClick={handleNext} css={introduce === '' && skipButton}>
-            {introduce === '' ? (
-              '건너뛰기'
-            ) : (
-              <>
-                계속 <ArrowRight />
-              </>
-            )}
-          </Button>
-        );
-      case 4:
-        return (
-          <Button
-            onClick={handleUploadProfile}
-            css={images.length === 0 && skipButton}
-          >
-            {images.length === 0 ? '건너뛰기' : '제출'}
-          </Button>
-        );
-      default:
-        throw new Error('Unknown step');
-    }
-  };
-
-  const getStepContent = (step) => {
-    switch (step) {
-      case 0:
-        return (
-          <UploadWellTalent
-            wellTalent={wellTalent}
-            handleChangeFiled={handleChangeFiled}
-          />
-        );
-      case 1:
-        return (
-          <UploadInterestTalent
-            interestTalent={interestTalent}
-            handleChangeFiled={handleChangeFiled}
-          />
-        );
-      case 2:
-        return (
-          <UploadDepartment
-            department={department}
-            handleChangeFiled={handleChangeFiled}
-          />
-        );
-      case 3:
-        return (
-          <UploadIntroduce
-            introduce={introduce}
-            handleChangeFiled={handleChangeFiled}
-          />
-        );
-      case 4:
-        return <UploadImage />;
-      default:
-        throw new Error('Unknown step');
+    if (activeStep === 4) {
+      handleUploadProfile();
+    } else {
+      setActiveStep(activeStep + 1);
     }
   };
 
@@ -177,7 +66,11 @@ const UploadProfile = ({
         >
           <Box css={uploadFormContent}>
             <Typography>{activeStep + 1}/5</Typography>
-            {getStepContent(activeStep)}
+            <UploadProfileForms
+              step={activeStep}
+              data={data}
+              handleChangeFiled={handleChangeFiled}
+            />
           </Box>
           <Box css={buttonWrapper}>
             {activeStep !== 0 ? (
@@ -188,7 +81,11 @@ const UploadProfile = ({
             ) : (
               <Box sx={{ flex: 1 }}></Box>
             )}
-            {handleNextButton(activeStep)}
+            <NextButton
+              data={data}
+              activeStep={activeStep}
+              onClick={handleNext}
+            />
           </Box>
         </Grid>
       </Grid>
@@ -307,16 +204,6 @@ const buttonWrapper = css`
     &:hover {
       background-color: rgba(0, 0, 0, 0.8);
     }
-  }
-`;
-
-const skipButton = css`
-  border: 2px solid ${palette.black};
-  background-color: ${palette.white} !important;
-  color: ${palette.black} !important;
-  &:hover {
-    border: 2px solid ${palette.black};
-    background-color: rgba(189, 189, 189, 0.5) !important;
   }
 `;
 

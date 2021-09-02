@@ -53,11 +53,7 @@ const UploadProfileContainer = (props) => {
   return (
     <UploadProfile
       user={user}
-      department={department}
-      introduce={introduce}
-      wellTalent={wellTalent}
-      interestTalent={interestTalent}
-      images={images}
+      data={{ department, introduce, wellTalent, interestTalent, images }}
       handleChangeFiled={handleChangeFiled}
       handleUploadProfile={handleUploadProfile}
     />
