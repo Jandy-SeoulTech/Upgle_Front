@@ -108,6 +108,9 @@ const talentWrapper = css`
 const talentInput = css`
   width: 21.875rem;
   margin-top: 7.75rem;
+  .MuiInputLabel-root {
+    color: black !important;
+  }
 `;
 
 export default UploadWellTalent;

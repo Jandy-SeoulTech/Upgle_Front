@@ -248,23 +248,26 @@ const smallUploadFormHeader = css`
 const UploadFormTitle = css`
   font-family: 'Barlow', 'Noto Sans KR';
   font-weight: bold;
-  font-size: 34px;
-  margin-left: 67px;
-  margin-top: 110px;
+  font-size: 2.125rem;
+  width: 23.75rem;
+  margin-left: 3.4375rem;
+  margin-top: 6.875rem;
+  word-wrap: break-word;
+  word-break: keep-all;
 `;
 
 const UploadFormDescription = css`
   font-family: 'Barlow', 'Noto Sans KR';
   font-weight: 700;
-  font-size: 24px;
-  margin-left: 67px;
-  margin-top: 52px;
+  font-size: 1.25rem;
+  margin-left: 3.4375rem;
+  margin-top: 3.75rem;
 `;
 
 const uploadFormTitleLogo = css`
   position: relative;
-  top: 220px;
-  left: 280px;
+  top: 12rem;
+  left: 17.5rem;
 `;
 
 const uploadFormSection = css`
