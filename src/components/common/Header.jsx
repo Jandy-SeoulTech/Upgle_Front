@@ -135,7 +135,11 @@ const Header = ({ user, onLogout }) => {
                     </Box>
                     <Divider />
                     <MenuItem>
-                      <ListItemText>프로필</ListItemText>
+                      <ListItemText
+                        onClick={() => history.push(`/profile/${user.id}`)}
+                      >
+                        프로필
+                      </ListItemText>
                     </MenuItem>
                     <MenuItem>
                       <ListItemText>모아 보기</ListItemText>

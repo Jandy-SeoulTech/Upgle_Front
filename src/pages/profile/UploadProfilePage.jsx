@@ -1,5 +1,5 @@
 import React from 'react';
-import UploadProfileContainer from '../containers/profile/UploadProfileContainer';
+import UploadProfileContainer from '../../containers/profile/UploadProfileContainer';
 
 const UploadProfilePage = (props) => <UploadProfileContainer />;
 

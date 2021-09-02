@@ -49,7 +49,7 @@ const UploadProfile = ({
           css={[uploadFormHeader, m1200 && smallUploadFormHeader]}
         >
           <Typography variant="h4" css={UploadFormTitle}>
-            반갑습니다, {user.nickname}님!
+            반갑습니다, 가나다라마바사아자차카타님!
           </Typography>
           <Typography css={UploadFormDescription}>
             업글을 이용하기 전에

@@ -2,7 +2,6 @@
 import { css } from '@emotion/react';
 import { Box, Grid, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router';
-import UploadImageContainer from '../../containers/common/UploadImageContainer';
 import { ReactComponent as Amico } from '../../lib/assets/amico.svg';
 import palette from '../../lib/styles/palette';
 

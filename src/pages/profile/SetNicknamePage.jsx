@@ -1,5 +1,5 @@
 import React from 'react';
-import SetNicknameContainer from '../../containers/auth/SetNicknameContainer';
+import SetNicknameContainer from '../../containers/profile/SetNicknameContainer';
 
 const SetNicknamePage = (props) => (
   <>

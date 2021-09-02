@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { Box } from '@material-ui/core';
 import { ReactComponent as DefaultImage } from '../../lib/assets/defaultImage.svg';
 import { ReactComponent as CancelImage } from '../../lib/assets/cancelImage.svg';
 import ImageUploading from 'react-images-uploading';
 import React from 'react';
-import { Box } from '@material-ui/core';
 
 const UploadImage = ({ images, uploadImage, initializeImage }) => {
   const onChange = (imageList) => {
@@ -22,13 +22,7 @@ const UploadImage = ({ images, uploadImage, initializeImage }) => {
             <div
               {...dragProps}
               onClick={onImageUpload}
-              css={[
-                dragSenser,
-                isDragging &&
-                  css`
-                    background-color: rgba(0, 0, 0, 0.3);
-                  `,
-              ]}
+              css={dragSenser(isDragging)}
             ></div>
             {images.length === 0 ? (
               <DefaultImage css={currentImage} />
@@ -48,7 +42,9 @@ const uploadImageWrapper = css`
   height: 11.25rem;
 `;
 
-const dragSenser = css`
+const dragSenser = (isDragging) => css`
+  margin-top: 5.38rem;
+  margin-left: 6.05rem;
   width: 11rem;
   height: 11rem;
   margin-top: 0.125rem;
@@ -56,7 +52,8 @@ const dragSenser = css`
   position: absolute;
   border-radius: 50%;
   cursor: pointer;
-  :hover {
+  background-color: ${isDragging && 'rgba(0, 0, 0, 0.3)'};
+  &:hover {
     background-color: rgba(0, 0, 0, 0.3);
   }
 `;
