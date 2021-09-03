@@ -10,6 +10,7 @@ import {
   likeChannel,
   unLikeChannel,
 } from '../../modules/channel';
+import { setChannel } from '../../modules/write';
 
 const ChannelProfileContainer = ({ channelId }) => {
   const [collection] = useState([
@@ -73,6 +74,11 @@ const ChannelProfileContainer = ({ channelId }) => {
     dispatch(unLikeChannel(channelId));
   };
 
+  const onEdit = () => {
+    dispatch(setChannel(channel));
+    history.push('/editChannel');
+  };
+
   useEffect(() => {
     dispatch(getChannelData(channelId));
     return () => {
@@ -114,6 +120,7 @@ const ChannelProfileContainer = ({ channelId }) => {
       isLiked={isLiked}
       onLikeChannel={onLikeChannel}
       onUnLikeChannel={onUnLikeChannel}
+      onEdit={onEdit}
     />
   );
 };

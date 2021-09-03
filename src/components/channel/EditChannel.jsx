@@ -8,7 +8,6 @@ import {
   Select,
   Typography,
 } from '@material-ui/core';
-import React, { useState } from 'react';
 import palette from '../../lib/styles/palette';
 import Button from '../common/Button';
 import { ReactComponent as Check } from '../../lib/assets/check.svg';
@@ -21,7 +20,9 @@ const EditChannel = ({ writeChannel, handleChangeFiled, editChannel }) => {
   return (
     <Box css={createChannelWrapper}>
       <Box css={createChannelContent}>
-        <Typography css={title}>채널 만들기</Typography>
+        <Typography css={title}>
+          채널 {writeChannel.id ? '관리' : '만들기'}
+        </Typography>
         <Paper css={description}>
           <span className="highlight">잠깐!</span> Upgle에는 재능을 공유하기
           위한 다양한 채널이 있습니다. 채널을 만들기 전에 재능을 공유하고 싶은
@@ -72,7 +73,10 @@ const EditChannel = ({ writeChannel, handleChangeFiled, editChannel }) => {
                 value={writeChannel.category}
                 css={formSelect}
                 onChange={(e) => {
-                  handleChangeFiled({ key: 'category', value: e.target.value });
+                  handleChangeFiled({
+                    key: 'category',
+                    value: e.target.value,
+                  });
                 }}
               >
                 {categories.map((category) => (
@@ -89,18 +93,27 @@ const EditChannel = ({ writeChannel, handleChangeFiled, editChannel }) => {
             </Grid>
             <Grid item xs={8}>
               <TagInput
-                tag={writeChannel.tag}
+                tagList={writeChannel.tags}
                 onCreate={(input) => {
                   handleChangeFiled({
-                    key: 'tag',
-                    value: writeChannel.tag.concat(input),
+                    key: 'tags',
+                    value: writeChannel.tags.concat(input),
                   });
                 }}
                 variant="outlined"
                 size="small"
                 css={formInput}
               />
-              <TagBox tagList={writeChannel.tag} />
+              <TagBox
+                css={tagBox}
+                tagList={writeChannel.tags}
+                onClick={(index) => {
+                  handleChangeFiled({
+                    key: 'tags',
+                    value: writeChannel.tags.filter((input, i) => index !== i),
+                  });
+                }}
+              />
             </Grid>
           </Grid>
           <Grid container css={formContent}>
@@ -118,7 +131,7 @@ const EditChannel = ({ writeChannel, handleChangeFiled, editChannel }) => {
           <Grid container css={formContent} justifyContent="flex-end">
             <Grid item container xs={8} justifyContent="center">
               <Button fullWidth css={createButton} onClick={editChannel}>
-                만들기
+                {writeChannel ? '저장하기' : '만들기'}
               </Button>
             </Grid>
           </Grid>
@@ -195,6 +208,13 @@ const formSelect = css`
       border: 1px solid black !important;
     }
   }
+`;
+
+const tagBox = css`
+  width: 100%;
+  margin-left: 0.06rem;
+  padding: 0.625rem 0.625rem 1.25rem 0.625rem;
+  background-color: #e0e0e0;
 `;
 
 const uploadImageDescription = css`

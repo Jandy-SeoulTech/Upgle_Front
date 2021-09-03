@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TextField from './TextField';
 
-const TagInput = ({ tag, onCreate, ...props }) => {
+const TagInput = ({ tagList, onCreate, ...props }) => {
   const [input, setInput] = useState('');
   const [lengthError, setLengthError] = useState(false);
 
@@ -21,7 +21,7 @@ const TagInput = ({ tag, onCreate, ...props }) => {
   };
 
   const handleCreate = () => {
-    if (tag.length < 10) {
+    if (tagList.length < 10) {
       onCreate(input);
       setInput('');
     }
@@ -33,9 +33,9 @@ const TagInput = ({ tag, onCreate, ...props }) => {
       value={input}
       onChange={handleCahnge}
       onKeyPress={handleKeyPress}
-      error={tag.length >= 10 || lengthError}
+      error={tagList.length >= 10 || lengthError}
       helperText={
-        tag.length >= 10
+        tagList.length >= 10
           ? '더이상 추가할 수 없습니다.'
           : lengthError && '10자 이내로 입력해주세요'
       }

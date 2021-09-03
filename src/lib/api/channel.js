@@ -5,31 +5,31 @@ export const createChannel = async ({
   channelId,
   name,
   introduce,
-  tag,
+  tags,
   category,
   src,
 }) => {
   const response = await axios({
     url: '/api/Channel',
     method: 'POST',
-    data: { userId, channelId, name, introduce, tag, category, src },
+    data: { userId, channelId, name, introduce, tags, category, src },
   });
   return response.data;
 };
 
-export const editChannel = async ({
+export const updateChannel = async ({
   userId,
   channelId,
   name,
   introduce,
-  tag,
+  tags,
   category,
   src,
 }) => {
   const response = await axios({
     url: '/api/Channel',
     method: 'PATCH',
-    data: { userId, channelId, name, introduce, tag, category, src },
+    data: { userId, channelId, name, introduce, tags, category, src },
   });
   return response.data;
 };

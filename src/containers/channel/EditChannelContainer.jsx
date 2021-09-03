@@ -2,15 +2,18 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import EditChannel from '../../components/channel/EditChannel';
+import { setImage } from '../../modules/image';
 import { check } from '../../modules/user';
 import {
   changeChannel,
   createChannel,
-  initializeWrite,
+  initialize,
+  updateChannel,
 } from '../../modules/write';
 
 const EditChannelContainer = (props) => {
   const { writeChannel, channel, error } = useSelector((state) => state.write);
+  const { id: channelId } = useSelector((state) => state.write.writeChannel);
   const { images } = useSelector((state) => state.image);
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -22,6 +25,14 @@ const EditChannelContainer = (props) => {
 
   const editChannel = () => {
     if (writeChannel.id) {
+      dispatch(
+        updateChannel({
+          userId: user.id,
+          channelId,
+          ...writeChannel,
+          src: images[0] || null,
+        }),
+      );
     } else {
       dispatch(
         createChannel({
@@ -34,8 +45,14 @@ const EditChannelContainer = (props) => {
   };
 
   useEffect(() => {
+    if (channelId) {
+      dispatch(setImage(writeChannel.src));
+    }
+  }, [channelId]);
+
+  useEffect(() => {
     return () => {
-      dispatch(initializeWrite());
+      dispatch(initialize());
     };
   }, [dispatch]);
 

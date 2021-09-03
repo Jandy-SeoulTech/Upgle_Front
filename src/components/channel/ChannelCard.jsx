@@ -19,7 +19,7 @@ const ChannelCard = ({ channel }) => {
       onClick={handleMoveChannel}
     >
       <Grid item container xs={6} css={leftContent}>
-        <Avatar css={channelIcon}></Avatar>
+        <Avatar src={channel.channelImage.src} css={channelIcon}></Avatar>
       </Grid>
       <Grid item xs={6} css={rightContent}>
         <Typography css={title}>{channel.name}</Typography>

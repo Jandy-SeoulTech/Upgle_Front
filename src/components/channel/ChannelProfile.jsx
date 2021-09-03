@@ -5,11 +5,13 @@ import { ReactComponent as LikeIcon } from '../../lib/assets/likeIcon.svg';
 import { ReactComponent as LikedButton } from '../../lib/assets/likedButton.svg';
 import { ReactComponent as UserPlus } from '../../lib/assets/userPlus.svg';
 import { ReactComponent as MoreIcon } from '../../lib/assets/moreIcon.svg';
+import { ReactComponent as Setting } from '../../lib/assets/setting.svg';
 import palette from '../../lib/styles/palette';
 import CheckIcon from '@material-ui/icons/Check';
 
 import Button from '../common/Button';
 import { useState } from 'react';
+import { useHistory } from 'react-router';
 
 const ChannelProfile = ({
   user,
@@ -21,16 +23,23 @@ const ChannelProfile = ({
   isLiked,
   onLikeChannel,
   onUnLikeChannel,
+  onEdit,
 }) => {
   const [open, setOpen] = useState(false);
+  const history = useHistory();
 
   return (
     <>
       <Box css={head}>
-        <Avatar src={'channel.image'} css={headeIcon} />
+        <Avatar src={channel.channelImage.src} css={headeIcon} />
         <Box css={headContent}>
           <Box>
-            <Typography css={headTitle}>{channel.name}</Typography>
+            <Typography css={headTitle}>
+              {channel.name}{' '}
+              {user.id === channel.adminId && (
+                <Setting css={{ cursor: 'pointer' }} onClick={onEdit} />
+              )}
+            </Typography>
             <Typography css={headTotal}>
               재능 공유 멤버 {channel.participants.length + 1}
             </Typography>
@@ -146,7 +155,7 @@ const ChannelProfile = ({
           <Typography css={sectionTitle}>
             모아보기 <Button css={moreButton}>더보기</Button>
           </Typography>
-          <Grid container spacing={3}>
+          <Grid container spacing={2}>
             {collection.map((collection) => (
               <Grid item key={collection.id}>
                 <Paper

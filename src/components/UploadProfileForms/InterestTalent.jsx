@@ -30,7 +30,7 @@ const InterestTalent = ({ interestTalent, handleChangeFiled }) => {
 
       <TagInput
         autoFocus
-        tag={interestTalent}
+        tagList={interestTalent}
         onCreate={handleCreateTalent}
         css={talentInput}
       />

@@ -30,7 +30,7 @@ const WellTalent = ({ wellTalent, handleChangeFiled }) => {
 
       <TagInput
         autoFocus
-        tag={wellTalent}
+        tagList={wellTalent}
         onCreate={handleCreateTalent}
         css={talentInput}
       />
