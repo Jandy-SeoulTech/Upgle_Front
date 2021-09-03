@@ -43,6 +43,13 @@ const initialState = {
     wellTalent: [],
     interestTalent: [],
   },
+  writeChannel: {
+    name: '',
+    introduce: '',
+    category: '',
+    tag: '',
+    src: '',
+  },
   profile: null,
   error: null,
 };

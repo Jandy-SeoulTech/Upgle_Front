@@ -27,7 +27,7 @@ const ChatListContainer = ({ namespace }) => {
   }, [location]);
 
   useEffect(() => {
-    dispatch(getMessages(1));
+    dispatch(getMessages({ channelId: 1, lastId: null }));
   }, [dispatch]);
 
   useEffect(() => {

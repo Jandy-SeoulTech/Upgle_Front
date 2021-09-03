@@ -42,7 +42,7 @@ export const getChannelList = async (userId) => {
   return response.data;
 };
 
-export const enterChanner = async ({ adminId, channelId }) => {
+export const enterChannel = async ({ adminId, channelId }) => {
   const response = await axios({
     url: '/api/Channel/enter',
     method: 'POST',
@@ -51,7 +51,7 @@ export const enterChanner = async ({ adminId, channelId }) => {
   return response.data;
 };
 
-export const exitChanner = async ({ adminId, channelId }) => {
+export const exitChannel = async ({ adminId, channelId }) => {
   const response = await axios({
     url: '/api/Channel/exit',
     method: 'POST',
@@ -69,7 +69,7 @@ export const passAdmin = async ({ adminId, userId, channelId }) => {
   return response.data;
 };
 
-export const likeChanner = async (channelId) => {
+export const likeChannel = async (channelId) => {
   const response = await axios({
     url: '/api/Channel/like',
     method: 'POST',
@@ -78,7 +78,7 @@ export const likeChanner = async (channelId) => {
   return response.data;
 };
 
-export const unlikeChanner = async (channelId) => {
+export const unlikeChannel = async (channelId) => {
   const response = await axios({
     url: '/api/Channel/unlike',
     method: 'POST',

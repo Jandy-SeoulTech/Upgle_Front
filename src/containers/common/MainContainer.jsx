@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import Main from '../../components/common/Main';
-import { getPostList } from '../../modules/posts';
 
 const MainContainer = (props) => {
   const { user } = useSelector((state) => state.user);
@@ -47,10 +46,6 @@ const MainContainer = (props) => {
       else if (!user.profile) history.push('/uploadProfile');
     }
   }, [user, history]);
-
-  useEffect(() => {
-    dispatch(getPostList());
-  }, [dispatch]);
 
   return <Main postList={postList} />;
 };

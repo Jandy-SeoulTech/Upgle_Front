@@ -11,7 +11,10 @@ const [SEND_MESSAGE, SEND_MESSAGE_SUCCESS, SEND_MESSAGE_FAILURE] =
   createRequestActionTypes('chat/SEND_MESSAGE');
 const CONCAT_MESSAGES = 'chat/SET_MESSAGE';
 
-export const getMessages = createAction(GET_MESSAGES, (channelId) => channelId);
+export const getMessages = createAction(
+  GET_MESSAGES,
+  ({ channelId, lastId }) => ({ channelId, lastId }),
+);
 export const sendMessage = createAction(
   SEND_MESSAGE,
   ({ channelId, content }) => ({ channelId, content }),
@@ -34,7 +37,7 @@ const initialState = {
   error: null,
 };
 
-const posts = handleActions(
+const chat = handleActions(
   {
     [GET_MESSAGES_SUCCESS]: (state, { payload }) => ({
       ...state,
@@ -52,4 +55,4 @@ const posts = handleActions(
   initialState,
 );
 
-export default posts;
+export default chat;

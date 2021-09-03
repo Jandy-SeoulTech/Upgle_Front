@@ -14,7 +14,11 @@ const ChannelHomeContainer = ({ channelId, ChatListComponent }) => {
   // if (!channel) return '로딩중';
 
   return (
-    <ChannelHome channel={channel} ChatListComponent={ChatListComponent} />
+    <ChannelHome
+      channel={channel}
+      channelId={channelId}
+      ChatListComponent={ChatListComponent}
+    />
   );
 };
 
