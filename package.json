@@ -17,6 +17,7 @@
     "@material-ui/system": "5.0.0-alpha.31",
     "axios": "^0.21.1",
     "http-proxy-middleware": "^2.0.0",
+    "jodit-react": "^1.1.1",
     "json-server": "^0.16.3",
     "qs": "^6.10.1",
     "react": "^17.0.2",
