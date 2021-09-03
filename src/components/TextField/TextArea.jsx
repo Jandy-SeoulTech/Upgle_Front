@@ -12,19 +12,19 @@ const TextArea = ({ input, onChange, ...props }) => {
       return;
     }
     setLengthError(false);
-    onChange(e.target.value);
+    if (onChange) onChange(e.target.value);
   };
 
   return (
     <Box>
       <TextareaAutosize
-        {...props}
         placeholder="500자 이내로 작성해주세요."
         value={input}
         minRows={10}
         maxRows={16}
         onChange={handleCahnge}
-        css={introduceForm(lengthError)}
+        {...props}
+        css={defaultStyle(lengthError)}
       />
       {lengthError && (
         <Typography sx={{ color: 'red', fontSize: '0.75rem' }}>
@@ -35,11 +35,7 @@ const TextArea = ({ input, onChange, ...props }) => {
   );
 };
 
-const introduceForm = (lengthError) => css`
-  width: 21.875rem;
-  height: 15.625rem;
-  margin-top: 4.6875rem;
-  background: #f0f0f0;
+const defaultStyle = (lengthError) => css`
   font-size: 0.875rem;
   font-family: 'Barlow', 'Noto Sans KR';
   font-weight: 500;

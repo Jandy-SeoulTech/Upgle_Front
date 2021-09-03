@@ -2,15 +2,16 @@
 import { css } from '@emotion/react';
 import { Typography } from '@material-ui/core';
 import palette from '../../lib/styles/palette';
-import DepartmentInput from '../TextField/DepartmentInput';
+import { TextField } from '../TextField';
 
 const Department = ({ department, handleChangeFiled }) => {
   return (
     <>
       <Typography css={title}>현재 소속되어 있는 곳이 있나요?</Typography>
-      <DepartmentInput
+      <TextField
         autoFocus
         input={department}
+        maxLength={20}
         onChange={(input) => {
           handleChangeFiled({
             key: 'department',

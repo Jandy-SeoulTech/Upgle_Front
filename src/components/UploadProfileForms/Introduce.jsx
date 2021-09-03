@@ -14,7 +14,12 @@ const Introduce = ({ introduce, handleChangeFiled }) => {
   return (
     <>
       <Typography css={title}>간단하게 자신에 대해 소개해주세요</Typography>
-      <TextArea autoFocus input={introduce} onChange={handleCahnge} />
+      <TextArea
+        autoFocus
+        input={introduce}
+        onChange={handleCahnge}
+        css={introduce}
+      />
     </>
   );
 };
@@ -26,6 +31,13 @@ const title = css`
   span {
     color: ${palette.orange};
   }
+`;
+
+const introduce = css`
+  width: 21.875rem;
+  height: 15.625rem;
+  margin-top: 4.6875rem;
+  background: #f0f0f0;
 `;
 
 export default Introduce;
