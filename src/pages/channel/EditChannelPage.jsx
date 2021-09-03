@@ -1,14 +1,14 @@
 import React from 'react';
-import CreateChannelContainer from '../../containers/channel/CreateChannelContainer';
+import EditChannelContainer from '../../containers/channel/EditChannelContainer';
 import FooterContainer from '../../containers/common/FooterContainer';
 import HeaderContainer from '../../containers/common/HeaderContainer';
 
-const CreateChannelPage = () => (
+const EditChannelPage = () => (
   <>
     <HeaderContainer />
-    <CreateChannelContainer />
+    <EditChannelContainer />
     <FooterContainer />
   </>
 );
 
-export default CreateChannelPage;
+export default EditChannelPage;

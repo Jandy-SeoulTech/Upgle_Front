@@ -2,11 +2,8 @@
 import { css } from '@emotion/react';
 import {
   Box,
-  FormControl,
   Grid,
-  InputLabel,
   MenuItem,
-  OutlinedInput,
   Paper,
   Select,
   TextField,
@@ -19,7 +16,7 @@ import { ReactComponent as Check } from '../../lib/assets/check.svg';
 import UploadImageContainer from '../../containers/common/UploadImageContainer';
 import categories from '../../lib/util/categories';
 
-const CreateChannel = (props) => {
+const EditChannel = (props) => {
   const [category, setCategory] = useState('');
 
   const handleCategoryChange = (e) => {
@@ -186,4 +183,4 @@ const createButton = css`
   color: #5f5f5f;
 `;
 
-export default CreateChannel;
+export default EditChannel;
