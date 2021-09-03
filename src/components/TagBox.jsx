@@ -4,10 +4,10 @@ import { Box, Grid, Typography } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
 import palette from '../lib/styles/palette';
 
-const TalentBox = ({ talentList, onClick }) => {
+const TagBox = ({ tagList, onClick }) => {
   return (
     <Grid container spacing={1} css={talentWrapper}>
-      {talentList.map((talent, index) => (
+      {tagList.map((talent, index) => (
         <Grid item key={index}>
           <Box
             onClick={() => {
@@ -65,4 +65,4 @@ const talentWrapper = css`
   }
 `;
 
-export default TalentBox;
+export default TagBox;

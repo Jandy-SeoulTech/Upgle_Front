@@ -32,10 +32,10 @@ const ChannelProfile = ({
           <Box>
             <Typography css={headTitle}>{channel.name}</Typography>
             <Typography css={headTotal}>
-              재능 공유 멤버 : {channel.participants.length}
+              재능 공유 멤버 {channel.participants.length + 1}
             </Typography>
             <Typography css={headLike}>
-              좋아요 : {channel.channellike.length}
+              좋아요 {channel.channellike.length}
             </Typography>
           </Box>
           <Box css={headButtonWrapper}>

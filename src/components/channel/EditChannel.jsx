@@ -14,60 +14,66 @@ import Button from '../common/Button';
 import { ReactComponent as Check } from '../../lib/assets/check.svg';
 import UploadImageContainer from '../../containers/common/UploadImageContainer';
 import categories from '../../lib/util/categories';
-import { TextArea, TextField } from '../TextField';
+import { TagInput, TextArea, TextField } from '../TextField';
+import TagBox from '../TagBox';
 
-const EditChannel = (props) => {
-  const [category, setCategory] = useState('');
-  const [name, setName] = useState('');
-
-  const handleCategoryChange = (e) => {
-    setCategory(e.target.value);
-  };
-
+const EditChannel = ({ writeChannel, handleChangeFiled, editChannel }) => {
   return (
-    <Box css={CreateChannelWrapper}>
-      <Box css={CreateChannelContent}>
+    <Box css={createChannelWrapper}>
+      <Box css={createChannelContent}>
         <Typography css={title}>채널 만들기</Typography>
-        <Paper css={Description}>
+        <Paper css={description}>
           <span className="highlight">잠깐!</span> Upgle에는 재능을 공유하기
           위한 다양한 채널이 있습니다. 채널을 만들기 전에 재능을 공유하고 싶은
           기존 채널이 있는지 탐색해보세요! <Button>재능 찾기</Button>
         </Paper>
 
-        <Paper css={CreateChannelForm}>
-          <Grid container css={FormContent}>
-            <Grid item xs={4} css={FormTitle}>
+        <Paper css={createChannelForm}>
+          <Grid container css={formContent}>
+            <Grid item xs={4} css={formTitle}>
               채널명 <Check />
             </Grid>
             <Grid item xs={8}>
               <TextField
                 size="small"
                 variant="outlined"
-                value={name}
-                onChange={setName}
+                value={writeChannel.name}
+                onChange={(input) => {
+                  handleChangeFiled({ key: 'name', value: input });
+                }}
                 maxLength={20}
                 fullWidth
-                css={FormInput}
+                css={formInput}
               />
             </Grid>
           </Grid>
-          <Grid container css={FormContent}>
-            <Grid item xs={4} css={FormTitle}>
+          <Grid container css={formContent}>
+            <Grid item xs={4} css={formTitle}>
               채널 소개 <Check />
             </Grid>
             <Grid item xs={8}>
-              <TextArea size="small" variant="outlined" css={FormInput} />
+              <TextArea
+                value={writeChannel.introduce}
+                onChange={(input) => {
+                  handleChangeFiled({ key: 'introduce', value: input });
+                }}
+                size="small"
+                variant="outlined"
+                css={formInput}
+              />
             </Grid>
           </Grid>
-          <Grid container css={FormContent}>
-            <Grid item xs={4} css={FormTitle}>
+          <Grid container css={formContent}>
+            <Grid item xs={4} css={formTitle}>
               카테고리 <Check />
             </Grid>
             <Grid item xs={8}>
               <Select
-                value={category}
-                css={FormInput}
-                onChange={handleCategoryChange}
+                value={writeChannel.category}
+                css={formSelect}
+                onChange={(e) => {
+                  handleChangeFiled({ key: 'category', value: e.target.value });
+                }}
               >
                 {categories.map((category) => (
                   <MenuItem value={category} key={category}>
@@ -77,16 +83,28 @@ const EditChannel = (props) => {
               </Select>
             </Grid>
           </Grid>
-          <Grid container css={FormContent}>
-            <Grid item xs={4} css={FormTitle}>
+          <Grid container css={formContent}>
+            <Grid item xs={4} css={formTitle}>
               태그 입력
             </Grid>
             <Grid item xs={8}>
-              <TextField size="small" variant="outlined" css={FormInput} />
+              <TagInput
+                tag={writeChannel.tag}
+                onCreate={(input) => {
+                  handleChangeFiled({
+                    key: 'tag',
+                    value: writeChannel.tag.concat(input),
+                  });
+                }}
+                variant="outlined"
+                size="small"
+                css={formInput}
+              />
+              <TagBox tagList={writeChannel.tag} />
             </Grid>
           </Grid>
-          <Grid container css={FormContent}>
-            <Grid item xs={4} css={FormTitle}>
+          <Grid container css={formContent}>
+            <Grid item xs={4} css={formTitle}>
               채널 프로필 사진
             </Grid>
             <Grid item container xs={8} justifyContent="center">
@@ -97,9 +115,9 @@ const EditChannel = (props) => {
               </Typography>
             </Grid>
           </Grid>
-          <Grid container css={FormContent} justifyContent="flex-end">
+          <Grid container css={formContent} justifyContent="flex-end">
             <Grid item container xs={8} justifyContent="center">
-              <Button fullWidth css={createButton}>
+              <Button fullWidth css={createButton} onClick={editChannel}>
                 만들기
               </Button>
             </Grid>
@@ -110,14 +128,14 @@ const EditChannel = (props) => {
   );
 };
 
-const CreateChannelWrapper = css`
+const createChannelWrapper = css`
   background-color: #f0f0f0;
   display: flex;
   justify-content: center;
   margin-top: 3.75rem;
 `;
 
-const CreateChannelContent = css`
+const createChannelContent = css`
   width: 71.25rem;
 `;
 
@@ -130,7 +148,7 @@ const title = css`
   margin-bottom: 3.125rem;
 `;
 
-const Description = css`
+const description = css`
   padding: 1.8125rem 3.0625rem;
   display: flex;
   justify-content: space-between;
@@ -141,27 +159,42 @@ const Description = css`
   }
 `;
 
-const CreateChannelForm = css`
+const createChannelForm = css`
   margin-top: 1.875rem;
   margin-bottom: 6.25rem;
   border-radius: 10px;
 `;
 
-const FormContent = css`
+const formContent = css`
   padding: 3.3125rem 4.5625rem;
   display: flex;
   align-items: flex-start;
   border-bottom: 1px solid #bdbdbd;
 `;
 
-const FormTitle = css`
+const formTitle = css`
   font-family: 'Noto Sans KR';
   font-size: 1.5rem;
   font-weight: bold;
 `;
 
-const FormInput = css`
+const formInput = css`
   width: 100%;
+  & .MuiOutlinedInput-root {
+    & fieldset {
+      border-color: #7b7b7b;
+    }
+  }
+`;
+
+const formSelect = css`
+  width: 100%;
+  & .MuiSelect-root {
+    border: 1px solid #7b7b7b;
+    &:focus {
+      border: 1px solid black !important;
+    }
+  }
 `;
 
 const uploadImageDescription = css`

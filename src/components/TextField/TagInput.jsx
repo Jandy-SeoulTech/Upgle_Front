@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import TextField from './TextField';
 
-const TalentInput = ({ tallent, createTalent, ...props }) => {
+const TagInput = ({ tag, onCreate, ...props }) => {
   const [input, setInput] = useState('');
   const [lengthError, setLengthError] = useState(false);
 
-  const handleCahngeTalent = (e) => {
+  const handleCahnge = (e) => {
     if (e.target.value.length > 10) {
       setLengthError(true);
       return;
@@ -16,32 +16,32 @@ const TalentInput = ({ tallent, createTalent, ...props }) => {
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      handleCreateTalent();
+      handleCreate();
     }
   };
 
-  const handleCreateTalent = () => {
-    if (tallent.length < 10) {
-      createTalent(input);
+  const handleCreate = () => {
+    if (tag.length < 10) {
+      onCreate(input);
       setInput('');
     }
   };
 
   return (
     <TextField
-      {...props}
       placeholder="최대 10개까지 입력해주세요"
       value={input}
-      onChange={handleCahngeTalent}
+      onChange={handleCahnge}
       onKeyPress={handleKeyPress}
-      error={tallent.length >= 10 || lengthError}
+      error={tag.length >= 10 || lengthError}
       helperText={
-        tallent.length >= 10
+        tag.length >= 10
           ? '더이상 추가할 수 없습니다.'
           : lengthError && '10자 이내로 입력해주세요'
       }
+      {...props}
     />
   );
 };
 
-export default TalentInput;
+export default TagInput;
