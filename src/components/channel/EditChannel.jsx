@@ -6,7 +6,6 @@ import {
   MenuItem,
   Paper,
   Select,
-  TextField,
   Typography,
 } from '@material-ui/core';
 import React, { useState } from 'react';
@@ -15,9 +14,11 @@ import Button from '../common/Button';
 import { ReactComponent as Check } from '../../lib/assets/check.svg';
 import UploadImageContainer from '../../containers/common/UploadImageContainer';
 import categories from '../../lib/util/categories';
+import { TextArea, TextField } from '../TextField';
 
 const EditChannel = (props) => {
   const [category, setCategory] = useState('');
+  const [name, setName] = useState('');
 
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
@@ -40,9 +41,12 @@ const EditChannel = (props) => {
             </Grid>
             <Grid item xs={8}>
               <TextField
-                label="20자 이내로 입력해주세요"
                 size="small"
                 variant="outlined"
+                value={name}
+                onChange={setName}
+                maxLength={20}
+                fullWidth
                 css={FormInput}
               />
             </Grid>
@@ -52,7 +56,7 @@ const EditChannel = (props) => {
               채널 소개 <Check />
             </Grid>
             <Grid item xs={8}>
-              <TextField size="small" variant="outlined" css={FormInput} />
+              <TextArea size="small" variant="outlined" css={FormInput} />
             </Grid>
           </Grid>
           <Grid container css={FormContent}>
@@ -158,11 +162,6 @@ const FormTitle = css`
 
 const FormInput = css`
   width: 100%;
-  .MuiOutlinedInput-root {
-    &.Mui-focused fieldset {
-      border-color: black;
-    }
-  }
 `;
 
 const uploadImageDescription = css`

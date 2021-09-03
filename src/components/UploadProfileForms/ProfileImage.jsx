@@ -3,13 +3,12 @@ import { css } from '@emotion/react';
 import { Box, Typography } from '@material-ui/core';
 import UploadImageContainer from '../../containers/common/UploadImageContainer';
 
-const UploadImage = () => {
+const ProfileImage = () => {
   return (
-    <Box css={UploadWellTalentWrapper}>
+    <>
       <Typography css={title}>
         자신을 드러내는 프로필 사진을 등록해주세요
       </Typography>
-
       <Box css={uploadImage}>
         <UploadImageContainer />
       </Box>
@@ -17,14 +16,9 @@ const UploadImage = () => {
       <Typography css={description}>
         등록하지 않으면 기본이미지로 설정됩니다.
       </Typography>
-    </Box>
+    </>
   );
 };
-
-const UploadWellTalentWrapper = css`
-  display: flex;
-  flex-direction: column;
-`;
 
 const title = css`
   font-family: 'Barlow', 'Noto Sans KR';
@@ -45,4 +39,4 @@ const description = css`
   margin-left: 4.3rem;
 `;
 
-export default UploadImage;
+export default ProfileImage;

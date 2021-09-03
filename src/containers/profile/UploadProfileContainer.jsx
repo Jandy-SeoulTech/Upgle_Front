@@ -41,7 +41,7 @@ const UploadProfileContainer = (props) => {
     if (error) {
       alert('등록을 실패했습니다.');
     }
-  }, [history, profile, error]);
+  }, [history, profile, dispatch, error]);
 
   useEffect(() => {
     if (user && user.profile) {
@@ -53,11 +53,7 @@ const UploadProfileContainer = (props) => {
   return (
     <UploadProfile
       user={user}
-      department={department}
-      introduce={introduce}
-      wellTalent={wellTalent}
-      interestTalent={interestTalent}
-      images={images}
+      data={{ department, introduce, wellTalent, interestTalent, images }}
       handleChangeFiled={handleChangeFiled}
       handleUploadProfile={handleUploadProfile}
     />
