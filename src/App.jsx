@@ -7,8 +7,8 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { check } from './modules/user';
 import SetNicknamePage from './pages/profile/SetNicknamePage';
-import UploadProfilePage from './pages/profile/UploadProfilePage';
-import CreateChannelPage from './pages/channel/CreateChannelPage';
+import UploadProfilePage from './pages/UploadProfilePage';
+import EditChannelPage from './pages/channel/EditChannelPage';
 import ChannelProfilePage from './pages/channel/ChannelProfilePage';
 import ChannelHomePage from './pages/channel/ChannelHomePage';
 import MyChannelPage from './pages/channel/MyChannelPage';
@@ -32,7 +32,7 @@ function App() {
       <Route path="/nickname" component={SetNicknamePage} />
       <Route path="/uploadProfile" exact component={UploadProfilePage} />
       <Route path="/myChannel" component={MyChannelPage} />
-      <Route path="/createChannel" component={CreateChannelPage} />
+      <Route path="/editChannel" component={EditChannelPage} />
       <Route path="/channelProfile/:id" exact component={ChannelProfilePage} />
       <Route path="/channelHome/:id" exact component={ChannelHomePage} />
       <Route path="/profile/:userId" component={ProfilePage} />
