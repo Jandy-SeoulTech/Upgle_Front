@@ -9,43 +9,19 @@ import {
   OutlinedInput,
   Paper,
   Select,
-  TextField,
   Typography,
 } from '@material-ui/core';
 import React, { useState } from 'react';
 import palette from '../../lib/styles/palette';
 import Button from '../common/Button';
 import { ReactComponent as Check } from '../../lib/assets/check.svg';
-
-const categories = [
-  '외국어',
-  '미술/공예',
-  '디자인',
-  '음악',
-  '연기/마술',
-  '댄스',
-  '사진/영상',
-  '취미 생활',
-  '투자/부업',
-  '스포츠',
-  '건강',
-  '커리어',
-  '시험/자격증',
-  '패션/뷰티',
-  '요리/ 조리',
-  '펫/반려동물',
-  '홈리빙 / 인테리어',
-  '인간관계',
-  '여행',
-  '라이프',
-  '학문',
-  '프로그래밍',
-  '창업',
-  '기타',
-];
+import UploadImageContainer from '../../containers/common/UploadImageContainer';
+import categories from '../../lib/util/categories';
+import { TextArea, TextField } from '../TextField';
 
 const CreateChannel = (props) => {
   const [category, setCategory] = useState('');
+  const [name, setName] = useState('');
 
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
@@ -68,9 +44,12 @@ const CreateChannel = (props) => {
             </Grid>
             <Grid item xs={8}>
               <TextField
-                label="20자 이내로 입력해주세요"
                 size="small"
                 variant="outlined"
+                value={name}
+                onChange={setName}
+                maxLength={20}
+                fullWidth
                 css={FormInput}
               />
             </Grid>
@@ -80,7 +59,7 @@ const CreateChannel = (props) => {
               채널 소개 <Check />
             </Grid>
             <Grid item xs={8}>
-              <TextField size="small" variant="outlined" css={FormInput} />
+              <TextArea size="small" variant="outlined" css={FormInput} />
             </Grid>
           </Grid>
           <Grid container css={FormContent}>
@@ -103,7 +82,7 @@ const CreateChannel = (props) => {
           </Grid>
           <Grid container css={FormContent}>
             <Grid item xs={4} css={FormTitle}>
-              태그 입력 <Check />
+              태그 입력
             </Grid>
             <Grid item xs={8}>
               <TextField size="small" variant="outlined" css={FormInput} />
@@ -111,10 +90,21 @@ const CreateChannel = (props) => {
           </Grid>
           <Grid container css={FormContent}>
             <Grid item xs={4} css={FormTitle}>
-              채널 프로필 사진 <Check />
+              채널 프로필 사진
             </Grid>
-            <Grid item xs={8}>
-              <TextField size="small" variant="outlined" css={FormInput} />
+            <Grid item container xs={8} justifyContent="center">
+              <UploadImageContainer />
+              <Typography css={uploadImageDescription}>
+                채널을 드러낼 수 있는 프로필 사진을 등록해주세요. 등록하지
+                않으면 기본 이미지로 설정됩니다.
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid container css={FormContent} justifyContent="flex-end">
+            <Grid item container xs={8} justifyContent="center">
+              <Button fullWidth css={createButton}>
+                만들기
+              </Button>
             </Grid>
           </Grid>
         </Paper>
@@ -163,7 +153,7 @@ const CreateChannelForm = css`
 const FormContent = css`
   padding: 3.3125rem 4.5625rem;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   border-bottom: 1px solid #bdbdbd;
 `;
 
@@ -175,11 +165,24 @@ const FormTitle = css`
 
 const FormInput = css`
   width: 100%;
-  .MuiOutlinedInput-root {
-    &.Mui-focused fieldset {
-      border-color: black;
-    }
-  }
+`;
+
+const uploadImageDescription = css`
+  margin-top: 1.978125rem;
+  font-family: 'Noto Sans KR';
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #7b7b7b;
+`;
+
+const createButton = css`
+  height: 3.875rem;
+  background: #e0e0e0;
+  border-radius: 10px;
+  font-family: 'Noto Sans KR';
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: #5f5f5f;
 `;
 
 export default CreateChannel;

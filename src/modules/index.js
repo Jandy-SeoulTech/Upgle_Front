@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import posts, { postsSaga } from './posts';
 import auth, { authSaga } from './auth';
 import user, { userSaga } from './user';
 import chat, { chatSaga } from './chat';
@@ -12,7 +11,6 @@ import { all } from 'redux-saga/effects';
 
 const rootReducer = combineReducers({
   auth,
-  posts,
   user,
   chat,
   channel,
@@ -24,7 +22,6 @@ const rootReducer = combineReducers({
 
 export function* rootSaga() {
   yield all([
-    postsSaga(),
     authSaga(),
     userSaga(),
     chatSaga(),

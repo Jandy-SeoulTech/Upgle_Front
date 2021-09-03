@@ -1,14 +1,27 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Avatar, Box, Grid, Paper, Typography } from '@material-ui/core';
-import { ReactComponent as HeartStraight } from '../../lib/assets/heartStraight.svg';
+import { ReactComponent as LikeIcon } from '../../lib/assets/likeIcon.svg';
+import { ReactComponent as UnLikeIcon } from '../../lib/assets/unLikeIcon.svg';
 import { ReactComponent as UserPlus } from '../../lib/assets/userPlus.svg';
 import { ReactComponent as MoreIcon } from '../../lib/assets/moreIcon.svg';
 import palette from '../../lib/styles/palette';
+import CheckIcon from '@material-ui/icons/Check';
 
 import Button from '../common/Button';
+import { useState } from 'react';
 
-const ChannelProfile = ({ channel, like, collection }) => {
+const ChannelProfile = ({
+  user,
+  channel,
+  collection,
+  onEnterChannel,
+  onExitChannel,
+  isParticipant,
+  isLiked,
+  onLikeChannel,
+  onUnLikeChannel,
+}) => {
   return (
     <>
       <Box css={head}>
@@ -19,15 +32,31 @@ const ChannelProfile = ({ channel, like, collection }) => {
             <Typography css={headTotal}>
               재능 공유 멤버 : {channel.participants.length}
             </Typography>
-            <Typography css={headLike}>좋아요 : {like}</Typography>
+            <Typography css={headLike}>
+              좋아요 : {channel.channellike.length}
+            </Typography>
           </Box>
           <Box css={headButtonWrapper}>
-            <Button className="partButton">
-              <UserPlus className="icon" />
-              가입하기
-            </Button>
-            <Button className="likeButton">
-              <HeartStraight className="icon" />
+            {isParticipant ? (
+              <Button className="exitButton" onClick={onExitChannel}>
+                <CheckIcon className="icon" />
+                가입함
+              </Button>
+            ) : (
+              <Button className="enterButton" onClick={onEnterChannel}>
+                <UserPlus className="icon" />
+                가입하기
+              </Button>
+            )}
+            <Button
+              className={isLiked ? 'likedButton' : 'likeButton'}
+              onClick={isLiked ? onUnLikeChannel : onLikeChannel}
+            >
+              {isLiked ? (
+                <UnLikeIcon className="icon" />
+              ) : (
+                <LikeIcon className="icon" />
+              )}
               좋아요
             </Button>
           </Box>
@@ -47,7 +76,7 @@ const ChannelProfile = ({ channel, like, collection }) => {
             <Grid container spacing={2} css={channelTagList}>
               {channel.tags.map((tag) => (
                 <Grid item key={tag.tagId}>
-                  <Typography css={channelTag}>{tag.name}</Typography>
+                  <Typography css={channelTag}>{tag.tag.name}</Typography>
                 </Grid>
               ))}
             </Grid>
@@ -60,7 +89,10 @@ const ChannelProfile = ({ channel, like, collection }) => {
               <Typography css={adminTitle}>관리자</Typography>
               <Avatar
                 css={channelAdmin}
-                src={'channel.admin.profile.profileImage.src'}
+                src={
+                  channel.admin['profile'] &&
+                  channel.admin.profile.profileImage.src
+                }
               />
               <Typography css={adminNickname}>
                 {channel.admin.nickname}
@@ -68,11 +100,16 @@ const ChannelProfile = ({ channel, like, collection }) => {
             </Box>
             <Box css={participantList}>
               {channel.participants.map((user) => (
-                <Avatar
-                  key={user.id}
-                  src={'user.profile.profileImage.src'}
-                  css={channelParticipant}
-                />
+                <>
+                  {console.log(user)}
+                  <Avatar
+                    key={user.userId}
+                    src={
+                      user.user['profile'] && user.user.profile.profileImage.src
+                    }
+                    css={channelParticipant}
+                  />
+                </>
               ))}
             </Box>
             <MoreIcon css={moreButton}></MoreIcon>
@@ -157,12 +194,29 @@ const headButtonWrapper = css`
     font-size: 1.25rem;
     border: none;
   }
-  .partButton {
+  .exitButton {
+    background: ${palette.white};
+    margin-right: 1.375rem;
+    color: ${palette.orange};
+    border: 2px solid ${palette.orange};
+    &:hover {
+      filter: brightness(0.85);
+    }
+  }
+  .enterButton {
     background: ${palette.orange};
     margin-right: 1.375rem;
     &:hover {
       filter: brightness(0.85);
       border: none;
+    }
+  }
+  .likedButton {
+    background: ${palette.white};
+    color: ${palette.black};
+    border: 2px solid ${palette.black};
+    &:hover {
+      filter: brightness(0.85);
     }
   }
   .likeButton {

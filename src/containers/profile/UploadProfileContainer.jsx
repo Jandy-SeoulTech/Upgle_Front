@@ -33,14 +33,6 @@ const UploadProfileContainer = (props) => {
     );
   };
 
-  const uploadImage = (formData) => {
-    dispatch(uploadImages(formData));
-  };
-
-  const initializeImage = () => {
-    dispatch(initialize());
-  };
-
   useEffect(() => {
     if (profile) {
       alert('등록이 완료됐습니다!');
@@ -61,15 +53,9 @@ const UploadProfileContainer = (props) => {
   return (
     <UploadProfile
       user={user}
-      department={department}
-      introduce={introduce}
-      wellTalent={wellTalent}
-      interestTalent={interestTalent}
-      images={images}
+      data={{ department, introduce, wellTalent, interestTalent, images }}
       handleChangeFiled={handleChangeFiled}
       handleUploadProfile={handleUploadProfile}
-      uploadImage={uploadImage}
-      initializeImage={initializeImage}
     />
   );
 };
