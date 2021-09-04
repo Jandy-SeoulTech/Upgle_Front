@@ -26,7 +26,6 @@ const ChannelProfile = ({
   onEdit,
 }) => {
   const [open, setOpen] = useState(false);
-  const history = useHistory();
 
   return (
     <>
@@ -47,30 +46,32 @@ const ChannelProfile = ({
               좋아요 {channel.channellike.length}
             </Typography>
           </Box>
-          <Box css={headButtonWrapper}>
-            {isParticipant ? (
-              <Button className="exitButton" onClick={onExitChannel}>
-                <CheckIcon className="icon" />
-                가입함
-              </Button>
-            ) : (
-              <Button className="enterButton" onClick={onEnterChannel}>
-                <UserPlus className="icon" />
-                가입하기
-              </Button>
-            )}
-            <Button
-              className={isLiked ? 'likedButton' : 'likeButton'}
-              onClick={isLiked ? onUnLikeChannel : onLikeChannel}
-            >
-              {isLiked ? (
-                <LikedButton className="icon" />
+          {user.id !== channel.adminId && (
+            <Box css={headButtonWrapper}>
+              {isParticipant ? (
+                <Button className="exitButton" onClick={onExitChannel}>
+                  <CheckIcon className="icon" />
+                  가입함
+                </Button>
               ) : (
-                <LikeIcon className="icon" />
+                <Button className="enterButton" onClick={onEnterChannel}>
+                  <UserPlus className="icon" />
+                  가입하기
+                </Button>
               )}
-              좋아요
-            </Button>
-          </Box>
+              <Button
+                className={isLiked ? 'likedButton' : 'likeButton'}
+                onClick={isLiked ? onUnLikeChannel : onLikeChannel}
+              >
+                {isLiked ? (
+                  <LikedButton className="icon" />
+                ) : (
+                  <LikeIcon className="icon" />
+                )}
+                좋아요
+              </Button>
+            </Box>
+          )}
         </Box>
       </Box>
       <Box css={ChannelProfileWrapper}>
@@ -155,7 +156,7 @@ const ChannelProfile = ({
           <Typography css={sectionTitle}>
             모아보기 <Button css={moreButton}>더보기</Button>
           </Typography>
-          <Grid container spacing={2}>
+          <Grid container spacing={3}>
             {collection.map((collection) => (
               <Grid item key={collection.id}>
                 <Paper
@@ -185,8 +186,8 @@ const ChannelProfile = ({
 };
 
 const head = css`
-  width: calc(100vw - 16px);
-  margin-top: 3.75rem;
+  margin-top: 8.4375rem;
+  width: 100vw;
   padding: 5rem calc((100% - 59.125rem) / 2);
   background-color: #f0f0f0;
   display: flex;
@@ -273,7 +274,7 @@ const headButtonWrapper = css`
 `;
 
 const ChannelProfileWrapper = css`
-  width: calc(100vw - 16px);
+  width: 100vw;
   padding: 0 calc((100% - 59.125rem) / 2);
   margin-bottom: 6.25rem;
 `;
