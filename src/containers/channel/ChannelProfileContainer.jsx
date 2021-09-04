@@ -81,9 +81,6 @@ const ChannelProfileContainer = ({ channelId }) => {
 
   useEffect(() => {
     dispatch(getChannelData(channelId));
-    return () => {
-      dispatch(initailChannel());
-    };
   }, [dispatch, channelId]);
 
   useEffect(() => {

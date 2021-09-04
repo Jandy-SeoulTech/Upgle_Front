@@ -1,6 +1,6 @@
 import React from 'react';
-import ChannelHomeContainer from '../../containers/channel/ChannelHomeContainer copy';
-import ChatListContainer from '../../containers/chat/ChatListContainer';
+import ChannelHomeContainer from '../../containers/channel/ChannelHomeContainer';
+import ChannelNavContainer from '../../containers/channel/ChannelNavContainer';
 import FooterContainer from '../../containers/common/FooterContainer';
 import HeaderContainer from '../../containers/common/HeaderContainer';
 
@@ -9,10 +9,8 @@ const ChannelProfilePage = ({ match }) => {
   return (
     <>
       <HeaderContainer />
-      <ChannelHomeContainer
-        ChatListComponent={ChatListContainer}
-        channelId={parseInt(id, 10)}
-      />
+      <ChannelNavContainer />
+      <ChannelHomeContainer channelId={parseInt(id, 10)} />
       <FooterContainer />
     </>
   );
