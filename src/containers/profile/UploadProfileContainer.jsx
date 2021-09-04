@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import UploadProfile from '../../components/profile/UploadProfile';
-import { initialize, uploadImages } from '../../modules/image';
 import { check } from '../../modules/user';
-import { changeField, uploadProfile } from '../../modules/write';
+import { changeProfile, uploadProfile } from '../../modules/write';
 
 const UploadProfileContainer = (props) => {
   const { user } = useSelector((state) => state.user);
@@ -17,7 +16,7 @@ const UploadProfileContainer = (props) => {
   const history = useHistory();
 
   const handleChangeFiled = ({ key, value }) => {
-    dispatch(changeField({ key, value }));
+    dispatch(changeProfile({ key, value }));
   };
 
   const handleUploadProfile = () => {

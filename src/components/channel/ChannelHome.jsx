@@ -1,55 +1,49 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Box, Grid, Typography } from '@material-ui/core';
+import ChannelTalk from './ChannelTalk';
 
-const ChannerHome = ({ channel, ChatListComponent }) => {
+const ChannerHome = ({ channel }) => {
   return (
-    <Grid container css={channerHomeWrapper} spacing={2}>
-      <Grid item xs={6}>
-        <Typography variant="h4">잡담방</Typography>
-        <Box css={talkWrapper}>
-          <ChatListComponent namespace={`channel-${1}`} />
+    <Box container css={channerHomeWrapper} spacing={2}>
+      <ChannelTalk channel={channel} />
+      <Box css={rightContent}>
+        <Box css={boardWrapper}>
+          <Typography variant="h4">게시판</Typography>
         </Box>
-      </Grid>
-      <Grid item xs={6}>
-        <Typography variant="h4">게시판</Typography>
-        <Box css={boardWrapper}></Box>
-        <Typography variant="h4">채팅방</Typography>
-        <Box css={chatWrapper}></Box>
-        <Typography variant="h4">모아보기</Typography>
-        <Box css={collectWrapper}></Box>
-      </Grid>
-    </Grid>
+        <Box css={chatWrapper}>
+          <Typography variant="h4">채팅방</Typography>
+        </Box>
+        <Box css={collectWrapper}>
+          <Typography variant="h4">모아보기</Typography>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
 const channerHomeWrapper = css`
-  margin-top: 3.75rem;
-  margin-bottom: 10rem;
-  height: 30rem;
-  width: 70vw;
-  margin-left: auto;
-  margin-right: auto;
+  margin-top: 8.4375rem;
+  min-height: 75rem;
+  padding-left: calc((100% - 71.25rem) / 2 + 36.8125rem);
+  background-color: #fafafc;
 `;
 
-const talkWrapper = css`
-  height: fit-content;
-  background: rgba(0, 0, 0, 0.1);
+const rightContent = css`
+  display: flex;
+  flex-direction: column;
 `;
 
 const boardWrapper = css`
   height: 30%;
-  background: rgba(0, 0, 0, 0.1);
 `;
 
 const chatWrapper = css`
   height: 20%;
-  background: rgba(0, 0, 0, 0.1);
 `;
 
 const collectWrapper = css`
   height: 32%;
-  background: rgba(0, 0, 0, 0.1);
 `;
 
 export default ChannerHome;

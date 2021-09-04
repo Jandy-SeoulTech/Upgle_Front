@@ -1,15 +1,17 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Avatar, Box, Grid, Paper, Typography } from '@material-ui/core';
+import { Avatar, Box, Grid, Modal, Paper, Typography } from '@material-ui/core';
 import { ReactComponent as LikeIcon } from '../../lib/assets/likeIcon.svg';
-import { ReactComponent as UnLikeIcon } from '../../lib/assets/unLikeIcon.svg';
+import { ReactComponent as LikedButton } from '../../lib/assets/likedButton.svg';
 import { ReactComponent as UserPlus } from '../../lib/assets/userPlus.svg';
 import { ReactComponent as MoreIcon } from '../../lib/assets/moreIcon.svg';
+import { ReactComponent as Setting } from '../../lib/assets/setting.svg';
 import palette from '../../lib/styles/palette';
 import CheckIcon from '@material-ui/icons/Check';
 
 import Button from '../common/Button';
 import { useState } from 'react';
+import { useHistory } from 'react-router';
 
 const ChannelProfile = ({
   user,
@@ -21,45 +23,55 @@ const ChannelProfile = ({
   isLiked,
   onLikeChannel,
   onUnLikeChannel,
+  onEdit,
 }) => {
+  const [open, setOpen] = useState(false);
+
   return (
     <>
       <Box css={head}>
-        <Avatar src={'channel.image'} css={headeIcon} />
+        <Avatar src={channel.channelImage.src} css={headeIcon} />
         <Box css={headContent}>
           <Box>
-            <Typography css={headTitle}>{channel.name}</Typography>
+            <Typography css={headTitle}>
+              {channel.name}{' '}
+              {user.id === channel.adminId && (
+                <Setting css={{ cursor: 'pointer' }} onClick={onEdit} />
+              )}
+            </Typography>
             <Typography css={headTotal}>
-              재능 공유 멤버 : {channel.participants.length}
+              재능 공유 멤버 {channel.participants.length + 1}
             </Typography>
             <Typography css={headLike}>
-              좋아요 : {channel.channellike.length}
+              좋아요 {channel.channellike.length}
             </Typography>
           </Box>
-          <Box css={headButtonWrapper}>
-            {isParticipant ? (
-              <Button className="exitButton" onClick={onExitChannel}>
-                <CheckIcon className="icon" />
-                가입함
-              </Button>
-            ) : (
-              <Button className="enterButton" onClick={onEnterChannel}>
-                <UserPlus className="icon" />
-                가입하기
-              </Button>
-            )}
-            <Button
-              className={isLiked ? 'likedButton' : 'likeButton'}
-              onClick={isLiked ? onUnLikeChannel : onLikeChannel}
-            >
-              {isLiked ? (
-                <UnLikeIcon className="icon" />
+          {user.id !== channel.adminId && (
+            <Box css={headButtonWrapper}>
+              {isParticipant ? (
+                <Button className="exitButton" onClick={onExitChannel}>
+                  <CheckIcon className="icon" />
+                  가입함
+                </Button>
               ) : (
-                <LikeIcon className="icon" />
+                <Button className="enterButton" onClick={onEnterChannel}>
+                  <UserPlus className="icon" />
+                  가입하기
+                </Button>
               )}
-              좋아요
-            </Button>
-          </Box>
+              <Button
+                className={isLiked ? 'likedButton' : 'likeButton'}
+                onClick={isLiked ? onUnLikeChannel : onLikeChannel}
+              >
+                {isLiked ? (
+                  <LikedButton className="icon" />
+                ) : (
+                  <LikeIcon className="icon" />
+                )}
+                좋아요
+              </Button>
+            </Box>
+          )}
         </Box>
       </Box>
       <Box css={ChannelProfileWrapper}>
@@ -112,11 +124,38 @@ const ChannelProfile = ({
                 </>
               ))}
             </Box>
-            <MoreIcon css={moreButton}></MoreIcon>
+            <MoreIcon
+              css={morePersonButton}
+              onClick={() => {
+                setOpen(true);
+              }}
+            />
+            <Modal
+              open={open}
+              onClose={() => {
+                setOpen(false);
+              }}
+            >
+              <Paper
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  width: 400,
+                  height: 400,
+                  bgcolor: 'white',
+                  transform: 'translate(-50%, -50%)',
+                }}
+              >
+                asdasd
+              </Paper>
+            </Modal>
           </Box>
         </Box>
         <Box>
-          <Typography css={sectionTitle}>모아보기</Typography>
+          <Typography css={sectionTitle}>
+            모아보기 <Button css={moreButton}>더보기</Button>
+          </Typography>
           <Grid container spacing={3}>
             {collection.map((collection) => (
               <Grid item key={collection.id}>
@@ -147,8 +186,8 @@ const ChannelProfile = ({
 };
 
 const head = css`
-  width: 100%;
-  margin-top: 3.75rem;
+  margin-top: 8.4375rem;
+  width: 100vw;
   padding: 5rem calc((100% - 59.125rem) / 2);
   background-color: #f0f0f0;
   display: flex;
@@ -213,17 +252,18 @@ const headButtonWrapper = css`
   }
   .likedButton {
     background: ${palette.white};
-    color: ${palette.black};
-    border: 2px solid ${palette.black};
+    color: ${palette.orange};
+    border: 2px solid ${palette.orange};
     &:hover {
       filter: brightness(0.85);
     }
   }
   .likeButton {
-    background: ${palette.black};
+    color: ${palette.black};
+    background: ${palette.white};
+    border: 2px solid ${palette.black};
     &:hover {
-      background: rgba(0, 0, 0, 0.8);
-      border: none;
+      filter: brightness(0.95);
     }
   }
   .icon {
@@ -234,7 +274,7 @@ const headButtonWrapper = css`
 `;
 
 const ChannelProfileWrapper = css`
-  width: 100%;
+  width: 100vw;
   padding: 0 calc((100% - 59.125rem) / 2);
   margin-bottom: 6.25rem;
 `;
@@ -245,6 +285,8 @@ const sectionTitle = css`
   font-weight: 700;
   margin-top: 3.75rem;
   margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const channelDescription = css`
@@ -331,12 +373,24 @@ const channelParticipant = css`
   margin-right: 0.625rem;
 `;
 
-const moreButton = css`
+const morePersonButton = css`
   width: 3.75rem;
   height: 3.75rem;
   margin-right: 2.1rem;
   cursor: pointer;
   flex-shrink: 0;
+`;
+
+const moreButton = css`
+  width: 4.3125rem;
+  height: 2rem;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Noto Sans KR';
+  font-weight: 500;
+  font-size: 1rem;
 `;
 
 const channelCollection = css`

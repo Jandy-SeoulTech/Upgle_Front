@@ -8,9 +8,11 @@ import createRequestSaga, {
 const [UPLOAD_IMAGES, UPLOAD_IMAGES_SUCCESS, UPLOAD_IMAGES_FAILURE] =
   createRequestActionTypes('images/UPLOAD_IMAGES');
 const INITAILIZE = 'images/INITAILIZE';
+const SET_IMAGE = 'images/SET_IMAGE';
 
 export const uploadImages = createAction(UPLOAD_IMAGES, (files) => files);
 export const initialize = createAction(INITAILIZE);
+export const setImage = createAction(SET_IMAGE);
 
 const uploadImagesSaga = createRequestSaga(
   UPLOAD_IMAGES,
@@ -35,6 +37,10 @@ export default handleActions(
     [UPLOAD_IMAGES_FAILURE]: (state, { payload: error }) => ({
       ...state,
       error,
+    }),
+    [SET_IMAGE]: (state, { payload: image }) => ({
+      ...state,
+      images: [image],
     }),
     [INITAILIZE]: (state) => initialState,
   },
