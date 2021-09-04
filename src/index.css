@@ -5,6 +5,7 @@ body {
   font-family: 'Barlow', 'Noto Sans KR', 'sans-serif' !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 a {

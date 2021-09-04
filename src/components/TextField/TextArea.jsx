@@ -1,36 +1,30 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Box, TextareaAutosize, Typography } from '@material-ui/core';
-import { useState } from 'react';
-import palette from '../../lib/styles/palette';
+import React, { useState } from 'react';
 
-const UploadIntroduce = ({ introduce, handleChangeFiled }) => {
+const TextArea = ({ input, onChange, ...props }) => {
   const [lengthError, setLengthError] = useState();
 
-  const handleCahngeWellTalent = (e) => {
+  const handleCahnge = (e) => {
     if (e.target.value.length > 500) {
       setLengthError(true);
       return;
     }
     setLengthError(false);
-    handleChangeFiled({
-      key: 'introduce',
-      value: e.target.value,
-    });
+    if (onChange) onChange(e.target.value);
   };
 
   return (
-    <Box css={UploadIntroduceWrapper}>
-      <Typography css={title}>간단하게 자신에 대해 소개해주세요</Typography>
-
+    <Box>
       <TextareaAutosize
-        autoFocus
         placeholder="500자 이내로 작성해주세요."
-        value={introduce}
+        value={input}
         minRows={10}
         maxRows={16}
-        onChange={handleCahngeWellTalent}
-        css={introduceForm(lengthError)}
+        onChange={handleCahnge}
+        {...props}
+        css={defaultStyle(lengthError)}
       />
       {lengthError && (
         <Typography sx={{ color: 'red', fontSize: '0.75rem' }}>
@@ -41,25 +35,7 @@ const UploadIntroduce = ({ introduce, handleChangeFiled }) => {
   );
 };
 
-const UploadIntroduceWrapper = css`
-  display: flex;
-  flex-direction: column;
-`;
-
-const title = css`
-  font-family: 'Barlow', 'Noto Sans KR';
-  font-size: 1.25rem;
-  font-weight: 700;
-  span {
-    color: ${palette.orange};
-  }
-`;
-
-const introduceForm = (lengthError) => css`
-  width: 21.875rem;
-  height: 15.625rem;
-  margin-top: 4.6875rem;
-  background: #f0f0f0;
+const defaultStyle = (lengthError) => css`
   font-size: 0.875rem;
   font-family: 'Barlow', 'Noto Sans KR';
   font-weight: 500;
@@ -73,4 +49,4 @@ const introduceForm = (lengthError) => css`
   }
 `;
 
-export default UploadIntroduce;
+export default TextArea;

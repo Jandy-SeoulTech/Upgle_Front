@@ -3,20 +3,27 @@ import ChatList from '../../components/chat/ChatList';
 import io from 'socket.io-client';
 import { useLocation } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMessages, sendMessage, concatMessages } from '../../modules/chat';
+import {
+  getMessages,
+  sendMessage,
+  concatMessages,
+  initialize,
+} from '../../modules/chat';
 
 let socket;
 
-const ChatListContainer = ({ namespace }) => {
+const ChatListContainer = ({ channel }) => {
   const { user } = useSelector((state) => state.user);
   const [message, setMessage] = useState('');
-  const { messages } = useSelector((state) => state.chat);
+  const { messages, lastId } = useSelector((state) => state.chat);
 
   const dispatch = useDispatch();
   const location = useLocation();
 
   useEffect(() => {
-    socket = io(`${process.env.REACT_APP_SOCKET_ENDPOINT}/${namespace}`);
+    socket = io(
+      `${process.env.REACT_APP_SOCKET_ENDPOINT}/channel-${channel.id}`,
+    );
     if (user) {
       socket.emit('join', { user }, (error) => {
         if (error) {
@@ -27,7 +34,10 @@ const ChatListContainer = ({ namespace }) => {
   }, [location]);
 
   useEffect(() => {
-    dispatch(getMessages(1));
+    handleGetMassage();
+    return () => {
+      dispatch(initialize());
+    };
   }, [dispatch]);
 
   useEffect(() => {
@@ -40,9 +50,18 @@ const ChatListContainer = ({ namespace }) => {
   }, []);
 
   const handleSendMessage = useCallback(() => {
-    dispatch(sendMessage({ channelId: 1, content: message }));
+    dispatch(sendMessage({ channelId: channel.id, content: message }));
     setMessage('');
   }, [message]);
+
+  const handleGetMassage = () => {
+    dispatch(
+      getMessages({
+        channelId: channel.id,
+        lastId: lastId ? lastId - 1 : null,
+      }),
+    );
+  };
 
   if (!user) return '로딩중';
 
@@ -53,6 +72,7 @@ const ChatListContainer = ({ namespace }) => {
       messages={messages}
       setMessage={setMessage}
       handleSendMessage={handleSendMessage}
+      handleGetMassage={handleGetMassage}
     />
   );
 };

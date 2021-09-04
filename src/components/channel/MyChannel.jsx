@@ -22,7 +22,7 @@ const MyChannel = ({ asignChatList, adminChannl, participantChannel }) => {
           </Typography>
           <Button
             onClick={() => {
-              history.push('/createChannel');
+              history.push('/editChannel');
             }}
           >
             채널 만들기

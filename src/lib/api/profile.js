@@ -57,3 +57,28 @@ export const uploadProfile = async ({
   });
   return response.data;
 };
+
+export const updateProfile = async ({
+  userId,
+  nickname,
+  department,
+  introduce,
+  wellTalent,
+  interestTalent,
+  src,
+}) => {
+  const response = await axios({
+    url: '/api/Profile',
+    method: 'PATCH',
+    data: {
+      userId,
+      nickname,
+      department,
+      introduce,
+      wellTalent,
+      interestTalent,
+      src,
+    },
+  });
+  return response.data;
+};

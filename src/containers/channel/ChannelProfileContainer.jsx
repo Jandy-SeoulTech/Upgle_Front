@@ -2,10 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import ChannelProfile from '../../components/channel/ChannelProfile';
-import { getChannelData, initailChannel } from '../../modules/channel';
+import {
+  enterChannel,
+  exitChannel,
+  getChannelData,
+  initailChannel,
+  likeChannel,
+  unLikeChannel,
+} from '../../modules/channel';
+import { setChannel } from '../../modules/write';
 
 const ChannelProfileContainer = ({ channelId }) => {
-  const [like] = useState(538);
   const [collection] = useState([
     {
       id: 1,
@@ -43,21 +50,75 @@ const ChannelProfileContainer = ({ channelId }) => {
     },
   ]);
 
-  const { channel } = useSelector((state) => state.channel);
+  const { channel, success } = useSelector((state) => state.channel);
+  const { user } = useSelector((state) => state.user);
+  const [isParticipant, setIsParticipant] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const onEnterChannel = () => {
+    dispatch(enterChannel({ adminId: channel.adminId, channelId }));
+  };
+
+  const onExitChannel = () => {
+    dispatch(exitChannel({ adminId: channel.adminId, channelId }));
+  };
+
+  const onLikeChannel = () => {
+    dispatch(likeChannel(channelId));
+  };
+
+  const onUnLikeChannel = () => {
+    dispatch(unLikeChannel(channelId));
+  };
+
+  const onEdit = () => {
+    dispatch(setChannel(channel));
+    history.push('/editChannel');
+  };
+
   useEffect(() => {
     dispatch(getChannelData(channelId));
-    return () => {
-      dispatch(initailChannel());
-    };
-  }, [dispatch]);
+  }, [dispatch, channelId]);
 
-  if (!channel) return '로딩중';
+  useEffect(() => {
+    if (channel && user) {
+      setIsParticipant(false);
+      setIsLiked(false);
+      channel.admin.id === user.id && setIsParticipant(true);
+      channel.participants.forEach(
+        (participant) =>
+          participant.userId === user.id && setIsParticipant(true),
+      );
+      channel.channellike.forEach(
+        (like) => like.userId === user.id && setIsLiked(true),
+      );
+    }
+  }, [channel, user]);
+
+  useEffect(() => {
+    if (success) {
+      dispatch(getChannelData(channelId));
+    }
+  }, [success]);
+
+  if (!channel || !user) return '로딩중';
 
   return (
-    <ChannelProfile channel={channel} collection={collection} like={like} />
+    <ChannelProfile
+      user={user}
+      channel={channel}
+      collection={collection}
+      onEnterChannel={onEnterChannel}
+      onExitChannel={onExitChannel}
+      isParticipant={isParticipant}
+      isLiked={isLiked}
+      onLikeChannel={onLikeChannel}
+      onUnLikeChannel={onUnLikeChannel}
+      onEdit={onEdit}
+    />
   );
 };
 

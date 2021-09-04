@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Box, Typography } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { ReactComponent as DefaultImage } from '../../lib/assets/defaultImage.svg';
 import { ReactComponent as CancelImage } from '../../lib/assets/cancelImage.svg';
 import ImageUploading from 'react-images-uploading';
+import React from 'react';
 
 const UploadImage = ({ images, uploadImage, initializeImage }) => {
   const onChange = (imageList) => {
@@ -14,11 +15,7 @@ const UploadImage = ({ images, uploadImage, initializeImage }) => {
   };
 
   return (
-    <Box css={UploadWellTalentWrapper}>
-      <Typography css={title}>
-        자신을 드러내는 프로필 사진을 등록해주세요
-      </Typography>
-
+    <Box css={uploadImageWrapper}>
       <ImageUploading onChange={onChange}>
         {({ onImageUpload, isDragging, dragProps }) => (
           <>
@@ -36,23 +33,13 @@ const UploadImage = ({ images, uploadImage, initializeImage }) => {
           </>
         )}
       </ImageUploading>
-
-      <Typography css={description}>
-        등록하지 않으면 기본이미지로 설정됩니다.
-      </Typography>
     </Box>
   );
 };
 
-const UploadWellTalentWrapper = css`
-  display: flex;
-  flex-direction: column;
-`;
-
-const title = css`
-  font-family: 'Barlow', 'Noto Sans KR';
-  font-size: 1.25rem;
-  font-weight: 700;
+const uploadImageWrapper = css`
+  width: 11.25rem;
+  height: 11.25rem;
 `;
 
 const dragSenser = (isDragging) => css`
@@ -60,6 +47,8 @@ const dragSenser = (isDragging) => css`
   margin-left: 6.05rem;
   width: 11rem;
   height: 11rem;
+  margin-top: 0.125rem;
+  margin-left: 0.125rem;
   position: absolute;
   border-radius: 50%;
   cursor: pointer;
@@ -70,8 +59,6 @@ const dragSenser = (isDragging) => css`
 `;
 
 const currentImage = css`
-  margin-top: 3.375rem;
-  margin-left: 5.9375rem;
   width: 11.25rem;
   height: 11.25rem;
   border-radius: 50%;
@@ -81,16 +68,9 @@ const cancelImage = css`
   width: 2.5rem;
   height: 2.5rem;
   position: relative;
-  top: -3rem;
-  margin-left: 14.125rem;
+  top: -3.3rem;
+  left: 8.1rem;
   cursor: pointer;
-`;
-
-const description = css`
-  font-family: 'Barlow', 'Noto Sans KR';
-  font-size: 0.8125rem;
-  font-weight: 500;
-  margin-left: 4.3rem;
 `;
 
 export default UploadImage;

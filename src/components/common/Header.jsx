@@ -182,11 +182,10 @@ const headerWrapper = ({ isMobile, scrolled }) => css`
   justify-content: center;
   position: fixed;
   top: 0;
-  background-color: ${scrolled && 'rgba(255, 255, 255, 0.7)'};
+  background-color: ${palette.white};
   box-shadow: ${scrolled
     ? '0px 1px 10px rgba(0, 0, 0, 0.25);'
     : '0px 1px 1px rgba(0, 0, 0, 0.25);'};
-  backdrop-filter: ${scrolled && 'blur(2px);'};
   z-index: 1000;
 `;
 
