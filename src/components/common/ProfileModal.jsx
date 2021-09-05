@@ -11,10 +11,13 @@ function ProfileModal({
   tabs,
   currentTab,
   setCurrentTab,
+  sxOverlay,
+  sxContent,
 }) {
   useEffect(() => {
     {
-      tabs.find((tab) => tab.key === currentTab)?.onTab();
+      const onTab = tabs.find((tab) => tab.key === currentTab)?.onTab;
+      onTab && onTab();
     }
   }, [currentTab]);
 
@@ -28,7 +31,11 @@ function ProfileModal({
         setIsModalOpen(false);
       }}
       style={{
-        overlay: { backgroundColor: '#000000B2', marginTop: '3.75rem' },
+        overlay: {
+          backgroundColor: '#000000B2',
+          marginTop: '3.75rem',
+          ...sxOverlay,
+        },
         content: {
           backgroundColor: '#fff',
           maxWidth: '800px',
@@ -36,6 +43,7 @@ function ProfileModal({
           margin: 'auto',
           padding: '0',
           borderRadius: '10px',
+          ...sxContent,
         },
       }}
       ariaHideApp={false}
