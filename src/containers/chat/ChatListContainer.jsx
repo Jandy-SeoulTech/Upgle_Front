@@ -50,6 +50,7 @@ const ChatListContainer = ({ channel }) => {
   }, []);
 
   const handleSendMessage = useCallback(() => {
+    if (!message) return;
     dispatch(sendMessage({ channelId: channel.id, content: message }));
     setMessage('');
   }, [message]);
@@ -58,7 +59,7 @@ const ChatListContainer = ({ channel }) => {
     dispatch(
       getMessages({
         channelId: channel.id,
-        lastId: lastId ? lastId - 1 : null,
+        lastId,
       }),
     );
   };

@@ -16,10 +16,12 @@ const Introduce = ({ introduce, handleChangeFiled }) => {
       <Typography css={title}>간단하게 자신에 대해 소개해주세요</Typography>
       <TextArea
         autoFocus
+        minRows={10}
+        maxRows={16}
         maxLength={500}
         value={introduce}
         onChange={handleCahnge}
-        css={introduce}
+        css={introduceInput}
       />
     </>
   );
@@ -34,7 +36,7 @@ const title = css`
   }
 `;
 
-const introduce = css`
+const introduceInput = css`
   width: 21.875rem;
   height: 15.625rem;
   margin-top: 4.6875rem;

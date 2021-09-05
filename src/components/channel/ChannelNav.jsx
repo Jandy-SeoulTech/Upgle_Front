@@ -14,6 +14,7 @@ const ChannelNav = ({ channel, isParticipant }) => {
 
   useEffect(() => {
     window.addEventListener('scroll', updateScroll);
+    return () => window.removeEventListener('scroll', updateScroll);
   });
 
   const channelNavReducer = [
@@ -40,28 +41,25 @@ const ChannelNav = ({ channel, isParticipant }) => {
   ];
 
   return (
-    <>
-      {isParticipant ? (
-        <Box
-          css={channelNav({
-            isHome: pathname === `/channelHome/${channel.id}`,
-            scrolled: scrollPosition !== 0,
-          })}
-        >
-          {channelNavReducer.map((item, index) => (
-            <Typography
-              key={index}
-              css={navItem}
-              onClick={() => {
-                history.push(item.url);
-              }}
-            >
-              {item.title}
-            </Typography>
-          ))}
-        </Box>
-      ) : null}
-    </>
+    <Box
+      css={channelNav({
+        isHome: pathname === `/channelHome/${channel.id}`,
+        scrolled: scrollPosition !== 0,
+      })}
+    >
+      {isParticipant &&
+        channelNavReducer.map((item, index) => (
+          <Typography
+            key={index}
+            css={navItem}
+            onClick={() => {
+              history.push(item.url);
+            }}
+          >
+            {item.title}
+          </Typography>
+        ))}
+    </Box>
   );
 };
 

@@ -64,6 +64,8 @@ const EditChannel = ({ writeChannel, handleChangeFiled, editChannel }) => {
                 }}
                 size="small"
                 variant="outlined"
+                minRows={10}
+                maxRows={16}
                 css={formInput}
               />
             </Grid>

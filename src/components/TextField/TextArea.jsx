@@ -16,21 +16,19 @@ const TextArea = ({ onChange, maxLength, ...props }) => {
   };
 
   return (
-    <Box>
+    <>
       <TextareaAutosize
         placeholder={maxLength && `${maxLength}자 이내로 작성해주세요.`}
-        minRows={10}
-        maxRows={16}
         onChange={maxLength ? handleCahnge : onChange}
         {...props}
-        css={defaultStyle(lengthError)}
+        css={[defaultStyle(lengthError)]}
       />
       {lengthError && (
         <Typography sx={{ color: 'red', fontSize: '0.75rem' }}>
           길이 제한을 초과했습니다.({maxLength}자 이내)
         </Typography>
       )}
-    </Box>
+    </>
   );
 };
 
