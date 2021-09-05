@@ -1,13 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import {
-  Avatar,
-  Box,
-  Grid,
-  Typography,
-  useMediaQuery,
-} from '@material-ui/core';
-import { useParams } from 'react-router-dom';
+import { Avatar, Box, Grid, Typography } from '@material-ui/core';
 import Button from '../common/Button';
 import palette from '../../lib/styles/palette';
 import { ReactComponent as DepartmentIcon } from '../../lib/assets/departmentIcon.svg';
@@ -31,17 +24,14 @@ const Profile = ({
   profile,
   followers,
   followings,
-  myChannel,
+  profileChannel,
   onFollow,
   onUnfollow,
   onProfileFollow,
   onProfileUnfollow,
   onGetFollowers,
   onGetFollowings,
-  errorMessage,
 }) => {
-  const { id } = useParams();
-  const m1200 = useMediaQuery('(max-width: 1199px)');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tabs, setTabs] = useState([
     { key: 'followers', name: '팔로워', data: <></>, onTab: onGetFollowers },
@@ -471,19 +461,25 @@ const Profile = ({
               <Button sx={orangeLabel}>오픈 채널</Button>
             </Grid>
             <Grid item container columns={5}>
-              {/* {myChannel?.adminChannl.length === 0 ? ( */}
-              {rightInfosB.length === 0 ? (
+              {profileChannel?.adminChannl?.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   오픈된 채널이 없습니다.
                 </Grid>
               ) : (
-                // myChannel?.adminChannl.map((channel, i) => (
-                rightInfosB.map((channel, i) => (
-                  <Grid key={i} item xs={1} css={channelCell}>
+                profileChannel?.adminChannl?.map((channel, i) => (
+                  <Grid
+                    key={i}
+                    item
+                    xs={1}
+                    css={channelCell}
+                    onClick={() =>
+                      (window.location.href = `/channelProfile/${channel.id}`)
+                    }
+                  >
                     <Grid css={channelCard}>
                       <Box
                         sx={{
-                          backgroundImage: `url(${channel.channelImg.src})`,
+                          backgroundImage: `url(${channel?.channelImage?.src})`,
                           backgroundColor: getRandomColor(channel.name),
                           backgroundRepeat: 'no-repeat',
                           backgroundSize: 'cover',
@@ -491,8 +487,8 @@ const Profile = ({
                           height: '125px',
                           borderRadius: '50%',
                           ':hover': {
-                            backgroundImage: channel.channelImg.src
-                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${channel.channelImg.src})`
+                            backgroundImage: channel?.channelImage?.src
+                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${channel?.channelImg?.src})`
                               : 'linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%)',
                           },
                         }}
@@ -510,19 +506,25 @@ const Profile = ({
               <Button sx={orangeLabel}>참여 채널</Button>
             </Grid>
             <Grid item container columns={5}>
-              {/* {myChannel?.participantChannel.length === 0 ? ( */}
-              {rightInfosB.length === 0 ? (
+              {profileChannel?.participantChannel?.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   참여하는 채널이 없습니다.
                 </Grid>
               ) : (
-                // myChannel?.participantChannel.map((channel, i) => (
-                rightInfosB.map((channel, i) => (
-                  <Grid key={i} item xs={1} css={channelCell}>
+                profileChannel?.participantChannel?.map((channel, i) => (
+                  <Grid
+                    key={i}
+                    item
+                    xs={1}
+                    css={channelCell}
+                    onClick={() =>
+                      (window.location.href = `/channelProfile/${channel.id}`)
+                    }
+                  >
                     <Grid css={channelCard}>
                       <Box
                         sx={{
-                          backgroundImage: `url(${channel.channelImg.src})`,
+                          backgroundImage: `url(${channel?.channelImage?.src})`,
                           backgroundColor: getRandomColor(channel.name),
                           backgroundRepeat: 'no-repeat',
                           backgroundSize: 'cover',
@@ -530,8 +532,8 @@ const Profile = ({
                           height: '125px',
                           borderRadius: '50%',
                           ':hover': {
-                            backgroundImage: channel.channelImg.src
-                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${channel.channelImg.src})`
+                            backgroundImage: channel?.channelImage?.src
+                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${channel?.channelImg?.src})`
                               : 'linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%)',
                           },
                         }}
