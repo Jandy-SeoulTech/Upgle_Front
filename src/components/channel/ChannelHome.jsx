@@ -5,7 +5,7 @@ import ChannelTalk from './ChannelTalk';
 
 const ChannerHome = ({ channel }) => {
   return (
-    <Box container css={channerHomeWrapper} spacing={2}>
+    <Box css={channerHomeWrapper} spacing={2}>
       <ChannelTalk channel={channel} />
       <Box css={rightContent}>
         <Box css={boardWrapper}>

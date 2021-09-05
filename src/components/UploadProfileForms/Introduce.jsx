@@ -5,10 +5,10 @@ import palette from '../../lib/styles/palette';
 import { TextArea } from '../TextField';
 
 const Introduce = ({ introduce, handleChangeFiled }) => {
-  const handleCahnge = (input) => {
+  const handleCahnge = (e) => {
     handleChangeFiled({
       key: 'introduce',
-      value: input,
+      value: e.target.value,
     });
   };
   return (
@@ -16,7 +16,8 @@ const Introduce = ({ introduce, handleChangeFiled }) => {
       <Typography css={title}>간단하게 자신에 대해 소개해주세요</Typography>
       <TextArea
         autoFocus
-        input={introduce}
+        maxLength={500}
+        value={introduce}
         onChange={handleCahnge}
         css={introduce}
       />

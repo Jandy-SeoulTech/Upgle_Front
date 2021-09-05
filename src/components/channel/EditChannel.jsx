@@ -39,8 +39,8 @@ const EditChannel = ({ writeChannel, handleChangeFiled, editChannel }) => {
                 size="small"
                 variant="outlined"
                 value={writeChannel.name}
-                onChange={(input) => {
-                  handleChangeFiled({ key: 'name', value: input });
+                onChange={(e) => {
+                  handleChangeFiled({ key: 'name', value: e.target.value });
                 }}
                 maxLength={20}
                 fullWidth
@@ -55,8 +55,12 @@ const EditChannel = ({ writeChannel, handleChangeFiled, editChannel }) => {
             <Grid item xs={8}>
               <TextArea
                 value={writeChannel.introduce}
-                onChange={(input) => {
-                  handleChangeFiled({ key: 'introduce', value: input });
+                maxLength={500}
+                onChange={(e) => {
+                  handleChangeFiled({
+                    key: 'introduce',
+                    value: e.target.value,
+                  });
                 }}
                 size="small"
                 variant="outlined"
