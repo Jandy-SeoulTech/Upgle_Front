@@ -44,8 +44,17 @@ export const uploadProfile = createAction(
 );
 export const updateProfile = createAction(
   UPDATE_PROFILE,
-  ({ userId, department, introduce, wellTalent, interestTalent, src }) => ({
+  ({
     userId,
+    nickname,
+    department,
+    introduce,
+    wellTalent,
+    interestTalent,
+    src,
+  }) => ({
+    userId,
+    nickname,
     department,
     introduce,
     wellTalent,

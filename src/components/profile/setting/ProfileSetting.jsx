@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Avatar, Box, Grid, Paper, TextareaAutosize, Typography } from '@material-ui/core';
+import { Box, Grid, TextareaAutosize, Typography } from '@material-ui/core';
 import { ReactComponent as HeartStraight } from '../../../lib/assets/heartStraight.svg';
 import { ReactComponent as UserPlus } from '../../../lib/assets/userPlus.svg';
 import { ReactComponent as MoreIcon } from '../../../lib/assets/moreIcon.svg';
@@ -10,35 +10,51 @@ import { ReactComponent as DefaultImage } from '../../../lib/assets/defaultImage
 import { ReactComponent as CancelImage } from '../../../lib/assets/cancelImage.svg';
 import ImageUploading from 'react-images-uploading';
 import ClearIcon from '@material-ui/icons/Clear';
-
 import TextField from '../../common/TextField';
 import Button from '../../common/Button';
 import { isNickname } from '../../../lib/util/validate';
 
-
 const ProfileSetting = ({
+  user,
   images,
   uploadImage,
   initializeImage,
   onCheckNickname,
-  userInfo,
-  handleChangeFiled,
-  nicknameDuplicateError
+  nicknameDuplicateError,
+  onUpdateProfile,
 }) => {
-
   const [scrollY, setScrollY] = useState(0);
   const listener = () => {
     setScrollY(window.pageYOffset);
   };
   useEffect(() => {
-    window.addEventListener("scroll", listener);
+    window.addEventListener('scroll', listener);
     return () => {
-      window.removeEventListener("scroll", listener);
+      window.removeEventListener('scroll', listener);
     };
   }, []);
 
-  // ------------------------------------------------------------------------
-  // image
+  const [profileImage, setProfileImage] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [introduce, setIntroduce] = useState('');
+  const [department, setDepartment] = useState('');
+  const [wellTalent, setWellTalent] = useState([]);
+  const [interestTalent, setInterestTalent] = useState([]);
+
+  useEffect(() => {
+    if (user) {
+      console.log(user);
+      setProfileImage(user.profile.profileImage.src);
+      setNickname(user.nickname);
+      setIntroduce(user.profile.introduce);
+      setDepartment(user.profile.department);
+      setWellTalent(user.profile.wellTalent.map((talent) => talent.contents));
+      setInterestTalent(
+        user.profile.interestTalent.map((talent) => talent.contents),
+      );
+    }
+  }, [user]);
+
   const onChange = (imageList) => {
     if (imageList.length === 0) return;
     const formData = new FormData();
@@ -46,66 +62,50 @@ const ProfileSetting = ({
     uploadImage(formData);
   };
 
-  // ------------------------------------------------------------------------
-  // nickname
-
   const [nicknameFormatError, setNicknameFormatError] = useState(false);
   const handleNicknameChange = (e) => {
-    if (!isNickname(e.target.value)) {
+    const nickname = e.target.value;
+    setNickname(nickname);
+    if (!nickname) {
+      setNicknameFormatError(true);
+    } else if (isNickname(nickname)) {
+      setNicknameFormatError(false);
+      onCheckNickname({ nickname });
+    } else {
       setNicknameFormatError(true);
     }
-    onCheckNickname({ nickname: e.traget.value });
-    setNicknameFormatError(false);
-    handleChangeFiled({
-      key: 'nickname',
-      value: e.target.value,
-    });
   };
 
-  // ------------------------------------------------------------------------
-  // introduce
-
-  const [introLengthError, setIntroLengthError] = useState();
+  const [introLengthError, setIntroLengthError] = useState(false);
   const handleChangeIntro = (e) => {
     if (e.target.value.length > 500) {
       setIntroLengthError(true);
-      return;
+    } else {
+      setIntroLengthError(false);
+      setIntroduce(e.target.value);
     }
-    setIntroLengthError(false);
-    handleChangeFiled({
-      key: 'introduce',
-      value: e.target.value,
-    });
   };
 
-  // ------------------------------------------------------------------------
-  // department
-
-  const [departmentLengthError, setDepartmentLengthError] = useState();
+  const [departmentLengthError, setDepartmentLengthError] = useState(false);
   const handleChangeDepartment = (e) => {
     if (e.target.value.length > 20) {
       setDepartmentLengthError(true);
-      return;
+    } else {
+      setDepartmentLengthError(false);
+      setDepartment(e.target.value);
     }
-    setDepartmentLengthError(false);
-    handleChangeFiled({
-      key: 'department',
-      value: e.target.value,
-    });
   };
 
-  // ------------------------------------------------------------------------
-  // wellTalent
   const [wellInput, setWellInput] = useState('');
   const [wellLengthError, setWellLengthError] = useState(false);
 
   const handleChangeWellTalent = (e) => {
     if (e.target.value.length > 10) {
       setWellLengthError(true);
-      return;
+    } else {
+      setWellLengthError(false);
+      setWellInput(e.target.value);
     }
-    setWellLengthError(false);
-    setWellInput(e.target.value);
   };
 
   const handleWellKeyPress = (e) => {
@@ -115,34 +115,26 @@ const ProfileSetting = ({
   };
 
   const handleCreateWellTalent = () => {
-    if (userInfo.wellTalent.length < 10) {
-      handleChangeFiled({
-        key: 'interestTalent',
-        value: userInfo.wellTalent.concat(wellInput),
-      });
+    if (wellInput.length <= 10 && wellTalent.length < 10) {
+      setWellTalent(wellTalent.concat(wellInput));
+      setWellInput('');
     }
-    setWellInput('');
   };
 
-  const handleDeleteWellTalent = (index) => {
-    handleChangeFiled({
-      key: 'interestTalent',
-      value: userInfo.wellTalent.filter((talent, i) => index !== i),
-    });
+  const handleDeleteWellTalent = (i) => {
+    setWellTalent(wellTalent.filter((talent) => talent !== wellTalent[i]));
   };
 
-  // ------------------------------------------------------------------------
-  // interestTalent
   const [interestInput, setInterestInput] = useState('');
   const [interestLengthError, setInterestLengthError] = useState(false);
 
   const handleChangeInterestTalent = (e) => {
     if (e.target.value.length > 10) {
       setInterestLengthError(true);
-      return;
+    } else {
+      setInterestLengthError(false);
+      setInterestInput(e.target.value);
     }
-    setInterestLengthError(false);
-    setInterestInput(e.target.value);
   };
 
   const handleInterestKeyPress = (e) => {
@@ -152,261 +144,299 @@ const ProfileSetting = ({
   };
 
   const handleCreateInterestTalent = () => {
-    if (userInfo.interestTalent.length < 10) {
-      handleChangeFiled({
-        key: 'interestTalent',
-        value: userInfo.interestTalent.concat(interestInput),
-      });
+    if (interestInput.length <= 10 && interestTalent.length < 10) {
+      setInterestTalent(interestTalent.concat(interestInput));
+      setInterestInput('');
     }
-    setInterestInput('');
   };
 
-  const handleDeleteInterestTalent = (index) => {
-    handleChangeFiled({
-      key: 'interestTalent',
-      value: userInfo.interestTalent.filter((talent, i) => index !== i),
+  const handleDeleteInterestTalent = (i) => {
+    setInterestTalent(
+      interestTalent.filter((talent) => talent !== interestTalent[i]),
+    );
+  };
+
+  const handleEditProfile = () => {
+    onUpdateProfile({
+      nickname,
+      department,
+      introduce,
+      wellTalent,
+      interestTalent,
+      src: null,
     });
   };
 
+  if (!user) {
+    return <div>로딩중..</div>;
+  }
 
-
-
-
-  return (
-    <Grid container justifyContent="center" css={profileSettingWrapper}>
-      <Grid item container css={{ width: '1200px'}} >
-        <Grid item css={profileSettingNav}>
-          <Typography className={scrollY < 150 && "current"}>프로필 설정</Typography>
-          <Typography className={(scrollY >= 150 && scrollY < 300) && "current"}>비밀번호 관리</Typography>
-          <Typography className={(scrollY >= 300 && scrollY < 500) && "current"}>알림 설정</Typography>
-        </Grid>
-        <Grid item container css={profileSettingContents}>
-          <Grid item container css={profileSettingContent}>
-            <Grid xs={4} item>
-              <ImageUploading onChange={onChange}>
-                {({ onImageUpload, isDragging, dragProps }) => (
-                  <div css={{ position: "relative", width: '11.25rem', height: '11.25rem', margin: 'auto' }}>
-                    <CancelImage css={cancelImage} onClick={initializeImage} />
+  if (user) {
+    return (
+      <Grid container justifyContent="center" css={profileSettingWrapper}>
+        <Grid item container css={{ width: '1200px' }}>
+          <Grid item css={profileSettingNav}>
+            <Typography className={scrollY < 150 && 'current'}>
+              프로필 설정
+            </Typography>
+            <Typography
+              className={scrollY >= 150 && scrollY < 300 && 'current'}
+            >
+              비밀번호 관리
+            </Typography>
+            <Typography
+              className={scrollY >= 300 && scrollY < 500 && 'current'}
+            >
+              알림 설정
+            </Typography>
+          </Grid>
+          <Grid item container css={profileSettingContents}>
+            <Grid item container css={profileSettingContent}>
+              <Grid xs={4} item>
+                <ImageUploading onChange={onChange}>
+                  {({ onImageUpload, isDragging, dragProps }) => (
                     <div
-                      {...dragProps}
-                      onClick={onImageUpload}
-                      css={dragSenser(isDragging)}
-                    ></div>
-                    {images.length === 0 ? (
-                      <DefaultImage css={currentImage} />
-                    ) : (
-                      <img src={images[0]} alt="" css={currentImage} />
-                    )}
-                  </div>
-                )}
-              </ImageUploading>
-              <Typography css={{textAlign: 'center', marginTop: '25px'}}>
-                exampleEmail@gmail.com
-              </Typography>
-            </Grid>
-            <Grid xs={8} item container css={profileContentWrapper} spacing={2}>
-              <Grid item>
-                <Typography>닉네임</Typography>
-                <TextField
-                  size="small"
-                  fullWidth
-                  label=""
-                  variant="outlined"
-                  placeholder=""
-                  error={nicknameFormatError || nicknameDuplicateError}
-                  helperText={
-                    (nicknameFormatError && '유효하지 않은 닉네임입니다.') ||
-                    (nicknameDuplicateError && '중복된 닉네임입니다.')
-                  }
-                  value={userInfo.nickname}
-                  onChange={handleNicknameChange}
-                  css={input}
-                />
+                      css={{
+                        position: 'relative',
+                        width: '11.25rem',
+                        height: '11.25rem',
+                        margin: 'auto',
+                      }}
+                    >
+                      <CancelImage
+                        css={cancelImage}
+                        onClick={initializeImage}
+                      />
+                      <div
+                        {...dragProps}
+                        onClick={onImageUpload}
+                        css={dragSenser(isDragging)}
+                      ></div>
+                      {images.length === 0 ? (
+                        <DefaultImage css={currentImage} />
+                      ) : (
+                        <img src={images[0]} alt="" css={currentImage} />
+                      )}
+                    </div>
+                  )}
+                </ImageUploading>
+                <Typography css={{ textAlign: 'center', marginTop: '25px' }}>
+                  {user.email}
+                </Typography>
               </Grid>
-              <Grid item>
-                <Typography>자기 소개</Typography>
-                <TextareaAutosize
-                  placeholder=""
-                  value={userInfo.introduce}
-                  minRows={10}
-                  maxRows={16}
-                  onChange={handleChangeIntro}
-                  css={introduceForm(introLengthError)}
-                />
-                {introLengthError && (
-                  <Typography sx={{ color: 'red', fontSize: '0.75rem' }}>
-                    글자수 제한을 조과하였습니다. (500자 이내)
-                  </Typography>
-                )}
-              </Grid>
-              <Grid item>
-                <Typography>소속</Typography>
-                <TextField
-                  size="small"
-                  label=""
-                  variant="outlined"
-                  fullWidth
-                  placeholder=""
-                  value={userInfo.department}
-                  onChange={handleChangeDepartment}
-                  error={departmentLengthError}
-                  helperText={
-                    (departmentLengthError && '글자수 제한을 조과하였습니다. (20자 이내)')
-                  }
-                  css={input}
-                />
-              </Grid>
-              <Grid item>
-                <Typography>잘하는 재능</Typography>
-                <TextField
-                  size="small"
-                  variant="outlined"
-                  label=""
-                  fullWidth
-                  value={wellInput}
-                  onChange={handleChangeWellTalent}
-                  onKeyPress={handleWellKeyPress}
-                  error={userInfo.wellTalent.length >= 10 || wellLengthError}
-                  helperText={
-                    userInfo.wellTalent.length >= 10
-                      ? '더이상 추가할 수 없습니다.'
-                      : wellLengthError && '10자 이내로 입력해주세요'
-                  }
-                  css={input}
-                />
-                <Grid container spacing={1} css={talentWrapper}>
-                  {userInfo.wellTalent.map((talent, i) => (
-                    <Grid item key={i}>
-                      <Box
-                        onClick={() => {
-                          handleDeleteWellTalent(i);
-                        }}
-                      >
-                        <Typography>{talent}</Typography>
-                        <ClearIcon className="cancelIcon" />
-                      </Box>
-                    </Grid>
-                  ))}
+              <Grid
+                xs={8}
+                item
+                container
+                css={profileContentWrapper}
+                spacing={2}
+              >
+                <Grid item>
+                  <Typography>닉네임</Typography>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    variant="outlined"
+                    placeholder="10자 이내"
+                    error={
+                      nicknameFormatError ||
+                      (nicknameDuplicateError && nickname !== user.nickname)
+                    }
+                    helperText={
+                      (nicknameFormatError && '유효하지 않은 닉네임입니다.') ||
+                      (nicknameDuplicateError &&
+                        nickname !== user.nickname &&
+                        '이미 등록된 닉네임입니다.') ||
+                      (!nicknameDuplicateError &&
+                        '✅ 사용 가능한 닉네임입니다.')
+                    }
+                    value={nickname}
+                    onChange={handleNicknameChange}
+                    css={input}
+                  />
+                </Grid>
+                <Grid item>
+                  <Typography>자기 소개</Typography>
+                  <TextareaAutosize
+                    placeholder="500자 이내"
+                    value={introduce}
+                    minRows={10}
+                    maxRows={16}
+                    onChange={handleChangeIntro}
+                    css={introduceForm(introLengthError)}
+                  />
+                  {introLengthError && (
+                    <Typography sx={{ color: 'red', fontSize: '0.75rem' }}>
+                      글자수 제한을 초과하였습니다. (500자 이내)
+                    </Typography>
+                  )}
+                </Grid>
+                <Grid item>
+                  <Typography>소속</Typography>
+                  <TextField
+                    size="small"
+                    variant="outlined"
+                    fullWidth
+                    placeholder="20자 이내"
+                    value={department}
+                    onChange={handleChangeDepartment}
+                    error={departmentLengthError}
+                    helperText={
+                      departmentLengthError &&
+                      '글자수 제한을 조과하였습니다. (20자 이내)'
+                    }
+                    css={input}
+                  />
+                </Grid>
+                <Grid item>
+                  <Typography>잘하는 재능</Typography>
+                  <TextField
+                    size="small"
+                    variant="outlined"
+                    label=""
+                    fullWidth
+                    value={wellInput}
+                    onChange={handleChangeWellTalent}
+                    onKeyPress={handleWellKeyPress}
+                    error={wellTalent.length >= 10 || wellLengthError}
+                    helperText={
+                      wellTalent.length >= 10
+                        ? '더이상 추가할 수 없습니다.'
+                        : wellLengthError && '10자 이내로 입력해주세요'
+                    }
+                    css={input}
+                  />
+                  <Grid container spacing={1} css={talentWrapper}>
+                    {wellTalent.map((talent, i) => (
+                      <Grid item key={i}>
+                        <Box
+                          onClick={() => {
+                            handleDeleteWellTalent(i);
+                          }}
+                        >
+                          <Typography>{talent}</Typography>
+                          <ClearIcon className="cancelIcon" />
+                        </Box>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Grid>
+                <Grid item>
+                  <Typography>관심 있는 재능</Typography>
+                  <TextField
+                    size="small"
+                    variant="outlined"
+                    label=""
+                    fullWidth
+                    value={interestInput}
+                    onChange={handleChangeInterestTalent}
+                    onKeyPress={handleInterestKeyPress}
+                    error={interestTalent.length >= 10 || interestLengthError}
+                    helperText={
+                      interestTalent.length >= 10
+                        ? '더이상 추가할 수 없습니다.'
+                        : interestLengthError && '10자 이내로 입력해주세요'
+                    }
+                    css={input}
+                  />
+                  <Grid container spacing={1} css={talentWrapper}>
+                    {interestTalent.map((talent, i) => (
+                      <Grid item key={i}>
+                        <Box
+                          onClick={() => {
+                            handleDeleteInterestTalent(i);
+                          }}
+                        >
+                          <Typography>{talent}</Typography>
+                          <ClearIcon className="cancelIcon" />
+                        </Box>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Grid>
+                <Grid item>
+                  <Button css={submitButton} onClick={handleEditProfile}>
+                    변경 내용 저장
+                  </Button>
                 </Grid>
               </Grid>
-              <Grid item>
-                <Typography>관심 있는 재능</Typography>
-                <TextField
-                  size="small"
-                  variant="outlined"
-                  label=""
-                  fullWidth
-                  value={interestInput}
-                  onChange={handleChangeInterestTalent}
-                  onKeyPress={handleInterestKeyPress}
-                  error={userInfo.interestTalent.length >= 10 || interestLengthError}
-                  helperText={
-                    userInfo.interestTalent.length >= 10
-                      ? '더이상 추가할 수 없습니다.'
-                      : interestLengthError && '10자 이내로 입력해주세요'
-                  }
-                  css={input}
-                />
-                <Grid container spacing={1} css={talentWrapper}>
-                  {userInfo.interestTalent.map((talent, i) => (
-                    <Grid item key={i}>
-                      <Box
-                        onClick={() => {
-                          handleDeleteInterestTalent(i);
-                        }}
-                      >
-                        <Typography>{talent}</Typography>
-                        <ClearIcon className="cancelIcon" />
-                      </Box>
-                    </Grid>
-                  ))}
+            </Grid>
+            <Grid item container css={profileSettingContent}>
+              <Grid xs={4} item></Grid>
+              <Grid
+                xs={8}
+                item
+                container
+                css={profileContentWrapper}
+                spacing={1.875}
+              >
+                <Grid item>
+                  <Typography>현재 비밀번호</Typography>
+                  <TextField
+                    size="small"
+                    label=""
+                    variant="outlined"
+                    fullWidth
+                    placeholder=""
+                    value={1}
+                    onChange={1}
+                    error={null}
+                    helperText={null}
+                    css={input}
+                  />
+                </Grid>
+                <Grid item>
+                  <Typography>새 비밀번호</Typography>
+                  <TextField
+                    size="small"
+                    label=""
+                    variant="outlined"
+                    fullWidth
+                    placeholder=""
+                    value={1}
+                    onChange={1}
+                    error={null}
+                    helperText={null}
+                    css={input}
+                  />
+                </Grid>
+                <Grid item>
+                  <Typography>새 비밀번호 확인</Typography>
+                  <TextField
+                    size="small"
+                    label=""
+                    variant="outlined"
+                    fullWidth
+                    placeholder=""
+                    value={1}
+                    onChange={1}
+                    error={null}
+                    helperText={null}
+                    css={input}
+                  />
+                </Grid>
+                <Grid item>
+                  <Button css={submitButton}>변경 내용 저장</Button>
                 </Grid>
               </Grid>
-              <Grid item>
-                <Button css={submitButton}>
-                  변경 내용 저장
-                </Button>
-              </Grid>
             </Grid>
+            <Grid item css={profileSettingContent}></Grid>
           </Grid>
-          <Grid item container css={profileSettingContent}>
-            <Grid xs={4} item></Grid>
-            <Grid xs={8} item container css={profileContentWrapper} spacing={1.875}>
-              <Grid item>
-                <Typography>현재 비밀번호</Typography>
-                <TextField
-                  size="small"
-                  label=""
-                  variant="outlined"
-                  fullWidth
-                  placeholder=""
-                  value={1}
-                  onChange={1}
-                  error={null}
-                  helperText={null}
-                  css={input}
-                />
-              </Grid>
-              <Grid item>
-                <Typography>새 비밀번호</Typography>
-                <TextField
-                  size="small"
-                  label=""
-                  variant="outlined"
-                  fullWidth
-                  placeholder=""
-                  value={1}
-                  onChange={1}
-                  error={null}
-                  helperText={null}
-                  css={input}
-                />
-              </Grid>
-              <Grid item>
-                <Typography>새 비밀번호 확인</Typography>
-                <TextField
-                  size="small"
-                  label=""
-                  variant="outlined"
-                  fullWidth
-                  placeholder=""
-                  value={1}
-                  onChange={1}
-                  error={null}
-                  helperText={null}
-                  css={input}
-                />
-              </Grid>
-              <Grid item>
-                <Button css={submitButton}>
-                  변경 내용 저장
-                </Button>
-              </Grid>
-            </Grid>
-
-
-            
-              
-          </Grid>
-          <Grid item css={profileSettingContent}>
-          </Grid>
-
         </Grid>
-        
       </Grid>
-    </Grid>
-  )
-}
+    );
+  }
+};
 
 const profileSettingWrapper = css`
   margin-top: 60px;
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
 `;
 
 const profileSettingNav = css`
   width: 267px;
   height: fit-content;
-  background-color:${palette.white};
+  background-color: ${palette.white};
   margin: 1rem;
   position: fixed;
   transition: all ease 1s;
@@ -418,7 +448,7 @@ const profileSettingNav = css`
     align-items: center;
     justify-content: center;
     height: 80px;
-    border-bottom: 1px solid #E0E0E0;
+    border-bottom: 1px solid #e0e0e0;
   }
   .current {
     border-left: 7px solid ${palette.orange};
@@ -431,7 +461,7 @@ const profileSettingContents = css`
   margin: 1rem;
   margin-left: 300px;
   flex-direction: column;
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
 `;
 const profileSettingContent = css`
   margin-bottom: 50px;
@@ -441,7 +471,7 @@ const profileSettingContent = css`
 
 const profileContentWrapper = css`
   flex-direction: column;
-  &>.MuiGrid-root {
+  & > .MuiGrid-root {
     margin-left: 1rem;
     margin-bottom: 1rem;
   }
@@ -475,7 +505,7 @@ const cancelImage = css`
   top: 8.1875rem;
   position: absolute;
   cursor: pointer;
-  z-index:3;
+  z-index: 3;
 `;
 
 const input = css`
@@ -511,16 +541,15 @@ const introduceForm = (lengthError) => css`
   outline: ${lengthError && '1px solid red'};
   &:focus-visible {
     outline: ${lengthError
-    ? '2px solid red !important;'
-    : '2px solid black !important;'};
+      ? '2px solid red !important;'
+      : '2px solid black !important;'};
   }
 `;
-
 
 const talentWrapper = css`
   margin-top: 35px;
   flex-wrap: wrap;
-  background-color: #E0E0E0;
+  background-color: #e0e0e0;
   padding: 10px 18px 18px 10px;
   border-radius: 5px;
   .MuiBox-root {
@@ -574,5 +603,4 @@ const submitButton = css`
   font-size: 20px;
 `;
 
-
-export default ProfileSetting
+export default ProfileSetting;

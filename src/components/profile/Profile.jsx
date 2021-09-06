@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 import ModalUserCard from '../common/ModalUserCard';
 import ReactLoading from 'react-loading';
 import ProfileModal from '../common/ProfileModal';
+import { useHistory } from 'react-router';
 
 const Profile = ({
   getProfileLoading,
@@ -32,6 +33,7 @@ const Profile = ({
   onGetFollowers,
   onGetFollowings,
 }) => {
+  const history = useHistory();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tabs, setTabs] = useState([
     { key: 'followers', name: '팔로워', data: <></>, onTab: onGetFollowers },
@@ -386,7 +388,10 @@ const Profile = ({
               alignItems="center"
               mb={2}
             >
-              <Button sx={editProfileButton}>
+              <Button
+                sx={editProfileButton}
+                onClick={() => history.push('/setting')}
+              >
                 <EditProfileIcon />
                 <Typography
                   sx={{

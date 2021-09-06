@@ -2,130 +2,90 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { initialize, uploadImages } from '../../../modules/image';
-import { check, setNicknameState } from '../../../modules/user';
-import { changeField, uploadProfile } from '../../../modules/write';
-import {
-    checkNickname,
-    initAuth,
-    nicknameChanged,
-    setNickname,
-} from '../../../modules/auth';
+import { check } from '../../../modules/user';
+import { updateProfile } from '../../../modules/write';
+import { checkNickname, initAuth } from '../../../modules/auth';
 import ProfileSetting from '../../../components/profile/setting/ProfileSetting';
 
-const ProfileSettingContainer = (props) => {
-    const { user } = useSelector((state) => state.user);
-    // 수정 필요
-    const { nicknameChecked, setNicknameSuccess } = useSelector(
-        (state) => state.auth,
+const ProfileSettingContainer = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
+  const { auth, nicknameChecked } = useSelector((state) => state.auth);
+  const { profile, error } = useSelector((state) => state.write);
+  const { images } = useSelector((state) => state.image);
+
+  const onUpdateProfile = ({
+    nickname,
+    department,
+    introduce,
+    wellTalent,
+    interestTalent,
+    src,
+  }) => {
+    dispatch(
+      updateProfile({
+        userId: user.id,
+        nickname,
+        department,
+        introduce,
+        wellTalent,
+        interestTalent,
+        src: images[0] || null,
+      }),
     );
-    // 수정 필요 userInfo.머시기
-    const { department, introduce, wellTalent, interestTalent } = useSelector(
-        (state) => state.write.writeProfile,
-    );
-    const { profile, error } = useSelector((state) => state.write);
-    const { images } = useSelector((state) => state.image);
-    const dispatch = useDispatch();
-    const history = useHistory();
+  };
 
+  const uploadImage = (formData) => {
+    dispatch(uploadImages(formData));
+  };
 
+  const initializeImage = () => {
+    dispatch(initialize());
+  };
 
+  const onCheckNickname = ({ nickname }) => {
+    dispatch(checkNickname({ nickname }));
+  };
 
-    const handleChangeFiled = ({ key, value }) => {
-        dispatch(changeField({ key, value }));
+  useEffect(() => {
+    if (profile) {
+      alert('프로필이 수정되었습니다.');
+    }
+    if (error) {
+      alert('프로필 수정에 실패했습니다.');
+    }
+  }, [profile, error]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(initAuth());
     };
+  }, [dispatch]);
 
-    
-    /* const handleUploadProfile = () => {
-        dispatch(
-            uploadProfile({
-                userId: user.id,
-                department,
-                introduce,
-                wellTalent,
-                interestTalent,
-                src: images[0] || null,
-            }),
-        );
-    }; */
+  useEffect(() => {
+    if (auth) {
+      dispatch(check());
+    }
+  }, [auth, dispatch]);
 
-    const uploadImage = (formData) => {
-        dispatch(uploadImages(formData));
-    };
+  useEffect(() => {
+    if (!user) {
+      history.push('/signin');
+    }
+  }, [user, history]);
 
-    const initializeImage = () => {
-        dispatch(initialize());
-    };
-
-    const onCheckNickname = ({ nickname }) => {
-        dispatch(checkNickname({ nickname }));
-    };
-
-    /* useEffect(() => {
-        return () => {
-            dispatch(initAuth());
-        };
-    }, [dispatch]); */
-
-
-
-    useEffect(() => {
-        if (profile) {
-            alert('등록이 완료됐습니다!');
-            dispatch(check());
-        }
-        if (error) {
-            alert('등록을 실패했습니다.');
-        }
-    }, [history, profile, dispatch, error]);
-
-    useEffect(() => {
-        if (user && user.profile) {
-            history.push('/');
-        }
-    }, [history, user]);
-
-
-
-    // if (!user) return 'loading';
-    const userInfo = {
-        nickname: 'codeking',
-        introduce: '안녕안녕안녕',
-        department: '스리랑카',
-        interestTalent: [
-            '요리',
-            '요리',
-            '요리',
-            '요리',
-            '요리',
-            '요리',
-            '요리',
-            '요리',
-            '요리',
-        ],
-        wellTalent: [
-            '사진',
-            '사진',
-            '사진',
-            '사진',
-            '사진',
-            '사진',
-            '사진',
-            '사진',
-            '사진',
-            '사진',
-        ],
-    };
-    return (
-        <ProfileSetting
-            images={images}
-            uploadImage={uploadImage}
-            initializeImage={initializeImage}
-            onCheckNickname={onCheckNickname}
-            userInfo={userInfo}
-            handleChangeFiled={handleChangeFiled}
-            nicknameDuplicateError={!nicknameChecked}
-        />
-    );
+  return (
+    <ProfileSetting
+      user={user}
+      images={images}
+      uploadImage={uploadImage}
+      initializeImage={initializeImage}
+      onCheckNickname={onCheckNickname}
+      nicknameDuplicateError={!nicknameChecked}
+      onUpdateProfile={onUpdateProfile}
+    />
+  );
 };
 
 export default ProfileSettingContainer;
