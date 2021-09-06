@@ -7,20 +7,20 @@ import palette from '../../lib/styles/palette';
 export default function TextField({ onChange, maxLength, ...props }) {
   const [lengthError, setLengthError] = useState(false);
 
-  const handleCahngeWellTalent = (e) => {
+  const handleChange = (e) => {
     if (e.target.value.length > maxLength) {
       setLengthError(true);
       return;
     }
     setLengthError(false);
-    if (onChange) onChange(e.target.value);
+    onChange(e.target.value);
   };
 
   return (
     <MuiTextField
       variant="standard"
       label={maxLength && `${maxLength}자 이내로 작성해주세요.`}
-      onChange={handleCahngeWellTalent}
+      onChange={maxLength ? handleChange : onChange}
       error={lengthError}
       {...props}
       css={[defaultStyle, lengthed(lengthError)]}

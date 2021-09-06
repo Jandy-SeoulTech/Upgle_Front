@@ -2,8 +2,8 @@
 import { css } from '@emotion/react';
 import { Typography } from '@material-ui/core';
 import palette from '../../lib/styles/palette';
-import TalentBox from '../TalentBox';
-import { TalentInput } from '../TextField';
+import TagBox from '../TagBox';
+import { TagInput } from '../TextField';
 
 const WellTalent = ({ wellTalent, handleChangeFiled }) => {
   const handleCreateTalent = (input) => {
@@ -26,12 +26,12 @@ const WellTalent = ({ wellTalent, handleChangeFiled }) => {
         당신이 <span>잘하는 재능</span>을 알려주세요
       </Typography>
 
-      <TalentBox talentList={wellTalent} onClick={handleDeleteTalent} />
+      <TagBox tagList={wellTalent} onClick={handleDeleteTalent} />
 
-      <TalentInput
+      <TagInput
         autoFocus
-        tallent={wellTalent}
-        createTalent={handleCreateTalent}
+        tagList={wellTalent}
+        onCreate={handleCreateTalent}
         css={talentInput}
       />
     </>

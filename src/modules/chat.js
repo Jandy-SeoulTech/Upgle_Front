@@ -3,14 +3,16 @@ import createRequestSaga, {
   createRequestActionTypes,
 } from '../lib/util/createRequestSaga';
 import * as chatAPI from '../lib/api/chat';
-import { takeLatest } from 'redux-saga/effects';
+import { takeLatest, throttle } from 'redux-saga/effects';
 
+const INITIALIZE = 'chat/INITIALIZE';
 const [GET_MESSAGES, GET_MESSAGES_SUCCESS, GET_MESSAGES_FAILURE] =
   createRequestActionTypes('chat/GET_MESSAGES');
 const [SEND_MESSAGE, SEND_MESSAGE_SUCCESS, SEND_MESSAGE_FAILURE] =
   createRequestActionTypes('chat/SEND_MESSAGE');
 const CONCAT_MESSAGES = 'chat/SET_MESSAGE';
 
+export const initialize = createAction(INITIALIZE);
 export const getMessages = createAction(
   GET_MESSAGES,
   ({ channelId, lastId }) => ({ channelId, lastId }),
@@ -28,12 +30,13 @@ const getMessagesSaga = createRequestSaga(GET_MESSAGES, chatAPI.getMessages);
 const sendMessageSaga = createRequestSaga(SEND_MESSAGE, chatAPI.sendMessage);
 
 export function* chatSaga() {
-  yield takeLatest(GET_MESSAGES, getMessagesSaga);
+  yield throttle(5000, GET_MESSAGES, getMessagesSaga);
   yield takeLatest(SEND_MESSAGE, sendMessageSaga);
 }
 
 const initialState = {
   messages: [],
+  lastId: null,
   error: null,
 };
 
@@ -41,7 +44,8 @@ const chat = handleActions(
   {
     [GET_MESSAGES_SUCCESS]: (state, { payload }) => ({
       ...state,
-      messages: [...payload, ...state.messages],
+      messages: state.messages.concat(payload),
+      lastId: payload[payload.length - 1].id,
     }),
     [GET_MESSAGES_FAILURE]: (state, { payload: error }) => ({
       ...state,
@@ -49,8 +53,9 @@ const chat = handleActions(
     }),
     [CONCAT_MESSAGES]: (state, { payload: message }) => ({
       ...state,
-      messages: state.messages.concat(message),
+      messages: [message, ...state.messages],
     }),
+    [INITIALIZE]: () => initialState,
   },
   initialState,
 );

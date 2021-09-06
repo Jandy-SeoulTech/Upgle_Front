@@ -5,11 +5,13 @@ import { ReactComponent as LikeIcon } from '../../lib/assets/likeIcon.svg';
 import { ReactComponent as LikedButton } from '../../lib/assets/likedButton.svg';
 import { ReactComponent as UserPlus } from '../../lib/assets/userPlus.svg';
 import { ReactComponent as MoreIcon } from '../../lib/assets/moreIcon.svg';
+import { ReactComponent as Setting } from '../../lib/assets/setting.svg';
 import palette from '../../lib/styles/palette';
 import CheckIcon from '@material-ui/icons/Check';
 
 import Button from '../common/Button';
 import { useState } from 'react';
+import { useHistory } from 'react-router';
 
 const ChannelProfile = ({
   user,
@@ -21,47 +23,55 @@ const ChannelProfile = ({
   isLiked,
   onLikeChannel,
   onUnLikeChannel,
+  onEdit,
 }) => {
   const [open, setOpen] = useState(false);
 
   return (
     <>
       <Box css={head}>
-        <Avatar src={'channel.image'} css={headeIcon} />
+        <Avatar src={channel.channelImage.src} css={headeIcon} />
         <Box css={headContent}>
           <Box>
-            <Typography css={headTitle}>{channel.name}</Typography>
+            <Typography css={headTitle}>
+              {channel.name}{' '}
+              {user.id === channel.adminId && (
+                <Setting css={{ cursor: 'pointer' }} onClick={onEdit} />
+              )}
+            </Typography>
             <Typography css={headTotal}>
-              재능 공유 멤버 : {channel.participants.length}
+              재능 공유 멤버 {channel.participants.length + 1}
             </Typography>
             <Typography css={headLike}>
-              좋아요 : {channel.channellike.length}
+              좋아요 {channel.channellike.length}
             </Typography>
           </Box>
-          <Box css={headButtonWrapper}>
-            {isParticipant ? (
-              <Button className="exitButton" onClick={onExitChannel}>
-                <CheckIcon className="icon" />
-                가입함
-              </Button>
-            ) : (
-              <Button className="enterButton" onClick={onEnterChannel}>
-                <UserPlus className="icon" />
-                가입하기
-              </Button>
-            )}
-            <Button
-              className={isLiked ? 'likedButton' : 'likeButton'}
-              onClick={isLiked ? onUnLikeChannel : onLikeChannel}
-            >
-              {isLiked ? (
-                <LikedButton className="icon" />
+          {user.id !== channel.adminId && (
+            <Box css={headButtonWrapper}>
+              {isParticipant ? (
+                <Button className="exitButton" onClick={onExitChannel}>
+                  <CheckIcon className="icon" />
+                  가입함
+                </Button>
               ) : (
-                <LikeIcon className="icon" />
+                <Button className="enterButton" onClick={onEnterChannel}>
+                  <UserPlus className="icon" />
+                  가입하기
+                </Button>
               )}
-              좋아요
-            </Button>
-          </Box>
+              <Button
+                className={isLiked ? 'likedButton' : 'likeButton'}
+                onClick={isLiked ? onUnLikeChannel : onLikeChannel}
+              >
+                {isLiked ? (
+                  <LikedButton className="icon" />
+                ) : (
+                  <LikeIcon className="icon" />
+                )}
+                좋아요
+              </Button>
+            </Box>
+          )}
         </Box>
       </Box>
       <Box css={ChannelProfileWrapper}>
@@ -176,8 +186,8 @@ const ChannelProfile = ({
 };
 
 const head = css`
-  width: calc(100vw - 16px);
-  margin-top: 3.75rem;
+  margin-top: 8.4375rem;
+  width: 100vw;
   padding: 5rem calc((100% - 59.125rem) / 2);
   background-color: #f0f0f0;
   display: flex;
@@ -264,7 +274,7 @@ const headButtonWrapper = css`
 `;
 
 const ChannelProfileWrapper = css`
-  width: calc(100vw - 16px);
+  width: 100vw;
   padding: 0 calc((100% - 59.125rem) / 2);
   margin-bottom: 6.25rem;
 `;

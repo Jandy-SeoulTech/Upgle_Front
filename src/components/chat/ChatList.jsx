@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Box, Button, TextField } from '@material-ui/core';
-import React from 'react';
 import ChatItem from './ChatItem';
 
 const ChatList = ({
@@ -10,11 +9,18 @@ const ChatList = ({
   messages,
   setMessage,
   handleSendMessage,
+  handleGetMassage,
 }) => {
+  const handleScroll = (e) => {
+    if (e.target.scrollTop < 100 && '불러올거임') {
+      handleGetMassage();
+    }
+  };
+
   return (
     <Box css={chatListWrapper}>
-      <Box css={ChatWrapper}>
-        {messages.map((message) => (
+      <Box css={ChatWrapper} onScroll={handleScroll}>
+        {[...messages].reverse().map((message) => (
           <ChatItem key={message.id} user={user} message={message} />
         ))}
       </Box>

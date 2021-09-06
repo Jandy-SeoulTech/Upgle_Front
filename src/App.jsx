@@ -7,13 +7,13 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { check } from './modules/user';
 import SetNicknamePage from './pages/profile/SetNicknamePage';
-import UploadProfilePage from './pages/profile/UploadProfilePage';
 import EditChannelPage from './pages/channel/EditChannelPage';
 import ChannelProfilePage from './pages/channel/ChannelProfilePage';
 import ChannelHomePage from './pages/channel/ChannelHomePage';
 import MyChannelPage from './pages/channel/MyChannelPage';
 import ProfilePage from './pages/profile/ProfilePage';
 import ChannelPostEditPage from './pages/channel/ChannelPostEditPage';
+import UploadProfilePage from './pages/profile/UploadProfilePage';
 
 function App() {
   const dispatch = useDispatch();
