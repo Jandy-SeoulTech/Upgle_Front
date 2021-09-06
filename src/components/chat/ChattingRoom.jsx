@@ -1,9 +1,10 @@
 import React from 'react';
+import ChatList from './ChatList';
 
 const ChattingRoom = (props) => {
   return (
     <div>
-      <h1>asd</h1>
+      <ChatList />
     </div>
   );
 };

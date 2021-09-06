@@ -8,7 +8,7 @@ import {
   concatMessages,
   initialize,
 } from '../../modules/chat';
-import ChannelTalk from '../../components/chat/ChannelTalk';
+import ChatList from '../../components/chat/ChatList';
 
 let socket;
 
@@ -67,7 +67,7 @@ const ChannelTalkContainer = ({ channel }) => {
   if (!user) return '로딩중';
 
   return (
-    <ChannelTalk
+    <ChatList
       user={user}
       message={message}
       messages={messages}
