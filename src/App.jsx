@@ -36,6 +36,7 @@ function App() {
       <Route path="/channelProfile/:id" exact component={ChannelProfilePage} />
       <Route path="/channelHome/:id" exact component={ChannelHomePage} />
       <Route path="/profile/:userId" component={ProfilePage} />
+      <Route path="/chat/:chatId" />
     </BrowserRouter>
   );
 }

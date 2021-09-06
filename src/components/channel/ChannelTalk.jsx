@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Box, Typography } from '@material-ui/core';
-import ChatListContainer from '../../containers/chat/ChatListContainer';
+import ChatListContainer from '../../containers/chat/ChannelTalkContainer';
 import { ReactComponent as TalkIcon } from '../../lib/assets/talkIcon.svg';
 import palette from '../../lib/styles/palette';
 
@@ -18,17 +18,13 @@ const ChannelTalk = ({ channel }) => {
 };
 
 const talkWrapper = css`
-  top: 9.6875rem;
-  left: calc((100% - 71.25rem) / 2);
   width: 34.875rem;
   height: 55.9375rem;
   background: ${palette.white};
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
-  position: fixed;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  z-index: 998;
 `;
 
 const talkTitle = css`

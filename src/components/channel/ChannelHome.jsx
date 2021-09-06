@@ -24,9 +24,9 @@ const ChannerHome = ({ channel }) => {
 
 const channerHomeWrapper = css`
   margin-top: 8.4375rem;
-  min-height: 75rem;
-  padding-left: calc((100% - 71.25rem) / 2 + 36.8125rem);
+  padding: 1rem calc((100% - 71.25rem) / 2);
   background-color: #fafafc;
+  display: flex;
 `;
 
 const rightContent = css`
