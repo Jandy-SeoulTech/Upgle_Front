@@ -1,66 +1,85 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Box, Grid, Typography } from '@material-ui/core';
-import React, { useState, useRef } from 'react'
-import JoditEditor from 'jodit-react';
-import TextField from '../common/TextField';
-const ChannerPostEdit = ({ }) => {
-  const editor = useRef(null)
-  const [content, setContent] = useState('')
+import { Box, Grid } from '@material-ui/core';
+import '@toast-ui/editor/dist/i18n/ko-kr';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Editor } from '@toast-ui/react-editor';
+import React from 'react';
+import { TextField } from '../TextField';
+import Button from './../common/Button';
 
-  const config = {
-    readonly: false // all options from https://xdsoft.net/jodit/doc/
-  }
+const ChannelPostEdit = ({ }) => {
 
   return (
-    <Grid container>
-      <Grid item>
-        <TextField>
-          
-        </TextField>
+    <Grid container justifyContent="center" alignItems="flex-start" css={channelPostEditWrapper}>
+      <Box css={{ width: '1200px', height: '100%' }}>
+        <Grid>
+          <TextField
+            css={title}
+            placeholder="제목을 입력해주세요."
+          />
+          <Button css={submit}>
+            작성완료
+          </Button>
+        </Grid>
 
-      </Grid>
-      <Grid item>
-        <JoditEditor
-          ref={editor}
-          value={content}
-          config={config}
-          tabIndex={1} // tabIndex of textarea
-          onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-          onChange={newContent => { }}
-        />
-      </Grid>
+
+        <Box css={editor}>
+          <Editor
+            language="ko"
+            initialValue="재능 공유 요청/제안을 작성해주세요."
+            previewStyle="vertical"
+            height="100%"
+            initialEditType="wysiwyg"
+            useCommandShortcut={true}
+          />
+        </Box>
+
+      </Box>
     </Grid>
   );
 };
 
-const channerHomeWrapper = css`
-  margin-top: 3.75rem;
-  margin-bottom: 10rem;
-  height: 30rem;
-  width: 70vw;
-  margin-left: auto;
-  margin-right: auto;
+
+
+const channelPostEditWrapper = css`
+  margin-top: 60px;
+  background-color: #FAFAFC;
+  font-size: 30px;
+  height: calc(100vh - 60px);
 `;
 
-const talkWrapper = css`
-  height: fit-content;
-  background: rgba(0, 0, 0, 0.1);
+const title = css`
+  width: calc(100% - 100px);
+  height: 60px;
+  input {
+    font-size: 30px;
+    font-family: 'Barlow', 'Noto Sans KR';
+  }
+  margin-top: 5px;
 `;
 
-const boardWrapper = css`
-  height: 30%;
-  background: rgba(0, 0, 0, 0.1);
+const submit = css`
+  margin: auto;
 `;
 
-const chatWrapper = css`
-  height: 20%;
-  background: rgba(0, 0, 0, 0.1);
+const editor = css`
+  height: calc(100% - 65px);
+  padding: 5px;
+  .toastui-editor-contents p {
+    font-size: 20px;
+    font-family: 'Barlow', 'Noto Sans KR';
+  }
+  .toastui-editor-contents::-webkit-scrollbar {
+    width: 10px;
+  }
+  .toastui-editor-contents::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    
+  }
 `;
 
-const collectWrapper = css`
-  height: 32%;
-  background: rgba(0, 0, 0, 0.1);
-`;
 
-export default ChannerHome;
+
+export default ChannelPostEdit;
