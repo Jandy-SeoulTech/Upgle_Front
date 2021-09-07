@@ -4,10 +4,10 @@ import { Avatar, Box, Typography } from '@material-ui/core';
 import { memo } from 'react';
 import palette from '../../lib/styles/palette';
 
-const ChatItem = ({ message, isContinue, isMe }) => {
+const RoomChatItem = ({ message, isContinue, right, admin }) => {
   return (
     <Box css={chatItemWrapper}>
-      {!isMe && !isContinue && (
+      {!right && !isContinue && (
         <Box css={userWrapper}>
           <Avatar
             src={
@@ -18,7 +18,7 @@ const ChatItem = ({ message, isContinue, isMe }) => {
           <Typography>{message.sendUser.nickname}</Typography>
         </Box>
       )}
-      <Box css={[messageWrapper(isContinue, isMe), css``]}>
+      <Box css={[messageWrapper({ isContinue, right, admin }), css``]}>
         <Typography>{message.content}</Typography>
       </Box>
     </Box>
@@ -49,20 +49,21 @@ const userWrapper = css`
   }
 `;
 
-const messageWrapper = (isContinue, isMe) => css`
+const messageWrapper = ({ isContinue, right, admin }) => css`
   position: relative;
-  left: ${!isMe && '6.25rem'};
+  left: ${!right && '6.25rem'};
   width: fit-content;
   height: fit-content;
   padding: 0.84rem;
-  color: ${isMe && palette.white};
-  background: ${isMe ? 'rgba(255, 81, 27, 0.8);' : '#f0f0f0'};
-  margin: ${isMe ? '0 2.5rem 0 auto' : '0 auto 0 0'};
+  color: ${right && palette.white};
+  background: ${right ? 'rgba(255, 81, 27, 0.8);' : '#f0f0f0'};
+  margin: ${right ? '0 2.5rem 0 auto' : '0 auto 0 0'};
   border-radius: ${isContinue
     ? '20px'
-    : isMe
+    : right
     ? '20px 3px 20px 20px;'
     : '3px 20px 20px 20px;'};
+  border: ${admin && '2px solid #04BD9E'};
   .MuiTypography-root {
     font-family: 'Barlow', 'Noto Sans KR';
     letter-spacing: 0;
@@ -72,4 +73,4 @@ const messageWrapper = (isContinue, isMe) => css`
   }
 `;
 
-export default memo(ChatItem);
+export default memo(RoomChatItem);

@@ -3,9 +3,9 @@ import io from 'socket.io-client';
 import { useLocation } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getMessages,
-  sendMessage,
-  concatMessages,
+  getRoomMessages,
+  sendRoomMessage,
+  concatRoomMessages,
   initialize,
 } from '../../modules/chat';
 import ChattingRoom from '../../components/chat/ChattingRoom';
@@ -21,9 +21,9 @@ const ChattingRoomContainer = ({ roomId }) => {
   const location = useLocation();
 
   useEffect(() => {
-    socket = io(`${process.env.REACT_APP_SOCKET_ENDPOINT}/room-${channel.id}`);
+    socket = io(`${process.env.REACT_APP_SOCKET_ENDPOINT}/room-${roomId}`);
     if (user) {
-      socket.emit('join', { user }, (error) => {
+      socket.emit('join', { roomId, user }, (error) => {
         if (error) {
           alert(error);
         }
@@ -40,31 +40,40 @@ const ChattingRoomContainer = ({ roomId }) => {
 
   useEffect(() => {
     socket.on('message', (message) => {
-      console.log(message);
       if (message) {
-        dispatch(concatMessages(message));
+        dispatch(concatRoomMessages(message));
       }
     });
   }, []);
 
   const handleSendMessage = useCallback(() => {
     if (!message) return;
-    dispatch(sendMessage({ channelId: channel.id, content: message }));
+    dispatch(sendRoomMessage({ roomId, content: message }));
     setMessage('');
   }, [message]);
 
   const handleGetMassage = () => {
     dispatch(
-      getMessages({
-        channelId: channel.id,
+      getRoomMessages({
+        roomId,
         lastId,
       }),
     );
   };
 
   if (!user) return '로그인해주세요';
+  if (!messages) return '로딩중';
 
-  return <ChattingRoom messages={messages} />;
+  return (
+    <ChattingRoom
+      user={user}
+      messages={messages}
+      message={message}
+      setMessage={setMessage}
+      handleSendMessage={handleSendMessage}
+      handleGetMassage={handleGetMassage}
+    />
+  );
 };
 
 export default ChattingRoomContainer;

@@ -113,7 +113,6 @@ const ChannelProfile = ({
             <Box css={participantList}>
               {channel.participants.map((user) => (
                 <>
-                  {console.log(user)}
                   <Avatar
                     key={user.userId}
                     src={
