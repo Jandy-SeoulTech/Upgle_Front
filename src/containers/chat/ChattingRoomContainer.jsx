@@ -16,6 +16,16 @@ const ChattingRoomContainer = ({ roomId }) => {
   const { user } = useSelector((state) => state.user);
   const [message, setMessage] = useState('');
   const { messages, lastId } = useSelector((state) => state.chat);
+  const room = {
+    title: '채팅방 이름',
+    admin: {
+      id: 4,
+      nickname: '관리자임',
+      profile: {
+        profileImage: '',
+      },
+    },
+  };
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -47,7 +57,10 @@ const ChattingRoomContainer = ({ roomId }) => {
   }, []);
 
   const handleSendMessage = useCallback(() => {
-    if (!message) return;
+    if (message === '' || message === '\n') {
+      setMessage('');
+      return;
+    }
     dispatch(sendRoomMessage({ roomId, content: message }));
     setMessage('');
   }, [message]);
@@ -67,6 +80,7 @@ const ChattingRoomContainer = ({ roomId }) => {
   return (
     <ChattingRoom
       user={user}
+      room={room}
       messages={messages}
       message={message}
       setMessage={setMessage}
