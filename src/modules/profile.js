@@ -5,6 +5,10 @@ import createRequestSaga, {
 import * as profileAPI from '../lib/api/profile';
 import { takeLatest } from 'redux-saga/effects';
 
+const [CHANGE_PASSWORD, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILURE] =
+  createRequestActionTypes('profile/CHANGE_PASSWORD');
+const [CHECK_PASSWORD, CHECK_PASSWORD_SUCCESS, CHECK_PASSWORD_FAILURE] =
+  createRequestActionTypes('profile/CHECK_PASSWORD');
 const [GET_FOLLOWINGS, GET_FOLLOWINGS_SUCCESS, GET_FOLLOWINGS_FAILURE] =
   createRequestActionTypes('profile/GET_FOLLOWINGS');
 const [GET_FOLLOWERS, GET_FOLLOWERS_SUCCESS, GET_FOLLOWERS_FAILURE] =
@@ -15,6 +19,12 @@ const [GET_PROFILE, GET_PROFILE_SUCCESS, GET_PROFILE_FAILURE] =
   createRequestActionTypes('profile/GET_PROFILE');
 const INIT_PROFILE = 'profile/INIT_PROFILE';
 
+export const changePassword = createAction(CHANGE_PASSWORD, ({ password }) => ({
+  password,
+}));
+export const checkPassword = createAction(CHECK_PASSWORD, ({ password }) => ({
+  password,
+}));
 export const getFollowings = createAction(GET_FOLLOWINGS, ({ userId }) => ({
   userId,
 }));
@@ -40,6 +50,14 @@ export const getProfile = createAction(GET_PROFILE, ({ userId }) => ({
 }));
 export const initProfile = createAction(INIT_PROFILE);
 
+const changePasswordSaga = createRequestSaga(
+  CHANGE_PASSWORD,
+  profileAPI.changePassword,
+);
+const checkPasswordSaga = createRequestSaga(
+  CHECK_PASSWORD,
+  profileAPI.checkPassword,
+);
 const getFollowingsSaga = createRequestSaga(
   GET_FOLLOWINGS,
   profileAPI.getFollowings,
@@ -51,12 +69,16 @@ const getFollowersSaga = createRequestSaga(
 const getProfileSaga = createRequestSaga(GET_PROFILE, profileAPI.getProfile);
 
 export function* profileSaga() {
+  yield takeLatest(CHANGE_PASSWORD, changePasswordSaga);
+  yield takeLatest(CHECK_PASSWORD, checkPasswordSaga);
   yield takeLatest(GET_FOLLOWINGS, getFollowingsSaga);
   yield takeLatest(GET_FOLLOWERS, getFollowersSaga);
   yield takeLatest(GET_PROFILE, getProfileSaga);
 }
 
 const initialState = {
+  changedPassword: null,
+  checkedPassword: null,
   followings: [],
   followers: [],
   profile: null,
@@ -65,6 +87,24 @@ const initialState = {
 
 const profile = handleActions(
   {
+    [CHANGE_PASSWORD_SUCCESS]: (state, { payload: changedPassword }) => ({
+      ...state,
+      changedPassword: true,
+    }),
+    [CHANGE_PASSWORD_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      changedPassword: false,
+      error,
+    }),
+    [CHECK_PASSWORD_SUCCESS]: (state, { payload: checkedPassword }) => ({
+      ...state,
+      checkedPassword: true,
+    }),
+    [CHECK_PASSWORD_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      checkedPassword: false,
+      error,
+    }),
     [PROFILE_UNFOLLOW]: (state, { payload: { followingId, isMe } }) => ({
       ...state,
       profile: {

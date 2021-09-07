@@ -12,7 +12,7 @@ import ImageUploading from 'react-images-uploading';
 import ClearIcon from '@material-ui/icons/Clear';
 import TextField from '../../common/TextField';
 import Button from '../../common/Button';
-import { isNickname } from '../../../lib/util/validate';
+import { isNickname, isPassword } from '../../../lib/util/validate';
 
 const ProfileSetting = ({
   user,
@@ -22,6 +22,10 @@ const ProfileSetting = ({
   onCheckNickname,
   nicknameDuplicateError,
   onUpdateProfile,
+  onChangePassword,
+  onCheckPassword,
+  checkedPassword,
+  changedPassword,
 }) => {
   const [scrollY, setScrollY] = useState(0);
   const listener = () => {
@@ -166,6 +170,31 @@ const ProfileSetting = ({
       src: null,
     });
   };
+
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [newPasswordCheck, setNewPasswordCheck] = useState('');
+  const [oldPasswordError, setOldPasswordError] = useState(false);
+  const [newPasswordError, setNewPasswordError] = useState(false);
+  const [newPasswordCheckError, setNewPasswordCheckError] = useState(false);
+
+  const handleChangePassword = () => {
+    if (oldPassword === '') {
+      setOldPasswordError(true);
+    } else if (newPassword === '' || !isPassword(newPassword)) {
+      setNewPasswordError(true);
+    } else if (newPasswordCheck !== newPassword) {
+      setNewPasswordCheckError(true);
+    } else if (!newPasswordError && !newPasswordCheckError) {
+      onCheckPassword({ password: oldPassword });
+    }
+  };
+
+  useEffect(() => {
+    if (checkedPassword) {
+      onChangePassword({ password: newPassword });
+    }
+  }, [checkedPassword]);
 
   if (!user) {
     return <div>로딩중..</div>;
@@ -374,14 +403,20 @@ const ProfileSetting = ({
                   <Typography>현재 비밀번호</Typography>
                   <TextField
                     size="small"
-                    label=""
                     variant="outlined"
                     fullWidth
-                    placeholder=""
-                    value={1}
-                    onChange={1}
-                    error={null}
-                    helperText={null}
+                    type="password"
+                    value={oldPassword}
+                    onChange={(e) => {
+                      setOldPassword(e.target.value);
+                      setOldPasswordError(false);
+                    }}
+                    error={oldPasswordError || checkedPassword === false}
+                    helperText={
+                      (oldPasswordError && '현재 비밀번호를 입력해주세요.') ||
+                      (checkedPassword === false &&
+                        '현재 비밀번호가 일치하지 않습니다.')
+                    }
                     css={input}
                   />
                 </Grid>
@@ -389,14 +424,19 @@ const ProfileSetting = ({
                   <Typography>새 비밀번호</Typography>
                   <TextField
                     size="small"
-                    label=""
                     variant="outlined"
                     fullWidth
-                    placeholder=""
-                    value={1}
-                    onChange={1}
-                    error={null}
-                    helperText={null}
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => {
+                      setNewPassword(e.target.value);
+                      setNewPasswordError(false);
+                    }}
+                    error={newPasswordError || changedPassword === false}
+                    helperText={
+                      (newPasswordError || changedPassword === false) &&
+                      '영문 + 숫자 8자리 이상 입력해주세요.'
+                    }
                     css={input}
                   />
                 </Grid>
@@ -404,19 +444,26 @@ const ProfileSetting = ({
                   <Typography>새 비밀번호 확인</Typography>
                   <TextField
                     size="small"
-                    label=""
                     variant="outlined"
                     fullWidth
-                    placeholder=""
-                    value={1}
-                    onChange={1}
-                    error={null}
-                    helperText={null}
+                    type="password"
+                    value={newPasswordCheck}
+                    onChange={(e) => {
+                      setNewPasswordCheck(e.target.value);
+                      setNewPasswordCheckError(false);
+                    }}
+                    error={newPasswordCheckError}
+                    helperText={
+                      newPasswordCheckError &&
+                      '새 비밀번호가 일치하지 않습니다.'
+                    }
                     css={input}
                   />
                 </Grid>
                 <Grid item>
-                  <Button css={submitButton}>변경 내용 저장</Button>
+                  <Button css={submitButton} onClick={handleChangePassword}>
+                    변경 내용 저장
+                  </Button>
                 </Grid>
               </Grid>
             </Grid>

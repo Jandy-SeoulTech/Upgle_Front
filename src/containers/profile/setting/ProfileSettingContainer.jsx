@@ -6,6 +6,7 @@ import { check } from '../../../modules/user';
 import { updateProfile } from '../../../modules/write';
 import { checkNickname, initAuth } from '../../../modules/auth';
 import ProfileSetting from '../../../components/profile/setting/ProfileSetting';
+import { changePassword, checkPassword } from '../../../modules/profile';
 
 const ProfileSettingContainer = () => {
   const history = useHistory();
@@ -14,6 +15,17 @@ const ProfileSettingContainer = () => {
   const { auth, nicknameChecked } = useSelector((state) => state.auth);
   const { profile, error } = useSelector((state) => state.write);
   const { images } = useSelector((state) => state.image);
+  const { checkedPassword, changedPassword } = useSelector(
+    (state) => state.profile,
+  );
+
+  const onChangePassword = ({ password }) => {
+    dispatch(changePassword({ password }));
+  };
+
+  const onCheckPassword = ({ password }) => {
+    dispatch(checkPassword({ password }));
+  };
 
   const onUpdateProfile = ({
     nickname,
@@ -52,10 +64,13 @@ const ProfileSettingContainer = () => {
     if (profile) {
       alert('프로필이 수정되었습니다.');
     }
+    if (changedPassword) {
+      alert('비밀번호가 수정되었습니다.');
+    }
     if (error) {
       alert('프로필 수정에 실패했습니다.');
     }
-  }, [profile, error]);
+  }, [profile, changedPassword, error]);
 
   useEffect(() => {
     return () => {
@@ -84,6 +99,10 @@ const ProfileSettingContainer = () => {
       onCheckNickname={onCheckNickname}
       nicknameDuplicateError={!nicknameChecked}
       onUpdateProfile={onUpdateProfile}
+      onChangePassword={onChangePassword}
+      onCheckPassword={onCheckPassword}
+      checkedPassword={checkedPassword}
+      changedPassword={changedPassword}
     />
   );
 };

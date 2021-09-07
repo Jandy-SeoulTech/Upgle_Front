@@ -82,3 +82,21 @@ export const updateProfile = async ({
   });
   return response.data;
 };
+
+export const checkPassword = async ({ password }) => {
+  const response = await axios({
+    url: `/api/Profile/password`,
+    method: 'POST',
+    data: { password },
+  });
+  return response.data;
+};
+
+export const changePassword = async ({ password }) => {
+  const response = await axios({
+    url: `/api/Profile/password`,
+    method: 'PATCH',
+    data: { password },
+  });
+  return response.data;
+};
