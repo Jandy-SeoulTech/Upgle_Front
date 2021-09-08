@@ -25,6 +25,7 @@ const ProfileSetting = ({
   onUpdateProfile,
   onChangePassword,
   onCheckPassword,
+  updatedProfile,
   checkedPassword,
   changedPassword,
 }) => {
@@ -401,6 +402,13 @@ const ProfileSetting = ({
                     ))}
                   </Grid>
                 </Grid>
+                {updatedProfile && (
+                  <Grid item>
+                    <Typography textAlign="center">
+                      ✅ 프로필을 수정했습니다.
+                    </Typography>
+                  </Grid>
+                )}
                 <Grid item>
                   <Button css={submitButton} onClick={handleEditProfile}>
                     변경 내용 저장
@@ -485,6 +493,13 @@ const ProfileSetting = ({
                       css={input}
                     />
                   </Grid>
+                  {changedPassword && (
+                    <Grid item>
+                      <Typography textAlign="center">
+                        ✅ 비밀번호를 수정했습니다.
+                      </Typography>
+                    </Grid>
+                  )}
                   <Grid item>
                     <Button css={submitButton} onClick={handleChangePassword}>
                       변경 내용 저장

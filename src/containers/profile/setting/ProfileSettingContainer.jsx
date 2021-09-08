@@ -13,7 +13,7 @@ const ProfileSettingContainer = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { auth, nicknameChecked } = useSelector((state) => state.auth);
-  const { profile, error } = useSelector((state) => state.write);
+  const { updatedProfile } = useSelector((state) => state.write);
   const { images } = useSelector((state) => state.image);
   const { checkedPassword, changedPassword } = useSelector(
     (state) => state.profile,
@@ -61,18 +61,6 @@ const ProfileSettingContainer = () => {
   };
 
   useEffect(() => {
-    if (profile) {
-      alert('프로필이 수정되었습니다.');
-    }
-    if (changedPassword) {
-      alert('비밀번호가 수정되었습니다.');
-    }
-    if (error) {
-      alert('프로필 수정에 실패했습니다.');
-    }
-  }, [profile, changedPassword, error]);
-
-  useEffect(() => {
     return () => {
       dispatch(initAuth());
     };
@@ -101,6 +89,7 @@ const ProfileSettingContainer = () => {
       onUpdateProfile={onUpdateProfile}
       onChangePassword={onChangePassword}
       onCheckPassword={onCheckPassword}
+      updatedProfile={updatedProfile}
       checkedPassword={checkedPassword}
       changedPassword={changedPassword}
     />

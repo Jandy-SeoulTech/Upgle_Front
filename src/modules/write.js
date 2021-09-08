@@ -130,6 +130,7 @@ const initialState = {
   },
   profile: null,
   channel: null,
+  updatedProfile: null,
   error: null,
 };
 
@@ -181,10 +182,12 @@ export default handleActions(
     [UPDATE_PROFILE_SUCCESS]: (state, { payload: profile }) => ({
       ...state,
       profile,
+      updatedProfile: true,
     }),
     [UPDATE_PROFILE_FAILURE]: (state, { payload: error }) => ({
       ...state,
       error,
+      updatedProfile: false,
     }),
     [CREATE_CHANNEL_SUCCESS]: (state, { payload: channel }) => ({
       ...state,
