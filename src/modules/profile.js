@@ -9,6 +9,8 @@ const [CHANGE_PASSWORD, CHANGE_PASSWORD_SUCCESS, CHANGE_PASSWORD_FAILURE] =
   createRequestActionTypes('profile/CHANGE_PASSWORD');
 const [CHECK_PASSWORD, CHECK_PASSWORD_SUCCESS, CHECK_PASSWORD_FAILURE] =
   createRequestActionTypes('profile/CHECK_PASSWORD');
+const [GET_REVIEWS, GET_REVIEWS_SUCCESS, GET_REVIEWS_FAILURE] =
+  createRequestActionTypes('profile/GET_REVIEWS');
 const [GET_FOLLOWINGS, GET_FOLLOWINGS_SUCCESS, GET_FOLLOWINGS_FAILURE] =
   createRequestActionTypes('profile/GET_FOLLOWINGS');
 const [GET_FOLLOWERS, GET_FOLLOWERS_SUCCESS, GET_FOLLOWERS_FAILURE] =
@@ -24,6 +26,9 @@ export const changePassword = createAction(CHANGE_PASSWORD, ({ password }) => ({
 }));
 export const checkPassword = createAction(CHECK_PASSWORD, ({ password }) => ({
   password,
+}));
+export const getReviews = createAction(GET_REVIEWS, ({ userId }) => ({
+  userId,
 }));
 export const getFollowings = createAction(GET_FOLLOWINGS, ({ userId }) => ({
   userId,
@@ -58,6 +63,7 @@ const checkPasswordSaga = createRequestSaga(
   CHECK_PASSWORD,
   profileAPI.checkPassword,
 );
+const getReviewsSaga = createRequestSaga(GET_REVIEWS, profileAPI.getReviews);
 const getFollowingsSaga = createRequestSaga(
   GET_FOLLOWINGS,
   profileAPI.getFollowings,
@@ -71,6 +77,7 @@ const getProfileSaga = createRequestSaga(GET_PROFILE, profileAPI.getProfile);
 export function* profileSaga() {
   yield takeLatest(CHANGE_PASSWORD, changePasswordSaga);
   yield takeLatest(CHECK_PASSWORD, checkPasswordSaga);
+  yield takeLatest(GET_REVIEWS, getReviewsSaga);
   yield takeLatest(GET_FOLLOWINGS, getFollowingsSaga);
   yield takeLatest(GET_FOLLOWERS, getFollowersSaga);
   yield takeLatest(GET_PROFILE, getProfileSaga);
@@ -79,6 +86,7 @@ export function* profileSaga() {
 const initialState = {
   changedPassword: null,
   checkedPassword: null,
+  reviews: [],
   followings: [],
   followers: [],
   profile: null,
@@ -138,6 +146,14 @@ const profile = handleActions(
               ]),
             }),
       },
+    }),
+    [GET_REVIEWS_SUCCESS]: (state, { payload: reviews }) => ({
+      ...state,
+      reviews,
+    }),
+    [GET_REVIEWS_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
     }),
     [GET_FOLLOWINGS_SUCCESS]: (state, { payload: followings }) => ({
       ...state,

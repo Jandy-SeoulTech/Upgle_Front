@@ -13,9 +13,7 @@ function ProfileModal({
   setCurrentTab,
 }) {
   useEffect(() => {
-    {
-      tabs.find((tab) => tab.key === currentTab)?.onTab();
-    }
+    tabs.find((tab) => tab.key === currentTab)?.onTab();
   }, [currentTab]);
 
   return (
