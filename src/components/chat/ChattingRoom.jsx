@@ -8,15 +8,19 @@ import { TextArea } from '../TextField';
 import RoomChatItem from './RoomChatItem';
 import { ReactComponent as Participants } from '../../lib/assets/participants.svg';
 import { ReactComponent as Hamburger } from '../../lib/assets/hamburger.svg';
+import ClearIcon from '@material-ui/icons/Clear';
 
 const ChattingRoom = ({
   user,
   room,
-  message,
   messages,
+  message,
+  setReplyId,
   setMessage,
   handleSendMessage,
   handleGetMassage,
+  replyMessage,
+  setReplyMessage,
 }) => {
   const chatEndRef = useRef();
   const handleScroll = (e) => {
@@ -72,31 +76,60 @@ const ChattingRoom = ({
                 : message.sendUserId !== room.admin.id
             }
             isMe={user.id === message.sendUserId}
+            isLast={
+              i === messages.length - 1 ||
+              [...messages].reverse()[i].sendUserId !==
+                [...messages].reverse()[i + 1].sendUserId
+            }
             admin={message.sendUserId === room.admin.id}
             message={message}
+            setReplyMessage={setReplyMessage}
           />
         ))}
         <div ref={chatEndRef}></div>
       </Box>
       <Box css={sendMessageForm}>
-        <TextArea
-          value={message}
-          placeholder="여기에 입력해주세요"
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyUp={(e) => {
-            if (!e.shiftKey && e.key === 'Enter') {
-              handleSendMessage();
-            }
-          }}
-          css={chatInput}
-        />
-        <Button
-          variant="contained"
-          onClick={handleSendMessage}
-          css={sendButton}
-        >
-          전송
-        </Button>
+        {replyMessage && (
+          <Box css={reply}>
+            <Box>
+              <Typography className="user">
+                {replyMessage.sendUser.nickname}
+              </Typography>
+              <Typography className="content">
+                {replyMessage.content}
+              </Typography>
+            </Box>
+            <ClearIcon
+              onClick={() => {
+                setReplyMessage(null);
+              }}
+              className="clearIcon"
+            />
+          </Box>
+        )}
+        <Box css={{ display: 'flex' }}>
+          <TextArea
+            value={message}
+            placeholder="여기에 입력해주세요"
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyPress={(e) => {
+              if (!e.shiftKey && e.key === 'Enter') {
+                handleSendMessage();
+              }
+            }}
+            onKeyUp={(e) => {
+              if (!e.shiftKey && e.key === 'Enter') setMessage('');
+            }}
+            css={chatInput}
+          />
+          <Button
+            variant="contained"
+            onClick={handleSendMessage}
+            css={sendButton}
+          >
+            전송
+          </Button>
+        </Box>
       </Box>
     </Box>
   );
@@ -180,9 +213,34 @@ const chatWrapper = css`
   overflow: auto;
 `;
 
-const sendMessageForm = css`
+const reply = css`
+  border-bottom: 1px solid #bdbdbd;
+  padding: 1rem 0;
+  margin: 0 1rem;
   display: flex;
-  height: 10.84rem;
+  justify-content: space-between;
+  align-items: center;
+  .user {
+    font-family: 'Noto Sans KR';
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .content {
+    width: 44rem;
+    font-family: 'Noto Sans KR';
+    font-weight: 500;
+    font-size: 1rem;
+    color: gray;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .clearIcon {
+    cursor: pointer;
+  }
+`;
+
+const sendMessageForm = css`
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
   z-index: 1;
@@ -190,7 +248,7 @@ const sendMessageForm = css`
 
 const chatInput = css`
   flex: 1;
-  height: 100% !important;
+  height: 10.84rem !important;
   border: 0;
   border-radius: 10px;
   font-size: 1.34rem;

@@ -19,7 +19,7 @@ export const sendChannelMessage = async ({ channelId, content }) => {
 
 export const getRoomMessages = async ({ roomId, lastId }) => {
   const response = await axios({
-    url: `/api/Chat/room/${roomId}?lastId=${lastId}`,
+    url: `/api/Chat/room/${roomId}?lastId=${lastId}&limit=20`,
     method: 'GET',
   });
   return response.data;
@@ -30,6 +30,15 @@ export const sendRoomMessage = async ({ roomId, content }) => {
     url: `/api/Chat/room/${roomId}/chat`,
     method: 'POST',
     data: { content },
+  });
+  return response.data;
+};
+
+export const replyRoomMessage = async ({ roomId, answerId, content }) => {
+  const response = await axios({
+    url: `/api/Chat/room/${roomId}/chat`,
+    method: 'POST',
+    data: { answerId, content },
   });
   return response.data;
 };

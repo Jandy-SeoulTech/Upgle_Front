@@ -6,6 +6,7 @@ import {
   getRoomMessages,
   sendRoomMessage,
   concatRoomMessages,
+  replyRoomMessage,
   initialize,
 } from '../../modules/chat';
 import ChattingRoom from '../../components/chat/ChattingRoom';
@@ -14,12 +15,14 @@ let socket;
 
 const ChattingRoomContainer = ({ roomId }) => {
   const { user } = useSelector((state) => state.user);
-  const [message, setMessage] = useState('');
   const { messages, lastId } = useSelector((state) => state.chat);
+  const [replyId, setReplyId] = useState(false);
+  const [replyMessage, setReplyMessage] = useState(false);
+  const [message, setMessage] = useState('');
   const room = {
     title: '채팅방 이름',
     admin: {
-      id: 4,
+      id: 64,
       nickname: '관리자임',
       profile: {
         profileImage: '',
@@ -61,7 +64,11 @@ const ChattingRoomContainer = ({ roomId }) => {
       setMessage('');
       return;
     }
-    dispatch(sendRoomMessage({ roomId, content: message }));
+    if (replyId)
+      dispatch(
+        replyRoomMessage({ roomId, answerId: replyId, content: message }),
+      );
+    else dispatch(sendRoomMessage({ roomId, content: message }));
     setMessage('');
   }, [message]);
 
@@ -83,9 +90,12 @@ const ChattingRoomContainer = ({ roomId }) => {
       room={room}
       messages={messages}
       message={message}
+      setReplyId={setReplyId}
       setMessage={setMessage}
       handleSendMessage={handleSendMessage}
       handleGetMassage={handleGetMassage}
+      replyMessage={replyMessage}
+      setReplyMessage={setReplyMessage}
     />
   );
 };
