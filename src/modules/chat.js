@@ -6,17 +6,32 @@ import * as chatAPI from '../lib/api/chat';
 import { call, put, takeLatest, throttle } from 'redux-saga/effects';
 
 const INITIALIZE = 'chat/INITIALIZE';
-const [GET_CHANNEL_MESSAGES, GET_CHANNEL_MESSAGES_SUCCESS, GET_CHANNEL_MESSAGES_FAILURE] =
-  createRequestActionTypes('chat/GET_CHANNEL_MESSAGES');
-const [SEND_CHANNEL_MESSAGE, SEND_CHANNEL_MESSAGE_SUCCESS, SEND_CHANNEL_MESSAGE_FAILURE] =
-  createRequestActionTypes('chat/SEND_CHANNEL_MESSAGE');
+const [
+  GET_CHANNEL_MESSAGES,
+  GET_CHANNEL_MESSAGES_SUCCESS,
+  GET_CHANNEL_MESSAGES_FAILURE,
+] = createRequestActionTypes('chat/GET_CHANNEL_MESSAGES');
+const [
+  SEND_CHANNEL_MESSAGE,
+  SEND_CHANNEL_MESSAGE_SUCCESS,
+  SEND_CHANNEL_MESSAGE_FAILURE,
+] = createRequestActionTypes('chat/SEND_CHANNEL_MESSAGE');
 const CONCAT_CHANNEL_MESSAGES = 'chat/CONCAT_CHANNEL_MESSAGES';
-const [GET_ROOM_MESSAGES, GET_ROOM_MESSAGES_SUCCESS, GET_ROOM_MESSAGES_FAILURE] =
-  createRequestActionTypes('chat/GET_ROOM_MESSAGES');
-const [SEND_ROOM_MESSAGE, SEND_ROOM_MESSAGE_SUCCESS, SEND_ROOM_MESSAGE_FAILURE] =
-  createRequestActionTypes('chat/SEND_ROOM_MESSAGE');
-const [REPLY_ROOM_MESSAGE, REPLY_ROOM_MESSAGE_SUCCESS, REPLY_ROOM_MESSAGE_FAILURE] =
-  createRequestActionTypes('chat/REPLY_ROOM_MESSAGE');
+const [
+  GET_ROOM_MESSAGES,
+  GET_ROOM_MESSAGES_SUCCESS,
+  GET_ROOM_MESSAGES_FAILURE,
+] = createRequestActionTypes('chat/GET_ROOM_MESSAGES');
+const [
+  SEND_ROOM_MESSAGE,
+  SEND_ROOM_MESSAGE_SUCCESS,
+  SEND_ROOM_MESSAGE_FAILURE,
+] = createRequestActionTypes('chat/SEND_ROOM_MESSAGE');
+const [
+  REPLY_ROOM_MESSAGE,
+  REPLY_ROOM_MESSAGE_SUCCESS,
+  REPLY_ROOM_MESSAGE_FAILURE,
+] = createRequestActionTypes('chat/REPLY_ROOM_MESSAGE');
 const CONCAT_ROOM_MESSAGES = 'chat/CONCAT_ROOM_MESSAGES';
 
 export const initialize = createAction(INITIALIZE);
@@ -42,7 +57,7 @@ export const sendRoomMessage = createAction(
 );
 export const replyRoomMessage = createAction(
   REPLY_ROOM_MESSAGE,
-  ({ roomId, answerId, content }) => ({ roomId, answerId, content }),
+  ({ roomId, answeredId, content }) => ({ roomId, answeredId, content }),
 );
 export const concatRoomMessages = createAction(
   CONCAT_ROOM_MESSAGES,
@@ -68,7 +83,10 @@ export function* getChannelMessagesSaga(action) {
   }
 }
 
-const sendChannelMessageSaga = createRequestSaga(SEND_CHANNEL_MESSAGE, chatAPI.sendChannelMessage);
+const sendChannelMessageSaga = createRequestSaga(
+  SEND_CHANNEL_MESSAGE,
+  chatAPI.sendChannelMessage,
+);
 
 export function* getRoomMessagesSaga(action) {
   try {
@@ -89,8 +107,14 @@ export function* getRoomMessagesSaga(action) {
   }
 }
 
-const sendRoomMessageSaga = createRequestSaga(SEND_ROOM_MESSAGE, chatAPI.sendRoomMessage);
-const sendReplyMessageSaga = createRequestSaga(REPLY_ROOM_MESSAGE, chatAPI.replyRoomMessage);
+const sendRoomMessageSaga = createRequestSaga(
+  SEND_ROOM_MESSAGE,
+  chatAPI.sendRoomMessage,
+);
+const sendReplyMessageSaga = createRequestSaga(
+  REPLY_ROOM_MESSAGE,
+  chatAPI.replyRoomMessage,
+);
 
 export function* chatSaga() {
   yield throttle(5000, GET_CHANNEL_MESSAGES, getChannelMessagesSaga);
