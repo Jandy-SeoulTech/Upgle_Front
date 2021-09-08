@@ -13,7 +13,7 @@ export default function TextField({ onChange, maxLength, ...props }) {
       return;
     }
     setLengthError(false);
-    onChange(e.target.value);
+    onChange(e);
   };
 
   return (

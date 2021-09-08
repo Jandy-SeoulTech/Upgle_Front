@@ -44,6 +44,7 @@ const Header = ({ user, onLogout }) => {
 
   useEffect(() => {
     window.addEventListener('scroll', updateScroll);
+    return () => window.removeEventListener('scroll', updateScroll);
   });
 
   return (
@@ -237,6 +238,7 @@ const menuWrapper = css`
   height: 22.5rem;
   box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.3);
   transform: translateY(0.875rem);
+  z-index: 1001;
   .MuiList-root {
     width: 100%;
     height: 100%;

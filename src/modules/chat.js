@@ -3,7 +3,7 @@ import createRequestSaga, {
   createRequestActionTypes,
 } from '../lib/util/createRequestSaga';
 import * as chatAPI from '../lib/api/chat';
-import { takeLatest, throttle } from 'redux-saga/effects';
+import { call, put, takeLatest, throttle } from 'redux-saga/effects';
 
 const INITIALIZE = 'chat/INITIALIZE';
 const [GET_MESSAGES, GET_MESSAGES_SUCCESS, GET_MESSAGES_FAILURE] =
@@ -26,7 +26,25 @@ export const concatMessages = createAction(
   (message) => message,
 );
 
-const getMessagesSaga = createRequestSaga(GET_MESSAGES, chatAPI.getMessages);
+export function* getMessagesSaga(action) {
+  try {
+    const response = yield call(chatAPI.getMessages, action.payload);
+    if (response.data.length > 0) {
+      yield put({
+        type: GET_MESSAGES_SUCCESS,
+        payload: response.data,
+        meta: response,
+      });
+    }
+  } catch (e) {
+    yield put({
+      type: GET_MESSAGES_FAILURE,
+      payload: e,
+      error: true,
+    });
+  }
+}
+
 const sendMessageSaga = createRequestSaga(SEND_MESSAGE, chatAPI.sendMessage);
 
 export function* chatSaga() {

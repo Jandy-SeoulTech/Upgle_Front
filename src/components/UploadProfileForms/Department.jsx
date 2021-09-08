@@ -12,10 +12,10 @@ const Department = ({ department, handleChangeFiled }) => {
         autoFocus
         input={department}
         maxLength={20}
-        onChange={(input) => {
+        onChange={(e) => {
           handleChangeFiled({
             key: 'department',
-            value: input,
+            value: e.target.value,
           });
         }}
         css={departmentInput}
