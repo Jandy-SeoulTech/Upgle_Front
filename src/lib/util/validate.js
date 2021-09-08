@@ -16,6 +16,6 @@ export function isPassword(asValue) {
 }
 
 export function isNickname(asValue) {
-  var regExp = /^[a-zA-Z0-9가-힣]{4,8}$/;
+  var regExp = /^[a-zA-Z0-9가-힣]{4,12}$/;
   return regExp.test(asValue);
 }

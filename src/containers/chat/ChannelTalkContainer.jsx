@@ -3,12 +3,12 @@ import io from 'socket.io-client';
 import { useLocation } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getMessages,
-  sendMessage,
-  concatMessages,
+  getChannelMessages,
+  sendChannelMessage,
+  concatChannelMessages,
   initialize,
 } from '../../modules/chat';
-import ChannelTalk from '../../components/chat/ChannelTalk';
+import ChatList from '../../components/chat/ChatList';
 
 let socket;
 
@@ -42,22 +42,21 @@ const ChannelTalkContainer = ({ channel }) => {
 
   useEffect(() => {
     socket.on('message', (message) => {
-      console.log(message);
       if (message) {
-        dispatch(concatMessages(message));
+        dispatch(concatChannelMessages(message));
       }
     });
   }, []);
 
   const handleSendMessage = useCallback(() => {
     if (!message) return;
-    dispatch(sendMessage({ channelId: channel.id, content: message }));
+    dispatch(sendChannelMessage({ channelId: channel.id, content: message }));
     setMessage('');
   }, [message]);
 
   const handleGetMassage = () => {
     dispatch(
-      getMessages({
+      getChannelMessages({
         channelId: channel.id,
         lastId,
       }),
@@ -67,7 +66,7 @@ const ChannelTalkContainer = ({ channel }) => {
   if (!user) return '로딩중';
 
   return (
-    <ChannelTalk
+    <ChatList
       user={user}
       message={message}
       messages={messages}

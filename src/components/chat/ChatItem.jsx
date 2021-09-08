@@ -5,12 +5,16 @@ import { memo } from 'react';
 import palette from '../../lib/styles/palette';
 
 const ChatItem = ({ message, isContinue, isMe }) => {
-  console.log({ message, isContinue, isMe });
   return (
     <Box css={chatItemWrapper}>
       {!isMe && !isContinue && (
         <Box css={userWrapper}>
-          <Avatar src={message.sendUser.profile.profileImage.src} />
+          <Avatar
+            src={
+              message.sendUser['profile'] &&
+              message.sendUser.profile.profileImage.src
+            }
+          />
           <Typography>{message.sendUser.nickname}</Typography>
         </Box>
       )}
@@ -23,37 +27,37 @@ const ChatItem = ({ message, isContinue, isMe }) => {
 
 const chatItemWrapper = css`
   width: 100%;
-  margin-top: 0.625rem;
+  margin-top: 0.84rem;
 `;
 
 const userWrapper = css`
   display: flex;
   align-items: center;
-  margin-left: 1.25rem;
+  margin-left: 2.5rem;
   .MuiAvatar-root {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 3.34rem;
+    height: 3.34rem;
     box-shadow: 5px 5px 15px 1px rgba(0, 0, 0, 0.15);
   }
   .MuiTypography-root {
     font-family: 'Noto Sans KR';
     text-align: center;
-    font-size: 0.75rem;
+    font-size: 1rem;
     font-weight: 500;
-    margin-left: 1rem;
-    margin-bottom: 0.5rem;
+    margin-left: 0.9rem;
+    margin-bottom: 0.67rem;
   }
 `;
 
 const messageWrapper = (isContinue, isMe) => css`
   position: relative;
-  left: ${!isMe && '4.6875rem'};
+  left: ${!isMe && '6.25rem'};
   width: fit-content;
   height: fit-content;
-  padding: 0.625rem;
+  padding: 0.84rem;
   color: ${isMe && palette.white};
   background: ${isMe ? 'rgba(255, 81, 27, 0.8);' : '#f0f0f0'};
-  margin: ${isMe ? '0 1.875rem 0 auto' : '0 auto 0 0'};
+  margin: ${isMe ? '0 2.5rem 0 auto' : '0 auto 0 0'};
   border-radius: ${isContinue
     ? '20px'
     : isMe
@@ -64,6 +68,7 @@ const messageWrapper = (isContinue, isMe) => css`
     letter-spacing: 0;
     word-wrap: break-word;
     white-space: pre;
+    font-size: 1.167rem;
   }
 `;
 
