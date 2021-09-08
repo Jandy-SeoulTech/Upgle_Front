@@ -82,6 +82,7 @@ const ChannelTalkContainer = ({ channel }) => {
       setMessage={setMessage}
       handleSendMessage={handleSendMessage}
       handleGetMassage={handleGetMassage}
+      success={success}
     />
   );
 };

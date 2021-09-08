@@ -70,6 +70,7 @@ const initialState = {
   room: null,
   roomList: null,
   error: null,
+  success: null,
 };
 
 const chat = handleActions(
@@ -78,16 +79,23 @@ const chat = handleActions(
     [GET_ROOM_DATA_SUCCESS]: (state, { payload }) => ({
       ...state,
       room: payload.data,
+      success: true,
     }),
     [GET_ROOM_LIST_SUCCESS]: (state, { payload }) => ({
       ...state,
       roomList: payload.data,
+      success: true,
     }),
     [GET_ROOM_LIST_FAILURE]: (state, { payload: error }) => ({
       ...state,
       error,
+      success: true,
     }),
+    [EXIT_ROOM]: (state) => ({ ...state, success: null }),
+    [EXIT_ROOM_SUCCESS]: (state) => ({ ...state, success: true }),
     [EXIT_ROOM_FAILURE]: (state, { payload: error }) => ({ ...state, error }),
+    [CLOSE_ROOM]: (state) => ({ ...state, success: null }),
+    [CLOSE_ROOM_SUCCESS]: (state) => ({ ...state, success: true }),
     [CLOSE_ROOM_FAILURE]: (state, { payload: error }) => ({ ...state, error }),
     [REVIEW_ROOM_FAILURE]: (state, { payload: error }) => ({ ...state, error }),
   },

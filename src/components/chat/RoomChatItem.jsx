@@ -33,7 +33,7 @@ const RoomChatItem = ({
       <Box css={{ display: 'flex', alignItems: 'flex-end' }}>
         {right && isLast && (
           <Typography css={time(right)}>
-            {new Date(message.createdAt).toLocaleString()}
+            {new Date(message.createdAt).toLocaleTimeString()}
           </Typography>
         )}
         <Box css={[messageWrapper({ isContinue, right, isMe, admin }), css``]}>
@@ -59,7 +59,7 @@ const RoomChatItem = ({
         </Box>
         {!right && isLast && (
           <Typography css={time(right)}>
-            {new Date(message.createdAt).toLocaleString()}
+            {new Date(message.createdAt).toLocaleTimeString()}
           </Typography>
         )}
       </Box>
