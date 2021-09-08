@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Box, Typography, Grid, Avatar } from '@material-ui/core';
+import { Box, Typography, Grid, Avatar, ClickAwayListener, Popper, MenuList, MenuItem, ListItemText, Divider } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import Button from './../common/Button';
 import { ReactComponent as PostSetting } from '../../lib/assets/postSetting.svg';
@@ -10,14 +10,23 @@ import { ReactComponent as ChatMake } from '../../lib/assets/chatMake.svg';
 import { ReactComponent as ChatGo } from '../../lib/assets/chatGo.svg';
 import { getDateString } from '../../lib/util/dateFormat';
 import palette from '../../lib/styles/palette';
+import TextField from './../common/TextField';
+import { Paper } from '@material-ui/core';
+import { useCallback } from 'react';
 
 const ChannelPost = ({
   post,
   channel,
+  user,
   isLiked,
   onLikeChannel,
   onUnLikeChannel,
 }) => {
+  const [menuAnchor, setMenuAnchor] = useState();
+  const handleMenu = (e) => {
+    if (!e) return;
+    setMenuAnchor(menuAnchor ? null : e.currentTarget);
+  };
 
   const StatusIcon = ({ status }) => {
     let statusIconCss, statusIconText;
@@ -44,7 +53,7 @@ const ChannelPost = ({
     );
   }
 
-  const AuthorIcon = () => {
+  const AuthorIcon = useCallback(()=> {
     const baseIcon = css`
       width: 35px;
       height: 35px;
@@ -61,7 +70,7 @@ const ChannelPost = ({
         <Avatar src={post.author.profile.profileImage.src} css={authorIcon} />
       </>
     )
-  }
+  }, [post])
 
   const ControllButtonList = ({ status }) => {
     const SympathyButton = ({ }) => {
@@ -130,7 +139,47 @@ const ChannelPost = ({
               <AuthorIcon />
               <Typography className='nickname'>{post.author.nickname}</Typography>
               <Typography className='date'>{getDateString(post.updatedAt)}</Typography>
-              <PostSetting css={{ width: '24px', height: '24px', marginLeft: '20px' }} onClick={() => { }} />
+              <ClickAwayListener
+                onClickAway={() => {
+                  setMenuAnchor(null);
+                }}
+              >
+                <Box
+                  css={{
+                    width: '24px',
+                    height: '24px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginLeft: '20px',
+                  }}
+                  onClick={handleMenu}
+                >
+                  <PostSetting css={{width: '100%', height: '100%'}}/>
+                  <Popper
+                    open={!!menuAnchor}
+                    anchorEl={menuAnchor}
+                    placement="bottom-end"
+                  >
+                    <Paper>
+                      <MenuList dense css={menuWrapper}>
+                        <MenuItem>
+                          <ListItemText>신고하기</ListItemText>
+                        </MenuItem>
+                        <Divider />
+                        <MenuItem>
+                          <ListItemText>수정하기</ListItemText>
+                        </MenuItem>
+                        <Divider />
+                        <MenuItem
+                          onClick={() => {}}
+                        >
+                          <ListItemText>삭제하기</ListItemText>
+                        </MenuItem>
+                      </MenuList>
+                    </Paper>
+                  </Popper>
+                </Box>
+              </ClickAwayListener>
             </Grid>
           </Grid>
         </Box>
@@ -145,16 +194,18 @@ const ChannelPost = ({
           {post.comment.map((comment) => {
 
             return (
-              <Grid container alignItems='center' css={postCommentItem}>
+              <Grid container css={postCommentItem}>
                 <Grid container className='avatarBox' justifyContent='center' alignItems='center'>
                   <Avatar src={comment.author.profile.profileImage.src} css={{ width: '50px', height: '50px'}} />
                 </Grid>
                 <Grid className='postCommentBody' container>
-                  <Grid container justifyContent='flex-end'>
-                    <Button>수정</Button>
-                    <Button>삭제</Button>
-                  </Grid>
-                  <Grid container alignItems='center'>
+                  {comment.author.nickname === user.nickname &&
+                    <Grid container justifyContent='flex-end'>
+                      <Button>수정</Button>
+                      <Button>삭제</Button>
+                    </Grid>
+                  }
+                  <Grid container alignItems='center' css={{marginTop: '20px'}}>
                     <Typography className='nickname'>{comment.author.nickname}</Typography>
                     <Typography className='date'>ㆍ  {getDateString(comment.updatedAt)}</Typography>
                   </Grid>
@@ -165,7 +216,15 @@ const ChannelPost = ({
               </Grid>
             );
           })}
-
+          <Grid container css={postCommentWrite}>
+            <textarea
+              placeholder="댓글을 입력해주세요."
+              className='commentWrite'
+            />
+            <Button className='commentSubmit'>
+              등록
+            </Button>
+          </Grid>
         </Grid>
 
 
@@ -320,18 +379,23 @@ const postCommentItem = css`
   & .MuiTypography-root {
     font-family: 'Barlow', 'Noto Sans KR';
   }
-
+  & .MuiButton-root {
+    font-family: 'Barlow', 'Noto Sans KR';
+    font-size: 12px;
+    width: '40px';
+    height: '20px';
+  }
   .avatarBox {
     width: 110px;
     height: 130px;
   }
   .postCommentBody {
-    padding: 10px 10px 10px 40px;
+    padding: 10px 10px 40px 10px;
+    min-height: 130px;
     flex: 1;
     .nickname {
       font-size: 14px;
       color: #000000;
-
     }
     .date {
       margin-left: 10px;
@@ -339,13 +403,64 @@ const postCommentItem = css`
       color: #5F5F5F;
     }
     .postCommentContent {
-      min-height: 130px;
+      margin-top: 10px;
       flex: 1;
 
     }
+  }
+`;
+
+const postCommentWrite = css`
+  margin: 50px 10px 50px 110px;
+  flex-direction: column;
+  .commentWrite {
+    flex: 1;
+    font-family: 'Barlow', 'Noto Sans KR';
+    font-weight: 500;
+    font-size: 15px;
+    resize: vertical;
+    padding: 30px;
+    width: 100%;
+    min-height: 190px;
+    outline: 1px solid rgba(0, 0, 0, 0);
+  background: #FAFAFC;
+  border: 2px solid #BDBDBD;
+    border-radius: 10px;
+  }
+  .commentSubmit {
+    margin: 10px 0px 10px auto;
+    font-family: 'Barlow', 'Noto Sans KR';
+    font-weight: 600;
+    font-size: 18px;
+    color: #7B7B7B;
+    border: 2px solid #BDBDBD;
+    border-radius: 25px;
 
   }
+`;
 
+const menuWrapper = css`
+  width: 8.34rem;
+  height: 11.25rem;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  z-index: 1001;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  .MuiListItem-root {
+    padding: 0;
+    flex: 1;
+    .MuiTypography-root {
+      font-family: 'Noto Sans KR';
+      font-size: 1.167rem;
+      text-align: center;
+    }
+    &:hover {
+      .MuiTypography-root {
+        font-weight: bold;
+      }
+    }
+  }
 `;
 
 

@@ -42,7 +42,7 @@ const ChannelPostContainer = ({ }) => {
     comment: [
       {
         author: {
-          nickname: "제빵왕",
+          nickname: "testnick",
           profile: {
             profileImage: {
               src: "admin.jpg"
@@ -82,10 +82,18 @@ const ChannelPostContainer = ({ }) => {
     ],
   };
 
+  const user = {
+    "id": 1,
+    "nickname": "testnick",
+    "email": "test@test.com",
+    "provider": "local"
+  };
+
   return (
     <ChannelPost
       post={post}
       channel={channel}
+      user={user}
     />
   );
 };
