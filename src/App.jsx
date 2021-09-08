@@ -12,7 +12,10 @@ import ChannelProfilePage from './pages/channel/ChannelProfilePage';
 import ChannelHomePage from './pages/channel/ChannelHomePage';
 import MyChannelPage from './pages/channel/MyChannelPage';
 import ProfilePage from './pages/profile/ProfilePage';
+import ChannelPostEditPage from './pages/channel/ChannelPostEditPage';
 import UploadProfilePage from './pages/profile/UploadProfilePage';
+import ChannelPostListPage from './pages/channel/ChannelPostListPage';
+import ChannelPostPage from './pages/channel/ChannelPostPage';
 import ChattingRoomPage from './pages/chat/ChattingRoomPage';
 import ProfileSettingPage from './pages/profile/ProfileSettingPage';
 
@@ -38,6 +41,10 @@ function App() {
       <Route path="/channelProfile/:id" exact component={ChannelProfilePage} />
       <Route path="/channelHome/:id" exact component={ChannelHomePage} />
       <Route path="/profile/:userId" component={ProfilePage} />
+      <Route path="/channelPost" exact component={ChannelPostListPage} />
+      <Route path="/channelPost/edit" exact component={ChannelPostEditPage} />
+      <Route path="/channelPost/id" exact component={ChannelPostPage} />
+      <Route path="/chat/:chatId" />
       <Route path="/chat/:id" component={ChattingRoomPage} />
       <Route path="/setting" component={ProfileSettingPage} />
     </BrowserRouter>
