@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import Profile from '../../components/profile/Profile';
-import { getMychannel } from '../../modules/channel';
+import { getChannelList } from '../../modules/channel';
 import {
   getFollowers,
   getFollowings,
@@ -16,13 +16,10 @@ import { check, follow, unfollow } from '../../modules/user';
 const ProfileContainer = () => {
   const { auth, error: authError } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.user);
-  const {
-    profile,
-    followers,
-    followings,
-    error: profileError,
-  } = useSelector((state) => state.profile);
-  const { myChannel } = useSelector((state) => state.channel);
+  const { profile, followers, followings } = useSelector(
+    (state) => state.profile,
+  );
+  const { profileChannel } = useSelector((state) => state.channel);
   const getProfileLoading = useSelector(
     (state) => state.loading['profile/GET_PROFILE'],
   );
@@ -35,7 +32,6 @@ const ProfileContainer = () => {
 
   const [isMe, setIsMe] = useState();
   const [isFollowing, setIsFollowing] = useState();
-  const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
   const { userId } = useParams();
 
@@ -65,7 +61,7 @@ const ProfileContainer = () => {
 
   useEffect(() => {
     dispatch(getProfile({ userId }));
-    dispatch(getMychannel());
+    dispatch(getChannelList({ userId }));
     return () => {
       dispatch(initProfile());
     };
@@ -85,8 +81,6 @@ const ProfileContainer = () => {
           profile?.followers.map((el) => el.followerId).includes(user?.id),
         ),
       );
-    } else {
-      console.log('로그인 유저 없음');
     }
   }, [user, profile]);
 
@@ -101,14 +95,13 @@ const ProfileContainer = () => {
       profile={profile}
       followers={followers}
       followings={followings}
-      myChannel={myChannel}
+      profileChannel={profileChannel}
       onFollow={onFollow}
       onUnfollow={onUnfollow}
       onProfileFollow={onProfileFollow}
       onProfileUnfollow={onProfileUnfollow}
       onGetFollowers={onGetFollowers}
       onGetFollowings={onGetFollowings}
-      errorMessage={errorMessage}
     />
   );
 };

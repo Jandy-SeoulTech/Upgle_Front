@@ -10,6 +10,8 @@ import {
   likeChannel,
   unLikeChannel,
 } from '../../modules/channel';
+import { profileFollow, profileUnfollow } from '../../modules/profile';
+import { follow, unfollow } from '../../modules/user';
 import { setChannel } from '../../modules/write';
 
 const ChannelProfileContainer = ({ channelId }) => {
@@ -79,6 +81,22 @@ const ChannelProfileContainer = ({ channelId }) => {
     history.push('/editChannel');
   };
 
+  const onFollow = ({ followingId }) => {
+    dispatch(follow({ followingId }));
+  };
+
+  const onUnfollow = ({ followingId }) => {
+    dispatch(unfollow({ followingId }));
+  };
+
+  const onProfileFollow = ({ followingId, isMe }) => {
+    dispatch(profileFollow({ followingId, isMe }));
+  };
+
+  const onProfileUnfollow = ({ followingId, isMe }) => {
+    dispatch(profileUnfollow({ followingId, isMe }));
+  };
+
   useEffect(() => {
     dispatch(getChannelData(channelId));
   }, [dispatch, channelId]);
@@ -118,6 +136,10 @@ const ChannelProfileContainer = ({ channelId }) => {
       onLikeChannel={onLikeChannel}
       onUnLikeChannel={onUnLikeChannel}
       onEdit={onEdit}
+      onFollow={onFollow}
+      onUnfollow={onUnfollow}
+      onProfileFollow={onProfileFollow}
+      onProfileUnfollow={onProfileUnfollow}
     />
   );
 };
