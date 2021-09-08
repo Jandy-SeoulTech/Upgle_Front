@@ -44,98 +44,96 @@ const Profile = ({
 
   useEffect(() => {
     const newTabs = [...tabs];
-    if (followers) {
-      newTabs.find((tab) => tab.key === 'followers').data =
-        getFollowersLoading ? (
-          <Grid
-            container
-            height="67vh"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <ReactLoading
-              type="spinningBubbles"
-              color="black"
-              style={{
-                width: '60px',
-                height: '60px',
-              }}
+    newTabs.find((tab) => tab.key === 'followers').data =
+      getFollowersLoading ? (
+        <Grid
+          container
+          height="67vh"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <ReactLoading
+            type="spinningBubbles"
+            color="black"
+            style={{
+              width: '60px',
+              height: '60px',
+            }}
+          />
+        </Grid>
+      ) : !followers || followers.length === 0 ? (
+        <Grid
+          container
+          height="67vh"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Typography css={noContents}>
+            {profile?.nickname}님을 팔로우하는 유저가 없습니다.
+          </Typography>
+        </Grid>
+      ) : (
+        <Grid>
+          {followers.map((follower, i) => (
+            <ModalUserCard
+              key={i}
+              loggedInUser={user}
+              profileUserId={profile.id}
+              user={follower}
+              onFollow={onFollow}
+              onUnfollow={onUnfollow}
+              onProfileFollow={onProfileFollow}
+              onProfileUnfollow={onProfileUnfollow}
             />
-          </Grid>
-        ) : followers.length === 0 ? (
-          <Grid
-            container
-            height="67vh"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Typography css={noContents}>
-              {profile?.nickname}님을 팔로우하는 유저가 없습니다.
-            </Typography>
-          </Grid>
-        ) : (
-          <Grid>
-            {followers.map((follower, i) => (
-              <ModalUserCard
-                key={i}
-                loggedInUser={user}
-                profileUserId={profile.id}
-                user={follower}
-                onFollow={onFollow}
-                onUnfollow={onUnfollow}
-                onProfileFollow={onProfileFollow}
-                onProfileUnfollow={onProfileUnfollow}
-              />
-            ))}
-          </Grid>
-        );
-    }
-    if (followings) {
-      newTabs.find((tab) => tab.key === 'followings').data =
-        getFollowingsLoading ? (
-          <Grid
-            container
-            height="67vh"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <ReactLoading
-              type="spinningBubbles"
-              color="black"
-              style={{
-                width: '60px',
-                height: '60px',
-              }}
+          ))}
+        </Grid>
+      );
+
+    newTabs.find((tab) => tab.key === 'followings').data =
+      getFollowingsLoading ? (
+        <Grid
+          container
+          height="67vh"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <ReactLoading
+            type="spinningBubbles"
+            color="black"
+            style={{
+              width: '60px',
+              height: '60px',
+            }}
+          />
+        </Grid>
+      ) : !followings || followings.length === 0 ? (
+        <Grid
+          container
+          height="67vh"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Typography css={noContents}>
+            {profile?.nickname}님이 팔로우하는 유저가 없습니다.
+          </Typography>
+        </Grid>
+      ) : (
+        <Grid>
+          {followings.map((following, i) => (
+            <ModalUserCard
+              key={i}
+              loggedInUser={user}
+              profileUserId={profile.id}
+              user={following}
+              onFollow={onFollow}
+              onUnfollow={onUnfollow}
+              onProfileFollow={onProfileFollow}
+              onProfileUnfollow={onProfileUnfollow}
             />
-          </Grid>
-        ) : followings.length === 0 ? (
-          <Grid
-            container
-            height="67vh"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Typography css={noContents}>
-              {profile?.nickname}님이 팔로우하는 유저가 없습니다.
-            </Typography>
-          </Grid>
-        ) : (
-          <Grid>
-            {followings.map((following, i) => (
-              <ModalUserCard
-                key={i}
-                loggedInUser={user}
-                profileUserId={profile.id}
-                user={following}
-                onFollow={onFollow}
-                onUnfollow={onUnfollow}
-                onProfileFollow={onProfileFollow}
-                onProfileUnfollow={onProfileUnfollow}
-              />
-            ))}
-          </Grid>
-        );
-    }
+          ))}
+        </Grid>
+      );
+
     setTabs(newTabs);
   }, [followers, followings, getFollowersLoading, getFollowingsLoading]);
 
