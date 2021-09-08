@@ -5,7 +5,6 @@ import AddIcon from '@material-ui/icons/Add';
 import CheckIcon from '@material-ui/icons/Check';
 import { useEffect, useState } from 'react';
 import Button from './Button';
-import { Link } from 'react-router-dom';
 
 function ModalUserCard({
   loggedInUser,
@@ -33,7 +32,7 @@ function ModalUserCard({
   }, [loggedInUser, user]);
 
   return (
-    <Grid container py={4}>
+    <Grid container py={4} borderBottom="1px solid #E0E0E0">
       <Grid item container xs={2}>
         <Avatar
           css={avatar}
@@ -108,6 +107,7 @@ const avatar = css`
 `;
 
 const nickname = css`
+  font-family: 'Barlow', 'Noto Sans KR', 'sans-serif' !important;
   cursor: pointer;
   font-size: 1.2rem;
   font-weight: 700;
@@ -120,6 +120,7 @@ const talentTags = css`
 `;
 
 const talentTag = css`
+  font-family: 'Barlow', 'Noto Sans KR', 'sans-serif' !important;
   border-radius: 14px;
   background-color: #7b7b7b;
   color: white;
@@ -142,6 +143,7 @@ const followButton = css`
   margin: auto;
 
   .title {
+    font-family: 'Noto Sans KR', 'sans-serif' !important;
     font-size: 16px;
     font-weight: 700;
     margin-left: 6px;
@@ -164,6 +166,7 @@ const followingButton = css`
   margin: auto;
 
   .title {
+    font-family: 'Noto Sans KR', 'sans-serif' !important;
     font-size: 16px;
     font-weight: 700;
     margin-left: 6px;

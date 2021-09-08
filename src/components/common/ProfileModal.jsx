@@ -11,11 +11,12 @@ function ProfileModal({
   tabs,
   currentTab,
   setCurrentTab,
+  sxOverlay,
+  sxContent,
 }) {
   useEffect(() => {
-    {
-      tabs.find((tab) => tab.key === currentTab)?.onTab();
-    }
+    if (tabs.find((tab) => tab.key === currentTab).onTab)
+      tabs.find((tab) => tab.key === currentTab).onTab();
   }, [currentTab]);
 
   return (
@@ -28,7 +29,11 @@ function ProfileModal({
         setIsModalOpen(false);
       }}
       style={{
-        overlay: { backgroundColor: '#000000B2', marginTop: '3.75rem' },
+        overlay: {
+          backgroundColor: '#000000B2',
+          marginTop: '3.75rem',
+          ...sxOverlay,
+        },
         content: {
           backgroundColor: '#fff',
           maxWidth: '800px',
@@ -36,6 +41,7 @@ function ProfileModal({
           margin: 'auto',
           padding: '0',
           borderRadius: '10px',
+          ...sxContent,
         },
       }}
       ariaHideApp={false}
@@ -88,13 +94,15 @@ const header = css`
   position: fixed;
   z-index: 1;
   width: 798px;
-  height: 52px;
+  height: 60px;
   background-color: #fff;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  border-bottom: 1px solid #e0e0e0;
 `;
 
 const tabButton = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   font-size: 18px;
   font-weight: 700;
   color: black;
@@ -112,7 +120,7 @@ const closeButton = css`
 `;
 
 const contents = css`
-  margin-top: 52px;
+  margin-top: 60px;
   height: fit-content;
   overflow: scroll;
 `;

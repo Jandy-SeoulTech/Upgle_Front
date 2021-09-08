@@ -42,6 +42,11 @@ const ChatList = ({
           value={message}
           placeholder="여기에 입력해주세요"
           onChange={(e) => setMessage(e.target.value)}
+          onKeyPress={(e) => {
+            if (!e.shiftKey && e.key === 'Enter') {
+              handleSendMessage();
+            }
+          }}
           css={chatInput}
         />
         <Button

@@ -16,6 +16,8 @@ import ChannelPostEditPage from './pages/channel/ChannelPostEditPage';
 import UploadProfilePage from './pages/profile/UploadProfilePage';
 import ChannelPostListPage from './pages/channel/ChannelPostListPage';
 import ChannelPostPage from './pages/channel/ChannelPostPage';
+import ChattingRoomPage from './pages/chat/ChattingRoomPage';
+import ProfileSettingPage from './pages/profile/ProfileSettingPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -43,6 +45,8 @@ function App() {
       <Route path="/channelPost/edit" exact component={ChannelPostEditPage} />
       <Route path="/channelPost/id" exact component={ChannelPostPage} />
       <Route path="/chat/:chatId" />
+      <Route path="/chat/:id" component={ChattingRoomPage} />
+      <Route path="/setting" component={ProfileSettingPage} />
     </BrowserRouter>
   );
 }
