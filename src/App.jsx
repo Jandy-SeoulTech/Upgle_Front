@@ -12,6 +12,7 @@ import ChannelProfilePage from './pages/channel/ChannelProfilePage';
 import ChannelHomePage from './pages/channel/ChannelHomePage';
 import MyChannelPage from './pages/channel/MyChannelPage';
 import ProfilePage from './pages/profile/ProfilePage';
+import ChannelPostEditPage from './pages/channel/ChannelPostEditPage';
 import UploadProfilePage from './pages/profile/UploadProfilePage';
 import ChannelPostListPage from './pages/channel/ChannelPostListPage';
 
@@ -38,6 +39,7 @@ function App() {
       <Route path="/channelHome/:id" exact component={ChannelHomePage} />
       <Route path="/profile/:userId" component={ProfilePage} />
       <Route path="/channelPost" component={ChannelPostListPage} />
+      <Route path="/channel/post/edit" component={ChannelPostEditPage} />
     </BrowserRouter>
   );
 }
