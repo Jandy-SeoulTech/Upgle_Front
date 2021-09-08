@@ -18,7 +18,7 @@ const ChattingRoomContainer = ({ roomId }) => {
   const { user } = useSelector((state) => state.user);
   const { room } = useSelector((state) => state.room);
   const { messages, lastId } = useSelector((state) => state.chat);
-  const [replyMessage, setReplyMessage] = useState(false);
+  const [replyMessage, setReplyMessage] = useState();
   const [message, setMessage] = useState('');
   const [participants, setParticipants] = useState([]);
 
