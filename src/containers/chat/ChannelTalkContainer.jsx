@@ -15,7 +15,7 @@ let socket;
 const ChannelTalkContainer = ({ channel }) => {
   const { user } = useSelector((state) => state.user);
   const [message, setMessage] = useState('');
-  const { messages, lastId } = useSelector((state) => state.chat);
+  const { messages, lastId, success } = useSelector((state) => state.chat);
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -54,7 +54,6 @@ const ChannelTalkContainer = ({ channel }) => {
       return;
     }
     dispatch(sendChannelMessage({ channelId: channel.id, content: message }));
-    setMessage('');
   }, [message]);
 
   const handleGetMassage = () => {
@@ -65,6 +64,12 @@ const ChannelTalkContainer = ({ channel }) => {
       }),
     );
   };
+
+  useEffect(() => {
+    if (success) {
+      setMessage('');
+    }
+  }, [success]);
 
   if (!user) return '로딩중';
 
