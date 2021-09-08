@@ -15,7 +15,6 @@ const ChattingRoom = ({
   room,
   messages,
   message,
-  setReplyId,
   setMessage,
   handleSendMessage,
   handleGetMassage,

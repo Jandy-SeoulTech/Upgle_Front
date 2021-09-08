@@ -49,7 +49,10 @@ const ChannelTalkContainer = ({ channel }) => {
   }, []);
 
   const handleSendMessage = useCallback(() => {
-    if (!message) return;
+    if (message === '' || message === '\n') {
+      setMessage('');
+      return;
+    }
     dispatch(sendChannelMessage({ channelId: channel.id, content: message }));
     setMessage('');
   }, [message]);

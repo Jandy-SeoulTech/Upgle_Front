@@ -16,8 +16,7 @@ let socket;
 const ChattingRoomContainer = ({ roomId }) => {
   const { user } = useSelector((state) => state.user);
   const { messages, lastId } = useSelector((state) => state.chat);
-  const [replyId, setReplyId] = useState(false);
-  const [replyMessage, setReplyMessage] = useState(false);
+  const [replyMessage, setReplyMessage] = useState();
   const [message, setMessage] = useState('');
   const room = {
     title: '채팅방 이름',
@@ -64,9 +63,13 @@ const ChattingRoomContainer = ({ roomId }) => {
       setMessage('');
       return;
     }
-    if (replyId)
+    if (replyMessage)
       dispatch(
-        replyRoomMessage({ roomId, answerId: replyId, content: message }),
+        replyRoomMessage({
+          roomId,
+          answerId: replyMessage.id,
+          content: message,
+        }),
       );
     else dispatch(sendRoomMessage({ roomId, content: message }));
     setMessage('');
@@ -90,7 +93,6 @@ const ChattingRoomContainer = ({ roomId }) => {
       room={room}
       messages={messages}
       message={message}
-      setReplyId={setReplyId}
       setMessage={setMessage}
       handleSendMessage={handleSendMessage}
       handleGetMassage={handleGetMassage}
