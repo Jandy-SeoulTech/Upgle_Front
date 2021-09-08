@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
-import { initialize, uploadImages } from '../../../modules/image';
+import { initialize, setImage, uploadImages } from '../../../modules/image';
 import { check } from '../../../modules/user';
 import { updateProfile } from '../../../modules/write';
 import { checkNickname, initAuth } from '../../../modules/auth';
@@ -9,7 +8,6 @@ import ProfileSetting from '../../../components/profile/setting/ProfileSetting';
 import { changePassword, checkPassword } from '../../../modules/profile';
 
 const ProfileSettingContainer = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { auth, nicknameChecked } = useSelector((state) => state.auth);
@@ -33,7 +31,6 @@ const ProfileSettingContainer = () => {
     introduce,
     wellTalent,
     interestTalent,
-    src,
   }) => {
     dispatch(
       updateProfile({
@@ -61,6 +58,12 @@ const ProfileSettingContainer = () => {
   };
 
   useEffect(() => {
+    if (user?.profile) {
+      dispatch(setImage(user.profile.profileImage.src));
+    }
+  }, [user]);
+
+  useEffect(() => {
     return () => {
       dispatch(initAuth());
     };
@@ -71,12 +74,6 @@ const ProfileSettingContainer = () => {
       dispatch(check());
     }
   }, [auth, dispatch]);
-
-  useEffect(() => {
-    if (!user) {
-      history.push('/signin');
-    }
-  }, [user, history]);
 
   return (
     <ProfileSetting

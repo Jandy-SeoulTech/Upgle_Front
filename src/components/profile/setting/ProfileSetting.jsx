@@ -1,9 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Box, Grid, TextareaAutosize, Typography } from '@material-ui/core';
-import { ReactComponent as HeartStraight } from '../../../lib/assets/heartStraight.svg';
-import { ReactComponent as UserPlus } from '../../../lib/assets/userPlus.svg';
-import { ReactComponent as MoreIcon } from '../../../lib/assets/moreIcon.svg';
 import palette from '../../../lib/styles/palette';
 import { useEffect, useRef, useState } from 'react';
 import { ReactComponent as DefaultImage } from '../../../lib/assets/defaultImage.svg';
@@ -36,7 +33,6 @@ const ProfileSetting = ({
   const isPasswordRefVisible = useOnScreen(passwordRef);
   const isAlarmRefVisible = useOnScreen(alarmRef);
 
-  const [profileImage, setProfileImage] = useState('');
   const [nickname, setNickname] = useState('');
   const [introduce, setIntroduce] = useState('');
   const [department, setDepartment] = useState('');
@@ -45,8 +41,6 @@ const ProfileSetting = ({
 
   useEffect(() => {
     if (user) {
-      console.log(user);
-      setProfileImage(user.profile.profileImage.src);
       setNickname(user.nickname);
       setIntroduce(user.profile.introduce);
       setDepartment(user.profile.department);
@@ -57,7 +51,7 @@ const ProfileSetting = ({
     }
   }, [user]);
 
-  const onChange = (imageList) => {
+  const onImageChange = (imageList) => {
     if (imageList.length === 0) return;
     const formData = new FormData();
     formData.append('files', imageList[0].file);
@@ -165,7 +159,6 @@ const ProfileSetting = ({
       introduce,
       wellTalent,
       interestTalent,
-      src: null,
     });
   };
 
@@ -241,7 +234,7 @@ const ProfileSetting = ({
               css={profileSettingContent}
             >
               <Grid xs={4} item>
-                <ImageUploading onChange={onChange}>
+                <ImageUploading onChange={onImageChange}>
                   {({ onImageUpload, isDragging, dragProps }) => (
                     <div
                       css={{
