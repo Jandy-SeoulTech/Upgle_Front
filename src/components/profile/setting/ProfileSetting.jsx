@@ -208,14 +208,16 @@ const ProfileSetting = ({
             >
               프로필 설정
             </Typography>
-            <Typography
-              className={
-                isPasswordRefVisible && !isProfileRefVisible ? 'current' : ''
-              }
-              onClick={() => (window.location.href = '/setting#password')}
-            >
-              비밀번호 관리
-            </Typography>
+            {user.provider === 'local' && (
+              <Typography
+                className={
+                  isPasswordRefVisible && !isProfileRefVisible ? 'current' : ''
+                }
+                onClick={() => (window.location.href = '/setting#password')}
+              >
+                비밀번호 관리
+              </Typography>
+            )}
             <Typography
               className={
                 isAlarmRefVisible &&
@@ -406,89 +408,91 @@ const ProfileSetting = ({
                 </Grid>
               </Grid>
             </Grid>
-            <Grid
-              id="password"
-              ref={passwordRef}
-              item
-              container
-              css={profileSettingContent}
-            >
-              <Grid xs={4} item></Grid>
+            {user.provider === 'local' && (
               <Grid
-                xs={8}
+                id="password"
+                ref={passwordRef}
                 item
                 container
-                css={profileContentWrapper}
-                spacing={1.875}
+                css={profileSettingContent}
               >
-                <Grid item>
-                  <Typography>현재 비밀번호</Typography>
-                  <TextField
-                    size="small"
-                    variant="outlined"
-                    fullWidth
-                    type="password"
-                    value={oldPassword}
-                    onChange={(e) => {
-                      setOldPassword(e.target.value);
-                      setOldPasswordError(false);
-                    }}
-                    error={oldPasswordError || checkedPassword === false}
-                    helperText={
-                      (oldPasswordError && '현재 비밀번호를 입력해주세요.') ||
-                      (checkedPassword === false &&
-                        '현재 비밀번호가 일치하지 않습니다.')
-                    }
-                    css={input}
-                  />
-                </Grid>
-                <Grid item>
-                  <Typography>새 비밀번호</Typography>
-                  <TextField
-                    size="small"
-                    variant="outlined"
-                    fullWidth
-                    type="password"
-                    value={newPassword}
-                    onChange={(e) => {
-                      setNewPassword(e.target.value);
-                      setNewPasswordError(false);
-                    }}
-                    error={newPasswordError || changedPassword === false}
-                    helperText={
-                      (newPasswordError || changedPassword === false) &&
-                      '영문 + 숫자 8자리 이상 입력해주세요.'
-                    }
-                    css={input}
-                  />
-                </Grid>
-                <Grid item>
-                  <Typography>새 비밀번호 확인</Typography>
-                  <TextField
-                    size="small"
-                    variant="outlined"
-                    fullWidth
-                    type="password"
-                    value={newPasswordCheck}
-                    onChange={(e) => {
-                      setNewPasswordCheck(e.target.value);
-                      setNewPasswordCheckError(false);
-                    }}
-                    error={newPasswordCheckError}
-                    helperText={
-                      newPasswordCheckError &&
-                      '새 비밀번호가 일치하지 않습니다.'
-                    }
-                    css={input}
-                  />
-                </Grid>
-                <Grid item>
-                  <Button css={submitButton} onClick={handleChangePassword}>
-                    변경 내용 저장
-                  </Button>
+                <Grid xs={4} item></Grid>
+                <Grid
+                  xs={8}
+                  item
+                  container
+                  css={profileContentWrapper}
+                  spacing={1.875}
+                >
+                  <Grid item>
+                    <Typography>현재 비밀번호</Typography>
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      fullWidth
+                      type="password"
+                      value={oldPassword}
+                      onChange={(e) => {
+                        setOldPassword(e.target.value);
+                        setOldPasswordError(false);
+                      }}
+                      error={oldPasswordError || checkedPassword === false}
+                      helperText={
+                        (oldPasswordError && '현재 비밀번호를 입력해주세요.') ||
+                        (checkedPassword === false &&
+                          '현재 비밀번호가 일치하지 않습니다.')
+                      }
+                      css={input}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <Typography>새 비밀번호</Typography>
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      fullWidth
+                      type="password"
+                      value={newPassword}
+                      onChange={(e) => {
+                        setNewPassword(e.target.value);
+                        setNewPasswordError(false);
+                      }}
+                      error={newPasswordError || changedPassword === false}
+                      helperText={
+                        (newPasswordError || changedPassword === false) &&
+                        '영문 + 숫자 8자리 이상 입력해주세요.'
+                      }
+                      css={input}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <Typography>새 비밀번호 확인</Typography>
+                    <TextField
+                      size="small"
+                      variant="outlined"
+                      fullWidth
+                      type="password"
+                      value={newPasswordCheck}
+                      onChange={(e) => {
+                        setNewPasswordCheck(e.target.value);
+                        setNewPasswordCheckError(false);
+                      }}
+                      error={newPasswordCheckError}
+                      helperText={
+                        newPasswordCheckError &&
+                        '새 비밀번호가 일치하지 않습니다.'
+                      }
+                      css={input}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <Button css={submitButton} onClick={handleChangePassword}>
+                      변경 내용 저장
+                    </Button>
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
+            )}
             <Grid
               id="alarm"
               ref={alarmRef}
