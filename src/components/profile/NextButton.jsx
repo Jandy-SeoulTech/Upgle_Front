@@ -12,7 +12,6 @@ const NextButton = ({ data, activeStep, onClick }) => {
     data.introduce,
     data.images,
   ];
-  console.log(steps);
   return (
     <Button
       onClick={onClick}

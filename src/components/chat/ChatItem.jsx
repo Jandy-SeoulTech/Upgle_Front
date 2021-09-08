@@ -1,90 +1,74 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Avatar, Box, Paper, Typography } from '@material-ui/core';
-import React, { memo, useEffect, useRef } from 'react';
+import { Avatar, Box, Typography } from '@material-ui/core';
+import { memo } from 'react';
+import palette from '../../lib/styles/palette';
 
-const ChatItem = ({ user, message }) => {
-  const msgRef = useRef();
-  useEffect(() => {
-    msgRef.current.scrollIntoView();
-  });
-
-  return user.id === message.sendUserId ? (
-    <Box css={chatItemWrapper} ref={msgRef}>
-      <Paper
-        elevation={2}
-        css={[
-          messageWrapper,
-          css`
-            margin-left: auto;
-          `,
-        ]}
-      >
+const ChatItem = ({ message, isContinue, isMe }) => {
+  return (
+    <Box css={chatItemWrapper}>
+      {!isMe && !isContinue && (
+        <Box css={userWrapper}>
+          <Avatar
+            src={
+              message.sendUser['profile'] &&
+              message.sendUser.profile.profileImage.src
+            }
+          />
+          <Typography>{message.sendUser.nickname}</Typography>
+        </Box>
+      )}
+      <Box css={[messageWrapper(isContinue, isMe), css``]}>
         <Typography>{message.content}</Typography>
-      </Paper>
-      <Box css={userWrapper}>
-        <Avatar src={message.sendUser.profile.profileImage.src} />
-        <Typography>{message.sendUser.nickname}</Typography>
       </Box>
-    </Box>
-  ) : (
-    <Box css={chatItemWrapper} ref={msgRef}>
-      <Box css={userWrapper}>
-        <Avatar src={message.sendUser.profile.profileImage.src} />
-        <Typography>{message.sendUser.nickname}</Typography>
-      </Box>
-      <Paper
-        elevation={2}
-        css={[
-          messageWrapper,
-          css`
-            margin-right: auto;
-          `,
-        ]}
-      >
-        <Typography>{message.content}</Typography>
-      </Paper>
     </Box>
   );
 };
 
 const chatItemWrapper = css`
   width: 100%;
-  display: flex;
-  align-items: center;
-  padding: 1rem 0.5rem;
-  & + & {
-    margin-top: 0.5rem;
-  }
+  margin-top: 0.84rem;
 `;
 
 const userWrapper = css`
-  margin: 0 0.5rem;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  width: 6rem;
+  margin-left: 2.5rem;
   .MuiAvatar-root {
-    width: 2.7rem;
-    height: 2.7rem;
+    width: 3.34rem;
+    height: 3.34rem;
     box-shadow: 5px 5px 15px 1px rgba(0, 0, 0, 0.15);
   }
   .MuiTypography-root {
-    font-family: 'Barlow', 'Noto Sans KR';
+    font-family: 'Noto Sans KR';
     text-align: center;
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-left: 0.9rem;
+    margin-bottom: 0.67rem;
   }
 `;
 
-const messageWrapper = css`
+const messageWrapper = (isContinue, isMe) => css`
+  position: relative;
+  left: ${!isMe && '6.25rem'};
   width: fit-content;
   height: fit-content;
-  padding: 0.5rem 0.3rem;
+  padding: 0.84rem;
+  color: ${isMe && palette.white};
+  background: ${isMe ? 'rgba(255, 81, 27, 0.8);' : '#f0f0f0'};
+  margin: ${isMe ? '0 2.5rem 0 auto' : '0 auto 0 0'};
+  border-radius: ${isContinue
+    ? '20px'
+    : isMe
+    ? '20px 3px 20px 20px;'
+    : '3px 20px 20px 20px;'};
   .MuiTypography-root {
     font-family: 'Barlow', 'Noto Sans KR';
     letter-spacing: 0;
     word-wrap: break-word;
+    white-space: pre;
+    font-size: 1.167rem;
   }
 `;
 

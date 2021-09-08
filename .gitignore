@@ -5,8 +5,9 @@
 
 # production
 .env
-/build
 
 # Local Netlify folder
 .netlify
 netlify.toml
+
+/build

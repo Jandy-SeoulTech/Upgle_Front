@@ -14,6 +14,7 @@ import MyChannelPage from './pages/channel/MyChannelPage';
 import ProfilePage from './pages/profile/ProfilePage';
 import UploadProfilePage from './pages/profile/UploadProfilePage';
 import ProfileSettingPage from './pages/profile/ProfileSettingPage';
+import ChattingRoomPage from './pages/chat/ChattingRoomPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ function App() {
       <Route path="/channelHome/:id" exact component={ChannelHomePage} />
       <Route path="/profile/:userId" component={ProfilePage} />
       <Route path="/setting" component={ProfileSettingPage} />
+      <Route path="/chat/:id" component={ChattingRoomPage} />
     </BrowserRouter>
   );
 }
