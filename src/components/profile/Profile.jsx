@@ -20,6 +20,7 @@ const Profile = ({
   getProfileLoading,
   getFollowersLoading,
   getFollowingsLoading,
+  getReviewsLoading,
   isMe,
   isFollowing,
   user,
@@ -138,25 +139,30 @@ const Profile = ({
         </Grid>
       );
 
-    newTabs.find((tab) => tab.key === 'reviews').data =
-      reviews.length === 0 ? (
-        <Grid
-          container
-          height="67vh"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Typography css={noContents}>
-            {profile?.nickname}님에 대한 리뷰가 없습니다.
-          </Typography>
-        </Grid>
-      ) : (
-        <Grid>
-          {reviews.map((review, i) => (
-            <ModalReviewCard key={i} review={review} />
-          ))}
-        </Grid>
-      );
+    newTabs.find((tab) => tab.key === 'reviews').data = getReviewsLoading ? (
+      <Grid container height="67vh" justifyContent="center" alignItems="center">
+        <ReactLoading
+          type="spinningBubbles"
+          color="black"
+          style={{
+            width: '60px',
+            height: '60px',
+          }}
+        />
+      </Grid>
+    ) : !reviews || reviews.length === 0 ? (
+      <Grid container height="67vh" justifyContent="center" alignItems="center">
+        <Typography css={noContents}>
+          {profile?.nickname}님에 대한 리뷰가 없습니다.
+        </Typography>
+      </Grid>
+    ) : (
+      <Grid>
+        {reviews.map((review, i) => (
+          <ModalReviewCard key={i} review={review} />
+        ))}
+      </Grid>
+    );
 
     setTabs(newTabs);
   }, [
@@ -165,6 +171,7 @@ const Profile = ({
     reviews,
     getFollowersLoading,
     getFollowingsLoading,
+    getReviewsLoading,
   ]);
 
   const rightInfosA = [

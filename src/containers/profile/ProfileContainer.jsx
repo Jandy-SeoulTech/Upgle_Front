@@ -30,6 +30,9 @@ const ProfileContainer = () => {
   const getFollowingsLoading = useSelector(
     (state) => state.loading['profile/GET_FOLLOWINGS'],
   );
+  const getReviewsLoading = useSelector(
+    (state) => state.loading['profile/GET_REVIEWS'],
+  );
 
   const [isMe, setIsMe] = useState();
   const [isFollowing, setIsFollowing] = useState();
@@ -94,6 +97,7 @@ const ProfileContainer = () => {
       getProfileLoading={getProfileLoading}
       getFollowersLoading={getFollowersLoading}
       getFollowingsLoading={getFollowingsLoading}
+      getReviewsLoading={getReviewsLoading}
       isMe={isMe}
       isFollowing={isFollowing}
       user={user}
