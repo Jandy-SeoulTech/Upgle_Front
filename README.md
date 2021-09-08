@@ -8,15 +8,16 @@
 </p>
 
 # 재능 공유 플랫폼 Upgle
-> 자신이 잘하는 분야를 화상 채팅을 이용하여 배우고 싶은 사람들과 실시간으로 인터랙션 하며 무료로 공유할 수 있는 플랫폼입니다.   
+
+> 자신이 잘하는 분야를 화상 채팅을 이용하여 배우고 싶은 사람들과 실시간으로 인터랙션 하며 무료로 공유할 수 있는 플랫폼입니다.
 
 **Upgle** 은 웹 사이트 환경에서 자신이 잘하는 분야를 공유하는 공유자와 배우고 싶은 분야를 배우는 사람들이 실시간으로 인터렉션 할 수 있게 도와주는 사이트입니다.
-   
+
 비슷한 재능을 공유할 수 있는 **채널**에 가입해서 실시간 채팅, 화상, 음성 등으로 다른 사람들과 소통하면서 자신의 재능을 공유하거나, 키워나가세요!
 
 ## 서비스 결과물
 
-9월 초에 업데이트 예정
+9월 9일 업데이트 예정
 
 ## 💡 Front-End 기술 스택 (Technique Used)
 
@@ -55,33 +56,43 @@
   </tr>
 </tbody></table>
 
-
 ## 🖥 컴퓨터 구성 / 필수 조건 안내 (Prerequisites)
-* ECMAScript 6 지원 브라우저 사용
-* 권장: Google Chrome 버젼 77 이상
-* __IE환경에서 작동이 안될 수도 있습니다.__
+
+- ECMAScript 6 지원 브라우저 사용
+- 권장: Google Chrome 버젼 77 이상
+- **IE환경에서 작동이 안될 수도 있습니다.**
+
 ### 사용가능 브라우저
-![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![Edge](https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![Opera](https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Safari](https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png)
---- | --- | --- | --- | --- |
- 56+ ✔ | 32+ ✔ | 16+ ✔ | 42+ ✔ | 8+ ✔ |
+
+| ![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![Edge](https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![Opera](https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Safari](https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png) |
+| --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
+| 56+ ✔                                                                                               | 32+ ✔                                                                                                  | 16+ ✔                                                                                         | 42+ ✔                                                                                            | 8+ ✔                                                                                                |
 
 ## ✍ 설치 및 실행 안내 (Installation & Execution Process)
+
 1. 업글 원격 저장소를 클론합니다.
+
 ```bash
 $ git clone https://github.com/Jandy-SeoulTech/Jandy_Web_Front
 ```
+
 2. 생성된 로컬 저장소로 이동 후 모듈을 설치합니다.
+
 ```bash
 $ cd Jandy_Web_Front
 $ yarn install
 ```
+
 3. yarn start를 통해 리액트 앱을 실행시킵니다.
+
 ```bash
 $ yarn start
 ```
+
 4. 브라우저에 http://localhost:3000 를 입력하여 사이트에 접속 할 수 있습니다.
 
 ## 👨‍👩‍👧‍👦 팀 정보(Team Information)
+
 <table>
    <tr>
       <td colspan="2" align="center"><strong>Front-End Developer</strong></td>
@@ -110,7 +121,6 @@ $ yarn start
         <a href="##"><img src="https://user-images.githubusercontent.com/28949213/129733334-66bf8833-ce33-4e1a-9503-d01f700635af.png" width="150px" alt="김연수"/><br /><sub><b>김연수</b></sub></a>
      </td>
   <tr>
-    
+
 
 </table>
-
