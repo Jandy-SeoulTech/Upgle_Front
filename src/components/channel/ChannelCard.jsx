@@ -101,6 +101,7 @@ const category = css`
 
 const tagList = css`
   display: flex;
+  flex-wrap: wrap;
   .MuiTypography-root {
     font-family: 'Barlow', 'Noto Sans KR';
     font-size: 0.625rem;

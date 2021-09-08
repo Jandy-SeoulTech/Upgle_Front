@@ -23,7 +23,7 @@ const InterestTalent = ({ interestTalent, handleChangeFiled }) => {
   return (
     <>
       <Typography css={title}>
-        당신이 <span>잘하는 재능</span>을 알려주세요
+        당신이 <span>관심있는 재능</span>을 알려주세요
       </Typography>
 
       <TagBox tagList={interestTalent} onClick={handleDeleteTalent} />

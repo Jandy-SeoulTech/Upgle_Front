@@ -32,7 +32,7 @@ const RoomChatItem = ({
       )}
       <Box css={{ display: 'flex', alignItems: 'flex-end' }}>
         {right && isLast && (
-          <Typography css={time}>
+          <Typography css={time(right)}>
             {new Date(message.createdAt).toLocaleString()}
           </Typography>
         )}
@@ -45,7 +45,7 @@ const RoomChatItem = ({
             </>
           )}
           <Box css={{ display: 'flex', alignItems: 'center' }}>
-            {isMe
+            {!admin && isMe
               ? message.answeredId && <ReplyWhite />
               : message.answeredId && <ReplyBlack />}
             <Typography>{message.content}</Typography>
@@ -58,7 +58,7 @@ const RoomChatItem = ({
           </Box>
         </Box>
         {!right && isLast && (
-          <Typography css={time}>
+          <Typography css={time(right)}>
             {new Date(message.createdAt).toLocaleString()}
           </Typography>
         )}
@@ -92,9 +92,9 @@ const userWrapper = (right) => css`
   }
 `;
 
-const time = css`
+const time = (right) => css`
   flex: 1;
-  text-align: right;
+  text-align: ${right ? 'right' : 'left'};
   font-family: 'Noto Sans KR';
   font-weight: 500;
   font-size: 1.167;
@@ -102,7 +102,6 @@ const time = css`
 `;
 
 const messageWrapper = ({ isContinue, right, isMe, admin }) => css`
-  min-height: 3.75rem;
   max-width: 70%;
   padding: 0.84rem;
   color: ${!admin && isMe && palette.white};
@@ -115,6 +114,7 @@ const messageWrapper = ({ isContinue, right, isMe, admin }) => css`
     : '3px 20px 20px 20px;'};
   border: ${admin && '2px solid #04BD9E'};
   .MuiTypography-root {
+    min-height: 2rem;
     font-family: 'Barlow', 'Noto Sans KR';
     letter-spacing: 0;
     word-wrap: break-word;
@@ -123,10 +123,10 @@ const messageWrapper = ({ isContinue, right, isMe, admin }) => css`
   }
   .answer {
     font-size: 1rem;
-    color: ${isMe ? 'rgba(255, 255, 255, 0.8)' : '#5F5F5F'};
+    color: ${!admin && isMe ? 'rgba(255, 255, 255, 0.8)' : '#5F5F5F'};
     padding-bottom: 0.25rem;
     margin-bottom: 0.25rem;
-    border-bottom: 1px solid ${isMe ? palette.white : '#5F5F5F'};
+    border-bottom: 1px solid ${!admin && isMe ? palette.white : '#5F5F5F'};
   }
   .replyButton {
     width: 2rem;
@@ -136,7 +136,7 @@ const messageWrapper = ({ isContinue, right, isMe, admin }) => css`
     display: none;
     flex-shrink: 0;
   }
-  & :hover {
+  &:hover {
     .replyButton {
       display: block;
     }
