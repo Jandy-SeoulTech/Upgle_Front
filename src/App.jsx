@@ -13,8 +13,8 @@ import ChannelHomePage from './pages/channel/ChannelHomePage';
 import MyChannelPage from './pages/channel/MyChannelPage';
 import ProfilePage from './pages/profile/ProfilePage';
 import UploadProfilePage from './pages/profile/UploadProfilePage';
-import ProfileSettingPage from './pages/profile/ProfileSettingPage';
 import ChattingRoomPage from './pages/chat/ChattingRoomPage';
+import ProfileSettingPage from './pages/profile/ProfileSettingPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -38,8 +38,8 @@ function App() {
       <Route path="/channelProfile/:id" exact component={ChannelProfilePage} />
       <Route path="/channelHome/:id" exact component={ChannelHomePage} />
       <Route path="/profile/:userId" component={ProfilePage} />
-      <Route path="/setting" component={ProfileSettingPage} />
       <Route path="/chat/:id" component={ChattingRoomPage} />
+      <Route path="/setting" component={ProfileSettingPage} />
     </BrowserRouter>
   );
 }
