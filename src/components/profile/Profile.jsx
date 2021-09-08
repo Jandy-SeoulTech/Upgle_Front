@@ -13,6 +13,8 @@ import { useEffect } from 'react';
 import ModalUserCard from '../common/ModalUserCard';
 import ReactLoading from 'react-loading';
 import ProfileModal from '../common/ProfileModal';
+import { useHistory } from 'react-router';
+import ModalReviewCard from '../common/ModalReviewCard';
 
 const Profile = ({
   getProfileLoading,
@@ -24,6 +26,7 @@ const Profile = ({
   profile,
   followers,
   followings,
+  reviews,
   profileChannel,
   onFollow,
   onUnfollow,
@@ -31,116 +34,139 @@ const Profile = ({
   onProfileUnfollow,
   onGetFollowers,
   onGetFollowings,
+  onGetReviews,
 }) => {
+  const history = useHistory();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tabs, setTabs] = useState([
     { key: 'followers', name: '팔로워', data: <></>, onTab: onGetFollowers },
     { key: 'followings', name: '팔로잉', data: <></>, onTab: onGetFollowings },
-    { key: 'reviews', name: '전체 리뷰', data: <></>, onTab: () => {} },
+    { key: 'reviews', name: '전체 리뷰', data: <></>, onTab: onGetReviews },
   ]);
   const [currentTab, setCurrentTab] = useState('followers');
 
   useEffect(() => {
     const newTabs = [...tabs];
-    if (followers) {
-      newTabs.find((tab) => tab.key === 'followers').data =
-        getFollowersLoading ? (
-          <Grid
-            container
-            height="67vh"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <ReactLoading
-              type="spinningBubbles"
-              color="black"
-              style={{
-                width: '60px',
-                height: '60px',
-              }}
-            />
-          </Grid>
-        ) : followers.length === 0 ? (
-          <Grid
-            container
-            height="67vh"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Typography css={noContents}>
-              {profile?.nickname}님을 팔로우하는 유저가 없습니다.
-            </Typography>
-          </Grid>
-        ) : (
-          <Grid>
-            {followers.map((follower, i) => (
-              <ModalUserCard
-                key={i}
-                loggedInUser={user}
-                profileUserId={profile.id}
-                user={follower}
-                onFollow={onFollow}
-                onUnfollow={onUnfollow}
-                onProfileFollow={onProfileFollow}
-                onProfileUnfollow={onProfileUnfollow}
-              />
-            ))}
-          </Grid>
-        );
-    }
-    if (followings) {
-      newTabs.find((tab) => tab.key === 'followings').data =
-        getFollowingsLoading ? (
-          <Grid
-            container
-            height="67vh"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <ReactLoading
-              type="spinningBubbles"
-              color="black"
-              style={{
-                width: '60px',
-                height: '60px',
-              }}
-            />
-          </Grid>
-        ) : followings.length === 0 ? (
-          <Grid
-            container
-            height="67vh"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Typography css={noContents}>
-              {profile?.nickname}님이 팔로우하는 유저가 없습니다.
-            </Typography>
-          </Grid>
-        ) : (
-          <Grid>
-            {followings.map((following, i) => (
-              <ModalUserCard
-                key={i}
-                loggedInUser={user}
-                profileUserId={profile.id}
-                user={following}
-                onFollow={onFollow}
-                onUnfollow={onUnfollow}
-                onProfileFollow={onProfileFollow}
-                onProfileUnfollow={onProfileUnfollow}
-              />
-            ))}
-          </Grid>
-        );
-    }
-    setTabs(newTabs);
-  }, [followers, followings, getFollowersLoading, getFollowingsLoading]);
 
-  const reviews = [
-    '팝핀 정말 잘춰요~기본기를 정말 탄탄하게 알려줘서 처음 배우는 사람도 재미있게 배울 수 있어요! 댄싱퀸펭귄님 최고!',
-    '진짜 너무 친절하세요~제가 못질은 처음이라서 질문을 계속 물어봐서 귀찮을만도 한데 하나하나 알려주서 잘 배울 수 있었어요. 못질 기본기 없으신 분들은 펭귄님 채널 추천!!!',
-  ];
+    newTabs.find((tab) => tab.key === 'followers').data =
+      getFollowersLoading ? (
+        <Grid
+          container
+          height="67vh"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <ReactLoading
+            type="spinningBubbles"
+            color="black"
+            style={{
+              width: '60px',
+              height: '60px',
+            }}
+          />
+        </Grid>
+      ) : !followers || followers.length === 0 ? (
+        <Grid
+          container
+          height="67vh"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Typography css={noContents}>
+            {profile?.nickname}님을 팔로우하는 유저가 없습니다.
+          </Typography>
+        </Grid>
+      ) : (
+        <Grid>
+          {followers.map((follower, i) => (
+            <ModalUserCard
+              key={i}
+              loggedInUser={user}
+              profileUserId={profile.id}
+              user={follower}
+              onFollow={onFollow}
+              onUnfollow={onUnfollow}
+              onProfileFollow={onProfileFollow}
+              onProfileUnfollow={onProfileUnfollow}
+            />
+          ))}
+        </Grid>
+      );
+
+    newTabs.find((tab) => tab.key === 'followings').data =
+      getFollowingsLoading ? (
+        <Grid
+          container
+          height="67vh"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <ReactLoading
+            type="spinningBubbles"
+            color="black"
+            style={{
+              width: '60px',
+              height: '60px',
+            }}
+          />
+        </Grid>
+      ) : !followings || followings.length === 0 ? (
+        <Grid
+          container
+          height="67vh"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Typography css={noContents}>
+            {profile?.nickname}님이 팔로우하는 유저가 없습니다.
+          </Typography>
+        </Grid>
+      ) : (
+        <Grid>
+          {followings.map((following, i) => (
+            <ModalUserCard
+              key={i}
+              loggedInUser={user}
+              profileUserId={profile.id}
+              user={following}
+              onFollow={onFollow}
+              onUnfollow={onUnfollow}
+              onProfileFollow={onProfileFollow}
+              onProfileUnfollow={onProfileUnfollow}
+            />
+          ))}
+        </Grid>
+      );
+
+    newTabs.find((tab) => tab.key === 'reviews').data =
+      reviews.length === 0 ? (
+        <Grid
+          container
+          height="67vh"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Typography css={noContents}>
+            {profile?.nickname}님에 대한 리뷰가 없습니다.
+          </Typography>
+        </Grid>
+      ) : (
+        <Grid>
+          {reviews.map((review, i) => (
+            <ModalReviewCard key={i} review={review} />
+          ))}
+        </Grid>
+      );
+
+    setTabs(newTabs);
+  }, [
+    followers,
+    followings,
+    reviews,
+    getFollowersLoading,
+    getFollowingsLoading,
+  ]);
+
   const rightInfosA = [
     {
       title: '머핀이 잘 부풀지 않을때 어떻게 해야할까?',
@@ -177,25 +203,6 @@ const Profile = ({
       title: '머핀이 잘 부풀지 않을때 어떻게 해야할까?',
       date: '2021.08.11',
       imgUrl: 'https://picsum.photos/200',
-    },
-  ];
-  const rightInfosB = [
-    {
-      name: '팝핀으로 우주 정복하기',
-      channelImg: { src: 'https://picsum.photos/100' },
-    },
-    { name: '팝핀으로 우주', channelImg: { src: 'https://picsum.photos/100' } },
-    {
-      name: '팝핀으로 우주 정복하기',
-      channelImg: { src: null },
-    },
-    {
-      name: '팝핀으로 우주 정복하기',
-      channelImg: { src: 'https://picsum.photos/100' },
-    },
-    {
-      name: '팝핀으로 우주 정복하기',
-      channelImg: { src: 'https://picsum.photos/100' },
     },
   ];
 
@@ -366,14 +373,26 @@ const Profile = ({
                 alignItems="center"
                 mb={2}
               >
-                <Button sx={orangeLabel} onClick={() => openModal('reviews')}>
-                  긍정 리뷰
+                <Button
+                  sx={orangeLabel}
+                  onClick={() => openModal('reviews')}
+                  css={{
+                    ':hover .positiveReviews': { display: 'none' },
+                    ':hover .allReviews': { display: 'block' },
+                  }}
+                >
+                  <span className="positiveReviews">긍정 리뷰</span>
+                  <span className="allReviews" css={{ display: 'none' }}>
+                    전체 리뷰
+                  </span>
                 </Button>
-                <Typography css={reviewNum}>123</Typography>
+                <Typography css={reviewNum}>
+                  {profile.reviewed.length}
+                </Typography>
               </Grid>
-              {reviews.map((review, i) => (
+              {profile.reviewed.map((review, i) => (
                 <Typography key={i} css={reviewText}>
-                  {review}
+                  {review.content}
                 </Typography>
               ))}
             </Grid>
@@ -386,7 +405,10 @@ const Profile = ({
               alignItems="center"
               mb={2}
             >
-              <Button sx={editProfileButton}>
+              <Button
+                sx={editProfileButton}
+                onClick={() => history.push('/setting')}
+              >
                 <EditProfileIcon />
                 <Typography
                   sx={{
