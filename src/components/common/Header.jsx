@@ -123,6 +123,7 @@ const Header = ({ user, onLogout }) => {
                 open={!!menuAnchor}
                 anchorEl={menuAnchor}
                 placement="bottom-end"
+                css={{ zIndex: 1000 }}
               >
                 <Paper sx={menuWrapper}>
                   <MenuList dense>

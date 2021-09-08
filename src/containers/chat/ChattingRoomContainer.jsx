@@ -26,7 +26,9 @@ const ChattingRoomContainer = ({ roomId }) => {
   const location = useLocation();
 
   useEffect(() => {
-    socket = io(`${process.env.REACT_APP_SOCKET_ENDPOINT}/room-${roomId}`);
+    socket = io(`${process.env.REACT_APP_SOCKET_ENDPOINT}/room-${roomId}`, {
+      secure: true,
+    });
     if (user) {
       socket.emit('join', { roomId, user }, (error) => {
         if (error) {

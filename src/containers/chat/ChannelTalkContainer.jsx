@@ -23,6 +23,7 @@ const ChannelTalkContainer = ({ channel }) => {
   useEffect(() => {
     socket = io(
       `${process.env.REACT_APP_SOCKET_ENDPOINT}/channel-${channel.id}`,
+      { secure: true },
     );
     if (user) {
       socket.emit('join', { user }, (error) => {
