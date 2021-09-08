@@ -1,13 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import {
-  Avatar,
-  Box,
-  Grid,
-  Typography,
-  useMediaQuery,
-} from '@material-ui/core';
-import { useParams } from 'react-router-dom';
+import { Avatar, Box, Grid, Typography } from '@material-ui/core';
 import Button from '../common/Button';
 import palette from '../../lib/styles/palette';
 import { ReactComponent as DepartmentIcon } from '../../lib/assets/departmentIcon.svg';
@@ -20,170 +13,204 @@ import { useEffect } from 'react';
 import ModalUserCard from '../common/ModalUserCard';
 import ReactLoading from 'react-loading';
 import ProfileModal from '../common/ProfileModal';
+import { useHistory } from 'react-router';
+import ModalReviewCard from '../common/ModalReviewCard';
 
 const Profile = ({
   getProfileLoading,
   getFollowersLoading,
   getFollowingsLoading,
+  getReviewsLoading,
   isMe,
   isFollowing,
   user,
   profile,
   followers,
   followings,
-  myChannel,
+  reviews,
+  profileChannel,
   onFollow,
   onUnfollow,
   onProfileFollow,
   onProfileUnfollow,
   onGetFollowers,
   onGetFollowings,
-  errorMessage,
+  onGetReviews,
 }) => {
-  const { id } = useParams();
-  const m1200 = useMediaQuery('(max-width: 1199px)');
+  const history = useHistory();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tabs, setTabs] = useState([
     { key: 'followers', name: '팔로워', data: <></>, onTab: onGetFollowers },
     { key: 'followings', name: '팔로잉', data: <></>, onTab: onGetFollowings },
-    { key: 'reviews', name: '전체 리뷰', data: <></>, onTab: () => {} },
+    { key: 'reviews', name: '전체 리뷰', data: <></>, onTab: onGetReviews },
   ]);
   const [currentTab, setCurrentTab] = useState('followers');
 
   useEffect(() => {
     const newTabs = [...tabs];
-    if (followers) {
-      newTabs.find((tab) => tab.key === 'followers').data =
-        getFollowersLoading ? (
-          <ReactLoading
-            type="spinningBubbles"
-            color="black"
-            style={{
-              margin: '60px auto 0 auto',
-              width: '60px',
-              height: '60px',
-            }}
-          />
-        ) : (
-          <Grid>
-            {followers.length === 0 ? (
-              <Typography textAlign="center" marginTop="60px">
-                {profile?.nickname}님을 팔로우하는 유저가 없습니다.
-              </Typography>
-            ) : (
-              followers.map((follower, i) => (
-                <ModalUserCard
-                  key={i}
-                  loggedInUser={user}
-                  profileUserId={profile.id}
-                  user={follower}
-                  onFollow={onFollow}
-                  onUnfollow={onUnfollow}
-                  onProfileFollow={onProfileFollow}
-                  onProfileUnfollow={onProfileUnfollow}
-                />
-              ))
-            )}
-          </Grid>
-        );
-    }
-    if (followings) {
-      newTabs.find((tab) => tab.key === 'followings').data =
-        getFollowingsLoading ? (
-          <ReactLoading
-            type="spinningBubbles"
-            color="black"
-            style={{
-              margin: '60px auto 0 auto',
-              width: '60px',
-              height: '60px',
-            }}
-          />
-        ) : (
-          <Grid>
-            {followings.length === 0 ? (
-              <Typography textAlign="center" marginTop="60px">
-                {profile?.nickname}님이 팔로우하는 유저가 없습니다.
-              </Typography>
-            ) : (
-              followings.map((following, i) => (
-                <ModalUserCard
-                  key={i}
-                  loggedInUser={user}
-                  profileUserId={profile.id}
-                  user={following}
-                  onFollow={onFollow}
-                  onUnfollow={onUnfollow}
-                  onProfileFollow={onProfileFollow}
-                  onProfileUnfollow={onProfileUnfollow}
-                />
-              ))
-            )}
-          </Grid>
-        );
-    }
-    setTabs(newTabs);
-  }, [followers, followings, getFollowersLoading, getFollowingsLoading]);
 
-  const reviews = [
-    '팝핀 정말 잘춰요~기본기를 정말 탄탄하게 알려줘서 처음 배우는 사람도 재미있게 배울 수 있어요! 댄싱퀸펭귄님 최고!',
-    '진짜 너무 친절하세요~제가 못질은 처음이라서 질문을 계속 물어봐서 귀찮을만도 한데 하나하나 알려주서 잘 배울 수 있었어요. 못질 기본기 없으신 분들은 펭귄님 채널 추천!!!',
-  ];
+    newTabs.find((tab) => tab.key === 'followers').data =
+      getFollowersLoading ? (
+        <Grid
+          container
+          height="67vh"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <ReactLoading
+            type="spinningBubbles"
+            color="black"
+            style={{
+              width: '60px',
+              height: '60px',
+            }}
+          />
+        </Grid>
+      ) : !followers || followers.length === 0 ? (
+        <Grid
+          container
+          height="67vh"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Typography css={noContents}>
+            {profile?.nickname}님을 팔로우하는 유저가 없습니다.
+          </Typography>
+        </Grid>
+      ) : (
+        <Grid>
+          {followers.map((follower, i) => (
+            <ModalUserCard
+              key={i}
+              loggedInUser={user}
+              profileUserId={profile.id}
+              user={follower}
+              onFollow={onFollow}
+              onUnfollow={onUnfollow}
+              onProfileFollow={onProfileFollow}
+              onProfileUnfollow={onProfileUnfollow}
+            />
+          ))}
+        </Grid>
+      );
+
+    newTabs.find((tab) => tab.key === 'followings').data =
+      getFollowingsLoading ? (
+        <Grid
+          container
+          height="67vh"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <ReactLoading
+            type="spinningBubbles"
+            color="black"
+            style={{
+              width: '60px',
+              height: '60px',
+            }}
+          />
+        </Grid>
+      ) : !followings || followings.length === 0 ? (
+        <Grid
+          container
+          height="67vh"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Typography css={noContents}>
+            {profile?.nickname}님이 팔로우하는 유저가 없습니다.
+          </Typography>
+        </Grid>
+      ) : (
+        <Grid>
+          {followings.map((following, i) => (
+            <ModalUserCard
+              key={i}
+              loggedInUser={user}
+              profileUserId={profile.id}
+              user={following}
+              onFollow={onFollow}
+              onUnfollow={onUnfollow}
+              onProfileFollow={onProfileFollow}
+              onProfileUnfollow={onProfileUnfollow}
+            />
+          ))}
+        </Grid>
+      );
+
+    newTabs.find((tab) => tab.key === 'reviews').data = getReviewsLoading ? (
+      <Grid container height="67vh" justifyContent="center" alignItems="center">
+        <ReactLoading
+          type="spinningBubbles"
+          color="black"
+          style={{
+            width: '60px',
+            height: '60px',
+          }}
+        />
+      </Grid>
+    ) : !reviews || reviews.length === 0 ? (
+      <Grid container height="67vh" justifyContent="center" alignItems="center">
+        <Typography css={noContents}>
+          {profile?.nickname}님에 대한 리뷰가 없습니다.
+        </Typography>
+      </Grid>
+    ) : (
+      <Grid>
+        {reviews.map((review, i) => (
+          <ModalReviewCard key={i} review={review} />
+        ))}
+      </Grid>
+    );
+
+    setTabs(newTabs);
+  }, [
+    followers,
+    followings,
+    reviews,
+    getFollowersLoading,
+    getFollowingsLoading,
+    getReviewsLoading,
+  ]);
+
   const rightInfosA = [
     {
       title: '머핀이 잘 부풀지 않을때 어떻게 해야할까?',
-      date: '2021.08.11',
-      imgUrl: 'https://picsum.photos/200',
+      date: '2021.09.07',
+      imgUrl:
+        'https://i2.wp.com/smittenkitchen.com/wp-content/uploads//2010/08/perfect-blueberry-muffins.jpg?fit=750%2C500&ssl=1',
     },
     {
-      title:
-        '홈페이지를 만들 때 사용할 수 있는 여러 무료 이미지 홈페이지를 만들 때 사용할 수 있는 여러 무료 이미지 홈페이지를 만들 때 사용할 수 있는 여러 무료 이미지',
-      date: '2021.08.11',
-      imgUrl: 'https://picsum.photos/200',
+      title: '멋있게 춤추기 위해 알아야 하는 기본 동작',
+      date: '2021.08.14',
+      imgUrl:
+        'https://pbs.twimg.com/profile_images/625698094345117696/pjhb6Zgx_400x400.jpg',
     },
     {
-      title: '머핀이 잘?',
-      date: '2021.08.11',
-    },
-    {
-      title: '머핀이 잘 부풀지 않을때 어떻게 해야할까',
+      title: '팝핀의 역사',
       date: '2021.08.11',
     },
     {
-      title: '잘 부풀지 않을때 어떻게 해야할까?',
-      date: '2021.08.11',
+      title: '몸에 좋고 맛있는 샐러드 만드는 방법',
+      date: '2021.07.02',
     },
     {
-      title: '머핀이 잘 부풀지 않을때 어떻게 해야할까??',
-      date: '2021.08.11',
+      title: '쉽게 못질 하는 방법',
+      date: '2021.05.18',
     },
     {
-      title: '머핀이 잘 부풀지 않을때 어떻게 해야할까???',
-      date: '2021.08.11',
+      title: '홈페이지를 만들 때 사용할 수 있는 여러 무료 이미지 알려드립니다!',
+      date: '2021.03.18',
     },
     {
-      title: '머핀이 잘 부풀지 않을때 어떻게 해야할까?',
-      date: '2021.08.11',
-      imgUrl: 'https://picsum.photos/200',
-    },
-  ];
-  const rightInfosB = [
-    {
-      name: '팝핀으로 우주 정복하기',
-      channelImg: { src: 'https://picsum.photos/100' },
-    },
-    { name: '팝핀으로 우주', channelImg: { src: 'https://picsum.photos/100' } },
-    {
-      name: '팝핀으로 우주 정복하기',
-      channelImg: { src: null },
+      title: '유연성을 기르기 위한 여러가지 동작',
+      date: '2021.01.04',
     },
     {
-      name: '팝핀으로 우주 정복하기',
-      channelImg: { src: 'https://picsum.photos/100' },
-    },
-    {
-      name: '팝핀으로 우주 정복하기',
-      channelImg: { src: 'https://picsum.photos/100' },
+      title: '사실적으로 눈 그리는 방법',
+      date: '2020.12.11',
+      imgUrl: 'https://t1.daumcdn.net/cfile/blog/9905734D5C01316F32',
     },
   ];
 
@@ -231,6 +258,12 @@ const Profile = ({
             <Avatar css={avatar} src={profile.profile.profileImage.src} />
 
             <Typography css={nickname}>{profile.nickname}</Typography>
+
+            {(profile.profile.introduce === '' ||
+              profile.profile.department === '') && (
+              <Grid item mb="35px"></Grid>
+            )}
+
             {!isMe &&
               (!isFollowing ? (
                 isFollowing !== undefined && (
@@ -348,14 +381,26 @@ const Profile = ({
                 alignItems="center"
                 mb={2}
               >
-                <Button sx={orangeLabel} onClick={() => openModal('reviews')}>
-                  긍정 리뷰
+                <Button
+                  sx={orangeLabel}
+                  onClick={() => openModal('reviews')}
+                  css={{
+                    ':hover .positiveReviews': { display: 'none' },
+                    ':hover .allReviews': { display: 'block' },
+                  }}
+                >
+                  <span className="positiveReviews">긍정 리뷰</span>
+                  <span className="allReviews" css={{ display: 'none' }}>
+                    전체 리뷰
+                  </span>
                 </Button>
-                <Typography css={reviewNum}>123</Typography>
+                <Typography css={reviewNum}>
+                  {profile.reviewed.length}
+                </Typography>
               </Grid>
-              {reviews.map((review, i) => (
+              {profile.reviewed.map((review, i) => (
                 <Typography key={i} css={reviewText}>
-                  {review}
+                  {review.content}
                 </Typography>
               ))}
             </Grid>
@@ -368,10 +413,14 @@ const Profile = ({
               alignItems="center"
               mb={2}
             >
-              <Button sx={editProfileButton}>
+              <Button
+                sx={editProfileButton}
+                onClick={() => history.push('/setting')}
+              >
                 <EditProfileIcon />
                 <Typography
                   sx={{
+                    fontFamily: 'Noto Sans KR',
                     marginLeft: '10px',
                     fontSize: '20px',
                     fontWeight: '700',
@@ -421,6 +470,7 @@ const Profile = ({
                         </Typography>
                         <Typography
                           sx={{
+                            fontFamily: 'Noto Sans KR',
                             fontSize: '8px',
                             width: 'fit-content',
                             alignSelf: 'flex-end',
@@ -441,19 +491,25 @@ const Profile = ({
               <Button sx={orangeLabel}>오픈 채널</Button>
             </Grid>
             <Grid item container columns={5}>
-              {/* {myChannel?.adminChannl.length === 0 ? ( */}
-              {rightInfosB.length === 0 ? (
+              {profileChannel?.adminChannl?.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   오픈된 채널이 없습니다.
                 </Grid>
               ) : (
-                // myChannel?.adminChannl.map((channel, i) => (
-                rightInfosB.map((channel, i) => (
-                  <Grid key={i} item xs={1} css={channelCell}>
+                profileChannel?.adminChannl?.map((channel, i) => (
+                  <Grid
+                    key={i}
+                    item
+                    xs={1}
+                    css={channelCell}
+                    onClick={() =>
+                      (window.location.href = `/channelProfile/${channel.id}`)
+                    }
+                  >
                     <Grid css={channelCard}>
                       <Box
                         sx={{
-                          backgroundImage: `url(${channel.channelImg.src})`,
+                          backgroundImage: `url(${channel?.channelImage?.src})`,
                           backgroundColor: getRandomColor(channel.name),
                           backgroundRepeat: 'no-repeat',
                           backgroundSize: 'cover',
@@ -461,8 +517,8 @@ const Profile = ({
                           height: '125px',
                           borderRadius: '50%',
                           ':hover': {
-                            backgroundImage: channel.channelImg.src
-                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${channel.channelImg.src})`
+                            backgroundImage: channel?.channelImage?.src
+                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${channel?.channelImage?.src})`
                               : 'linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%)',
                           },
                         }}
@@ -480,19 +536,25 @@ const Profile = ({
               <Button sx={orangeLabel}>참여 채널</Button>
             </Grid>
             <Grid item container columns={5}>
-              {/* {myChannel?.participantChannel.length === 0 ? ( */}
-              {rightInfosB.length === 0 ? (
+              {profileChannel?.participantChannel?.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   참여하는 채널이 없습니다.
                 </Grid>
               ) : (
-                // myChannel?.participantChannel.map((channel, i) => (
-                rightInfosB.map((channel, i) => (
-                  <Grid key={i} item xs={1} css={channelCell}>
+                profileChannel?.participantChannel?.map((channel, i) => (
+                  <Grid
+                    key={i}
+                    item
+                    xs={1}
+                    css={channelCell}
+                    onClick={() =>
+                      (window.location.href = `/channelProfile/${channel.id}`)
+                    }
+                  >
                     <Grid css={channelCard}>
                       <Box
                         sx={{
-                          backgroundImage: `url(${channel.channelImg.src})`,
+                          backgroundImage: `url(${channel?.channelImage?.src})`,
                           backgroundColor: getRandomColor(channel.name),
                           backgroundRepeat: 'no-repeat',
                           backgroundSize: 'cover',
@@ -500,8 +562,8 @@ const Profile = ({
                           height: '125px',
                           borderRadius: '50%',
                           ':hover': {
-                            backgroundImage: channel.channelImg.src
-                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${channel.channelImg.src})`
+                            backgroundImage: channel?.channelImage?.src
+                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${channel?.channelImage?.src})`
                               : 'linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%)',
                           },
                         }}
@@ -560,6 +622,7 @@ const avatar = css`
 `;
 
 const nickname = css`
+  font-family: 'Barlow', 'Noto Sans KR', 'sans-serif' !important;
   font-size: 24px;
   font-weight: 700;
 `;
@@ -575,6 +638,7 @@ const followButton = css`
   margin: 30px 0;
 
   .title {
+    font-family: 'Noto Sans KR', 'sans-serif' !important;
     font-size: 20px;
     font-weight: 700;
     margin-left: 20px;
@@ -597,6 +661,7 @@ const followingButton = css`
   margin: 30px 0;
 
   .title {
+    font-family: 'Noto Sans KR', 'sans-serif' !important;
     font-size: 20px;
     font-weight: 700;
     margin-left: 20px;
@@ -610,6 +675,7 @@ const followingButton = css`
 `;
 
 const introduce = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   align-self: flex-start;
   font-size: 14px;
   margin-top: 45px;
@@ -617,6 +683,7 @@ const introduce = css`
 `;
 
 const department = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   display: flex;
   align-items: center;
 `;
@@ -630,12 +697,14 @@ const leftProfileBottom = css`
 `;
 
 const talentLabel = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   font-size: 16px;
   font-weight: 700;
   margin-bottom: 20px;
 `;
 
 const talentTags = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   display: flex;
   flex-wrap: wrap;
   gap: 15px 12px;
@@ -655,10 +724,12 @@ const talentTag = css`
 `;
 
 const followLabel = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   font-size: 16px;
 `;
 
 const orangeLabel = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   background-color: #fff;
   color: black;
   font-size: 16px;
@@ -674,6 +745,7 @@ const orangeLabel = css`
   }
 `;
 const orangeSmallLabel = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   background-color: #fff;
   color: black;
   font-size: 14px;
@@ -692,10 +764,12 @@ const orangeSmallLabel = css`
 `;
 
 const reviewNum = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   font-size: 14px;
 `;
 
 const reviewText = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   font-size: 12px;
   margin-bottom: 20px;
 `;
@@ -743,10 +817,11 @@ const archiveCard = css`
 `;
 
 const archiveTitle = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   transition: all ease 0.2s;
   font-size: 12px;
   font-weight: 700;
-  width: 124px;
+  width: 140px;
 `;
 
 const channelCell = css`
@@ -763,6 +838,7 @@ const channelCard = css`
 `;
 
 const channelName = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   margin-top: 15px;
   font-size: 12px;
   text-align: center;
@@ -770,6 +846,7 @@ const channelName = css`
 `;
 
 const noTags = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   font-size: 12px;
   color: #5f5f5f;
   text-align: center;
@@ -777,6 +854,7 @@ const noTags = css`
 `;
 
 const noContents = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
   font-size: 14px;
   color: #5f5f5f;
   text-align: center;

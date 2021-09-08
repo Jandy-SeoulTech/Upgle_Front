@@ -146,7 +146,9 @@ const Header = ({ user, onLogout }) => {
                       <ListItemText>모아 보기</ListItemText>
                     </MenuItem>
                     <MenuItem>
-                      <ListItemText>설정</ListItemText>
+                      <ListItemText onClick={() => history.push('/setting')}>
+                        설정
+                      </ListItemText>
                     </MenuItem>
                     <Divider />
                     <Box className="menuFotter">

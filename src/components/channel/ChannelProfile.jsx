@@ -10,8 +10,10 @@ import palette from '../../lib/styles/palette';
 import CheckIcon from '@material-ui/icons/Check';
 
 import Button from '../common/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import ProfileModal from '../common/ProfileModal';
+import ModalUserCard from '../common/ModalUserCard';
 
 const ChannelProfile = ({
   user,
@@ -24,8 +26,66 @@ const ChannelProfile = ({
   onLikeChannel,
   onUnLikeChannel,
   onEdit,
+  onFollow,
+  onUnfollow,
+  onProfileFollow,
+  onProfileUnfollow,
 }) => {
-  const [open, setOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [tabs, setTabs] = useState([
+    { key: 'members', name: '재능 공유 멤버', data: <></> },
+  ]);
+  const [currentTab, setCurrentTab] = useState('members');
+
+  useEffect(() => {
+    const newTabs = [...tabs];
+    if (channel?.participants) {
+      newTabs.find((tab) => tab.key === 'members').data =
+        channel.participants.length === 0 ? (
+          <Grid
+            container
+            height="67vh"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <ModalUserCard
+              loggedInUser={user}
+              profileUserId={channel.admin.id}
+              user={channel.admin}
+              onFollow={onFollow}
+              onUnfollow={onUnfollow}
+              onProfileFollow={onProfileFollow}
+              onProfileUnfollow={onProfileUnfollow}
+            />
+          </Grid>
+        ) : (
+          <Grid>
+            <ModalUserCard
+              loggedInUser={user}
+              profileUserId={channel.admin.id}
+              user={channel.admin}
+              onFollow={onFollow}
+              onUnfollow={onUnfollow}
+              onProfileFollow={onProfileFollow}
+              onProfileUnfollow={onProfileUnfollow}
+            />
+            {channel.participants.map((member, i) => (
+              <ModalUserCard
+                key={i}
+                loggedInUser={user}
+                profileUserId={member.userId}
+                user={member.user}
+                onFollow={onFollow}
+                onUnfollow={onUnfollow}
+                onProfileFollow={onProfileFollow}
+                onProfileUnfollow={onProfileUnfollow}
+              />
+            ))}
+          </Grid>
+        );
+    }
+    setTabs(newTabs);
+  }, [channel]);
 
   return (
     <>
@@ -126,29 +186,18 @@ const ChannelProfile = ({
             <MoreIcon
               css={morePersonButton}
               onClick={() => {
-                setOpen(true);
+                setIsModalOpen(true);
               }}
             />
-            <Modal
-              open={open}
-              onClose={() => {
-                setOpen(false);
-              }}
-            >
-              <Paper
-                sx={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  width: 400,
-                  height: 400,
-                  bgcolor: 'white',
-                  transform: 'translate(-50%, -50%)',
-                }}
-              >
-                asdasd
-              </Paper>
-            </Modal>
+            <ProfileModal
+              isOpen={isModalOpen}
+              setIsModalOpen={setIsModalOpen}
+              tabs={tabs}
+              currentTab={currentTab}
+              setCurrentTab={setCurrentTab}
+              sxOverlay={{ marginTop: '8.4375rem' }}
+              sxContent={{ height: '75vh' }}
+            />
           </Box>
         </Box>
         <Box>

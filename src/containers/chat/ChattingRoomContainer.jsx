@@ -10,24 +10,17 @@ import {
   initialize,
 } from '../../modules/chat';
 import ChattingRoom from '../../components/chat/ChattingRoom';
+import { getRoomData, reviewRoom } from '../../modules/room';
 
 let socket;
 
 const ChattingRoomContainer = ({ roomId }) => {
   const { user } = useSelector((state) => state.user);
+  const { room } = useSelector((state) => state.room);
   const { messages, lastId } = useSelector((state) => state.chat);
   const [replyMessage, setReplyMessage] = useState();
   const [message, setMessage] = useState('');
-  const room = {
-    title: '채팅방 이름',
-    admin: {
-      id: 64,
-      nickname: '관리자임',
-      profile: {
-        profileImage: '',
-      },
-    },
-  };
+  const [participants, setParticipants] = useState([]);
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -41,7 +34,7 @@ const ChattingRoomContainer = ({ roomId }) => {
         }
       });
     }
-  }, [location]);
+  }, [location, user]);
 
   useEffect(() => {
     handleGetMassage();
@@ -56,6 +49,10 @@ const ChattingRoomContainer = ({ roomId }) => {
         dispatch(concatRoomMessages(message));
       }
     });
+    socket.on('RoomInfo', (participantInfo) => {
+      console.log(setParticipants(participantInfo));
+    });
+    socket.emit('test', { message: 'test' });
   }, []);
 
   const handleSendMessage = useCallback(() => {
@@ -63,15 +60,16 @@ const ChattingRoomContainer = ({ roomId }) => {
       setMessage('');
       return;
     }
-    if (replyMessage)
+    if (replyMessage) {
       dispatch(
         replyRoomMessage({
           roomId,
-          answerId: replyMessage.id,
+          answeredId: replyMessage.id,
           content: message,
         }),
       );
-    else dispatch(sendRoomMessage({ roomId, content: message }));
+      setReplyMessage('');
+    } else dispatch(sendRoomMessage({ roomId, content: message }));
     setMessage('');
   }, [message]);
 
@@ -84,8 +82,23 @@ const ChattingRoomContainer = ({ roomId }) => {
     );
   };
 
+  const handleReview = ({ review, rate }) => {
+    dispatch(
+      reviewRoom({
+        roomId,
+        content: review,
+        status: rate,
+        reviewedUserId: user.id,
+      }),
+    );
+  };
+
+  useEffect(() => {
+    dispatch(getRoomData({ roomId }));
+  }, [dispatch, roomId]);
+
   if (!user) return '로그인해주세요';
-  if (!messages) return '로딩중';
+  if (!room || !messages || !participants) return '로딩중';
 
   return (
     <ChattingRoom
@@ -98,6 +111,8 @@ const ChattingRoomContainer = ({ roomId }) => {
       handleGetMassage={handleGetMassage}
       replyMessage={replyMessage}
       setReplyMessage={setReplyMessage}
+      handleReview={handleReview}
+      participants={participants}
     />
   );
 };

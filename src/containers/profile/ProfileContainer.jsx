@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import Profile from '../../components/profile/Profile';
-import { getMychannel } from '../../modules/channel';
+import { getChannelList } from '../../modules/channel';
 import {
   getFollowers,
   getFollowings,
   getProfile,
+  getReviews,
   initProfile,
   profileFollow,
   profileUnfollow,
@@ -16,13 +17,10 @@ import { check, follow, unfollow } from '../../modules/user';
 const ProfileContainer = () => {
   const { auth, error: authError } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.user);
-  const {
-    profile,
-    followers,
-    followings,
-    error: profileError,
-  } = useSelector((state) => state.profile);
-  const { myChannel } = useSelector((state) => state.channel);
+  const { profile, followers, followings, reviews } = useSelector(
+    (state) => state.profile,
+  );
+  const { profileChannel } = useSelector((state) => state.channel);
   const getProfileLoading = useSelector(
     (state) => state.loading['profile/GET_PROFILE'],
   );
@@ -32,10 +30,12 @@ const ProfileContainer = () => {
   const getFollowingsLoading = useSelector(
     (state) => state.loading['profile/GET_FOLLOWINGS'],
   );
+  const getReviewsLoading = useSelector(
+    (state) => state.loading['profile/GET_REVIEWS'],
+  );
 
   const [isMe, setIsMe] = useState();
   const [isFollowing, setIsFollowing] = useState();
-  const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
   const { userId } = useParams();
 
@@ -63,9 +63,13 @@ const ProfileContainer = () => {
     dispatch(getFollowings({ userId }));
   };
 
+  const onGetReviews = () => {
+    dispatch(getReviews({ userId }));
+  };
+
   useEffect(() => {
     dispatch(getProfile({ userId }));
-    dispatch(getMychannel());
+    dispatch(getChannelList({ userId }));
     return () => {
       dispatch(initProfile());
     };
@@ -85,8 +89,6 @@ const ProfileContainer = () => {
           profile?.followers.map((el) => el.followerId).includes(user?.id),
         ),
       );
-    } else {
-      console.log('로그인 유저 없음');
     }
   }, [user, profile]);
 
@@ -95,20 +97,22 @@ const ProfileContainer = () => {
       getProfileLoading={getProfileLoading}
       getFollowersLoading={getFollowersLoading}
       getFollowingsLoading={getFollowingsLoading}
+      getReviewsLoading={getReviewsLoading}
       isMe={isMe}
       isFollowing={isFollowing}
       user={user}
       profile={profile}
       followers={followers}
       followings={followings}
-      myChannel={myChannel}
+      reviews={reviews}
+      profileChannel={profileChannel}
       onFollow={onFollow}
       onUnfollow={onUnfollow}
       onProfileFollow={onProfileFollow}
       onProfileUnfollow={onProfileUnfollow}
       onGetFollowers={onGetFollowers}
       onGetFollowings={onGetFollowings}
-      errorMessage={errorMessage}
+      onGetReviews={onGetReviews}
     />
   );
 };
