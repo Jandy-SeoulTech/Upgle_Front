@@ -5,7 +5,7 @@ import { ReactComponent as HeartStraight } from '../../../lib/assets/heartStraig
 import { ReactComponent as UserPlus } from '../../../lib/assets/userPlus.svg';
 import { ReactComponent as MoreIcon } from '../../../lib/assets/moreIcon.svg';
 import palette from '../../../lib/styles/palette';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ReactComponent as DefaultImage } from '../../../lib/assets/defaultImage.svg';
 import { ReactComponent as CancelImage } from '../../../lib/assets/cancelImage.svg';
 import ImageUploading from 'react-images-uploading';
@@ -13,6 +13,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import TextField from '../../common/TextField';
 import Button from '../../common/Button';
 import { isNickname, isPassword } from '../../../lib/util/validate';
+import useOnScreen from '../../../lib/util/useOnScreen';
 
 const ProfileSetting = ({
   user,
@@ -27,16 +28,12 @@ const ProfileSetting = ({
   checkedPassword,
   changedPassword,
 }) => {
-  const [scrollY, setScrollY] = useState(0);
-  const listener = () => {
-    setScrollY(window.pageYOffset);
-  };
-  useEffect(() => {
-    window.addEventListener('scroll', listener);
-    return () => {
-      window.removeEventListener('scroll', listener);
-    };
-  }, []);
+  const profileRef = useRef();
+  const passwordRef = useRef();
+  const alarmRef = useRef();
+  const isProfileRefVisible = useOnScreen(profileRef);
+  const isPasswordRefVisible = useOnScreen(passwordRef);
+  const isAlarmRefVisible = useOnScreen(alarmRef);
 
   const [profileImage, setProfileImage] = useState('');
   const [nickname, setNickname] = useState('');
@@ -205,22 +202,41 @@ const ProfileSetting = ({
       <Grid container justifyContent="center" css={profileSettingWrapper}>
         <Grid item container css={{ width: '1200px' }}>
           <Grid item css={profileSettingNav}>
-            <Typography className={scrollY < 150 && 'current'}>
+            <Typography
+              className={isProfileRefVisible ? 'current' : ''}
+              onClick={() => (window.location.href = '/setting#profile')}
+            >
               프로필 설정
             </Typography>
             <Typography
-              className={scrollY >= 150 && scrollY < 300 && 'current'}
+              className={
+                isPasswordRefVisible && !isProfileRefVisible ? 'current' : ''
+              }
+              onClick={() => (window.location.href = '/setting#password')}
             >
               비밀번호 관리
             </Typography>
             <Typography
-              className={scrollY >= 300 && scrollY < 500 && 'current'}
+              className={
+                isAlarmRefVisible &&
+                !isProfileRefVisible &&
+                !isPasswordRefVisible
+                  ? 'current'
+                  : ''
+              }
+              onClick={() => (window.location.href = '/setting#alarm')}
             >
               알림 설정
             </Typography>
           </Grid>
           <Grid item container css={profileSettingContents}>
-            <Grid item container css={profileSettingContent}>
+            <Grid
+              id="profile"
+              ref={profileRef}
+              item
+              container
+              css={profileSettingContent}
+            >
               <Grid xs={4} item>
                 <ImageUploading onChange={onChange}>
                   {({ onImageUpload, isDragging, dragProps }) => (
@@ -390,7 +406,13 @@ const ProfileSetting = ({
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item container css={profileSettingContent}>
+            <Grid
+              id="password"
+              ref={passwordRef}
+              item
+              container
+              css={profileSettingContent}
+            >
               <Grid xs={4} item></Grid>
               <Grid
                 xs={8}
@@ -467,7 +489,13 @@ const ProfileSetting = ({
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item css={profileSettingContent}></Grid>
+            <Grid
+              id="alarm"
+              ref={alarmRef}
+              item
+              css={profileSettingContent}
+              height="800px"
+            ></Grid>
           </Grid>
         </Grid>
       </Grid>
@@ -496,6 +524,7 @@ const profileSettingNav = css`
     justify-content: center;
     height: 80px;
     border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
   }
   .current {
     border-left: 7px solid ${palette.orange};
