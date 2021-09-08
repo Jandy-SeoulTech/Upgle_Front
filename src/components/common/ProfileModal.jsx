@@ -15,10 +15,8 @@ function ProfileModal({
   sxContent,
 }) {
   useEffect(() => {
-    {
-      const onTab = tabs.find((tab) => tab.key === currentTab)?.onTab;
-      onTab && onTab();
-    }
+    if (tabs.find((tab) => tab.key === currentTab).onTab)
+      tabs.find((tab) => tab.key === currentTab).onTab();
   }, [currentTab]);
 
   return (

@@ -42,6 +42,14 @@ export const getFollowings = async ({ userId }) => {
   return response.data;
 };
 
+export const getReviews = async ({ userId }) => {
+  const response = await axios({
+    url: `/api/Profile/reviewlist/${userId}`,
+    method: 'GET',
+  });
+  return response.data;
+};
+
 export const uploadProfile = async ({
   userId,
   department,
@@ -79,6 +87,24 @@ export const updateProfile = async ({
       interestTalent,
       src,
     },
+  });
+  return response.data;
+};
+
+export const checkPassword = async ({ password }) => {
+  const response = await axios({
+    url: `/api/Profile/password`,
+    method: 'POST',
+    data: { password },
+  });
+  return response.data;
+};
+
+export const changePassword = async ({ password }) => {
+  const response = await axios({
+    url: `/api/Profile/password`,
+    method: 'PATCH',
+    data: { password },
   });
   return response.data;
 };

@@ -7,6 +7,7 @@ import {
   getFollowers,
   getFollowings,
   getProfile,
+  getReviews,
   initProfile,
   profileFollow,
   profileUnfollow,
@@ -16,7 +17,7 @@ import { check, follow, unfollow } from '../../modules/user';
 const ProfileContainer = () => {
   const { auth, error: authError } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.user);
-  const { profile, followers, followings } = useSelector(
+  const { profile, followers, followings, reviews } = useSelector(
     (state) => state.profile,
   );
   const { profileChannel } = useSelector((state) => state.channel);
@@ -59,6 +60,10 @@ const ProfileContainer = () => {
     dispatch(getFollowings({ userId }));
   };
 
+  const onGetReviews = () => {
+    dispatch(getReviews({ userId }));
+  };
+
   useEffect(() => {
     dispatch(getProfile({ userId }));
     dispatch(getChannelList({ userId }));
@@ -95,6 +100,7 @@ const ProfileContainer = () => {
       profile={profile}
       followers={followers}
       followings={followings}
+      reviews={reviews}
       profileChannel={profileChannel}
       onFollow={onFollow}
       onUnfollow={onUnfollow}
@@ -102,6 +108,7 @@ const ProfileContainer = () => {
       onProfileUnfollow={onProfileUnfollow}
       onGetFollowers={onGetFollowers}
       onGetFollowings={onGetFollowings}
+      onGetReviews={onGetReviews}
     />
   );
 };
