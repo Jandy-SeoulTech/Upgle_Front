@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import { Box, Grid, TextareaAutosize, Typography } from '@material-ui/core';
 import palette from '../../../lib/styles/palette';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ReactComponent as DefaultImage } from '../../../lib/assets/defaultImage.svg';
 import { ReactComponent as CancelImage } from '../../../lib/assets/cancelImage.svg';
 import ImageUploading from 'react-images-uploading';
@@ -10,7 +10,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import TextField from '../../common/TextField';
 import Button from '../../common/Button';
 import { isNickname, isPassword } from '../../../lib/util/validate';
-import useOnScreen from '../../../lib/util/useOnScreen';
+import { useInView } from 'react-intersection-observer';
 
 const ProfileSetting = ({
   user,
@@ -26,12 +26,10 @@ const ProfileSetting = ({
   checkedPassword,
   changedPassword,
 }) => {
-  const profileRef = useRef();
-  const passwordRef = useRef();
-  const alarmRef = useRef();
-  const isProfileRefVisible = useOnScreen(profileRef);
-  const isPasswordRefVisible = useOnScreen(passwordRef);
-  const isAlarmRefVisible = useOnScreen(alarmRef);
+  const options = { threshold: 0.5 };
+  const [profileRef, isProfileInView] = useInView(options);
+  const [passwordRef, isPasswordInView] = useInView(options);
+  const [alarmRef, isAlarmInView] = useInView(options);
 
   const [nickname, setNickname] = useState('');
   const [introduce, setIntroduce] = useState('');
@@ -197,7 +195,7 @@ const ProfileSetting = ({
         <Grid item container css={{ width: '1200px' }}>
           <Grid item css={profileSettingNav}>
             <Typography
-              className={isProfileRefVisible ? 'current' : ''}
+              className={isProfileInView ? 'current' : ''}
               onClick={() => (window.location.href = '/setting#profile')}
             >
               프로필 설정
@@ -205,7 +203,7 @@ const ProfileSetting = ({
             {user.provider === 'local' && (
               <Typography
                 className={
-                  isPasswordRefVisible && !isProfileRefVisible ? 'current' : ''
+                  isPasswordInView && !isProfileInView ? 'current' : ''
                 }
                 onClick={() => (window.location.href = '/setting#password')}
               >
@@ -214,9 +212,7 @@ const ProfileSetting = ({
             )}
             <Typography
               className={
-                isAlarmRefVisible &&
-                !isProfileRefVisible &&
-                !isPasswordRefVisible
+                isAlarmInView && !isProfileInView && !isPasswordInView
                   ? 'current'
                   : ''
               }
