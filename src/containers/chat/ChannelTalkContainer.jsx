@@ -31,7 +31,7 @@ const ChannelTalkContainer = ({ channel }) => {
         }
       });
     }
-  }, [location]);
+  }, [location, user]);
 
   useEffect(() => {
     handleGetMassage();
