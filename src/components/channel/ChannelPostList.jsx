@@ -4,7 +4,7 @@ import { Box, Typography, Grid, Avatar} from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import Button from './../common/Button';
 import { ReactComponent as PostWrite } from '../../lib/assets/postWrite.svg';
-import { getDataString } from '../../lib/util/dateFormat';
+import { getDateString } from '../../lib/util/dateFormat';
 
 const ChannelPostList = ({ postList, channel }) => {
 
@@ -55,7 +55,7 @@ const ChannelPostList = ({ postList, channel }) => {
                     <StatusIcon status={post.status} />
                     <Typography className='title'>{post.title}</Typography>
                   </Box>
-                  <Typography className='date'>{getDataString(post.updatedAt)}</Typography>
+                  <Typography className='date'>{getDateString(post.updatedAt)}</Typography>
                 </Box>
                 <Typography css={postContent}>{post.content}</Typography>
               </Box>

@@ -1,4 +1,4 @@
-export function getDataString(date) {
+export function getDateString(date) {
     const now = new Date();
     const ret = new Date(date);
     if (now.getFullYear() === ret.getFullYear() && now.getDate() === ret.getDate() && now.getMonth() === ret.getMonth()) {

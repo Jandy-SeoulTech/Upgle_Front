@@ -15,6 +15,7 @@ import ProfilePage from './pages/profile/ProfilePage';
 import ChannelPostEditPage from './pages/channel/ChannelPostEditPage';
 import UploadProfilePage from './pages/profile/UploadProfilePage';
 import ChannelPostListPage from './pages/channel/ChannelPostListPage';
+import ChannelPostPage from './pages/channel/ChannelPostPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -38,8 +39,9 @@ function App() {
       <Route path="/channelProfile/:id" exact component={ChannelProfilePage} />
       <Route path="/channelHome/:id" exact component={ChannelHomePage} />
       <Route path="/profile/:userId" component={ProfilePage} />
-      <Route path="/channelPost" component={ChannelPostListPage} />
-      <Route path="/channel/post/edit" component={ChannelPostEditPage} />
+      <Route path="/channelPost" exact component={ChannelPostListPage} />
+      <Route path="/channelPost/edit" exact component={ChannelPostEditPage} />
+      <Route path="/channelPost/id" exact component={ChannelPostPage} />
       <Route path="/chat/:chatId" />
     </BrowserRouter>
   );
