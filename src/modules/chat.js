@@ -128,6 +128,7 @@ const initialState = {
   messages: [],
   lastId: null,
   error: null,
+  success: null,
 };
 
 const chat = handleActions(
@@ -157,6 +158,22 @@ const chat = handleActions(
     [CONCAT_ROOM_MESSAGES]: (state, { payload: message }) => ({
       ...state,
       messages: [message, ...state.messages],
+    }),
+    [SEND_CHANNEL_MESSAGE]: (state) => ({
+      ...state,
+      success: null,
+    }),
+    [SEND_CHANNEL_MESSAGE_SUCCESS]: (state) => ({
+      ...state,
+      success: true,
+    }),
+    [SEND_ROOM_MESSAGE]: (state) => ({
+      ...state,
+      success: null,
+    }),
+    [SEND_ROOM_MESSAGE_SUCCESS]: (state) => ({
+      ...state,
+      success: true,
     }),
     [INITIALIZE]: () => initialState,
   },

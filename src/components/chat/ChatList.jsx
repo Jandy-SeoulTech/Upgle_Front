@@ -47,9 +47,6 @@ const ChatList = ({
               handleSendMessage();
             }
           }}
-          onKeyUp={(e) => {
-            if (!e.shiftKey && e.key === 'Enter') setMessage('');
-          }}
           css={chatInput}
         />
         <Button

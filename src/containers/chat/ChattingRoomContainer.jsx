@@ -17,7 +17,7 @@ let socket;
 const ChattingRoomContainer = ({ roomId }) => {
   const { user } = useSelector((state) => state.user);
   const { room } = useSelector((state) => state.room);
-  const { messages, lastId } = useSelector((state) => state.chat);
+  const { messages, lastId, success } = useSelector((state) => state.chat);
   const [replyMessage, setReplyMessage] = useState();
   const [message, setMessage] = useState('');
   const [participants, setParticipants] = useState([]);
@@ -26,7 +26,9 @@ const ChattingRoomContainer = ({ roomId }) => {
   const location = useLocation();
 
   useEffect(() => {
-    socket = io(`${process.env.REACT_APP_SOCKET_ENDPOINT}/room-${roomId}`);
+    socket = io(`${process.env.REACT_APP_SOCKET_ENDPOINT}/room-${roomId}`, {
+      secure: true,
+    });
     if (user) {
       socket.emit('join', { roomId, user }, (error) => {
         if (error) {
@@ -70,7 +72,6 @@ const ChattingRoomContainer = ({ roomId }) => {
       );
       setReplyMessage('');
     } else dispatch(sendRoomMessage({ roomId, content: message }));
-    setMessage('');
   }, [message]);
 
   const handleGetMassage = () => {
@@ -96,6 +97,12 @@ const ChattingRoomContainer = ({ roomId }) => {
   useEffect(() => {
     dispatch(getRoomData({ roomId }));
   }, [dispatch, roomId]);
+
+  useEffect(() => {
+    if (success) {
+      setMessage('');
+    }
+  }, [success]);
 
   if (!user) return '로그인해주세요';
   if (!room || !messages || !participants) return '로딩중';
