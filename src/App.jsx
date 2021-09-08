@@ -40,6 +40,7 @@ function App() {
       <Route path="/profile/:userId" component={ProfilePage} />
       <Route path="/channelPost" component={ChannelPostListPage} />
       <Route path="/channel/post/edit" component={ChannelPostEditPage} />
+      <Route path="/chat/:chatId" />
     </BrowserRouter>
   );
 }

@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import ChatList from '../../components/chat/ChatList';
 import io from 'socket.io-client';
 import { useLocation } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,10 +8,11 @@ import {
   concatMessages,
   initialize,
 } from '../../modules/chat';
+import ChannelTalk from '../../components/chat/ChannelTalk';
 
 let socket;
 
-const ChatListContainer = ({ channel }) => {
+const ChannelTalkContainer = ({ channel }) => {
   const { user } = useSelector((state) => state.user);
   const [message, setMessage] = useState('');
   const { messages, lastId } = useSelector((state) => state.chat);
@@ -50,6 +50,7 @@ const ChatListContainer = ({ channel }) => {
   }, []);
 
   const handleSendMessage = useCallback(() => {
+    if (!message) return;
     dispatch(sendMessage({ channelId: channel.id, content: message }));
     setMessage('');
   }, [message]);
@@ -58,7 +59,7 @@ const ChatListContainer = ({ channel }) => {
     dispatch(
       getMessages({
         channelId: channel.id,
-        lastId: lastId ? lastId - 1 : null,
+        lastId,
       }),
     );
   };
@@ -66,7 +67,7 @@ const ChatListContainer = ({ channel }) => {
   if (!user) return '로딩중';
 
   return (
-    <ChatList
+    <ChannelTalk
       user={user}
       message={message}
       messages={messages}
@@ -77,4 +78,4 @@ const ChatListContainer = ({ channel }) => {
   );
 };
 
-export default ChatListContainer;
+export default ChannelTalkContainer;
