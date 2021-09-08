@@ -10,7 +10,12 @@ const ChatCard = ({ chatInfo }) => {
   const history = useHistory();
 
   const handleMoveChat = () => {
-    history.push(`/chat/${chatInfo.id}`);
+    window.open(
+      `/chat/${chatInfo.id}`,
+      '_blank',
+      'width=600, height=900, toolbars=no, scrollbars=yes',
+    );
+    return false;
   };
 
   const handleExitChat = (e) => {
@@ -19,7 +24,13 @@ const ChatCard = ({ chatInfo }) => {
   };
 
   return (
-    <Paper css={CharCardWrapper} onClick={handleMoveChat}>
+    <a
+      target="_blank"
+      rel="noreferrer"
+      css={CharCardWrapper}
+      href={`/chat/${chatInfo.id}`}
+      onClick={handleMoveChat}
+    >
       <Box css={topContent}>
         <ClearIcon css={cnacelIcon} onClick={handleExitChat} />
         <Typography css={title}>{chatInfo.title}</Typography>
@@ -36,7 +47,7 @@ const ChatCard = ({ chatInfo }) => {
         <Avatar css={bottomIcon}></Avatar>
         <Typography css={bottomTitle}>{chatInfo.channel}</Typography>
       </Box>
-    </Paper>
+    </a>
   );
 };
 

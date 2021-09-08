@@ -106,7 +106,7 @@ export const getChannelData = async (channelId) => {
 
 export const getMyChannel = async () => {
   const response = await axios({
-    url: `/api/Channel/mychannel`,
+    url: `/api/Profile/mychannel`,
     method: 'GET',
   });
   return response.data;

@@ -1,18 +1,18 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import ChatList from '../../components/chat/ChatList';
 import io from 'socket.io-client';
 import { useLocation } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getMessages,
-  sendMessage,
-  concatMessages,
+  getChannelMessages,
+  sendChannelMessage,
+  concatChannelMessages,
   initialize,
 } from '../../modules/chat';
+import ChatList from '../../components/chat/ChatList';
 
 let socket;
 
-const ChatListContainer = ({ channel }) => {
+const ChannelTalkContainer = ({ channel }) => {
   const { user } = useSelector((state) => state.user);
   const [message, setMessage] = useState('');
   const { messages, lastId } = useSelector((state) => state.chat);
@@ -42,23 +42,23 @@ const ChatListContainer = ({ channel }) => {
 
   useEffect(() => {
     socket.on('message', (message) => {
-      console.log(message);
       if (message) {
-        dispatch(concatMessages(message));
+        dispatch(concatChannelMessages(message));
       }
     });
   }, []);
 
   const handleSendMessage = useCallback(() => {
-    dispatch(sendMessage({ channelId: channel.id, content: message }));
+    if (!message) return;
+    dispatch(sendChannelMessage({ channelId: channel.id, content: message }));
     setMessage('');
   }, [message]);
 
   const handleGetMassage = () => {
     dispatch(
-      getMessages({
+      getChannelMessages({
         channelId: channel.id,
-        lastId: lastId ? lastId - 1 : null,
+        lastId,
       }),
     );
   };
@@ -77,4 +77,4 @@ const ChatListContainer = ({ channel }) => {
   );
 };
 
-export default ChatListContainer;
+export default ChannelTalkContainer;

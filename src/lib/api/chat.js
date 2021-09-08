@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const getMessages = async ({ channelId, lastId }) => {
+export const getChannelMessages = async ({ channelId, lastId }) => {
   const response = await axios({
     url: `/api/Chat/channel/${channelId}?lastId=${lastId}`,
     method: 'GET',
@@ -8,11 +8,37 @@ export const getMessages = async ({ channelId, lastId }) => {
   return response.data;
 };
 
-export const sendMessage = async ({ channelId, content }) => {
+export const sendChannelMessage = async ({ channelId, content }) => {
   const response = await axios({
     url: `/api/Chat/channel/${channelId}/chat`,
     method: 'POST',
     data: { content },
+  });
+  return response.data;
+};
+
+export const getRoomMessages = async ({ roomId, lastId }) => {
+  const response = await axios({
+    url: `/api/Chat/room/${roomId}?lastId=${lastId}&limit=20`,
+    method: 'GET',
+  });
+  return response.data;
+};
+
+export const sendRoomMessage = async ({ roomId, content }) => {
+  const response = await axios({
+    url: `/api/Chat/room/${roomId}/chat`,
+    method: 'POST',
+    data: { content },
+  });
+  return response.data;
+};
+
+export const replyRoomMessage = async ({ roomId, answerId, content }) => {
+  const response = await axios({
+    url: `/api/Chat/room/${roomId}/chat`,
+    method: 'POST',
+    data: { answerId, content },
   });
   return response.data;
 };
