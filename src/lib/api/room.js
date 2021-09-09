@@ -10,5 +10,17 @@ export const exitRoom = ({ roomId }) =>
   axios.patch('/api/Room/exit', { roomId });
 export const closeRoom = ({ roomId }) =>
   axios.patch('/api/Room/close', { roomId });
-export const reviewRoom = ({ roomId, content, status, reviewedUserId }) =>
-  axios.post('/api/Room/review', { roomId, content, status, reviewedUserId });
+export const reviewRoom = ({
+  roomId,
+  channelId,
+  content,
+  status,
+  reviewedUserId,
+}) =>
+  axios.post('/api/Room/review', {
+    roomId,
+    channelId,
+    content,
+    status,
+    reviewedUserId,
+  });

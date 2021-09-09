@@ -11,6 +11,7 @@ import {
 } from '../../modules/chat';
 import ChattingRoom from '../../components/chat/ChattingRoom';
 import { getRoomData } from '../../modules/room';
+import { getMychannel } from '../../modules/channel';
 
 let socket;
 
@@ -83,6 +84,11 @@ const ChattingRoomContainer = ({ roomId }) => {
     );
   };
 
+  const handleSuccess = () => {
+    dispatch(getMychannel());
+    window.close();
+  };
+
   useEffect(() => {
     dispatch(getRoomData({ roomId }));
   }, [dispatch, roomId]);
@@ -108,6 +114,7 @@ const ChattingRoomContainer = ({ roomId }) => {
       replyMessage={replyMessage}
       setReplyMessage={setReplyMessage}
       participants={participants}
+      handleSuccess={handleSuccess}
       success={success}
     />
   );
