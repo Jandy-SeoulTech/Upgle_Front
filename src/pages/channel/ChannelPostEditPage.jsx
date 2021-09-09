@@ -4,14 +4,14 @@ import FooterContainer from '../../containers/common/FooterContainer';
 import HeaderContainer from '../../containers/common/HeaderContainer';
 import ChannelNavContainer from './../../containers/channel/ChannelNavContainer';
 
-const ChannelProfilePage = ({}) => {
-    return (
-        <>
-            <HeaderContainer />
-            <ChannelNavContainer />
-            <ChannelPostEditContainer />
-        </>
-    );
+const ChannelProfileEditPage = ({}) => {
+  return (
+    <>
+      <HeaderContainer />
+      <ChannelNavContainer />
+      <ChannelPostEditContainer />
+    </>
+  );
 };
 
-export default ChannelProfilePage;
+export default ChannelProfileEditPage;

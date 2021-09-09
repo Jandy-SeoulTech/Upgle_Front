@@ -43,6 +43,7 @@ const initialState = {
   user: null,
   checkError: null,
   success: null,
+  error: null,
 };
 
 export default handleActions(
@@ -88,7 +89,6 @@ export default handleActions(
       ...state,
       user: null,
       checkError,
-      success: true,
     }),
     [LOGOUT]: (state) => ({
       ...state,
