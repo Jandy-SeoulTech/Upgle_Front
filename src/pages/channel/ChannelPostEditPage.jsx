@@ -4,15 +4,15 @@ import FooterContainer from '../../containers/common/FooterContainer';
 import HeaderContainer from '../../containers/common/HeaderContainer';
 import ChannelNavContainer from './../../containers/channel/ChannelNavContainer';
 
-const ChannelProfileEditPage = ({ match }) => {
-  const { id } = match.params;
+const ChannelPostEditPage = ({ match }) => {
+  const { channelId } = match.params;
   return (
     <>
       <HeaderContainer />
       <ChannelNavContainer />
-      <ChannelPostEditContainer channelId={parseInt(id, 10)} />
+      <ChannelPostEditContainer channelId={parseInt(channelId, 10)} />
     </>
   );
 };
 
-export default ChannelProfileEditPage;
+export default ChannelPostEditPage;

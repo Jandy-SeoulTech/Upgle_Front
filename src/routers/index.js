@@ -34,7 +34,10 @@ export default function RootRouter() {
         render={(props) => <CheckLogin {...props} Component={MyChannelPage} />}
       />
       <Route path="/chat/:id" component={ChattingRoomPage} />
-      <Route path="/channel/:channelId" component={ChannelRouter} />
+      <Route
+        path="/channel/:channelId"
+        render={(props) => <CheckLogin {...props} Component={ChannelRouter} />}
+      />
     </BrowserRouter>
   );
 }

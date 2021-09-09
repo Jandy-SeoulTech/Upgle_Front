@@ -43,7 +43,7 @@ const ChannelNav = ({ channel, isParticipant }) => {
   return (
     <Box
       css={channelNav({
-        isHome: pathname === `/channelHome/${channel.id}`,
+        isHome: pathname === `/channel/${channel.id}/home`,
         scrolled: scrollPosition !== 0,
       })}
     >

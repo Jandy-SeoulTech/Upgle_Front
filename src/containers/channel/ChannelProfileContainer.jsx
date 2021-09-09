@@ -78,7 +78,7 @@ const ChannelProfileContainer = ({ channelId }) => {
 
   const onEdit = () => {
     dispatch(setChannel(channel));
-    history.push('/editChannel');
+    history.push(`/channel/${channelId}/edit`);
   };
 
   const onFollow = ({ followingId }) => {

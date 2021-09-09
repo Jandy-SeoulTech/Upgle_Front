@@ -287,6 +287,7 @@ const headButtonWrapper = css`
     color: ${palette.orange};
     border: 2px solid ${palette.orange};
     &:hover {
+      background: ${palette.white};
       filter: brightness(0.85);
     }
   }

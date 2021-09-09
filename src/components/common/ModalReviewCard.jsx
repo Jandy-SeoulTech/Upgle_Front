@@ -28,7 +28,7 @@ function ModalReviewCard({ review }) {
             variant="outlined"
             css={channelButton}
             onClick={() =>
-              (window.location.href = `/channelHome/${review.channelId}`)
+              (window.location.href = `/channel/${review.channelId}/home`)
             }
           >
             <Avatar
