@@ -9,9 +9,15 @@ import { ReactComponent as Bad } from '../../lib/assets/bad.svg';
 import { useState } from 'react';
 import palette from '../../lib/styles/palette';
 
-const ReviewModal = ({ room, handleReview, setOpen }) => {
-  const [review, setReview] = useState('');
-  const [rate, setRate] = useState();
+const ReviewModal = ({
+  room,
+  review,
+  setReview,
+  rate,
+  setRate,
+  handleReview,
+  setOpen,
+}) => {
   return (
     <Paper css={reviewModal}>
       <Typography align="center">
