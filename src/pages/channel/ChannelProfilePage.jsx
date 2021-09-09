@@ -5,12 +5,12 @@ import FooterContainer from '../../containers/common/FooterContainer';
 import HeaderContainer from '../../containers/common/HeaderContainer';
 
 const ChannelProfilePage = ({ match }) => {
-  const { id } = match.params; // URL 파라미터 조회하기
+  const { channelId } = match.params; // URL 파라미터 조회하기
   return (
     <>
       <HeaderContainer />
       <ChannelNavContainer />
-      <ChannelProfileContainer channelId={parseInt(id, 10)} />
+      <ChannelProfileContainer channelId={parseInt(channelId, 10)} />
       <FooterContainer />
     </>
   );
