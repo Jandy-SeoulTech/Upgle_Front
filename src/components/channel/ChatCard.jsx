@@ -1,14 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import { useState } from 'react';
 import { Avatar, Box, Paper, Typography } from '@material-ui/core';
-import { useHistory } from 'react-router';
 import { ReactComponent as Owner } from '../../lib/assets/owner.svg';
 import { ReactComponent as Participants } from '../../lib/assets/participants.svg';
+import { ReactComponent as Time } from '../../lib/assets/time.svg';
 import ClearIcon from '@material-ui/icons/Clear';
+import Button from '../common/Button';
 
-const ChatCard = ({ chatInfo }) => {
-  const history = useHistory();
-
+const ChatCard = ({ isFinished, user, chatInfo, onCloseRoom, onExitRoom }) => {
+  const [exit, setExit] = useState(false);
   const handleMoveChat = () => {
     window.open(
       `/chat/${chatInfo.id}`,
@@ -18,36 +19,77 @@ const ChatCard = ({ chatInfo }) => {
     return false;
   };
 
-  const handleExitChat = (e) => {
+  const handleExitOpen = (e) => {
     e.stopPropagation();
-    console.log('채팅방 나가기 구현하기');
+    setExit(true);
+  };
+
+  const handleExit = (e) => {
+    e.stopPropagation();
+    if (user === 'admin') onCloseRoom({ roomId: chatInfo.id });
+    else onExitRoom({ roomId: chatInfo.id });
+  };
+
+  const handleCancel = (e) => {
+    e.stopPropagation();
+    setExit(false);
   };
 
   return (
-    <a
+    <Box
       target="_blank"
       rel="noreferrer"
       css={CharCardWrapper}
       href={`/chat/${chatInfo.id}`}
       onClick={handleMoveChat}
     >
+      {exit && (
+        <Box css={exitWrapper}>
+          {isFinished ? (
+            <>
+              <Typography className="reviewTitle">
+                종료된 채팅방 입니다.
+              </Typography>
+              <Button className="exit" onClick={handleExit}>
+                리뷰 작성
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button className="exit" onClick={handleExit}>
+                채팅방 {user === 'admin' ? '끝내기' : '나가기'}
+              </Button>
+              <Button className="cancel" onClick={handleCancel}>
+                취소
+              </Button>
+            </>
+          )}
+        </Box>
+      )}
       <Box css={topContent}>
-        <ClearIcon css={cnacelIcon} onClick={handleExitChat} />
-        <Typography css={title}>{chatInfo.title}</Typography>
+        <ClearIcon css={cnacelIcon} onClick={handleExitOpen} />
+        <Typography css={title}>{chatInfo.name}</Typography>
         <Typography css={description}>
           <Participants className="icon" />
-          {chatInfo.total}
+          {chatInfo.roomParticipant.length}
         </Typography>
         <Typography css={description}>
           <Owner className="icon" />
-          {chatInfo.owner}
+          {chatInfo.roomOwner.nickname}
+        </Typography>
+        <Typography css={description}>
+          <Time className="icon" />
+          {new Date(chatInfo.createdAt).toLocaleString()}
         </Typography>
       </Box>
       <Box css={bottomContent}>
-        <Avatar css={bottomIcon}></Avatar>
-        <Typography css={bottomTitle}>{chatInfo.channel}</Typography>
+        <Avatar
+          css={bottomIcon}
+          src={chatInfo.channel.channelImage.src}
+        ></Avatar>
+        <Typography css={bottomTitle}>{chatInfo.channel.name}</Typography>
       </Box>
-    </a>
+    </Box>
   );
 };
 
@@ -71,6 +113,46 @@ const cnacelIcon = css`
   top: -0.4375rem;
   left: 8.3rem;
   cursor: pointer;
+`;
+
+const exitWrapper = css`
+  width: 10.625rem;
+  height: 12.5rem;
+  border-radius: 5px;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .MuiButton-root {
+    width: 6.5rem;
+    height: 1.875rem;
+    border: none;
+    font-family: 'Noto Sans KR';
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: 0.3125rem 0.625rem;
+  }
+  .MuiButton-root + .MuiButton-root {
+    margin-top: 1.25rem;
+  }
+  .reviewTitle {
+    font-family: 'Noto Sans KR';
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+  .exit {
+    background: #ff511b;
+    border-radius: 20px;
+    color: white;
+  }
+  .cancel {
+    background: white;
+    border-radius: 20px;
+    color: #5f5f5f;
+  }
 `;
 
 const topContent = css`

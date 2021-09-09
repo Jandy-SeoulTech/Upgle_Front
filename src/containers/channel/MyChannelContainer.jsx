@@ -3,52 +3,41 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import MyChannel from '../../components/channel/MyChannel';
 import { getMychannel } from '../../modules/channel';
+import { closeRoom, exitRoom } from '../../modules/room';
 
 const MyChannelContainer = () => {
-  const [asignChatList] = useState([
-    {
-      id: 1,
-      title: '밀프랩 도시락 싸는 방법',
-      total: 72,
-      owner: '먹짱은 나다',
-      channel: '건강한 다이어트 식단 만들기',
-    },
-    {
-      id: 2,
-      title: '밀프랩 도시락 싸는 방법',
-      total: 72,
-      owner: '먹짱은 나다',
-      channel: '건강한 다이어트 식단 만들기',
-    },
-    {
-      id: 3,
-      title: '밀프랩 도시락 싸는 방법',
-      total: 72,
-      owner: '먹짱은 나다',
-      channel: '건강한 다이어트 식단 만들기',
-    },
-    {
-      id: 4,
-      title: '밀프랩 도시락 싸는 방법',
-      total: 72,
-      owner: '먹짱은 나다',
-      channel: '건강한 다이어트 식단 만들기',
-    },
-  ]);
   const { myChannel } = useSelector((state) => state.channel);
+  const { success } = useSelector((state) => state.room);
   const dispatch = useDispatch();
-  const history = useHistory();
+
+  const handleExitRoom = ({ roomId }) => {
+    dispatch(exitRoom({ roomId }));
+  };
+
+  const handleCloseRoom = ({ roomId }) => {
+    dispatch(closeRoom({ roomId }));
+  };
+
+  useEffect(() => {
+    if (success) {
+      dispatch(getMychannel());
+    }
+  }, [success]);
 
   useEffect(() => {
     dispatch(getMychannel());
   }, [dispatch]);
 
-  if (!asignChatList || !myChannel) return '로딩중';
+  if (!myChannel) return '로딩중';
+
   return (
     <MyChannel
-      asignChatList={asignChatList}
+      ownerRoom={myChannel.ownerRoom}
+      participantRoom={myChannel.participantRoom}
       adminChannl={myChannel.adminChannl}
       participantChannel={myChannel.participantChannel}
+      handleExitRoom={handleExitRoom}
+      handleCloseRoom={handleCloseRoom}
     />
   );
 };

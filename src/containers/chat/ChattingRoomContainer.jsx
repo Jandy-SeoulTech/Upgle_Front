@@ -10,7 +10,7 @@ import {
   initialize,
 } from '../../modules/chat';
 import ChattingRoom from '../../components/chat/ChattingRoom';
-import { getRoomData, reviewRoom } from '../../modules/room';
+import { getRoomData } from '../../modules/room';
 
 let socket;
 
@@ -83,17 +83,6 @@ const ChattingRoomContainer = ({ roomId }) => {
     );
   };
 
-  const handleReview = ({ review, rate }) => {
-    dispatch(
-      reviewRoom({
-        roomId,
-        content: review,
-        status: rate,
-        reviewedUserId: user.id,
-      }),
-    );
-  };
-
   useEffect(() => {
     dispatch(getRoomData({ roomId }));
   }, [dispatch, roomId]);
@@ -118,8 +107,8 @@ const ChattingRoomContainer = ({ roomId }) => {
       handleGetMassage={handleGetMassage}
       replyMessage={replyMessage}
       setReplyMessage={setReplyMessage}
-      handleReview={handleReview}
       participants={participants}
+      success={success}
     />
   );
 };

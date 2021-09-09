@@ -72,7 +72,7 @@ const channelNav = ({ isHome, scrolled }) => css`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 0 calc((100% - 59.125rem) / 2);
+  padding: 0 calc((100% - 69rem) / 2);
   box-shadow: ${scrolled && '0px 1px 10px rgba(0, 0, 0, 0.25);'};
   z-index: 900;
 `;

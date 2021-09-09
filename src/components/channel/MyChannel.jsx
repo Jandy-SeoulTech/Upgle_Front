@@ -9,7 +9,14 @@ import Button from '../common/Button';
 import ChannelCard from './ChannelCard';
 import ChatCard from './ChatCard';
 
-const MyChannel = ({ asignChatList, adminChannl, participantChannel }) => {
+const MyChannel = ({
+  ownerRoom,
+  participantRoom,
+  adminChannl,
+  participantChannel,
+  handleExitRoom,
+  handleCloseRoom,
+}) => {
   const history = useHistory();
   return (
     <Box css={myChannelWrapper}>
@@ -30,11 +37,42 @@ const MyChannel = ({ asignChatList, adminChannl, participantChannel }) => {
         </Box>
 
         <Box css={asignChatListWrapper}>
-          <Typography css={listTitle}>참여 채팅방</Typography>
+          <Typography css={listTitle}>오픈 채팅방</Typography>
+          {ownerRoom.length === 0 && (
+            <Typography css={nullDescription}>
+              아직 오픈한 채팅방이 없습니다.
+            </Typography>
+          )}
           <Grid container spacing={2}>
-            {asignChatList.map((chatInfo) => (
+            {ownerRoom.map((chatInfo) => (
               <Grid key={chatInfo.id} item>
-                <ChatCard chatInfo={chatInfo} />
+                <ChatCard
+                  isFinished={chatInfo.status}
+                  user="admin"
+                  chatInfo={chatInfo}
+                  onCloseRoom={handleCloseRoom}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+
+        <Box css={asignChatListWrapper}>
+          <Typography css={listTitle}>참여 채팅방</Typography>
+          {participantRoom.length === 0 && (
+            <Typography css={nullDescription}>
+              현재 참여하고 있는 채팅방이 없습니다.
+            </Typography>
+          )}
+          <Grid container spacing={2}>
+            {participantRoom.map((chatInfo) => (
+              <Grid key={chatInfo.id} item>
+                <ChatCard
+                  isFinished={chatInfo.status}
+                  user="part"
+                  chatInfo={chatInfo}
+                  onExitRoom={handleExitRoom}
+                />
               </Grid>
             ))}
           </Grid>
@@ -42,6 +80,11 @@ const MyChannel = ({ asignChatList, adminChannl, participantChannel }) => {
 
         <Box css={openChannelWrapper}>
           <Typography css={listTitle}>오픈 채널</Typography>
+          {adminChannl.length === 0 && (
+            <Typography css={nullDescription}>
+              아직 오픈한 채널이 없습니다.
+            </Typography>
+          )}
           <Grid container spacing={2}>
             {adminChannl.map((channel) => (
               <Grid key={channel.id} item>
@@ -53,6 +96,11 @@ const MyChannel = ({ asignChatList, adminChannl, participantChannel }) => {
 
         <Box css={partChannelWrapper}>
           <Typography css={listTitle}>참여 채널</Typography>
+          {participantChannel.length === 0 && (
+            <Typography css={nullDescription}>
+              아직 참여하는 채널이 없습니다.
+            </Typography>
+          )}
           <Grid container spacing={2}>
             {participantChannel.map((channel) => (
               <Grid key={channel.id} item>
@@ -116,16 +164,28 @@ const listTitle = css`
   margin-bottom: 1rem;
 `;
 
+const nullDescription = css`
+  width: 100%;
+  text-align: center;
+  font-family: 'Noto Sans KR';
+  font-weight: 500;
+  font-size: 1rem;
+  color: #5f5f5f;
+`;
+
 const asignChatListWrapper = css`
   margin-top: 5.25rem;
+  width: 100%;
 `;
 
 const openChannelWrapper = css`
   margin-top: 4.1875rem;
+  width: 100%;
 `;
 
 const partChannelWrapper = css`
   margin-top: 4.1875rem;
+  width: 100%;
 `;
 
 export default MyChannel;

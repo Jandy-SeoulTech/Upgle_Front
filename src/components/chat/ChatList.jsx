@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Box } from '@material-ui/core';
-import { memo } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import Button from '../common/Button';
 import { TextArea, TextField } from '../TextField';
 import ChatItem from './ChatItem';
@@ -13,12 +13,23 @@ const ChatList = ({
   setMessage,
   handleSendMessage,
   handleGetMassage,
+  success,
 }) => {
+  const chatEndRef = useRef();
+
   const handleScroll = (e) => {
     if (e.target.scrollTop < 100) {
       handleGetMassage();
     }
   };
+
+  const scrollBottom = () => {
+    chatEndRef.current.scrollIntoView();
+  };
+
+  useEffect(() => {
+    scrollBottom();
+  }, [success]);
 
   return (
     <Box css={chatListWrapper}>
@@ -36,6 +47,7 @@ const ChatList = ({
             message={message}
           />
         ))}
+        <div ref={chatEndRef}></div>
       </Box>
       <Box css={sendMessageForm}>
         <TextArea
