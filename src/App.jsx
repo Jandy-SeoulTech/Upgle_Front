@@ -41,9 +41,9 @@ function App() {
       <Route path="/channelProfile/:id" exact component={ChannelProfilePage} />
       <Route path="/channelHome/:id" exact component={ChannelHomePage} />
       <Route path="/profile/:userId" component={ProfilePage} />
-      <Route path="/channelPost" exact component={ChannelPostListPage} />
-      <Route path="/channelPost/edit" exact component={ChannelPostEditPage} />
-      <Route path="/channelPost/id" exact component={ChannelPostPage} />
+      <Route path="/channelPost/:id" exact component={ChannelPostListPage} />
+      <Route path="/channelPost/:id/edit" exact component={ChannelPostEditPage} />
+      <Route path="/channelPost/:id/post/:postId" exact component={ChannelPostPage} />
       <Route path="/chat/:chatId" />
       <Route path="/chat/:id" component={ChattingRoomPage} />
       <Route path="/setting" component={ProfileSettingPage} />
