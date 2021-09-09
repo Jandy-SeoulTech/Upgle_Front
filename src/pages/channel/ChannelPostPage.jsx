@@ -6,15 +6,17 @@ import ChannelPostContainer from './../../containers/channel/ChannelPostContaine
 
 const ChannelPostPage = ({ match }) => {
   const { channelId, postId } = match.params;
-  <>
-    <HeaderContainer />
-    <ChannelNavContainer />
-    <ChannelPostContainer
-      channelId={parseInt(channelId, 10)}
-      postId={parseInt(postId, 10)}
-    />
-    <FooterContainer />
-  </>;
+  return (
+    <>
+      <HeaderContainer />
+      <ChannelNavContainer />
+      <ChannelPostContainer
+        channelId={parseInt(channelId, 10)}
+        postId={parseInt(postId, 10)}
+      />
+      <FooterContainer />
+    </>
+  );
 };
 
 export default ChannelPostPage;
