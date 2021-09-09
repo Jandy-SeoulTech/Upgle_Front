@@ -1,34 +1,55 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from '../../components/common/Modal';
 import ReviewModal from '../../components/common/ReviewModal';
-import { reviewRoom } from '../../modules/room';
+import { exitRoom, reviewRoom } from '../../modules/room';
 
 const ReviewModalContainer = ({ room, open, setOpen, onSuccess }) => {
   const { user } = useSelector((state) => state.user);
-  const { success } = useSelector((state) => state.room);
+  const { userExit, reviewSuccess } = useSelector((state) => state.room);
+  const [review, setReview] = useState('');
+  const [rate, setRate] = useState();
   const dispatch = useDispatch();
 
-  const handleReview = ({ review, rate }) => {
-    dispatch(
-      reviewRoom({
-        roomId: room.id,
-        content: review,
-        status: rate,
-        reviewedUserId: user.id,
-      }),
-    );
+  const handleReview = () => {
+    if (onSuccess) {
+      onSuccess();
+    }
+    // dispatch(exitRoom({ roomId: room.id }));
   };
 
-  // useEffect(() => {
-  //   if (success) {
-  //     onSuccess();
-  //   }
-  // }, [success]);
+  useEffect(() => {
+    if (userExit) {
+      dispatch(
+        reviewRoom({
+          roomId: room.id,
+          content: review,
+          status: rate,
+          reviewedUserId: user.id,
+        }),
+      );
+    }
+  }, [userExit]);
+
+  useEffect(() => {
+    if (reviewSuccess) {
+      if (onSuccess) {
+        onSuccess();
+      }
+    }
+  }, [reviewSuccess]);
 
   return (
     <Modal open={open} setOpen={setOpen}>
-      <ReviewModal room={room} handleReview={handleReview} setOpen={setOpen} />
+      <ReviewModal
+        room={room}
+        review={review}
+        setReview={setReview}
+        rate={rate}
+        setRate={setRate}
+        handleReview={handleReview}
+        setOpen={setOpen}
+      />
     </Modal>
   );
 };
