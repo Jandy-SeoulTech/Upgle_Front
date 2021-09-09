@@ -47,7 +47,7 @@ const MyChannel = ({
             {ownerRoom.map((chatInfo) => (
               <Grid key={chatInfo.id} item>
                 <ChatCard
-                  isFinished={chatInfo.status}
+                  isFinished={chatInfo.status !== 'Open'}
                   user="admin"
                   chatInfo={chatInfo}
                   onCloseRoom={handleCloseRoom}

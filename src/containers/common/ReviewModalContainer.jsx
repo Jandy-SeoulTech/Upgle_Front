@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from '../../components/common/Modal';
 import ReviewModal from '../../components/common/ReviewModal';
 import { reviewRoom } from '../../modules/room';
 
-const ReviewModalContainer = ({ room, open, setOpen }) => {
+const ReviewModalContainer = ({ room, open, setOpen, onSuccess }) => {
   const { user } = useSelector((state) => state.user);
+  const { success } = useSelector((state) => state.room);
   const dispatch = useDispatch();
 
   const handleReview = ({ review, rate }) => {
@@ -18,6 +19,12 @@ const ReviewModalContainer = ({ room, open, setOpen }) => {
       }),
     );
   };
+
+  useEffect(() => {
+    if (success) {
+      onSuccess();
+    }
+  }, [success]);
 
   return (
     <Modal open={open} setOpen={setOpen}>

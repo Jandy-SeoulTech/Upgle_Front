@@ -1,20 +1,21 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Box, Typography, Grid, Avatar} from '@material-ui/core';
+import { Box, Typography, Grid, Avatar } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import Button from './../common/Button';
 import { ReactComponent as PostWrite } from '../../lib/assets/postWrite.svg';
 import { getDateString } from '../../lib/util/dateFormat';
+import { useHistory } from 'react-router';
 
 const ChannelPostList = ({ postList, channel }) => {
-
+  const history = useHistory();
 
   const StatusIcon = ({ status }) => {
     let statusIconCss, statusIconText;
     switch (status) {
       case 'Notice':
-        statusIconCss = [statusCss, { backgroundColor: '#FF1F00'}];
-        statusIconText = '공지'
+        statusIconCss = [statusCss, { backgroundColor: '#FF1F00' }];
+        statusIconText = '공지';
         break;
       case 'Open':
         statusIconCss = [statusCss, { backgroundColor: '#FF511B' }];
@@ -25,25 +26,26 @@ const ChannelPostList = ({ postList, channel }) => {
         statusIconText = '채팅 예약';
         break;
       default:
-        return (<></>);
+        return <></>;
     }
     return (
       <div css={statusIconCss}>
         <p>{statusIconText}</p>
       </div>
     );
-  }
+  };
 
   return (
     <Grid container css={backgroudWrapper}>
-      <Grid item css={{width: '1200px'}}>
+      <Grid item css={{ width: '1200px' }}>
         <Box css={writeTitleWrapper}>
           <Button css={write}>
-            <PostWrite className="icon" css={{marginRight: '10px'}}/>
+            <PostWrite className="icon" css={{ marginRight: '10px' }} />
             요청하기
           </Button>
           <Typography css={writeTitle}>
-            재능과 관련하여 배우고 싶은 내용을 요청해보세요. 재능 고수들이 공유 채팅을 열어 재능 업글을 도와줄거예요!
+            재능과 관련하여 배우고 싶은 내용을 요청해보세요. 재능 고수들이 공유
+            채팅을 열어 재능 업글을 도와줄거예요!
           </Typography>
         </Box>
         <Box css={postListWrapper}>
@@ -53,35 +55,57 @@ const ChannelPostList = ({ postList, channel }) => {
                 <Box css={postTitle}>
                   <Box css={{ display: 'flex' }}>
                     <StatusIcon status={post.status} />
-                    <Typography className='title'>{post.title}</Typography>
+                    <Typography
+                      className="title"
+                      onClick={() => {
+                        history.push(`/channel/${channel.id}/post/:${post.id}`);
+                      }}
+                    >
+                      {post.title}
+                    </Typography>
                   </Box>
-                  <Typography className='date'>{getDateString(post.updatedAt)}</Typography>
+                  <Typography className="date">
+                    {getDateString(post.updatedAt)}
+                  </Typography>
                 </Box>
                 <Typography css={postContent}>{post.content}</Typography>
               </Box>
 
               <Box css={postItemLeft}>
-                {post.authorId === channel.adminId ?
+                {post.authorId === channel.adminId ? (
                   <>
                     <div css={adminIconCss}>
                       <p>관리자</p>
                     </div>
-                    <Avatar src={post.author.profile.profileImage.src} css={{width: '50px', height: '50px', margin: '5px auto 0 auto', border: '2px solid #04BD9E'}} />
+                    <Avatar
+                      src={post.author.profile.profileImage.src}
+                      css={{
+                        width: '50px',
+                        height: '50px',
+                        margin: '5px auto 0 auto',
+                        border: '2px solid #04BD9E',
+                      }}
+                    />
                   </>
-                  :
+                ) : (
                   <>
-                    <Avatar src={post.author.profile.profileImage.src} css={{ width: '50px', height: '50px', margin: '0 auto' }} />
+                    <Avatar
+                      src={post.author.profile.profileImage.src}
+                      css={{ width: '50px', height: '50px', margin: '0 auto' }}
+                    />
                   </>
-                }
-                <Typography css={nicknameCss}>{post.author.nickname}</Typography>
+                )}
+                <Typography css={nicknameCss}>
+                  {post.author.nickname}
+                </Typography>
               </Box>
             </Box>
           ))}
         </Box>
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
 const statusCss = css`
   width: 72px;
@@ -96,16 +120,15 @@ const statusCss = css`
     font-style: normal;
     font-size: 13px;
     font-weight: 700;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 `;
-
 
 const backgroudWrapper = css`
   margin-top: 135px;
   margin-bottom: 100px;
   justify-content: center;
-  background: #FAFAFC;
+  background: #fafafc;
 `;
 
 const writeTitleWrapper = css`
@@ -118,7 +141,7 @@ const write = css`
   font-family: 'Barlow', 'Noto Sans KR';
   font-weight: bold;
   font-size: 20px;
-  color: #FFFFFF;
+  color: #ffffff;
   background: #000000;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
   border-radius: 100px;
@@ -147,7 +170,7 @@ const postItem = css`
   width: 100%;
   height: 170px;
   margin: auto;
-  border-bottom: 1px solid #BDBDBD;
+  border-bottom: 1px solid #bdbdbd;
   display: flex;
   align-items: flex-start;
   & .MuiTypography-root {
@@ -186,11 +209,12 @@ const postTitle = css`
   .title {
     font-weight: 600;
     font-size: 20px;
+    cursor: pointer;
   }
   .date {
     font-size: 14px;
     line-height: 22px;
-    color: #5F5F5F;
+    color: #5f5f5f;
   }
 `;
 
@@ -207,14 +231,13 @@ const postContent = css`
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
-  color: #5F5F5F;
+  color: #5f5f5f;
 `;
-
 
 const adminIconCss = css`
   width: 38px;
   height: 18px;
-  background: #04BD9E;
+  background: #04bd9e;
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -225,7 +248,7 @@ const adminIconCss = css`
     font-style: normal;
     font-weight: 500;
     font-size: 10px;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 `;
 
@@ -237,6 +260,5 @@ const nicknameCss = css`
   font-size: 13px;
   color: #000000;
 `;
-
 
 export default ChannelPostList;
