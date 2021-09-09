@@ -50,6 +50,7 @@ const userWrapper = css`
 `;
 
 const messageWrapper = (isContinue, isMe) => css`
+  max-width: 70%;
   position: relative;
   left: ${!isMe && '6.25rem'};
   width: fit-content;
@@ -67,7 +68,7 @@ const messageWrapper = (isContinue, isMe) => css`
     font-family: 'Barlow', 'Noto Sans KR';
     letter-spacing: 0;
     word-wrap: break-word;
-    white-space: pre;
+    white-space: pre-line;
     font-size: 1.167rem;
   }
 `;
