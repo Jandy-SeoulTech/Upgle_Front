@@ -3,12 +3,14 @@ import CreateChannelContainer from '../../containers/channel/CreateChannelContai
 import FooterContainer from '../../containers/common/FooterContainer';
 import HeaderContainer from '../../containers/common/HeaderContainer';
 
-const CreateChannelPage = () => (
-  <>
-    <HeaderContainer />
-    <CreateChannelContainer />
-    <FooterContainer />
-  </>
-);
+const CreateChannelPage = () => {
+  return (
+    <>
+      <HeaderContainer />
+      <CreateChannelContainer />
+      <FooterContainer />
+    </>
+  );
+};
 
 export default CreateChannelPage;

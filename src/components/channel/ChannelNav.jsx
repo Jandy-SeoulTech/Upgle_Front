@@ -43,7 +43,7 @@ const ChannelNav = ({ channel, isParticipant }) => {
   return (
     <Box
       css={channelNav({
-        isHome: pathname === `/channel/${channel.id}/home`,
+        isProfile: pathname === `/channel/${channel.id}/profile`,
         scrolled: scrollPosition !== 0,
       })}
     >
@@ -63,12 +63,12 @@ const ChannelNav = ({ channel, isParticipant }) => {
   );
 };
 
-const channelNav = ({ isHome, scrolled }) => css`
+const channelNav = ({ isProfile, scrolled }) => css`
   position: fixed;
   top: 3.75rem;
   width: 100%;
   height: 4.6875rem;
-  background: ${isHome ? '#FAFAFC' : '#f0f0f0'};
+  background: ${isProfile ? '#f0f0f0' : '#FAFAFC'};
   display: flex;
   justify-content: flex-end;
   align-items: center;
