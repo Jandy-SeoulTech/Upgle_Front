@@ -33,6 +33,7 @@ const ChattingRoom = ({
   replyMessage,
   setReplyMessage,
   participants,
+  handleSuccess,
   success,
 }) => {
   const [reviewToglle, setReviewToglle] = useState(false);
@@ -63,9 +64,7 @@ const ChattingRoom = ({
         room={room}
         open={reviewToglle}
         setOpen={setReviewToglle}
-        onSuccess={() => {
-          window.close();
-        }}
+        onSuccess={handleSuccess}
       />
       <Box css={roomTitle}>
         <Box css={{ margin: '1.67rem 0 0.58rem 1.25rem' }}>

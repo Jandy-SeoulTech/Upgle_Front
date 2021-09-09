@@ -42,8 +42,9 @@ export const closeRoom = createAction(CLOSE_ROOM, ({ roomId }) => ({
 }));
 export const reviewRoom = createAction(
   REVIEW_ROOM,
-  ({ roomId, content, status, reviewedUserId }) => ({
+  ({ roomId, channelId, content, status, reviewedUserId }) => ({
     roomId,
+    channelId,
     content,
     status,
     reviewedUserId,

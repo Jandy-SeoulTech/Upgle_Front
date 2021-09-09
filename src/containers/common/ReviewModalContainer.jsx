@@ -5,17 +5,13 @@ import ReviewModal from '../../components/common/ReviewModal';
 import { exitRoom, reviewRoom } from '../../modules/room';
 
 const ReviewModalContainer = ({ room, open, setOpen, onSuccess }) => {
-  const { user } = useSelector((state) => state.user);
   const { userExit, reviewSuccess } = useSelector((state) => state.room);
   const [review, setReview] = useState('');
   const [rate, setRate] = useState();
   const dispatch = useDispatch();
 
   const handleReview = () => {
-    if (onSuccess) {
-      onSuccess();
-    }
-    // dispatch(exitRoom({ roomId: room.id }));
+    dispatch(exitRoom({ roomId: room.id }));
   };
 
   useEffect(() => {
@@ -23,9 +19,10 @@ const ReviewModalContainer = ({ room, open, setOpen, onSuccess }) => {
       dispatch(
         reviewRoom({
           roomId: room.id,
+          channelId: room.channelId,
           content: review,
           status: rate,
-          reviewedUserId: user.id,
+          reviewedUserId: room.roomOwner.id,
         }),
       );
     }
