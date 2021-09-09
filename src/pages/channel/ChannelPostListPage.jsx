@@ -5,13 +5,16 @@ import ChannelPostListContainer from './../../containers/channel/ChannelPostList
 import ChannelNavContainer from './../../containers/channel/ChannelNavContainer';
 
 const ChannelPostListPage = ({ match }) => {
-    const { id } = match.params;
+  const { id } = match.params;
+  return (
     <>
-        <HeaderContainer />
-        <ChannelNavContainer />
-        <ChannelPostListContainer channelId={parseInt(id, 10)}/>
-        <FooterContainer />
+      <HeaderContainer />
+      <ChannelNavContainer />
+      <ChannelPostListContainer channelId={parseInt(id, 10)} />
+      <FooterContainer />
     </>
+
+  );
 
 };
 

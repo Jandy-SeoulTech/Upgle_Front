@@ -249,7 +249,7 @@ const postTitleWrapper = css`
     font-style: normal;
     font-weight: bold;
     font-size: 34px;
-    color: #FF0000;
+    color: #000000;
 
   }
   .nickname {

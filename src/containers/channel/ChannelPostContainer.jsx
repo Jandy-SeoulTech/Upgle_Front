@@ -1,37 +1,30 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getChannelData } from '../../modules/channel';
 import ChannelPost from './../../components/channel/ChannelPost';
 
 
-const ChannelPostContainer = ({ }) => {
+const ChannelPostContainer = ({ channelId, postId }) => {
 
   /*   const { user } = useSelector((state) => state.user);
    */
-  const channel = {
-    "id": 1,
-    "name": "channel1",
-    "introduce": "test",
-    "adminId": 1,
-    "createdAt": "1970-01-01T00:00:00.000Z",
-    "updatedAt": null,
-    "admin": {
-      "id": 1,
-      "email": "iqeq1945@naver.com",
-      "nickname": "HSW",
-      "profile": {
-        "profileImage": {
-          "src": null
-        }
-      }
-    }
-  };
+  const { channel } = useSelector((state) => state.channel);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getChannelData(channelId));
+  }, [dispatch, channelId]);
+
+  if (!channel) return '로딩중';
+
+  
   const post = {
-    title: '가나다는 한국어 자음의 첫 세글자다.',
-    content: '가나다는 한국어 자음의 첫 세글자다. 가나다는 한국어 자음의다는 한국어 자음의 첫 세글자다. 가나다는 한국어 자음의 첫 세글자다. 다는 한국어 자음의 첫 세글자다. 가나다는 한국어 자음의 첫 세글자다. 다는 한국어 자음의 첫 세글자다. 가나다는 한국어 자음의 첫 세글자다. 다는 한국어 자음의 첫 세글자다. 가나다는 한국어 자음의 첫 세글자다.  첫 세글자다. 가나다는 한국어 자음의 첫 세글자다. 가나다는 한국어 자음의 첫 세글자다. 가나다는 한국어 자음의 첫 세글자다. 가나다는 한국어 자음의 첫 세글자다. ',
-    status: 'Close',
+    title: 'Express에서 세션 어떻게 적용하나요?',
+    content: '안녕하세요. 저는 어제 방금 node로 서버 개발하기를 시작한 초보입니다. 노드는 express라는 프레임워크를 활용해서 많이들 사용한다고 하는데, 제가 로그인/인증 모듈을 구현하는 중입니다. 세션과 쿠키를 이용해서 인증 모듈을 구현하려는데, express에서 세션을 어떻게 적용할지 구체적인 방법을 검색했는데도 잘 모르겠어서 고수 분들의 도움을 받고 싶습니다. 어떤 방법이 있고 어떤 기술이 베스트 프랙티스일까요???',
+    status: 'Open',
     authorId: 1,
     author: {
-      nickname: "제빵왕",
+      nickname: "노드어린이",
       profile: {
         profileImage: {
           src: "admin.jpg"
@@ -42,40 +35,40 @@ const ChannelPostContainer = ({ }) => {
     comment: [
       {
         author: {
-          nickname: "testnick",
+          nickname: "노드발자",
           profile: {
             profileImage: {
               src: "admin.jpg"
             }
           }
         },
-        content: '가나다는 한국어 자음의 첫 세글자다.',
+        content: '세션은 보통 express-session 라이브러리를 활용합니다.',
         createdAt: "2021-09-06T11:48:50.171Z",
         updatedAt: "2021-09-07T11:48:50.171Z",
       },
       {
         author: {
-          nickname: "제빵왕",
+          nickname: "노드린이",
           profile: {
             profileImage: {
               src: "admin.jpg"
             }
           }
         },
-        content: '가나다는 한국어 자음의 첫 세글자다.',
+        content: '저도 궁금합니다.. 고수분들 도와주세요~~',
         createdAt: "2021-09-06T11:48:50.171Z",
         updatedAt: "2021-09-07T11:48:50.171Z",
       },
       {
         author: {
-          nickname: "제빵왕",
+          nickname: "킹갓엠페러프론트리드인서",
           profile: {
             profileImage: {
               src: "admin.jpg"
             }
           }
         },
-        content: '가나다는 한국어 자음의 첫 세글자다.',
+        content: '제가 가르쳐드림.',
         createdAt: "2021-09-06T11:48:50.171Z",
         updatedAt: "2021-09-07T11:48:50.171Z",
       },

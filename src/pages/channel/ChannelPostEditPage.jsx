@@ -5,14 +5,14 @@ import HeaderContainer from '../../containers/common/HeaderContainer';
 import ChannelNavContainer from './../../containers/channel/ChannelNavContainer';
 
 const ChannelProfilePage = ({ match }) => {
-    const { id } = match.params;
-    return (
-        <>
-            <HeaderContainer />
-            <ChannelNavContainer />
-            <ChannelPostEditContainer channelId={parseInt(id, 10)} />
-        </>
-    );
+  const { id } = match.params;
+  return (
+    <>
+      <HeaderContainer />
+      <ChannelNavContainer />
+      <ChannelPostEditContainer channelId={parseInt(id, 10)} />
+    </>
+  );
 };
 
 export default ChannelProfilePage;
