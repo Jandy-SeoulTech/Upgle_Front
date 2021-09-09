@@ -31,7 +31,7 @@ const ChannelNav = ({ channel, isParticipant }) => {
       url: `/channel/${channel.id}/postList`,
     },
     {
-      title: '재능 고융 채팅',
+      title: '재능 공유 채팅',
       url: `/channel/${channel.id}/profile`,
     },
     {

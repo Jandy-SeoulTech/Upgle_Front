@@ -36,13 +36,7 @@ const ChatCard = ({ isFinished, user, chatInfo, onCloseRoom, onExitRoom }) => {
   };
 
   return (
-    <Box
-      target="_blank"
-      rel="noreferrer"
-      css={CharCardWrapper}
-      href={`/chat/${chatInfo.id}`}
-      onClick={handleMoveChat}
-    >
+    <Box css={CharCardWrapper} onClick={handleMoveChat}>
       {exit && (
         <Box css={exitWrapper}>
           {isFinished ? (

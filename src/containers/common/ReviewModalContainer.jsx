@@ -20,11 +20,11 @@ const ReviewModalContainer = ({ room, open, setOpen, onSuccess }) => {
     );
   };
 
-  useEffect(() => {
-    if (success) {
-      onSuccess();
-    }
-  }, [success]);
+  // useEffect(() => {
+  //   if (success) {
+  //     onSuccess();
+  //   }
+  // }, [success]);
 
   return (
     <Modal open={open} setOpen={setOpen}>

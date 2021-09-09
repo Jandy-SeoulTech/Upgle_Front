@@ -1,6 +1,17 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Box, Typography, Grid, Avatar, ClickAwayListener, Popper, MenuList, MenuItem, ListItemText, Divider } from '@material-ui/core';
+import {
+  Box,
+  Typography,
+  Grid,
+  Avatar,
+  ClickAwayListener,
+  Popper,
+  MenuList,
+  MenuItem,
+  ListItemText,
+  Divider,
+} from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import Button from './../common/Button';
 import { ReactComponent as PostSetting } from '../../lib/assets/postSetting.svg';
@@ -28,12 +39,21 @@ const ChannelPost = ({
     setMenuAnchor(menuAnchor ? null : e.currentTarget);
   };
 
+  const handleMoveChat = (roomId) => {
+    window.open(
+      `/chat/${roomId}`,
+      '_blank',
+      'width=600, height=900, toolbars=no, scrollbars=yes',
+    );
+    return false;
+  };
+
   const StatusIcon = ({ status }) => {
     let statusIconCss, statusIconText;
     switch (status) {
       case 'Notice':
         statusIconCss = [statusCss, { backgroundColor: '#FF1F00' }];
-        statusIconText = '공지'
+        statusIconText = '공지';
         break;
       case 'Open':
         statusIconCss = [statusCss, { backgroundColor: '#FF511B' }];
@@ -44,16 +64,16 @@ const ChannelPost = ({
         statusIconText = '채팅 예약';
         break;
       default:
-        return (<></>);
+        return <></>;
     }
     return (
       <div css={statusIconCss}>
         <p>{statusIconText}</p>
       </div>
     );
-  }
+  };
 
-  const AuthorIcon = useCallback(()=> {
+  const AuthorIcon = useCallback(() => {
     const baseIcon = css`
       width: 35px;
       height: 35px;
@@ -61,19 +81,18 @@ const ChannelPost = ({
     let authorIcon;
     if (post.authorId === channel.adminId) {
       authorIcon = [baseIcon, { border: '2px solid #04BD9E' }];
-    }
-    else {
+    } else {
       authorIcon = baseIcon;
     }
     return (
       <>
         <Avatar src={post.author.profile.profileImage.src} css={authorIcon} />
       </>
-    )
-  }, [post])
+    );
+  }, [post]);
 
   const ControllButtonList = ({ status }) => {
-    const SympathyButton = ({ }) => {
+    const SympathyButton = ({}) => {
       return (
         <Button
           className={isLiked ? 'likedButton' : 'likeButton'}
@@ -86,37 +105,37 @@ const ChannelPost = ({
           )}
           공감
         </Button>
-      )
-    }
-    let ChatControllButton = ({ }) => (<></>);
+      );
+    };
+    let ChatControllButton = ({}) => <></>;
     switch (status) {
       case 'Open':
-        ChatControllButton = ({ }) => {
+        ChatControllButton = ({}) => {
           return (
-            <Button className='goChat'>
+            <Button className="goChat" onClick={handleMoveChat(1)}>
               <ChatGo className="icon" />
               채팅방 바로 가기
             </Button>
-          )
-        }
+          );
+        };
         break;
       case 'Close':
-        ChatControllButton = ({ }) => {
+        ChatControllButton = ({}) => {
           return (
-            <Button className='makeChat'>
+            <Button className="makeChat">
               <ChatMake className="icon" />
               채팅방 만들기
             </Button>
-          )
-        }
+          );
+        };
         break;
       case 'Reservation':
-        ChatControllButton = ({ }) => {
-          return (<></>)
-        }
+        ChatControllButton = ({}) => {
+          return <></>;
+        };
         break;
       default:
-        return (<></>);
+        return <></>;
     }
 
     return (
@@ -124,21 +143,42 @@ const ChannelPost = ({
         <SympathyButton />
         <ChatControllButton />
       </Grid>
-    )
-
-  }
+    );
+  };
 
   return (
     <Grid container justifyContent="center" css={backgroudWrapper}>
-      <Grid container alignItems="center" flexDirection="column" css={{width: '1140px'}}>
-        <Box css={{ marginTop: '80px', width: '1140px', minHeight: '200px', height: 'fit-content', borderBottom: '1px solid #BDBDBD' }}>
+      <Grid
+        container
+        alignItems="center"
+        flexDirection="column"
+        css={{ width: '1140px' }}
+      >
+        <Box
+          css={{
+            marginTop: '80px',
+            width: '1140px',
+            minHeight: '200px',
+            height: 'fit-content',
+            borderBottom: '1px solid #BDBDBD',
+          }}
+        >
           <Grid container flexDirection="column" css={postTitleWrapper}>
             <StatusIcon status={post.status} />
-            <Typography className='title'>{post.title}</Typography>
-            <Grid container justifyContent='flex-end' alignItems='center' css={{ paddingRight: '30px', height: '55px' }}>
+            <Typography className="title">{post.title}</Typography>
+            <Grid
+              container
+              justifyContent="flex-end"
+              alignItems="center"
+              css={{ paddingRight: '30px', height: '55px' }}
+            >
               <AuthorIcon />
-              <Typography className='nickname'>{post.author.nickname}</Typography>
-              <Typography className='date'>{getDateString(post.updatedAt)}</Typography>
+              <Typography className="nickname">
+                {post.author.nickname}
+              </Typography>
+              <Typography className="date">
+                {getDateString(post.updatedAt)}
+              </Typography>
               <ClickAwayListener
                 onClickAway={() => {
                   setMenuAnchor(null);
@@ -154,7 +194,7 @@ const ChannelPost = ({
                   }}
                   onClick={handleMenu}
                 >
-                  <PostSetting css={{width: '100%', height: '100%'}}/>
+                  <PostSetting css={{ width: '100%', height: '100%' }} />
                   <Popper
                     open={!!menuAnchor}
                     anchorEl={menuAnchor}
@@ -170,9 +210,7 @@ const ChannelPost = ({
                           <ListItemText>수정하기</ListItemText>
                         </MenuItem>
                         <Divider />
-                        <MenuItem
-                          onClick={() => {}}
-                        >
+                        <MenuItem onClick={() => {}}>
                           <ListItemText>삭제하기</ListItemText>
                         </MenuItem>
                       </MenuList>
@@ -184,32 +222,47 @@ const ChannelPost = ({
           </Grid>
         </Box>
         <Box css={postContentWrapper}>
-          <Typography>
-            {post.content}
-          </Typography>
-          <ControllButtonList status={post.status}/>
+          <Typography>{post.content}</Typography>
+          <ControllButtonList status={post.status} />
         </Box>
-        <Grid container alignItems='center' css={postCommentWrapper}>
-          <Typography className='postCommentHeader'>댓글 {post.comment.length}</Typography>
+        <Grid container alignItems="center" css={postCommentWrapper}>
+          <Typography className="postCommentHeader">
+            댓글 {post.comment.length}
+          </Typography>
           {post.comment.map((comment) => {
-
             return (
               <Grid container css={postCommentItem}>
-                <Grid container className='avatarBox' justifyContent='center' alignItems='center'>
-                  <Avatar src={comment.author.profile.profileImage.src} css={{ width: '50px', height: '50px'}} />
+                <Grid
+                  container
+                  className="avatarBox"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Avatar
+                    src={comment.author.profile.profileImage.src}
+                    css={{ width: '50px', height: '50px' }}
+                  />
                 </Grid>
-                <Grid className='postCommentBody' container>
-                  {comment.author.nickname === user.nickname &&
-                    <Grid container justifyContent='flex-end'>
+                <Grid className="postCommentBody" container>
+                  {comment.author.nickname === user.nickname && (
+                    <Grid container justifyContent="flex-end">
                       <Button>수정</Button>
                       <Button>삭제</Button>
                     </Grid>
-                  }
-                  <Grid container alignItems='center' css={{marginTop: '20px'}}>
-                    <Typography className='nickname'>{comment.author.nickname}</Typography>
-                    <Typography className='date'>ㆍ  {getDateString(comment.updatedAt)}</Typography>
+                  )}
+                  <Grid
+                    container
+                    alignItems="center"
+                    css={{ marginTop: '20px' }}
+                  >
+                    <Typography className="nickname">
+                      {comment.author.nickname}
+                    </Typography>
+                    <Typography className="date">
+                      ㆍ {getDateString(comment.updatedAt)}
+                    </Typography>
                   </Grid>
-                  <Typography className='postCommentContent'>
+                  <Typography className="postCommentContent">
                     {comment.content}
                   </Typography>
                 </Grid>
@@ -219,24 +272,20 @@ const ChannelPost = ({
           <Grid container css={postCommentWrite}>
             <textarea
               placeholder="댓글을 입력해주세요."
-              className='commentWrite'
+              className="commentWrite"
             />
-            <Button className='commentSubmit'>
-              등록
-            </Button>
+            <Button className="commentSubmit">등록</Button>
           </Grid>
         </Grid>
-
-
       </Grid>
     </Grid>
-  )
-}
+  );
+};
 
 const backgroudWrapper = css`
   margin-top: 135px;
   margin-bottom: 100px;
-  background: #FAFAFC;
+  background: #fafafc;
 `;
 
 const postTitleWrapper = css`
@@ -250,7 +299,6 @@ const postTitleWrapper = css`
     font-weight: bold;
     font-size: 34px;
     color: #000000;
-
   }
   .nickname {
     margin-left: 8px;
@@ -268,7 +316,6 @@ const postTitleWrapper = css`
   }
 `;
 
-
 const statusCss = css`
   width: 80px;
   height: 34px;
@@ -280,7 +327,7 @@ const statusCss = css`
     font-family: 'Barlow', 'Noto Sans KR';
     font-weight: bold;
     font-size: 15px;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 `;
 
@@ -309,7 +356,6 @@ const controllButtonWrapper = css`
     height: 50px;
     margin-left: 20px;
   }
-
 
   .likedButton {
     width: 105px;
@@ -344,7 +390,6 @@ const controllButtonWrapper = css`
     &:hover {
       filter: brightness(0.95);
     }
-
   }
   .makeChat {
     width: 180px;
@@ -354,12 +399,10 @@ const controllButtonWrapper = css`
     &:hover {
       filter: brightness(0.95);
     }
-
   }
 `;
 
 const postCommentWrapper = css`
-
   & .MuiTypography-root {
     font-family: 'Barlow', 'Noto Sans KR';
   }
@@ -369,13 +412,11 @@ const postCommentWrapper = css`
     font-weight: 500;
     font-size: 20px;
   }
-
 `;
 
-
 const postCommentItem = css`
-  border-top: 1px solid #BDBDBD;
-  border-bottom: 1px solid #BDBDBD;
+  border-top: 1px solid #bdbdbd;
+  border-bottom: 1px solid #bdbdbd;
   & .MuiTypography-root {
     font-family: 'Barlow', 'Noto Sans KR';
   }
@@ -400,12 +441,11 @@ const postCommentItem = css`
     .date {
       margin-left: 10px;
       font-size: 14px;
-      color: #5F5F5F;
+      color: #5f5f5f;
     }
     .postCommentContent {
       margin-top: 10px;
       flex: 1;
-
     }
   }
 `;
@@ -423,8 +463,8 @@ const postCommentWrite = css`
     width: 100%;
     min-height: 190px;
     outline: 1px solid rgba(0, 0, 0, 0);
-  background: #FAFAFC;
-  border: 2px solid #BDBDBD;
+    background: #fafafc;
+    border: 2px solid #bdbdbd;
     border-radius: 10px;
   }
   .commentSubmit {
@@ -432,10 +472,9 @@ const postCommentWrite = css`
     font-family: 'Barlow', 'Noto Sans KR';
     font-weight: 600;
     font-size: 18px;
-    color: #7B7B7B;
-    border: 2px solid #BDBDBD;
+    color: #7b7b7b;
+    border: 2px solid #bdbdbd;
     border-radius: 25px;
-
   }
 `;
 
@@ -462,6 +501,5 @@ const menuWrapper = css`
     }
   }
 `;
-
 
 export default ChannelPost;
