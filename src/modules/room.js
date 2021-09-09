@@ -97,6 +97,7 @@ const chat = handleActions(
     [CLOSE_ROOM]: (state) => ({ ...state, success: null }),
     [CLOSE_ROOM_SUCCESS]: (state) => ({ ...state, success: true }),
     [CLOSE_ROOM_FAILURE]: (state, { payload: error }) => ({ ...state, error }),
+    [REVIEW_ROOM_SUCCESS]: (state) => ({ ...state, success: true }),
     [REVIEW_ROOM_FAILURE]: (state, { payload: error }) => ({ ...state, error }),
   },
   initialState,
