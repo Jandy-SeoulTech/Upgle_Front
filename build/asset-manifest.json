@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/static/css/main.9ad07be0.chunk.css",
-    "main.js": "/static/js/main.4c365f2b.chunk.js",
-    "main.js.map": "/static/js/main.4c365f2b.chunk.js.map",
+    "main.js": "/static/js/main.a85b3f72.chunk.js",
+    "main.js.map": "/static/js/main.a85b3f72.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.4cf8247a.js",
     "runtime-main.js.map": "/static/js/runtime-main.4cf8247a.js.map",
-    "static/css/2.b20f4b8a.chunk.css": "/static/css/2.b20f4b8a.chunk.css",
-    "static/js/2.8edf002c.chunk.js": "/static/js/2.8edf002c.chunk.js",
-    "static/js/2.8edf002c.chunk.js.map": "/static/js/2.8edf002c.chunk.js.map",
+    "static/css/2.9aafadfc.chunk.css": "/static/css/2.9aafadfc.chunk.css",
+    "static/js/2.13156eb1.chunk.js": "/static/js/2.13156eb1.chunk.js",
+    "static/js/2.13156eb1.chunk.js.map": "/static/js/2.13156eb1.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/2.b20f4b8a.chunk.css.map": "/static/css/2.b20f4b8a.chunk.css.map",
+    "static/css/2.9aafadfc.chunk.css.map": "/static/css/2.9aafadfc.chunk.css.map",
     "static/css/main.9ad07be0.chunk.css.map": "/static/css/main.9ad07be0.chunk.css.map",
-    "static/js/2.8edf002c.chunk.js.LICENSE.txt": "/static/js/2.8edf002c.chunk.js.LICENSE.txt",
+    "static/js/2.13156eb1.chunk.js.LICENSE.txt": "/static/js/2.13156eb1.chunk.js.LICENSE.txt",
     "static/media/alarmOff.04b1e02a.svg": "/static/media/alarmOff.04b1e02a.svg",
     "static/media/alarmOn.32bce53c.svg": "/static/media/alarmOn.32bce53c.svg",
     "static/media/amico.a1ad2303.svg": "/static/media/amico.a1ad2303.svg",
@@ -20,6 +20,9 @@
     "static/media/bad.e203a7cb.svg": "/static/media/bad.e203a7cb.svg",
     "static/media/index.css": "/static/media/noto-sans-kr-all-400-normal.395c9a5f.woff",
     "static/media/cancelImage.27deadd7.svg": "/static/media/cancelImage.27deadd7.svg",
+    "static/media/chatGo.4190e613.svg": "/static/media/chatGo.4190e613.svg",
+    "static/media/chatIcon.d143acac.svg": "/static/media/chatIcon.d143acac.svg",
+    "static/media/chatMake.9fbdfa7e.svg": "/static/media/chatMake.9fbdfa7e.svg",
     "static/media/check.38d2fe9d.svg": "/static/media/check.38d2fe9d.svg",
     "static/media/defaultImage.7bd6e8f9.svg": "/static/media/defaultImage.7bd6e8f9.svg",
     "static/media/departmentIcon.bcee4ab5.svg": "/static/media/departmentIcon.bcee4ab5.svg",
@@ -36,6 +39,8 @@
     "static/media/naverIcon.20a40e69.svg": "/static/media/naverIcon.20a40e69.svg",
     "static/media/owner.6f2ab18b.svg": "/static/media/owner.6f2ab18b.svg",
     "static/media/participants.1cd1949d.svg": "/static/media/participants.1cd1949d.svg",
+    "static/media/postSetting.40444b68.svg": "/static/media/postSetting.40444b68.svg",
+    "static/media/postWrite.852ccd78.svg": "/static/media/postWrite.852ccd78.svg",
     "static/media/rafiki.63cd73df.svg": "/static/media/rafiki.63cd73df.svg",
     "static/media/replyBlack.7035395b.svg": "/static/media/replyBlack.7035395b.svg",
     "static/media/replyButton.b33dd335.svg": "/static/media/replyButton.b33dd335.svg",
@@ -47,14 +52,15 @@
     "static/media/setting.68952195.svg": "/static/media/setting.68952195.svg",
     "static/media/soso.16cb9dd2.svg": "/static/media/soso.16cb9dd2.svg",
     "static/media/talkIcon.d2043734.svg": "/static/media/talkIcon.d2043734.svg",
+    "static/media/time.47aeecdf.svg": "/static/media/time.47aeecdf.svg",
     "static/media/userPlus.e1f33756.svg": "/static/media/userPlus.e1f33756.svg",
     "static/media/userProfile.3e556e3c.svg": "/static/media/userProfile.3e556e3c.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.4cf8247a.js",
-    "static/css/2.b20f4b8a.chunk.css",
-    "static/js/2.8edf002c.chunk.js",
+    "static/css/2.9aafadfc.chunk.css",
+    "static/js/2.13156eb1.chunk.js",
     "static/css/main.9ad07be0.chunk.css",
-    "static/js/main.4c365f2b.chunk.js"
+    "static/js/main.a85b3f72.chunk.js"
   ]
 }
