@@ -53,6 +53,7 @@ const ChannelNav = ({ channel, isParticipant }) => {
             key={index}
             css={navItem}
             onClick={() => {
+              window.scrollTo(0, 0);
               history.push(item.url);
             }}
           >
