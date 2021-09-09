@@ -6,6 +6,7 @@ import { getChannelData } from '../modules/channel';
 const CheckJoinChannel = ({ Component, match }) => {
   const { user } = useSelector((state) => state.user);
   const { channel } = useSelector((state) => state.channel);
+  const [finished, setFinished] = useState(false);
   const [isParticipant, setIsParticipant] = useState(false);
   const { channelId } = match.params; // URL 파라미터 조회하기
   const history = useHistory();
@@ -14,16 +15,24 @@ const CheckJoinChannel = ({ Component, match }) => {
   useEffect(() => {
     if (channel && user) {
       channel.admin.id === user.id && setIsParticipant(true);
-      channel.participants.forEach(
-        (participant) =>
-          participant.userId === user.id && setIsParticipant(true),
-      );
+      for (let participant of channel.participants) {
+        if (participant.userId === user.id) {
+          setIsParticipant(true);
+          break;
+        }
+      }
+      setFinished(true);
+    }
+  }, [channel, user]);
+
+  useEffect(() => {
+    if (finished) {
       if (!isParticipant) {
         alert('먼저 채널에 가입해주세요');
         history.push(`/channel/${channelId}/profile`);
       }
     }
-  }, [channel, user]);
+  }, [finished]);
 
   useEffect(() => {
     dispatch(getChannelData(channelId));

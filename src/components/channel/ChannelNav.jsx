@@ -20,11 +20,11 @@ const ChannelNav = ({ channel, isParticipant }) => {
   const channelNavReducer = [
     {
       title: '채널 프로필',
-      url: `/channel/${channel.id}/profile/`,
+      url: `/channel/${channel.id}/profile`,
     },
     {
       title: '채널 홈',
-      url: `/channel/${channel.id}/home/`,
+      url: `/channel/${channel.id}/home`,
     },
     {
       title: '재능 공유 요청',
