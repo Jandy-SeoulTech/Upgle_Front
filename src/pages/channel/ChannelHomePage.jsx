@@ -4,16 +4,16 @@ import ChannelNavContainer from '../../containers/channel/ChannelNavContainer';
 import FooterContainer from '../../containers/common/FooterContainer';
 import HeaderContainer from '../../containers/common/HeaderContainer';
 
-const ChannelProfilePage = ({ match }) => {
-  const { id } = match.params; // URL 파라미터 조회하기
+const ChannelHomePage = ({ match }) => {
+  const { channelId } = match.params; // URL 파라미터 조회하기
   return (
     <>
       <HeaderContainer />
       <ChannelNavContainer />
-      <ChannelHomeContainer channelId={parseInt(id, 10)} />
+      <ChannelHomeContainer channelId={parseInt(channelId, 10)} />
       <FooterContainer />
     </>
   );
 };
 
-export default ChannelProfilePage;
+export default ChannelHomePage;

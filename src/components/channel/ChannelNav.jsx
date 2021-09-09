@@ -20,30 +20,30 @@ const ChannelNav = ({ channel, isParticipant }) => {
   const channelNavReducer = [
     {
       title: '채널 프로필',
-      url: `/channelProfile/${channel.id}`,
+      url: `/channel/${channel.id}/profile`,
     },
     {
       title: '채널 홈',
-      url: `/channelHome/${channel.id}`,
+      url: `/channel/${channel.id}/home`,
     },
     {
       title: '재능 공유 요청',
-      url: '/channelProfile',
+      url: `/channel/${channel.id}/postList`,
     },
     {
       title: '재능 고융 채팅',
-      url: '/channelProfile',
+      url: `/channel/${channel.id}/profile`,
     },
     {
       title: '모아 보기',
-      url: '/channelProfile',
+      url: `/channel/${channel.id}/profile`,
     },
   ];
 
   return (
     <Box
       css={channelNav({
-        isHome: pathname === `/channelHome/${channel.id}`,
+        isHome: pathname === `/channel/${channel.id}/home`,
         scrolled: scrollPosition !== 0,
       })}
     >

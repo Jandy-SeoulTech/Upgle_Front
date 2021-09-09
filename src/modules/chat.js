@@ -175,6 +175,14 @@ const chat = handleActions(
       ...state,
       success: true,
     }),
+    [REPLY_ROOM_MESSAGE]: (state) => ({
+      ...state,
+      success: null,
+    }),
+    [REPLY_ROOM_MESSAGE_SUCCESS]: (state) => ({
+      ...state,
+      success: true,
+    }),
     [INITIALIZE]: () => initialState,
   },
   initialState,

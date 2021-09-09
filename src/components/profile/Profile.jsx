@@ -503,7 +503,7 @@ const Profile = ({
                     xs={1}
                     css={channelCell}
                     onClick={() =>
-                      (window.location.href = `/channelProfile/${channel.id}`)
+                      (window.location.href = `/channel/${channel.id}/profile`)
                     }
                   >
                     <Grid css={channelCard}>
@@ -548,7 +548,7 @@ const Profile = ({
                     xs={1}
                     css={channelCell}
                     onClick={() =>
-                      (window.location.href = `/channelProfile/${channel.id}`)
+                      (window.location.href = `/channel/${channel.id}/profile`)
                     }
                   >
                     <Grid css={channelCard}>
