@@ -23,14 +23,6 @@ const ChatList = ({
     }
   };
 
-  const scrollBottom = () => {
-    chatEndRef.current.scrollIntoView();
-  };
-
-  useEffect(() => {
-    scrollBottom();
-  }, [success]);
-
   return (
     <Box css={chatListWrapper}>
       <Box css={ChatWrapper} onScroll={handleScroll}>

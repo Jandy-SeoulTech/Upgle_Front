@@ -112,7 +112,12 @@ const ChannelPost = ({
       case 'Open':
         ChatControllButton = ({}) => {
           return (
-            <Button className="goChat" onClick={handleMoveChat(1)}>
+            <Button
+              className="goChat"
+              onClick={() => {
+                handleMoveChat(1);
+              }}
+            >
               <ChatGo className="icon" />
               채팅방 바로 가기
             </Button>
