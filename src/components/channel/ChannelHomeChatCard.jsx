@@ -7,8 +7,22 @@ import { ReactComponent as Participants } from '../../lib/assets/participants.sv
 import { ReactComponent as Time } from '../../lib/assets/time.svg';
 
 const ChannelHomeChatCard = ({ chatInfo }) => {
+  const handleMoveChat = (roomId) => {
+    window.open(
+      `/chat/${roomId}`,
+      '_blank',
+      'width=600, height=900, toolbars=no, scrollbars=yes',
+    );
+    return false;
+  };
+
   return (
-    <Box css={CharCardWrapper}>
+    <Box
+      css={CharCardWrapper}
+      onClick={() => {
+        handleMoveChat(chatInfo.id);
+      }}
+    >
       <Typography css={title}>{chatInfo.name}</Typography>
       <Typography css={description}>
         <Participants className="icon" />
