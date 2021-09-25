@@ -24,7 +24,6 @@ const rootReducer = combineReducers({
 
 export function* rootSaga() {
   yield all([
-    authSaga(),
     userSaga(),
     chatSaga(),
     channelSaga(),
