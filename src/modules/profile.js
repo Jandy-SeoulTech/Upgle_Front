@@ -12,33 +12,6 @@ const PROFILE_FOLLOW = 'profile/FOLLOW';
 const GET_PROFILE = 'profile/GET_PROFILE';
 const INIT_PROFILE = 'profile/INIT_PROFILE';
 
-export const changePassword = createAction(
-  CHANGE_PASSWORD,
-  profileAPI.changePassword,
-  ({ password }) => ({
-    password,
-  }),
-);
-export const checkPassword = createAction(
-  CHECK_PASSWORD,
-  profileAPI.checkPassword,
-  ({ password }) => ({
-    password,
-  }),
-);
-export const getReviews = createAction(GET_REVIEWS, profileAPI.getReviews, ({ userId }) => ({
-  userId,
-}));
-export const getFollowings = createAction(
-  GET_FOLLOWINGS,
-  profileAPI.getFollowings,
-  ({ userId }) => ({
-    userId,
-  }),
-);
-export const getFollowers = createAction(GET_FOLLOWERS, profileAPI.getFollowers, ({ userId }) => ({
-  userId,
-}));
 export const profileUnfollow = createAction(PROFILE_UNFOLLOW, ({ followingId, isMe }) => ({
   followingId,
   isMe,
@@ -47,9 +20,12 @@ export const profileFollow = createAction(PROFILE_FOLLOW, ({ followingId, isMe }
   followingId,
   isMe,
 }));
-export const getProfile = createAction(GET_PROFILE, profileAPI.getProfile, ({ userId }) => ({
-  userId,
-}));
+export const changePassword = createAction(CHANGE_PASSWORD, profileAPI.changePassword);
+export const checkPassword = createAction(CHECK_PASSWORD, profileAPI.checkPassword);
+export const getReviews = createAction(GET_REVIEWS, profileAPI.getReviews);
+export const getFollowings = createAction(GET_FOLLOWINGS, profileAPI.getFollowings);
+export const getFollowers = createAction(GET_FOLLOWERS, profileAPI.getFollowers);
+export const getProfile = createAction(GET_PROFILE, profileAPI.getProfile);
 export const initProfile = createAction(INIT_PROFILE);
 
 const initialState = {

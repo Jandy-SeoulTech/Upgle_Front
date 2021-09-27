@@ -11,33 +11,13 @@ const LIKE_CHANNEL = 'channel/LIKE_CHANNEL';
 const UNLIKE_CHANNEL = 'channel/UNLIKE_CHANNEL';
 const INITIAL_CHANNEL = 'channel/INITIAL_CHANNEL';
 
-export const getChannelList = createAction(
-  GET_CHANNEL_LIST,
-  channelAPI.getChannelList,
-  ({ userId }) => userId,
-);
-export const getChannelData = createAction(GET_CHANNEL_DATA, channelAPI.getChannelData, (id) => id);
+export const getChannelList = createAction(GET_CHANNEL_LIST, channelAPI.getChannelList);
+export const getChannelData = createAction(GET_CHANNEL_DATA, channelAPI.getChannelData);
 export const getMychannel = createAction(GET_MYCHANNEL, channelAPI.getMyChannel);
-export const enterChannel = createAction(
-  ENTER_CHANNEL,
-  channelAPI.enterChannel,
-  ({ adminId, channelId }) => ({ adminId, channelId }),
-);
-export const exitChannel = createAction(
-  EXIT_CHANNEL,
-  channelAPI.exitChannel,
-  ({ adminId, channelId }) => ({ adminId, channelId }),
-);
-export const likeChannel = createAction(
-  LIKE_CHANNEL,
-  channelAPI.likeChannel,
-  (channelId) => channelId,
-);
-export const unLikeChannel = createAction(
-  UNLIKE_CHANNEL,
-  channelAPI.unlikeChannel,
-  (channelId) => channelId,
-);
+export const enterChannel = createAction(ENTER_CHANNEL);
+export const exitChannel = createAction(EXIT_CHANNEL, channelAPI.exitChannel);
+export const likeChannel = createAction(LIKE_CHANNEL, channelAPI.likeChannel);
+export const unLikeChannel = createAction(UNLIKE_CHANNEL, channelAPI.unlikeChannel);
 export const initailChannel = createAction(INITIAL_CHANNEL);
 
 const initialState = {

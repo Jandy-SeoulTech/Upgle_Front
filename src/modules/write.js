@@ -16,67 +16,14 @@ const CREATE_CHANNEL = 'write/CREATE_CHANNEL';
 const UPDATE_CHANNEL = 'write/UPDATE_CHANNEL';
 
 export const initialize = createAction(INITIALIZE);
-export const changeProfile = createAction(CHANGE_PROFILE, ({ key, value }) => ({
-  key,
-  value,
-}));
-export const changeChannel = createAction(CHANGE_CHANNEL, ({ key, value }) => ({
-  key,
-  value,
-}));
+export const changeProfile = createAction(CHANGE_PROFILE, ({ key, value }) => ({ key, value }));
+export const changeChannel = createAction(CHANGE_CHANNEL, ({ key, value }) => ({ key, value }));
 export const setProfile = createAction(SET_PROFILE, (profile) => profile);
-export const uploadProfile = createAction(
-  UPLOAD_PROFILE,
-  profileAPI.uploadProfile,
-  ({ userId, department, introduce, wellTalent, interestTalent, src }) => ({
-    userId,
-    department,
-    introduce,
-    wellTalent,
-    interestTalent,
-    src,
-  }),
-);
-export const updateProfile = createAction(
-  UPDATE_PROFILE,
-  profileAPI.updateProfile,
-  ({ userId, nickname, department, introduce, wellTalent, interestTalent, src }) => ({
-    userId,
-    nickname,
-    department,
-    introduce,
-    wellTalent,
-    interestTalent,
-    src,
-  }),
-);
+export const uploadProfile = createAction(UPLOAD_PROFILE, profileAPI.uploadProfile);
+export const updateProfile = createAction(UPDATE_PROFILE, profileAPI.updateProfile);
 export const setChannel = createAction(SET_CHANNEL, (channel) => channel);
-export const createChannel = createAction(
-  CREATE_CHANNEL,
-  channelAPI.createChannel,
-  ({ userId, channelId, name, introduce, tags, category, src }) => ({
-    userId,
-    channelId,
-    name,
-    introduce,
-    tags,
-    category,
-    src,
-  }),
-);
-export const updateChannel = createAction(
-  UPDATE_CHANNEL,
-  channelAPI.updateChannel,
-  ({ userId, channelId, name, introduce, tags, category, src }) => ({
-    userId,
-    channelId,
-    name,
-    introduce,
-    tags,
-    category,
-    src,
-  }),
-);
+export const createChannel = createAction(CREATE_CHANNEL, channelAPI.createChannel);
+export const updateChannel = createAction(UPDATE_CHANNEL, channelAPI.updateChannel);
 
 const initialState = {
   writeProfile: {
