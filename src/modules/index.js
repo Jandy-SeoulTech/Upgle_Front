@@ -1,37 +1,24 @@
 import { combineReducers } from 'redux';
-import auth, { authSaga } from './auth';
-import user, { userSaga } from './user';
-import chat, { chatSaga } from './chat';
-import channel, { channelSaga } from './channel';
-import write, { writeSaga } from './write';
-import image, { imageSaga } from './image';
-import profile, { profileSaga } from './profile';
-import room, { roomSaga } from './room';
-import loading from './loading';
-import { all } from 'redux-saga/effects';
+import auth from './auth';
+import user from './user';
+import chat from './chat';
+import channel from './channel';
+import write from './write';
+import image from './image';
+import profile from './profile';
+import room from './room';
+import { penderReducer } from 'redux-pender';
 
 const rootReducer = combineReducers({
   auth,
   user,
   chat,
   channel,
-  loading,
   write,
   image,
   profile,
   room,
+  pender: penderReducer,
 });
-
-export function* rootSaga() {
-  yield all([
-    userSaga(),
-    chatSaga(),
-    channelSaga(),
-    writeSaga(),
-    imageSaga(),
-    profileSaga(),
-    roomSaga(),
-  ]);
-}
 
 export default rootReducer;

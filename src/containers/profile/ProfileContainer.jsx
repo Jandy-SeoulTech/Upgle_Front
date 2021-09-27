@@ -17,22 +17,9 @@ import { check, follow, unfollow } from '../../modules/user';
 const ProfileContainer = () => {
   const { auth, error: authError } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.user);
-  const { profile, followers, followings, reviews } = useSelector(
-    (state) => state.profile,
-  );
+  const { profile, followers, followings, reviews } = useSelector((state) => state.profile);
   const { profileChannel } = useSelector((state) => state.channel);
-  const getProfileLoading = useSelector(
-    (state) => state.loading['profile/GET_PROFILE'],
-  );
-  const getFollowersLoading = useSelector(
-    (state) => state.loading['profile/GET_FOLLOWERS'],
-  );
-  const getFollowingsLoading = useSelector(
-    (state) => state.loading['profile/GET_FOLLOWINGS'],
-  );
-  const getReviewsLoading = useSelector(
-    (state) => state.loading['profile/GET_REVIEWS'],
-  );
+  const { pending } = useSelector((state) => state.pender);
 
   const [isMe, setIsMe] = useState();
   const [isFollowing, setIsFollowing] = useState();
@@ -83,21 +70,20 @@ const ProfileContainer = () => {
 
   useEffect(() => {
     if (user && profile) {
-      setIsMe(Boolean(user?.id === profile?.id));
-      setIsFollowing(
-        Boolean(
-          profile?.followers.map((el) => el.followerId).includes(user?.id),
-        ),
-      );
+      setIsMe(Boolean(user.id === profile.id));
+      setIsFollowing(Boolean(profile.followers.map((el) => el.followerId).includes(user.id)));
     }
   }, [user, profile]);
 
+  if (!profile) return '로딩중';
+
   return (
     <Profile
-      getProfileLoading={getProfileLoading}
-      getFollowersLoading={getFollowersLoading}
-      getFollowingsLoading={getFollowingsLoading}
-      getReviewsLoading={getReviewsLoading}
+      getProfileLoading={pending['profile/GET_PROFILE']}
+      getFollowersLoading={pending['profile/GET_FOLLOWERS']}
+      getFollowingsLoading={pending['profile/GET_FOLLOWINGS']}
+      getReviewsLoading={pending['profile/GET_REVIEWS']}
+      pending={pending}
       isMe={isMe}
       isFollowing={isFollowing}
       user={user}

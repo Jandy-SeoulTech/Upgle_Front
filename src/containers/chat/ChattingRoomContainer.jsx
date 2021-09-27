@@ -18,7 +18,7 @@ let socket;
 const ChattingRoomContainer = ({ roomId }) => {
   const { user } = useSelector((state) => state.user);
   const { room } = useSelector((state) => state.room);
-  const { messages, lastId, success } = useSelector((state) => state.chat);
+  const { messages, lastId } = useSelector((state) => state.chat);
   const [replyMessage, setReplyMessage] = useState();
   const [message, setMessage] = useState('');
   const [participants, setParticipants] = useState([]);
@@ -53,9 +53,8 @@ const ChattingRoomContainer = ({ roomId }) => {
       }
     });
     socket.on('RoomInfo', (participantInfo) => {
-      console.log(setParticipants(participantInfo));
+      setParticipants(participantInfo);
     });
-    socket.emit('test', { message: 'test' });
   }, []);
 
   const handleSendMessage = useCallback(() => {
@@ -93,12 +92,6 @@ const ChattingRoomContainer = ({ roomId }) => {
     dispatch(getRoomData({ roomId }));
   }, [dispatch, roomId]);
 
-  useEffect(() => {
-    if (success) {
-      setMessage('');
-    }
-  }, [success]);
-
   if (!user) return '로그인해주세요';
   if (!room || !messages || !participants) return '로딩중';
 
@@ -115,7 +108,6 @@ const ChattingRoomContainer = ({ roomId }) => {
       setReplyMessage={setReplyMessage}
       participants={participants}
       handleSuccess={handleSuccess}
-      success={success}
     />
   );
 };
