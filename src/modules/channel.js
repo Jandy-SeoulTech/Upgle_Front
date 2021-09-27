@@ -2,7 +2,6 @@ import { createAction, handleActions } from 'redux-actions';
 import { pender } from 'redux-pender/lib/utils';
 import * as channelAPI from '../lib/api/channel';
 
-const GET_CHANNEL_LIST = 'channel/GET_CHANNEL_LIST';
 const GET_CHANNEL_DATA = 'channel/GET_CHANNEL_DATA';
 const GET_MYCHANNEL = 'channel/GET_MYCHANNEL';
 const ENTER_CHANNEL = 'channel/ENTER_CHANNEL';
@@ -11,7 +10,6 @@ const LIKE_CHANNEL = 'channel/LIKE_CHANNEL';
 const UNLIKE_CHANNEL = 'channel/UNLIKE_CHANNEL';
 const INITIAL_CHANNEL = 'channel/INITIAL_CHANNEL';
 
-export const getChannelList = createAction(GET_CHANNEL_LIST, channelAPI.getChannelList);
 export const getChannelData = createAction(GET_CHANNEL_DATA, channelAPI.getChannelData);
 export const getMychannel = createAction(GET_MYCHANNEL, channelAPI.getMyChannel);
 export const enterChannel = createAction(ENTER_CHANNEL);
@@ -21,7 +19,6 @@ export const unLikeChannel = createAction(UNLIKE_CHANNEL, channelAPI.unlikeChann
 export const initailChannel = createAction(INITIAL_CHANNEL);
 
 const initialState = {
-  profileChannel: null,
   myChannel: null,
   channel: null,
   success: null,
@@ -30,17 +27,6 @@ const initialState = {
 
 const channel = handleActions(
   {
-    ...pender({
-      type: GET_CHANNEL_LIST,
-      onSuccess: (state, { payload: profileChannel }) => ({
-        ...state,
-        profileChannel,
-      }),
-      onFailure: (state, { payload: error }) => ({
-        ...state,
-        error,
-      }),
-    }),
     ...pender({
       type: GET_CHANNEL_DATA,
       onSuccess: (state, { payload: channel }) => ({

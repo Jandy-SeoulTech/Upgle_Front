@@ -42,11 +42,6 @@ export const updateChannel = async ({
   return response.data.data;
 };
 
-export const getChannelList = async (userId) => {
-  const response = await axios.get(`/api/Channel/${userId}`);
-  return response.data.data;
-};
-
 export const enterChannel = async ({ adminId, channelId }) => {
   const response = await axios.post('/api/Channel/enter', { adminId, channelId });
   return response.data.data;

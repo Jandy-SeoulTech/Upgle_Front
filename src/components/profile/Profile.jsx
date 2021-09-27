@@ -28,7 +28,7 @@ const Profile = ({
   followers,
   followings,
   reviews,
-  profileChannel,
+  channels,
   onFollow,
   onUnfollow,
   onProfileFollow,
@@ -431,12 +431,12 @@ const Profile = ({
               <Button sx={orangeLabel}>오픈 채널</Button>
             </Grid>
             <Grid item container columns={5}>
-              {profileChannel?.adminChannel?.length === 0 ? (
+              {profile?.admin?.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   오픈된 채널이 없습니다.
                 </Grid>
               ) : (
-                profileChannel?.adminChannel?.map((channel, i) => (
+                profile?.admin?.map((channel, i) => (
                   <Grid
                     key={i}
                     item
@@ -474,12 +474,12 @@ const Profile = ({
               <Button sx={orangeLabel}>참여 채널</Button>
             </Grid>
             <Grid item container columns={5}>
-              {profileChannel?.participantChannel?.length === 0 ? (
+              {profile?.participants?.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   참여하는 채널이 없습니다.
                 </Grid>
               ) : (
-                profileChannel?.participantChannel?.map((channel, i) => (
+                profile?.participants?.map(({ channel }, i) => (
                   <Grid
                     key={i}
                     item
