@@ -34,14 +34,6 @@ export const updateChannel = async ({
   return response.data;
 };
 
-export const getChannelList = async (userId) => {
-  const response = await axios({
-    url: `/api/Channel/${userId}`,
-    method: 'GET',
-  });
-  return response.data;
-};
-
 export const enterChannel = async ({ adminId, channelId }) => {
   const response = await axios({
     url: '/api/Channel/enter',

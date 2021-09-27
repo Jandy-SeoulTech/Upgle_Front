@@ -5,8 +5,6 @@ import createRequestSaga, {
 import * as channelAPI from '../lib/api/channel';
 import { takeLatest } from 'redux-saga/effects';
 
-const [GET_CHANNEL_LIST, GET_CHANNEL_LIST_SUCCESS, GET_CHANNEL_LIST_FAILURE] =
-  createRequestActionTypes('channel/GET_CHANNEL_LIST');
 const [GET_CHANNEL_DATA, GET_CHANNEL_DATA_SUCCESS, GET_CHANNEL_DATA_FAILURE] =
   createRequestActionTypes('channel/GET_CHANNEL_DATA');
 const [GET_MYCHANNEL, GET_MYCHANNEL_SUCCESS, GET_MYCHANNEL_FAILURE] =
@@ -21,10 +19,6 @@ const [UNLIKE_CHANNEL, UNLIKE_CHANNEL_SUCCESS, UNLIKE_CHANNEL_FAILURE] =
   createRequestActionTypes('channel/UNLIKE_CHANNEL');
 const INITIAL_CHANNEL = 'channel/INITIAL_CHANNEL';
 
-export const getChannelList = createAction(
-  GET_CHANNEL_LIST,
-  ({ userId }) => userId,
-);
 export const getChannelData = createAction(GET_CHANNEL_DATA, (id) => id);
 export const getMychannel = createAction(GET_MYCHANNEL);
 export const enterChannel = createAction(
@@ -43,10 +37,6 @@ export const unLikeChannel = createAction(
 export const initailChannel = createAction(INITIAL_CHANNEL);
 
 // Sagas
-const getChannelListSaga = createRequestSaga(
-  GET_CHANNEL_LIST,
-  channelAPI.getChannelList,
-);
 const getChannelDataSaga = createRequestSaga(
   GET_CHANNEL_DATA,
   channelAPI.getChannelData,
@@ -67,7 +57,6 @@ const unLikeChannelSaga = createRequestSaga(
 );
 
 export function* channelSaga() {
-  yield takeLatest(GET_CHANNEL_LIST, getChannelListSaga);
   yield takeLatest(GET_CHANNEL_DATA, getChannelDataSaga);
   yield takeLatest(GET_MYCHANNEL, getMychannelSaga);
   yield takeLatest(ENTER_CHANNEL, enterChannelSaga);
@@ -77,7 +66,6 @@ export function* channelSaga() {
 }
 
 const initialState = {
-  profileChannel: null,
   myChannel: null,
   channel: null,
   success: null,
@@ -86,14 +74,6 @@ const initialState = {
 
 const channel = handleActions(
   {
-    [GET_CHANNEL_LIST_SUCCESS]: (state, { payload: profileChannel }) => ({
-      ...state,
-      profileChannel,
-    }),
-    [GET_CHANNEL_LIST_FAILURE]: (state, { payload: error }) => ({
-      ...state,
-      error,
-    }),
     [GET_CHANNEL_DATA_SUCCESS]: (state, { payload: channel }) => ({
       ...state,
       channel,
