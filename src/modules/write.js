@@ -1,5 +1,4 @@
 import { createAction, handleActions } from 'redux-actions';
-import { takeLatest } from 'redux-saga/effects';
 import * as profileAPI from '../lib/api/profile';
 import * as channelAPI from '../lib/api/channel';
 import { pender } from 'redux-pender/lib/utils';
