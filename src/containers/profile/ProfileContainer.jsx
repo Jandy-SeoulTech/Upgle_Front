@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import Profile from '../../components/profile/Profile';
-import { getChannelList } from '../../modules/channel';
 import {
   getFollowers,
   getFollowings,
@@ -20,7 +19,6 @@ const ProfileContainer = () => {
   const { profile, followers, followings, reviews } = useSelector(
     (state) => state.profile,
   );
-  const { profileChannel } = useSelector((state) => state.channel);
   const getProfileLoading = useSelector(
     (state) => state.loading['profile/GET_PROFILE'],
   );
@@ -69,7 +67,6 @@ const ProfileContainer = () => {
 
   useEffect(() => {
     dispatch(getProfile({ userId }));
-    dispatch(getChannelList({ userId }));
     return () => {
       dispatch(initProfile());
     };
@@ -105,7 +102,6 @@ const ProfileContainer = () => {
       followers={followers}
       followings={followings}
       reviews={reviews}
-      profileChannel={profileChannel}
       onFollow={onFollow}
       onUnfollow={onUnfollow}
       onProfileFollow={onProfileFollow}
