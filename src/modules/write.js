@@ -2,24 +2,18 @@ import { createAction, handleActions } from 'redux-actions';
 import { takeLatest } from 'redux-saga/effects';
 import * as profileAPI from '../lib/api/profile';
 import * as channelAPI from '../lib/api/channel';
-import createRequestSaga, {
-  createRequestActionTypes,
-} from '../lib/util/createRequestSaga';
+import { pender } from 'redux-pender/lib/utils';
 
 const INITIALIZE = 'write/INITIALIZE';
 const CHANGE_PROFILE = 'write/CHANGE_PROFILE';
 const CHANGE_CHANNEL = 'write/CHANGE_CHANNEL';
 const SET_PROFILE = 'write/SET_PROFILE';
 const SET_CHANNEL = 'write/SET_CHANNEL';
-const [UPLOAD_PROFILE, UPLOAD_PROFILE_SUCCESS, UPLOAD_PROFILE_FAILURE] =
-  createRequestActionTypes('write/UPLOAD_PROFILE');
-const [UPDATE_PROFILE, UPDATE_PROFILE_SUCCESS, UPDATE_PROFILE_FAILURE] =
-  createRequestActionTypes('write/UPDATE_PROFILE');
-const [CREATE_CHANNEL, CREATE_CHANNEL_SUCCESS, CREATE_CHANNEL_FAILURE] =
-  createRequestActionTypes('write/CREATE_CHANNEL');
+const UPLOAD_PROFILE = 'write/UPLOAD_PROFILE';
+const UPDATE_PROFILE = 'write/UPDATE_PROFILE';
+const CREATE_CHANNEL = 'write/CREATE_CHANNEL';
 
-const [UPDATE_CHANNEL, UPDATE_CHANNEL_SUCCESS, UPDATE_CHANNEL_FAILURE] =
-  createRequestActionTypes('write/UPDATE_CHANNEL');
+const UPDATE_CHANNEL = 'write/UPDATE_CHANNEL';
 
 export const initialize = createAction(INITIALIZE);
 export const changeProfile = createAction(CHANGE_PROFILE, ({ key, value }) => ({
@@ -33,6 +27,7 @@ export const changeChannel = createAction(CHANGE_CHANNEL, ({ key, value }) => ({
 export const setProfile = createAction(SET_PROFILE, (profile) => profile);
 export const uploadProfile = createAction(
   UPLOAD_PROFILE,
+  profileAPI.uploadProfile,
   ({ userId, department, introduce, wellTalent, interestTalent, src }) => ({
     userId,
     department,
@@ -44,15 +39,8 @@ export const uploadProfile = createAction(
 );
 export const updateProfile = createAction(
   UPDATE_PROFILE,
-  ({
-    userId,
-    nickname,
-    department,
-    introduce,
-    wellTalent,
-    interestTalent,
-    src,
-  }) => ({
+  profileAPI.updateProfile,
+  ({ userId, nickname, department, introduce, wellTalent, interestTalent, src }) => ({
     userId,
     nickname,
     department,
@@ -65,6 +53,7 @@ export const updateProfile = createAction(
 export const setChannel = createAction(SET_CHANNEL, (channel) => channel);
 export const createChannel = createAction(
   CREATE_CHANNEL,
+  channelAPI.createChannel,
   ({ userId, channelId, name, introduce, tags, category, src }) => ({
     userId,
     channelId,
@@ -77,6 +66,7 @@ export const createChannel = createAction(
 );
 export const updateChannel = createAction(
   UPDATE_CHANNEL,
+  channelAPI.updateChannel,
   ({ userId, channelId, name, introduce, tags, category, src }) => ({
     userId,
     channelId,
@@ -87,30 +77,6 @@ export const updateChannel = createAction(
     src,
   }),
 );
-
-const uploadProfileSaga = createRequestSaga(
-  UPLOAD_PROFILE,
-  profileAPI.uploadProfile,
-);
-const updateProfileSaga = createRequestSaga(
-  UPDATE_PROFILE,
-  profileAPI.updateProfile,
-);
-const createChannelSaga = createRequestSaga(
-  CREATE_CHANNEL,
-  channelAPI.createChannel,
-);
-const updateChannelSaga = createRequestSaga(
-  UPDATE_CHANNEL,
-  channelAPI.updateChannel,
-);
-
-export function* writeSaga() {
-  yield takeLatest(UPLOAD_PROFILE, uploadProfileSaga);
-  yield takeLatest(UPDATE_PROFILE, updateProfileSaga);
-  yield takeLatest(CREATE_CHANNEL, createChannelSaga);
-  yield takeLatest(UPDATE_CHANNEL, updateChannelSaga);
-}
 
 const initialState = {
   writeProfile: {
@@ -167,43 +133,47 @@ export default handleActions(
         src: payload.channelImage.src,
       },
     }),
-    [UPLOAD_PROFILE]: (state) => ({
-      ...state,
-      error: null,
+    ...pender({
+      type: UPLOAD_PROFILE,
+      onSuccess: (state, { payload: profile }) => ({
+        ...state,
+        profile,
+      }),
     }),
-    [UPLOAD_PROFILE_SUCCESS]: (state, { payload: profile }) => ({
-      ...state,
-      profile,
+    ...pender({
+      type: UPDATE_PROFILE,
+      onSuccess: (state, { payload: profile }) => ({
+        ...state,
+        profile,
+        updatedProfile: true,
+      }),
+      onFailure: (state, { payload: error }) => ({
+        ...state,
+        error,
+        updatedProfile: false,
+      }),
     }),
-    [UPLOAD_PROFILE_FAILURE]: (state, { payload: error }) => ({
-      ...state,
-      error,
+    ...pender({
+      type: CREATE_CHANNEL,
+      onSuccess: (state, { payload: channel }) => ({
+        ...state,
+        channel,
+      }),
+      onFailure: (state, { payload: error }) => ({
+        ...state,
+        error,
+      }),
     }),
-    [UPDATE_PROFILE_SUCCESS]: (state, { payload: profile }) => ({
-      ...state,
-      profile,
-      updatedProfile: true,
-    }),
-    [UPDATE_PROFILE_FAILURE]: (state, { payload: error }) => ({
-      ...state,
-      error,
-      updatedProfile: false,
-    }),
-    [CREATE_CHANNEL_SUCCESS]: (state, { payload: channel }) => ({
-      ...state,
-      channel,
-    }),
-    [CREATE_CHANNEL_FAILURE]: (state, { payload: error }) => ({
-      ...state,
-      error,
-    }),
-    [UPDATE_CHANNEL_SUCCESS]: (state, { payload: channel }) => ({
-      ...state,
-      channel,
-    }),
-    [UPDATE_CHANNEL_FAILURE]: (state, { payload: error }) => ({
-      ...state,
-      error,
+    ...pender({
+      type: UPDATE_CHANNEL,
+      onSuccess: (state, { payload: channel }) => ({
+        ...state,
+        channel,
+      }),
+      onFailure: (state, { payload: error }) => ({
+        ...state,
+        error,
+      }),
     }),
   },
   initialState,

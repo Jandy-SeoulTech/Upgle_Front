@@ -7,22 +7,17 @@ import { closeRoom, exitRoom } from '../../modules/room';
 
 const MyChannelContainer = () => {
   const { myChannel } = useSelector((state) => state.channel);
-  const { success } = useSelector((state) => state.room);
   const dispatch = useDispatch();
 
-  const handleExitRoom = ({ roomId }) => {
-    dispatch(exitRoom({ roomId }));
+  const handleExitRoom = async ({ roomId }) => {
+    await dispatch(exitRoom({ roomId }));
+    dispatch(getMychannel());
   };
 
-  const handleCloseRoom = ({ roomId }) => {
-    dispatch(closeRoom({ roomId }));
+  const handleCloseRoom = async ({ roomId }) => {
+    await dispatch(closeRoom({ roomId }));
+    dispatch(getMychannel());
   };
-
-  useEffect(() => {
-    if (success) {
-      dispatch(getMychannel());
-    }
-  }, [success]);
 
   useEffect(() => {
     dispatch(getMychannel());
@@ -34,7 +29,7 @@ const MyChannelContainer = () => {
     <MyChannel
       ownerRoom={myChannel.ownerRoom}
       participantRoom={myChannel.participantRoom}
-      adminChannl={myChannel.adminChannl}
+      adminChannel={myChannel.adminChannel}
       participantChannel={myChannel.participantChannel}
       handleExitRoom={handleExitRoom}
       handleCloseRoom={handleCloseRoom}
