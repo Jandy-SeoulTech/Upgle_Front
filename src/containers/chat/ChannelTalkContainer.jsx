@@ -15,16 +15,13 @@ let socket;
 const ChannelTalkContainer = ({ channel }) => {
   const { user } = useSelector((state) => state.user);
   const [message, setMessage] = useState('');
-  const { messages, lastId, success } = useSelector((state) => state.chat);
+  const { messages, lastId } = useSelector((state) => state.chat);
 
   const dispatch = useDispatch();
   const location = useLocation();
 
   useEffect(() => {
-    socket = io(
-      `${process.env.REACT_APP_SOCKET_ENDPOINT}/channel-${channel.id}`,
-      { secure: true },
-    );
+    socket = io(`${process.env.REACT_APP_SOCKET_ENDPOINT}/channel-${channel.id}`, { secure: true });
     if (user) {
       socket.emit('join', { user }, (error) => {
         if (error) {
@@ -66,12 +63,6 @@ const ChannelTalkContainer = ({ channel }) => {
     );
   };
 
-  useEffect(() => {
-    if (success) {
-      setMessage('');
-    }
-  }, [success]);
-
   if (!user) return '로딩중';
 
   return (
@@ -82,7 +73,6 @@ const ChannelTalkContainer = ({ channel }) => {
       setMessage={setMessage}
       handleSendMessage={handleSendMessage}
       handleGetMassage={handleGetMassage}
-      success={success}
     />
   );
 };
