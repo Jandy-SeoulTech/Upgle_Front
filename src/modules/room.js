@@ -9,40 +9,12 @@ const EXIT_ROOM = 'chat/EXIT_ROOM';
 const CLOSE_ROOM = 'chat/CLOSE_ROOM';
 const REVIEW_ROOM = 'chat/REVIEW_ROOM';
 
-export const createRoom = createAction(
-  CREATE_ROOM,
-  roomAPI.createRoom,
-  ({ status, name, channelId, postId, reservedTime }) => ({
-    status,
-    name,
-    channelId,
-    postId,
-    reservedTime,
-  }),
-);
-export const getRoomData = createAction(GET_ROOM_DATA, roomAPI.getRoomData, ({ roomId }) => ({
-  roomId,
-}));
-export const getRoomList = createAction(GET_ROOM_LIST, roomAPI.getRoomList, ({ channelId }) => ({
-  channelId,
-}));
-export const exitRoom = createAction(EXIT_ROOM, roomAPI.exitRoom, ({ roomId }) => ({
-  roomId,
-}));
-export const closeRoom = createAction(CLOSE_ROOM, roomAPI.closeRoom, ({ roomId }) => ({
-  roomId,
-}));
-export const reviewRoom = createAction(
-  REVIEW_ROOM,
-  roomAPI.reviewRoom,
-  ({ roomId, channelId, content, status, reviewedUserId }) => ({
-    roomId,
-    channelId,
-    content,
-    status,
-    reviewedUserId,
-  }),
-);
+export const createRoom = createAction(CREATE_ROOM, roomAPI.createRoom);
+export const getRoomData = createAction(GET_ROOM_DATA, roomAPI.getRoomData);
+export const getRoomList = createAction(GET_ROOM_LIST, roomAPI.getRoomList);
+export const exitRoom = createAction(EXIT_ROOM, roomAPI.exitRoom);
+export const closeRoom = createAction(CLOSE_ROOM, roomAPI.closeRoom);
+export const reviewRoom = createAction(REVIEW_ROOM, roomAPI.reviewRoom);
 
 const initialState = {
   room: null,
