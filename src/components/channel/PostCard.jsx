@@ -1,12 +1,17 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Box, Typography } from '@material-ui/core';
+import { useHistory } from 'react-router';
 import postStatus from '../../lib/util/postStatus';
 import Button from '../common/Button';
 
-const PostCard = ({ post }) => {
+const PostCard = ({ channelId, post }) => {
+  const history = useHistory();
   return (
-    <Box css={postCardWrapper}>
+    <Box
+      css={postCardWrapper}
+      onClick={() => history.push(`/channel/${channelId}/post/${post.id}`)}
+    >
       <Box>
         <Typography className="title">{post.title}</Typography>
         <Box css={{ display: 'flex' }}>
@@ -30,6 +35,7 @@ const postCardWrapper = css`
   padding: 0.6875rem 1.5625rem;
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
 
   :hover {
     background-color: #f0f0f0;

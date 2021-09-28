@@ -72,7 +72,7 @@ const ChannerHome = ({ channel, postList, roomList }) => {
             }}
           >
             {postList?.map((post) => (
-              <PostCard key={post.id} post={post} />
+              <PostCard key={post.id} channelId={channel.id} post={post} />
             ))}
           </Box>
         </Box>
