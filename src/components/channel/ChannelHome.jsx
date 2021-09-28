@@ -8,6 +8,7 @@ import ChannelHomeChatCard from './ChannelHomeChatCard';
 import { ReactComponent as ChatIcon } from '../../lib/assets/chatIcon.svg';
 import { ReactComponent as PostIcon } from '../../lib/assets/postIcon.svg';
 import PostCard from './PostCard';
+import { useHistory } from 'react-router';
 
 const archived = [
   {
@@ -49,6 +50,8 @@ const archived = [
 ];
 
 const ChannerHome = ({ channel, postList, roomList }) => {
+  const history = useHistory();
+
   return (
     <Box css={channerHomeWrapper} spacing={2}>
       <ChannelTalk channel={channel} />
@@ -58,7 +61,8 @@ const ChannerHome = ({ channel, postList, roomList }) => {
             <Typography css={contentTitle}>
               재능 공유 요청 <PostIcon css={{ marginLeft: '.5625rem' }} />
             </Typography>
-            <Button>더보기</Button>
+
+            <Button onClick={() => history.push(`/channel/${channel.id}/postList`)}>더보기</Button>
           </Box>
           <Box
             css={{
