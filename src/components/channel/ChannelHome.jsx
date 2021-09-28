@@ -6,6 +6,7 @@ import ArchiveCard from './ArchiveCard';
 import Button from '../common/Button';
 import ChannelHomeChatCard from './ChannelHomeChatCard';
 import { ReactComponent as ChatIcon } from '../../lib/assets/chatIcon.svg';
+import { ReactComponent as PostIcon } from '../../lib/assets/postIcon.svg';
 import PostCard from './PostCard';
 
 const archived = [
@@ -54,7 +55,9 @@ const ChannerHome = ({ channel, postList, roomList }) => {
       <Box css={rightContent}>
         <Box css={contentWrapper}>
           <Box css={contentTitleWrapper}>
-            <Typography css={contentTitle}>게시판</Typography>
+            <Typography css={contentTitle}>
+              재능 공유 요청 <PostIcon css={{ marginLeft: '.5625rem' }} />
+            </Typography>
             <Button>더보기</Button>
           </Box>
           <Box
@@ -73,7 +76,7 @@ const ChannerHome = ({ channel, postList, roomList }) => {
           <Box css={contentTitleWrapper}>
             <Box css={{ display: 'flex', alignItems: 'center' }}>
               <Typography css={contentTitle}>오픈된 채팅방</Typography>
-              <ChatIcon css={{ marginLeft: '.5625rem' }} />
+              <ChatIcon css={{ marginLeft: '.4rem' }} />
             </Box>
             <Button>더보기</Button>
           </Box>
@@ -125,6 +128,8 @@ const contentTitle = css`
   font-family: 'Noto Sans KR';
   font-weight: 600;
   font-size: 1.125rem;
+  display: flex;
+  align-items: center;
 `;
 
 const contentWrapper = css`
