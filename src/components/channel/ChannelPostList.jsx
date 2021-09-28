@@ -169,6 +169,9 @@ const postItem = css`
   & .MuiTypography-root {
     font-family: 'Barlow', 'Noto Sans KR';
   }
+  :hover {
+    background-color: #f0f0f0;
+  }
 `;
 
 const postItemRight = css`
