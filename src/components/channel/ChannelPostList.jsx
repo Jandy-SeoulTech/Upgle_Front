@@ -47,59 +47,61 @@ const ChannelPostList = ({ postList, channel }) => {
             업글을 도와줄거예요!
           </Typography>
         </Box>
-        <Box css={postListWrapper}>
-          {postList?.map((post) => (
-            <Box css={postItem}>
-              <Box css={postItemRight}>
-                <Box css={postTitle}>
-                  <Box css={{ display: 'flex' }}>
-                    <StatusIcon status={post.status} />
-                    <Typography
-                      className="title"
-                      onClick={() => {
-                        history.push(`/channel/${channel.id}/post/${post.id}`);
-                      }}
-                    >
-                      {post.title}
-                    </Typography>
+        {postList && (
+          <Box css={postListWrapper}>
+            {postList.map((post) => (
+              <Box css={postItem}>
+                <Box css={postItemRight}>
+                  <Box css={postTitle}>
+                    <Box css={{ display: 'flex' }}>
+                      <StatusIcon status={post.status} />
+                      <Typography
+                        className="title"
+                        onClick={() => {
+                          history.push(`/channel/${channel.id}/post/${post.id}`);
+                        }}
+                      >
+                        {post.title}
+                      </Typography>
+                    </Box>
+                    <Typography className="date">{getDateString(post.updatedAt)}</Typography>
                   </Box>
-                  <Typography className="date">{getDateString(post.updatedAt)}</Typography>
+                  <Typography css={postContent}>{post.content}</Typography>
                 </Box>
-                <Typography css={postContent}>{post.content}</Typography>
-              </Box>
 
-              <Box css={postItemLeft}>
-                {post.authorId === channel.adminId ? (
-                  <>
-                    <div css={adminIconCss}>
-                      <p>관리자</p>
-                    </div>
-                    <Avatar
-                      src={post.author.profile.profileImage.src}
-                      css={{
-                        width: '50px',
-                        height: '50px',
-                        margin: '5px auto 0 auto',
-                        border: '2px solid #04BD9E',
-                        cursor: 'pointer',
-                      }}
-                      onClick={() => history.push(`/profile/${post.author.id}`)}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <Avatar
-                      src={post.author.profile.profileImage.src}
-                      css={{ width: '50px', height: '50px', margin: '0 auto', cursor: 'pointer' }}
-                      onClick={() => history.push(`/profile/${post.author.id}`)}
-                    />
-                  </>
-                )}
-                <Typography css={nicknameCss}>{post.author.nickname}</Typography>
+                <Box css={postItemLeft}>
+                  {post.authorId === channel.adminId ? (
+                    <>
+                      <div css={adminIconCss}>
+                        <p>관리자</p>
+                      </div>
+                      <Avatar
+                        src={post.author.profile.profileImage.src}
+                        css={{
+                          width: '50px',
+                          height: '50px',
+                          margin: '5px auto 0 auto',
+                          border: '2px solid #04BD9E',
+                          cursor: 'pointer',
+                        }}
+                        onClick={() => history.push(`/profile/${post.author.id}`)}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Avatar
+                        src={post.author.profile.profileImage.src}
+                        css={{ width: '50px', height: '50px', margin: '0 auto', cursor: 'pointer' }}
+                        onClick={() => history.push(`/profile/${post.author.id}`)}
+                      />
+                    </>
+                  )}
+                  <Typography css={nicknameCss}>{post.author.nickname}</Typography>
+                </Box>
               </Box>
-            </Box>
-          ))}
-        </Box>
+            ))}
+          </Box>
+        )}
       </Grid>
     </Grid>
   );
@@ -124,7 +126,6 @@ const statusCss = css`
 
 const backgroudWrapper = css`
   margin-top: 135px;
-  margin-bottom: 100px;
   justify-content: center;
   background: #fafafc;
 `;
@@ -162,6 +163,7 @@ const postListWrapper = css`
   flex-direction: column;
   border-top: 2px solid black;
   border-bottom: 2px solid black;
+  margin-bottom: 100px;
 `;
 
 const postItem = css`
