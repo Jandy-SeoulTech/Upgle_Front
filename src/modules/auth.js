@@ -17,45 +17,21 @@ const GOOGLE_OAUTH = 'auth/GOOGLE_OAUTH';
 const NAVER_OAUTH = 'auth/NAVER_OAUTH';
 const INIT_AUTH = 'auth/INIT_AUTH';
 
-export const setNickname = createAction(SET_NICKNAME, authAPI.setNickname, ({ nickname }) => ({
-  nickname,
-}));
+export const setNickname = createAction(SET_NICKNAME, authAPI.setNickname);
 export const nicknameChanged = createAction(NICKNAME_CHANGED);
 export const emailChanged = createAction(EMAIL_CHANGED);
 export const checkVerificationCode = createAction(
   CHECK_VERIFICATION_CODE,
   authAPI.checkVerificationCode,
-  ({ email, code }) => ({
-    email,
-    auth: code,
-  }),
 );
 export const sendVerificationCode = createAction(
   SEND_VERIFICATION_CODE,
   authAPI.sendVerificationCode,
-  ({ email }) => ({
-    email,
-  }),
 );
-export const checkEmail = createAction(CHECK_EMAIL, authAPI.checkEmail, ({ email }) => ({
-  email,
-}));
-export const checkNickname = createAction(
-  CHECK_NICKNAME,
-  authAPI.checkNickname,
-  ({ nickname }) => ({
-    nickname,
-  }),
-);
-export const signup = createAction(SIGNUP, authAPI.signup, ({ email, password, nickname }) => ({
-  email,
-  password,
-  nickname,
-}));
-export const signin = createAction(SIGNIN, authAPI.signin, ({ email, password }) => ({
-  email,
-  password,
-}));
+export const checkEmail = createAction(CHECK_EMAIL, authAPI.checkEmail);
+export const checkNickname = createAction(CHECK_NICKNAME);
+export const signup = createAction(SIGNUP, authAPI.signup);
+export const signin = createAction(SIGNIN, authAPI.signin);
 export const setSigninError = createAction(SET_SIGNIN_ERROR, (message) => message);
 export const kakaoOauth = createAction(KAKAO_OAUTH, authAPI.kakaoOauth, (token) => token);
 export const googleOauth = createAction(GOOGLE_OAUTH, authAPI.googleOauth, (token) => token);

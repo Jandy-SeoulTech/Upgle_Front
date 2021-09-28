@@ -6,7 +6,7 @@ const UPLOAD_IMAGES = 'images/UPLOAD_IMAGES';
 const INITAILIZE = 'images/INITAILIZE';
 const SET_IMAGE = 'images/SET_IMAGE';
 
-export const uploadImages = createAction(UPLOAD_IMAGES, imageAPI.uploadImages, (files) => files);
+export const uploadImages = createAction(UPLOAD_IMAGES, imageAPI.uploadImages);
 export const initialize = createAction(INITAILIZE);
 export const setImage = createAction(SET_IMAGE);
 

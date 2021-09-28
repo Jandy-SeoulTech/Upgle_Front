@@ -10,12 +10,8 @@ const CHECK = 'user/CHECK';
 const LOGOUT = 'user/LOGOUT';
 const INITIAL_USER = 'user/INITIAL_USER';
 
-export const unfollow = createAction(UNFOLLOW, profileAPI.unfollow, ({ followingId }) => ({
-  followingId,
-}));
-export const follow = createAction(FOLLOW, profileAPI.follow, ({ followingId }) => ({
-  followingId,
-}));
+export const unfollow = createAction(UNFOLLOW, profileAPI.unfollow);
+export const follow = createAction(FOLLOW, profileAPI.follow);
 export const check = createAction(CHECK, authAPI.check);
 export const logout = createAction(LOGOUT, authAPI.logout);
 export const setNicknameState = createAction(SET_NICKNAME_STATE);

@@ -1,6 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
 import * as chatAPI from '../lib/api/chat';
-import { call, put, takeLatest, throttle } from 'redux-saga/effects';
 import { pender } from 'redux-pender/lib/utils';
 
 const INITIALIZE = 'chat/INITIALIZE';
@@ -13,45 +12,12 @@ const REPLY_ROOM_MESSAGE = 'chat/REPLY_ROOM_MESSAGE';
 const CONCAT_ROOM_MESSAGES = 'chat/CONCAT_ROOM_MESSAGES';
 
 export const initialize = createAction(INITIALIZE);
-export const getChannelMessages = createAction(
-  GET_CHANNEL_MESSAGES,
-  chatAPI.getChannelMessages,
-  ({ channelId, lastId }) => ({
-    channelId,
-    lastId,
-  }),
-);
-export const sendChannelMessage = createAction(
-  SEND_CHANNEL_MESSAGE,
-  chatAPI.sendChannelMessage,
-  ({ channelId, content }) => ({
-    channelId,
-    content,
-  }),
-);
+export const getChannelMessages = createAction(GET_CHANNEL_MESSAGES, chatAPI.getChannelMessages);
+export const sendChannelMessage = createAction(SEND_CHANNEL_MESSAGE, chatAPI.sendChannelMessage);
 export const concatChannelMessages = createAction(CONCAT_CHANNEL_MESSAGES, (message) => message);
-export const getRoomMessages = createAction(
-  GET_ROOM_MESSAGES,
-  chatAPI.getRoomMessages,
-  ({ roomId, lastId }) => ({
-    roomId,
-    lastId,
-  }),
-);
-export const sendRoomMessage = createAction(
-  SEND_ROOM_MESSAGE,
-  chatAPI.sendRoomMessage,
-  ({ roomId, content }) => ({
-    roomId,
-    content,
-  }),
-);
-export const replyRoomMessage = createAction(
-  REPLY_ROOM_MESSAGE,
-  chatAPI.replyRoomMessage,
-
-  ({ roomId, answeredId, content }) => ({ roomId, answeredId, content }),
-);
+export const getRoomMessages = createAction(GET_ROOM_MESSAGES, chatAPI.getRoomMessages);
+export const sendRoomMessage = createAction(SEND_ROOM_MESSAGE, chatAPI.sendRoomMessage);
+export const replyRoomMessage = createAction(REPLY_ROOM_MESSAGE, chatAPI.replyRoomMessage);
 export const concatRoomMessages = createAction(CONCAT_ROOM_MESSAGES, (message) => message);
 
 const initialState = {
