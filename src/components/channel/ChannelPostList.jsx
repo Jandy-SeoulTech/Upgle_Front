@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Box, Typography, Grid, Avatar } from '@material-ui/core';
-import { useEffect, useState } from 'react';
 import Button from './../common/Button';
 import { ReactComponent as PostWrite } from '../../lib/assets/postWrite.svg';
 import { getDateString } from '../../lib/util/dateFormat';
@@ -44,12 +43,12 @@ const ChannelPostList = ({ postList, channel }) => {
             요청하기
           </Button>
           <Typography css={writeTitle}>
-            재능과 관련하여 배우고 싶은 내용을 요청해보세요. 재능 고수들이 공유
-            채팅을 열어 재능 업글을 도와줄거예요!
+            재능과 관련하여 배우고 싶은 내용을 요청해보세요. 재능 고수들이 공유 채팅을 열어 재능
+            업글을 도와줄거예요!
           </Typography>
         </Box>
         <Box css={postListWrapper}>
-          {postList.map((post) => (
+          {postList?.map((post) => (
             <Box css={postItem}>
               <Box css={postItemRight}>
                 <Box css={postTitle}>
@@ -58,15 +57,13 @@ const ChannelPostList = ({ postList, channel }) => {
                     <Typography
                       className="title"
                       onClick={() => {
-                        history.push(`/channel/${channel.id}/post/:${post.id}`);
+                        history.push(`/channel/${channel.id}/post/${post.id}`);
                       }}
                     >
                       {post.title}
                     </Typography>
                   </Box>
-                  <Typography className="date">
-                    {getDateString(post.updatedAt)}
-                  </Typography>
+                  <Typography className="date">{getDateString(post.updatedAt)}</Typography>
                 </Box>
                 <Typography css={postContent}>{post.content}</Typography>
               </Box>
@@ -84,20 +81,21 @@ const ChannelPostList = ({ postList, channel }) => {
                         height: '50px',
                         margin: '5px auto 0 auto',
                         border: '2px solid #04BD9E',
+                        cursor: 'pointer',
                       }}
+                      onClick={() => history.push(`/profile/${post.author.id}`)}
                     />
                   </>
                 ) : (
                   <>
                     <Avatar
                       src={post.author.profile.profileImage.src}
-                      css={{ width: '50px', height: '50px', margin: '0 auto' }}
+                      css={{ width: '50px', height: '50px', margin: '0 auto', cursor: 'pointer' }}
+                      onClick={() => history.push(`/profile/${post.author.id}`)}
                     />
                   </>
                 )}
-                <Typography css={nicknameCss}>
-                  {post.author.nickname}
-                </Typography>
+                <Typography css={nicknameCss}>{post.author.nickname}</Typography>
               </Box>
             </Box>
           ))}
