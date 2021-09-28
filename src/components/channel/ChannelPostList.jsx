@@ -43,26 +43,34 @@ const ChannelPostList = ({ postList, channel }) => {
         {postList && (
           <Box css={postListWrapper}>
             {postList.map((post) => (
-              <Box css={postItem}>
+              <Box
+                css={postItem}
+                onClick={(e) => {
+                  let parentNode = e.target;
+                  let i = 3;
+                  while (i--) {
+                    if (parentNode.classList.contains('avatar')) return;
+                    parentNode = parentNode.parentNode;
+                  }
+                  history.push(`/channel/${channel.id}/post/${post.id}`);
+                }}
+              >
                 <Box css={postItemRight}>
                   <Box css={postTitle}>
                     <Box css={{ display: 'flex' }}>
                       <StatusIcon status={post.status} />
-                      <Typography
-                        className="title"
-                        onClick={() => {
-                          history.push(`/channel/${channel.id}/post/${post.id}`);
-                        }}
-                      >
-                        {post.title}
-                      </Typography>
+                      <Typography className="title">{post.title}</Typography>
                     </Box>
                     <Typography className="date">{getDateString(post.updatedAt)}</Typography>
                   </Box>
                   <Typography css={postContent}>{post.content}</Typography>
                 </Box>
 
-                <Box css={postItemLeft}>
+                <Box
+                  css={postItemLeft}
+                  className="avatar"
+                  onClick={() => history.push(`/profile/${post.author.id}`)}
+                >
                   {post.authorId === channel.adminId ? (
                     <>
                       <div css={adminIconCss}>
@@ -75,17 +83,14 @@ const ChannelPostList = ({ postList, channel }) => {
                           height: '50px',
                           margin: '5px auto 0 auto',
                           border: '2px solid #04BD9E',
-                          cursor: 'pointer',
                         }}
-                        onClick={() => history.push(`/profile/${post.author.id}`)}
                       />
                     </>
                   ) : (
                     <>
                       <Avatar
                         src={post.author.profile.profileImage.src}
-                        css={{ width: '50px', height: '50px', margin: '0 auto', cursor: 'pointer' }}
-                        onClick={() => history.push(`/profile/${post.author.id}`)}
+                        css={{ width: '50px', height: '50px', margin: '0 auto' }}
                       />
                     </>
                   )}
@@ -166,6 +171,7 @@ const postItem = css`
   border-bottom: 1px solid #bdbdbd;
   display: flex;
   align-items: flex-start;
+  cursor: pointer;
   & .MuiTypography-root {
     font-family: 'Barlow', 'Noto Sans KR';
   }
@@ -205,7 +211,6 @@ const postTitle = css`
   .title {
     font-weight: 600;
     font-size: 20px;
-    cursor: pointer;
   }
   .date {
     font-size: 14px;
