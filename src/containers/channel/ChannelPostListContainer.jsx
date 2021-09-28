@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getChannelData, getChannelPost } from '../../modules/channel';
+import { getChannelData, getChannelPostList } from '../../modules/channel';
 import ChannelPostList from './../../components/channel/ChannelPostList';
 
 const ChannelPostListContainer = ({ channelId }) => {
@@ -22,7 +22,7 @@ const ChannelPostListContainer = ({ channelId }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getChannelPost(channelId));
+    dispatch(getChannelPostList(channelId));
     dispatch(getChannelData(channelId));
   }, [dispatch, channelId]);
 

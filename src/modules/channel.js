@@ -4,6 +4,7 @@ import * as channelAPI from '../lib/api/channel';
 import * as roomAPI from '../lib/api/room';
 
 const GET_ROOM_LIST = 'channel/GET_ROOM_LIST';
+const GET_CHANNEL_POST_LIST = 'channel/GET_CHANNEL_POST_LIST';
 const GET_CHANNEL_POST = 'channel/GET_CHANNEL_POST';
 const GET_CHANNEL_DATA = 'channel/GET_CHANNEL_DATA';
 const GET_MYCHANNEL = 'channel/GET_MYCHANNEL';
@@ -14,6 +15,10 @@ const UNLIKE_CHANNEL = 'channel/UNLIKE_CHANNEL';
 const INITIAL_CHANNEL = 'channel/INITIAL_CHANNEL';
 
 export const getRoomList = createAction(GET_ROOM_LIST, roomAPI.getRoomList);
+export const getChannelPostList = createAction(
+  GET_CHANNEL_POST_LIST,
+  channelAPI.getChannelPostList,
+);
 export const getChannelPost = createAction(GET_CHANNEL_POST, channelAPI.getChannelPost);
 export const getChannelData = createAction(GET_CHANNEL_DATA, channelAPI.getChannelData);
 export const getMychannel = createAction(GET_MYCHANNEL, channelAPI.getMyChannel);
@@ -26,6 +31,7 @@ export const initailChannel = createAction(INITIAL_CHANNEL);
 const initialState = {
   roomList: null,
   postList: null,
+  post: null,
   myChannel: null,
   channel: null,
   success: null,
@@ -46,10 +52,21 @@ const channel = handleActions(
       }),
     }),
     ...pender({
-      type: GET_CHANNEL_POST,
+      type: GET_CHANNEL_POST_LIST,
       onSuccess: (state, { payload: postList }) => ({
         ...state,
         postList,
+      }),
+      onFailure: (state, { payload: error }) => ({
+        ...state,
+        error,
+      }),
+    }),
+    ...pender({
+      type: GET_CHANNEL_POST,
+      onSuccess: (state, { payload: post }) => ({
+        ...state,
+        post,
       }),
       onFailure: (state, { payload: error }) => ({
         ...state,

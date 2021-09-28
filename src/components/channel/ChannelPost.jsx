@@ -25,14 +25,7 @@ import TextField from './../common/TextField';
 import { Paper } from '@material-ui/core';
 import { useCallback } from 'react';
 
-const ChannelPost = ({
-  post,
-  channel,
-  user,
-  isLiked,
-  onLikeChannel,
-  onUnLikeChannel,
-}) => {
+const ChannelPost = ({ post, channel, user, isLiked, onLikeChannel, onUnLikeChannel }) => {
   const [menuAnchor, setMenuAnchor] = useState();
   const handleMenu = (e) => {
     if (!e) return;
@@ -40,11 +33,7 @@ const ChannelPost = ({
   };
 
   const handleMoveChat = (roomId) => {
-    window.open(
-      `/chat/${roomId}`,
-      '_blank',
-      'width=600, height=900, toolbars=no, scrollbars=yes',
-    );
+    window.open(`/chat/${roomId}`, '_blank', 'width=600, height=900, toolbars=no, scrollbars=yes');
     return false;
   };
 
@@ -98,11 +87,7 @@ const ChannelPost = ({
           className={isLiked ? 'likedButton' : 'likeButton'}
           onClick={isLiked ? onUnLikeChannel : onLikeChannel}
         >
-          {isLiked ? (
-            <LikedButton className="icon" />
-          ) : (
-            <LikeIcon className="icon" />
-          )}
+          {isLiked ? <LikedButton className="icon" /> : <LikeIcon className="icon" />}
           공감
         </Button>
       );
@@ -153,12 +138,7 @@ const ChannelPost = ({
 
   return (
     <Grid container justifyContent="center" css={backgroudWrapper}>
-      <Grid
-        container
-        alignItems="center"
-        flexDirection="column"
-        css={{ width: '1140px' }}
-      >
+      <Grid container alignItems="center" flexDirection="column" css={{ width: '1140px' }}>
         <Box
           css={{
             marginTop: '80px',
@@ -178,12 +158,8 @@ const ChannelPost = ({
               css={{ paddingRight: '30px', height: '55px' }}
             >
               <AuthorIcon />
-              <Typography className="nickname">
-                {post.author.nickname}
-              </Typography>
-              <Typography className="date">
-                {getDateString(post.updatedAt)}
-              </Typography>
+              <Typography className="nickname">{post.author.nickname}</Typography>
+              <Typography className="date">{getDateString(post.updatedAt)}</Typography>
               <ClickAwayListener
                 onClickAway={() => {
                   setMenuAnchor(null);
@@ -200,11 +176,7 @@ const ChannelPost = ({
                   onClick={handleMenu}
                 >
                   <PostSetting css={{ width: '100%', height: '100%' }} />
-                  <Popper
-                    open={!!menuAnchor}
-                    anchorEl={menuAnchor}
-                    placement="bottom-end"
-                  >
+                  <Popper open={!!menuAnchor} anchorEl={menuAnchor} placement="bottom-end">
                     <Paper>
                       <MenuList dense css={menuWrapper}>
                         <MenuItem>
@@ -231,18 +203,11 @@ const ChannelPost = ({
           <ControllButtonList status={post.status} />
         </Box>
         <Grid container alignItems="center" css={postCommentWrapper}>
-          <Typography className="postCommentHeader">
-            댓글 {post.comment.length}
-          </Typography>
+          <Typography className="postCommentHeader">댓글 {post.comment.length}</Typography>
           {post.comment.map((comment) => {
             return (
               <Grid container css={postCommentItem}>
-                <Grid
-                  container
-                  className="avatarBox"
-                  justifyContent="center"
-                  alignItems="center"
-                >
+                <Grid container className="avatarBox" justifyContent="center" alignItems="center">
                   <Avatar
                     src={comment.author.profile.profileImage.src}
                     css={{ width: '50px', height: '50px' }}
@@ -255,30 +220,17 @@ const ChannelPost = ({
                       <Button>삭제</Button>
                     </Grid>
                   )}
-                  <Grid
-                    container
-                    alignItems="center"
-                    css={{ marginTop: '20px' }}
-                  >
-                    <Typography className="nickname">
-                      {comment.author.nickname}
-                    </Typography>
-                    <Typography className="date">
-                      ㆍ {getDateString(comment.updatedAt)}
-                    </Typography>
+                  <Grid container alignItems="center" css={{ marginTop: '20px' }}>
+                    <Typography className="nickname">{comment.author.nickname}</Typography>
+                    <Typography className="date">ㆍ {getDateString(comment.updatedAt)}</Typography>
                   </Grid>
-                  <Typography className="postCommentContent">
-                    {comment.content}
-                  </Typography>
+                  <Typography className="postCommentContent">{comment.content}</Typography>
                 </Grid>
               </Grid>
             );
           })}
           <Grid container css={postCommentWrite}>
-            <textarea
-              placeholder="댓글을 입력해주세요."
-              className="commentWrite"
-            />
+            <textarea placeholder="댓글을 입력해주세요." className="commentWrite" />
             <Button className="commentSubmit">등록</Button>
           </Grid>
         </Grid>
@@ -337,6 +289,7 @@ const statusCss = css`
 `;
 
 const postContentWrapper = css`
+  width: 100%;
   display: flex;
   flex-direction: column;
   padding: 30px;
