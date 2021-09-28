@@ -12,7 +12,7 @@ import {
   Popper,
   Typography,
 } from '@material-ui/core';
-import { memo, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import palette from '../../lib/styles/palette';
 import Button from '../common/Button';
 import { TextArea } from '../TextField';
@@ -57,6 +57,10 @@ const ChattingRoom = ({
     handleSendMessage();
     scrollBottom();
   };
+
+  useEffect(() => {
+    scrollBottom();
+  }, []);
 
   return (
     <Box css={chatListWrapper}>
