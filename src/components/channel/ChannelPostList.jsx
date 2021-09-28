@@ -6,33 +6,26 @@ import { ReactComponent as PostWrite } from '../../lib/assets/postWrite.svg';
 import { getDateString } from '../../lib/util/dateFormat';
 import { useHistory } from 'react-router';
 
-const ChannelPostList = ({ postList, channel }) => {
-  const history = useHistory();
+const statusData = {
+  Notice: { text: '공지', backgroundColor: '#FF1F00' },
+  Open: { text: '채팅 오픈', backgroundColor: '#FF511B' },
+  Reservation: { text: '채팅 예약', backgroundColor: '#5F5F5F' },
+};
 
-  const StatusIcon = ({ status }) => {
-    let statusIconCss, statusIconText;
-    switch (status) {
-      case 'Notice':
-        statusIconCss = [statusCss, { backgroundColor: '#FF1F00' }];
-        statusIconText = '공지';
-        break;
-      case 'Open':
-        statusIconCss = [statusCss, { backgroundColor: '#FF511B' }];
-        statusIconText = '채팅 오픈';
-        break;
-      case 'Reservation':
-        statusIconCss = [statusCss, { backgroundColor: '#5F5F5F' }];
-        statusIconText = '채팅 예약';
-        break;
-      default:
-        return <></>;
-    }
+const StatusIcon = ({ status }) => {
+  if (statusData.hasOwnProperty(status)) {
+    const { text, backgroundColor } = statusData[status];
     return (
-      <div css={statusIconCss}>
-        <p>{statusIconText}</p>
+      <div css={[statusCss, { backgroundColor }]}>
+        <p>{text}</p>
       </div>
     );
-  };
+  }
+  return <></>;
+};
+
+const ChannelPostList = ({ postList, channel }) => {
+  const history = useHistory();
 
   return (
     <Grid container css={backgroudWrapper}>
