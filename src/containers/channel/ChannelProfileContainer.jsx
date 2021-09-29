@@ -78,7 +78,7 @@ const ChannelProfileContainer = ({ channelId }) => {
 
   const onEdit = () => {
     dispatch(setChannel(channel));
-    history.push(`/channel/edit`);
+    history.push(`/channel/${channelId}/edit`);
   };
 
   const onFollow = ({ followingId }) => {
@@ -107,9 +107,12 @@ const ChannelProfileContainer = ({ channelId }) => {
       setIsLiked(false);
       channel.admin.id === user.id && setIsParticipant(true);
       channel.participants.forEach(
-        (participant) => participant.userId === user.id && setIsParticipant(true),
+        (participant) =>
+          participant.userId === user.id && setIsParticipant(true),
       );
-      channel.channellike.forEach((like) => like.userId === user.id && setIsLiked(true));
+      channel.channellike.forEach(
+        (like) => like.userId === user.id && setIsLiked(true),
+      );
     }
   }, [channel, user]);
 

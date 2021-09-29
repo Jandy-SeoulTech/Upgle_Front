@@ -28,7 +28,7 @@ const Profile = ({
   followers,
   followings,
   reviews,
-  channels,
+  profileChannel,
   onFollow,
   onUnfollow,
   onProfileFollow,
@@ -49,73 +49,95 @@ const Profile = ({
   useEffect(() => {
     const newTabs = [...tabs];
 
-    newTabs.find((tab) => tab.key === 'followers').data = getFollowersLoading ? (
-      <Grid container height="67vh" justifyContent="center" alignItems="center">
-        <ReactLoading
-          type="spinningBubbles"
-          color="black"
-          style={{
-            width: '60px',
-            height: '60px',
-          }}
-        />
-      </Grid>
-    ) : !followers || followers.length === 0 ? (
-      <Grid container height="67vh" justifyContent="center" alignItems="center">
-        <Typography css={noContents}>
-          {profile?.nickname}님을 팔로우하는 유저가 없습니다.
-        </Typography>
-      </Grid>
-    ) : (
-      <Grid>
-        {followers.map((follower, i) => (
-          <ModalUserCard
-            key={i}
-            loggedInUser={user}
-            profileUserId={profile.id}
-            user={follower}
-            onFollow={onFollow}
-            onUnfollow={onUnfollow}
-            onProfileFollow={onProfileFollow}
-            onProfileUnfollow={onProfileUnfollow}
+    newTabs.find((tab) => tab.key === 'followers').data =
+      getFollowersLoading ? (
+        <Grid
+          container
+          height="67vh"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <ReactLoading
+            type="spinningBubbles"
+            color="black"
+            style={{
+              width: '60px',
+              height: '60px',
+            }}
           />
-        ))}
-      </Grid>
-    );
+        </Grid>
+      ) : !followers || followers.length === 0 ? (
+        <Grid
+          container
+          height="67vh"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Typography css={noContents}>
+            {profile?.nickname}님을 팔로우하는 유저가 없습니다.
+          </Typography>
+        </Grid>
+      ) : (
+        <Grid>
+          {followers.map((follower, i) => (
+            <ModalUserCard
+              key={i}
+              loggedInUser={user}
+              profileUserId={profile.id}
+              user={follower}
+              onFollow={onFollow}
+              onUnfollow={onUnfollow}
+              onProfileFollow={onProfileFollow}
+              onProfileUnfollow={onProfileUnfollow}
+            />
+          ))}
+        </Grid>
+      );
 
-    newTabs.find((tab) => tab.key === 'followings').data = getFollowingsLoading ? (
-      <Grid container height="67vh" justifyContent="center" alignItems="center">
-        <ReactLoading
-          type="spinningBubbles"
-          color="black"
-          style={{
-            width: '60px',
-            height: '60px',
-          }}
-        />
-      </Grid>
-    ) : !followings || followings.length === 0 ? (
-      <Grid container height="67vh" justifyContent="center" alignItems="center">
-        <Typography css={noContents}>
-          {profile?.nickname}님이 팔로우하는 유저가 없습니다.
-        </Typography>
-      </Grid>
-    ) : (
-      <Grid>
-        {followings.map((following, i) => (
-          <ModalUserCard
-            key={i}
-            loggedInUser={user}
-            profileUserId={profile.id}
-            user={following}
-            onFollow={onFollow}
-            onUnfollow={onUnfollow}
-            onProfileFollow={onProfileFollow}
-            onProfileUnfollow={onProfileUnfollow}
+    newTabs.find((tab) => tab.key === 'followings').data =
+      getFollowingsLoading ? (
+        <Grid
+          container
+          height="67vh"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <ReactLoading
+            type="spinningBubbles"
+            color="black"
+            style={{
+              width: '60px',
+              height: '60px',
+            }}
           />
-        ))}
-      </Grid>
-    );
+        </Grid>
+      ) : !followings || followings.length === 0 ? (
+        <Grid
+          container
+          height="67vh"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Typography css={noContents}>
+            {profile?.nickname}님이 팔로우하는 유저가 없습니다.
+          </Typography>
+        </Grid>
+      ) : (
+        <Grid>
+          {followings.map((following, i) => (
+            <ModalUserCard
+              key={i}
+              loggedInUser={user}
+              profileUserId={profile.id}
+              user={following}
+              onFollow={onFollow}
+              onUnfollow={onUnfollow}
+              onProfileFollow={onProfileFollow}
+              onProfileUnfollow={onProfileUnfollow}
+            />
+          ))}
+        </Grid>
+      );
 
     newTabs.find((tab) => tab.key === 'reviews').data = getReviewsLoading ? (
       <Grid container height="67vh" justifyContent="center" alignItems="center">
@@ -130,7 +152,9 @@ const Profile = ({
       </Grid>
     ) : !reviews || reviews.length === 0 ? (
       <Grid container height="67vh" justifyContent="center" alignItems="center">
-        <Typography css={noContents}>{profile?.nickname}님에 대한 리뷰가 없습니다.</Typography>
+        <Typography css={noContents}>
+          {profile?.nickname}님에 대한 리뷰가 없습니다.
+        </Typography>
       </Grid>
     ) : (
       <Grid>
@@ -160,7 +184,8 @@ const Profile = ({
     {
       title: '멋있게 춤추기 위해 알아야 하는 기본 동작',
       date: '2021.08.14',
-      imgUrl: 'https://pbs.twimg.com/profile_images/625698094345117696/pjhb6Zgx_400x400.jpg',
+      imgUrl:
+        'https://pbs.twimg.com/profile_images/625698094345117696/pjhb6Zgx_400x400.jpg',
     },
     {
       title: '팝핀의 역사',
@@ -234,7 +259,8 @@ const Profile = ({
 
             <Typography css={nickname}>{profile.nickname}</Typography>
 
-            {(profile.profile.introduce === '' || profile.profile.department === '') && (
+            {(profile.profile.introduce === '' ||
+              profile.profile.department === '') && (
               <Grid item mb="35px"></Grid>
             )}
 
@@ -265,7 +291,9 @@ const Profile = ({
                 </Button>
               ))}
             {profile.profile.introduce !== '' && (
-              <Typography css={introduce}>{profile.profile.introduce}</Typography>
+              <Typography css={introduce}>
+                {profile.profile.introduce}
+              </Typography>
             )}
             {profile.profile.department !== '' && (
               <Grid item container css={department}>
@@ -275,9 +303,8 @@ const Profile = ({
                 </Typography>
               </Grid>
             )}
-            {(profile.profile.introduce !== '' || profile.profile.department !== '') && (
-              <Grid item mb={4}></Grid>
-            )}
+            {(profile.profile.introduce !== '' ||
+              profile.profile.department !== '') && <Grid item mb={4}></Grid>}
           </Grid>
           <Grid item container css={leftProfileBottom}>
             <Grid item container px={1}>
@@ -317,21 +344,43 @@ const Profile = ({
               )}
             </Grid>
             <Grid item container mt={6} mb={6} rowGap={2.5}>
-              <Grid item container justifyContent="space-between" alignItems="center">
+              <Grid
+                item
+                container
+                justifyContent="space-between"
+                alignItems="center"
+              >
                 <Typography css={followLabel}>팔로워</Typography>
-                <Button sx={orangeSmallLabel} onClick={() => openModal('followers')}>
+                <Button
+                  sx={orangeSmallLabel}
+                  onClick={() => openModal('followers')}
+                >
                   {profile.followers.length}
                 </Button>
               </Grid>
-              <Grid item container justifyContent="space-between" alignItems="center">
+              <Grid
+                item
+                container
+                justifyContent="space-between"
+                alignItems="center"
+              >
                 <Typography css={followLabel}>팔로잉</Typography>
-                <Button sx={orangeSmallLabel} onClick={() => openModal('followings')}>
+                <Button
+                  sx={orangeSmallLabel}
+                  onClick={() => openModal('followings')}
+                >
                   {profile.followings.length}
                 </Button>
               </Grid>
             </Grid>
             <Grid item container>
-              <Grid item container justifyContent="space-between" alignItems="center" mb={2}>
+              <Grid
+                item
+                container
+                justifyContent="space-between"
+                alignItems="center"
+                mb={2}
+              >
                 <Button
                   sx={orangeLabel}
                   onClick={() => openModal('reviews')}
@@ -345,7 +394,9 @@ const Profile = ({
                     전체 리뷰
                   </span>
                 </Button>
-                <Typography css={reviewNum}>{profile.reviewed.length}</Typography>
+                <Typography css={reviewNum}>
+                  {profile.reviewed.length}
+                </Typography>
               </Grid>
               {profile.reviewed.map((review, i) => (
                 <Typography key={i} css={reviewText}>
@@ -355,8 +406,17 @@ const Profile = ({
             </Grid>
           </Grid>
           {isMe && (
-            <Grid item container justifyContent="center" alignItems="center" mb={2}>
-              <Button sx={editProfileButton} onClick={() => history.push('/setting')}>
+            <Grid
+              item
+              container
+              justifyContent="center"
+              alignItems="center"
+              mb={2}
+            >
+              <Button
+                sx={editProfileButton}
+                onClick={() => history.push('/setting')}
+              >
                 <EditProfileIcon />
                 <Typography
                   sx={{
@@ -431,18 +491,20 @@ const Profile = ({
               <Button sx={orangeLabel}>오픈 채널</Button>
             </Grid>
             <Grid item container columns={5}>
-              {profile?.admin?.length === 0 ? (
+              {profileChannel?.adminChannl?.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   오픈된 채널이 없습니다.
                 </Grid>
               ) : (
-                profile?.admin?.map((channel, i) => (
+                profileChannel?.adminChannl?.map((channel, i) => (
                   <Grid
                     key={i}
                     item
                     xs={1}
                     css={channelCell}
-                    onClick={() => (window.location.href = `/channel/${channel.id}/profile`)}
+                    onClick={() =>
+                      (window.location.href = `/channel/${channel.id}/profile`)
+                    }
                   >
                     <Grid css={channelCard}>
                       <Box
@@ -474,18 +536,20 @@ const Profile = ({
               <Button sx={orangeLabel}>참여 채널</Button>
             </Grid>
             <Grid item container columns={5}>
-              {profile?.participants?.length === 0 ? (
+              {profileChannel?.participantChannel?.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   참여하는 채널이 없습니다.
                 </Grid>
               ) : (
-                profile?.participants?.map(({ channel }, i) => (
+                profileChannel?.participantChannel?.map((channel, i) => (
                   <Grid
                     key={i}
                     item
                     xs={1}
                     css={channelCell}
-                    onClick={() => (window.location.href = `/channel/${channel.id}/profile`)}
+                    onClick={() =>
+                      (window.location.href = `/channel/${channel.id}/profile`)
+                    }
                   >
                     <Grid css={channelCard}>
                       <Box
@@ -582,7 +646,8 @@ const followButton = css`
 
   &:hover {
     border: none;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), #ff511b;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
+      #ff511b;
   }
 `;
 

@@ -18,11 +18,10 @@ let socket;
 const ChattingRoomContainer = ({ roomId }) => {
   const { user } = useSelector((state) => state.user);
   const { room } = useSelector((state) => state.room);
-  const { messages, lastId } = useSelector((state) => state.chat);
+  const { messages, lastId, success } = useSelector((state) => state.chat);
   const [replyMessage, setReplyMessage] = useState();
   const [message, setMessage] = useState('');
   const [participants, setParticipants] = useState([]);
-  const [currentId, setCurrentId] = useState(0);
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -41,14 +40,22 @@ const ChattingRoomContainer = ({ roomId }) => {
   }, [location, user]);
 
   useEffect(() => {
+    handleGetMassage();
+    return () => {
+      dispatch(initialize());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
     socket.on('message', (message) => {
       if (message) {
         dispatch(concatRoomMessages(message));
       }
     });
     socket.on('RoomInfo', (participantInfo) => {
-      setParticipants(participantInfo);
+      console.log(setParticipants(participantInfo));
     });
+    socket.emit('test', { message: 'test' });
   }, []);
 
   const handleSendMessage = useCallback(() => {
@@ -68,12 +75,8 @@ const ChattingRoomContainer = ({ roomId }) => {
     } else dispatch(sendRoomMessage({ roomId, content: message }));
   }, [message]);
 
-  const handleGetMassage = async () => {
-    console.log('스크롤 응답', currentId, ' ', lastId);
-    if (lastId && currentId === lastId) return;
-    await setCurrentId(lastId);
-    console.log('요청 전송');
-    await dispatch(
+  const handleGetMassage = () => {
+    dispatch(
       getRoomMessages({
         roomId,
         lastId,
@@ -87,12 +90,14 @@ const ChattingRoomContainer = ({ roomId }) => {
   };
 
   useEffect(() => {
-    handleGetMassage();
     dispatch(getRoomData({ roomId }));
-    return () => {
-      dispatch(initialize());
-    };
   }, [dispatch, roomId]);
+
+  useEffect(() => {
+    if (success) {
+      setMessage('');
+    }
+  }, [success]);
 
   if (!user) return '로그인해주세요';
   if (!room || !messages || !participants) return '로딩중';
@@ -110,6 +115,7 @@ const ChattingRoomContainer = ({ roomId }) => {
       setReplyMessage={setReplyMessage}
       participants={participants}
       handleSuccess={handleSuccess}
+      success={success}
     />
   );
 };
