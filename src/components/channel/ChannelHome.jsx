@@ -23,16 +23,8 @@ const archived = [
     imgUrl: 'https://pbs.twimg.com/profile_images/625698094345117696/pjhb6Zgx_400x400.jpg',
   },
   {
-    title: '팝핀의 역사',
-    date: '2021.08.11',
-  },
-  {
     title: '몸에 좋고 맛있는 샐러드 만드는 방법',
     date: '2021.07.02',
-  },
-  {
-    title: '쉽게 못질 하는 방법',
-    date: '2021.05.18',
   },
   {
     title: '홈페이지를 만들 때 사용할 수 있는 여러 무료 이미지 알려드립니다!',
@@ -64,17 +56,23 @@ const ChannerHome = ({ channel, postList, roomList }) => {
 
             <Button onClick={() => history.push(`/channel/${channel.id}/postList`)}>더보기</Button>
           </Box>
-          <Box
-            css={{
-              backgroundColor: 'white',
-              border: '1px solid #e0e0e0',
-              borderRadius: '10px',
-            }}
-          >
-            {postList?.map((post) => (
-              <PostCard key={post.id} channelId={channel.id} post={post} />
-            ))}
-          </Box>
+          {postList?.length > 0 ? (
+            <Box
+              css={{
+                backgroundColor: 'white',
+                border: '1px solid #e0e0e0',
+                borderRadius: '10px',
+              }}
+            >
+              {postList?.map((post) => (
+                <PostCard key={post.id} channelId={channel.id} post={post} />
+              ))}
+            </Box>
+          ) : (
+            <Typography css={[noContent, { height: '60px', lineHeight: '60px' }]}>
+              등록된 요청이 없습니다.
+            </Typography>
+          )}
         </Box>
         <Box css={contentWrapper}>
           <Box css={contentTitleWrapper}>
@@ -84,13 +82,19 @@ const ChannerHome = ({ channel, postList, roomList }) => {
             </Box>
             <Button>더보기</Button>
           </Box>
-          <Grid container spacing={3}>
-            {roomList?.openRoom.map((chatInfo, i) => (
-              <Grid item key={i}>
-                <ChannelHomeChatCard chatInfo={chatInfo} />
-              </Grid>
-            ))}
-          </Grid>
+          {roomList?.length > 0 ? (
+            <Grid container spacing={3}>
+              {roomList?.openRoom.map((chatInfo, i) => (
+                <Grid item key={i}>
+                  <ChannelHomeChatCard chatInfo={chatInfo} />
+                </Grid>
+              ))}
+            </Grid>
+          ) : (
+            <Typography css={[noContent, { height: '100px', lineHeight: '100px' }]}>
+              오픈된 채팅방이 없습니다.
+            </Typography>
+          )}
         </Box>
         <Box css={contentWrapper}>
           <Box css={contentTitleWrapper}>
@@ -140,6 +144,13 @@ const contentWrapper = css`
   & + & {
     margin-top: 3.125rem;
   }
+`;
+
+const noContent = css`
+  text-align: center;
+  width: 100%;
+  font-family: 'Noto Sans KR';
+  color: #5f5f5f;
 `;
 
 export default ChannerHome;
