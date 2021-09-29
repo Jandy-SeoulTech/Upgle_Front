@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import Signin from '../../components/auth/Signin';
@@ -6,14 +6,14 @@ import { signin, initAuth } from '../../modules/auth';
 import { check } from '../../modules/user';
 
 const SigninContainer = ({ OAuthComponent }) => {
-  const { auth, error } = useSelector((state) => state.auth);
+  const { auth, signinError } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.user);
-  const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const onLogin = ({ email, password }) => {
-    dispatch(signin({ email, password }));
+  const onLogin = async ({ email, password }) => {
+    await dispatch(signin({ email, password }));
+    dispatch(check());
   };
 
   useEffect(() => {
@@ -23,13 +23,10 @@ const SigninContainer = ({ OAuthComponent }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (error) {
-      setErrorMessage('로그인에 실패했습니다');
-    }
     if (auth) {
       dispatch(check());
     }
-  }, [auth, error, dispatch]);
+  }, [auth, dispatch]);
 
   useEffect(() => {
     if (user) {
@@ -37,13 +34,7 @@ const SigninContainer = ({ OAuthComponent }) => {
     }
   }, [user, history]);
 
-  return (
-    <Signin
-      onLogin={onLogin}
-      errorMessage={errorMessage}
-      OAuthComponent={OAuthComponent}
-    />
-  );
+  return <Signin onLogin={onLogin} errorMessage={signinError} OAuthComponent={OAuthComponent} />;
 };
 
 export default SigninContainer;

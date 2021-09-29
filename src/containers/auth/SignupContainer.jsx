@@ -15,12 +15,11 @@ import {
 import { check } from '../../modules/user';
 
 const SignupContainer = ({ OAuthComponent }) => {
-  const { auth, emailChecked, codeSent, codeVerified, nicknameChecked, error } =
-    useSelector((state) => state.auth);
-  const { user } = useSelector((state) => state.user);
-  const emailSendLoading = useSelector(
-    (state) => state.loading['auth/SEND_VERIFICATION_CODE'],
+  const { auth, emailChecked, codeSent, codeVerified, nicknameChecked, error } = useSelector(
+    (state) => state.auth,
   );
+  const { user } = useSelector((state) => state.user);
+  const { pending } = useSelector((state) => state.pender);
   const [errorMessage, setErrorMessage] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
@@ -88,7 +87,7 @@ const SignupContainer = ({ OAuthComponent }) => {
       onEmailChanged={onEmailChanged}
       onNicknameChanged={onNicknameChanged}
       errorMessage={errorMessage}
-      emailSendLoading={emailSendLoading}
+      emailSendLoading={pending['auth/SEND_VERIFICATION_CODE']}
       OAuthComponent={OAuthComponent}
     />
   );
