@@ -40,7 +40,7 @@ const ChannelPostList = ({ postList, channel }) => {
             업글을 도와줄거예요!
           </Typography>
         </Box>
-        {postList && (
+        {postList?.length > 0 && (
           <Box css={postListWrapper}>
             {postList.map((post) => (
               <Box
