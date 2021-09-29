@@ -11,24 +11,40 @@ import CheckJoinChannel from '../middlewares/CheckJoinChannel';
 const ChannelRouter = () => {
   return (
     <>
-      <Route path="/channel/:channelId/profile" component={ChannelProfilePage} />
+      <Route
+        path="/channel/:channelId/profile"
+        component={ChannelProfilePage}
+      />
       <Route
         path="/channel/:channelId/home"
-        render={(props) => <CheckJoinChannel {...props} Component={ChannelHomePage} />}
+        render={(props) => (
+          <CheckJoinChannel {...props} Component={ChannelHomePage} />
+        )}
       />
       <Route
         path="/channel/:channelId/postList"
-        render={(props) => <CheckJoinChannel {...props} Component={ChannelPostListPage} />}
+        render={(props) => (
+          <CheckJoinChannel {...props} Component={ChannelPostListPage} />
+        )}
       />
       <Route
         path="/channel/:channelId/post/edit"
-        render={(props) => <CheckJoinChannel {...props} Component={ChannelPostEditPage} />}
+        render={(props) => (
+          <CheckJoinChannel {...props} Component={ChannelPostEditPage} />
+        )}
       />
       <Route
         path="/channel/:channelId/post/:postId"
-        render={(props) => <CheckJoinChannel {...props} Component={ChannelPostPage} />}
+        render={(props) => (
+          <CheckJoinChannel {...props} Component={ChannelPostPage} />
+        )}
       />
-      <Route path="/channel/edit" render={(props) => <EditChannelPage />} />
+      <Route
+        path="/channel/:channelId/edit"
+        render={(props) => (
+          <CheckJoinChannel {...props} Component={EditChannelPage} />
+        )}
+      />
     </>
   );
 };

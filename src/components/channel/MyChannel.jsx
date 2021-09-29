@@ -12,7 +12,7 @@ import ChatCard from './ChatCard';
 const MyChannel = ({
   ownerRoom,
   participantRoom,
-  adminChannel,
+  adminChannl,
   participantChannel,
   handleExitRoom,
   handleCloseRoom,
@@ -24,12 +24,12 @@ const MyChannel = ({
         <Box css={myChannelTitle}>
           <Amico />
           <Typography>
-            자신이 잘하는 재능을 공유하거나, 관심있는 재능을 배울 수 있는 재능 공유 채널을
-            만들어보세요.
+            자신이 잘하는 재능을 공유하거나, 관심있는 재능을 배울 수 있는 재능
+            공유 채널을 만들어보세요.
           </Typography>
           <Button
             onClick={() => {
-              history.push('/channel/edit');
+              history.push('/editChannel');
             }}
           >
             채널 만들기
@@ -39,7 +39,9 @@ const MyChannel = ({
         <Box css={asignChatListWrapper}>
           <Typography css={listTitle}>오픈 채팅방</Typography>
           {ownerRoom.length === 0 && (
-            <Typography css={nullDescription}>아직 오픈한 채팅방이 없습니다.</Typography>
+            <Typography css={nullDescription}>
+              아직 오픈한 채팅방이 없습니다.
+            </Typography>
           )}
           <Grid container spacing={2}>
             {ownerRoom.map((chatInfo) => (
@@ -58,7 +60,9 @@ const MyChannel = ({
         <Box css={asignChatListWrapper}>
           <Typography css={listTitle}>참여 채팅방</Typography>
           {participantRoom.length === 0 && (
-            <Typography css={nullDescription}>현재 참여하고 있는 채팅방이 없습니다.</Typography>
+            <Typography css={nullDescription}>
+              현재 참여하고 있는 채팅방이 없습니다.
+            </Typography>
           )}
           <Grid container spacing={2}>
             {participantRoom.map((chatInfo) => (
@@ -76,11 +80,13 @@ const MyChannel = ({
 
         <Box css={openChannelWrapper}>
           <Typography css={listTitle}>오픈 채널</Typography>
-          {adminChannel.length === 0 && (
-            <Typography css={nullDescription}>아직 오픈한 채널이 없습니다.</Typography>
+          {adminChannl.length === 0 && (
+            <Typography css={nullDescription}>
+              아직 오픈한 채널이 없습니다.
+            </Typography>
           )}
           <Grid container spacing={2}>
-            {adminChannel.map((channel) => (
+            {adminChannl.map((channel) => (
               <Grid key={channel.id} item>
                 <ChannelCard channel={channel} />
               </Grid>
@@ -91,7 +97,9 @@ const MyChannel = ({
         <Box css={partChannelWrapper}>
           <Typography css={listTitle}>참여 채널</Typography>
           {participantChannel.length === 0 && (
-            <Typography css={nullDescription}>아직 참여하는 채널이 없습니다.</Typography>
+            <Typography css={nullDescription}>
+              아직 참여하는 채널이 없습니다.
+            </Typography>
           )}
           <Grid container spacing={2}>
             {participantChannel.map((channel) => (

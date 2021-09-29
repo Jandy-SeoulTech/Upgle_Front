@@ -7,7 +7,7 @@ import { ReactComponent as KakaoIcon } from '../../lib/assets/kakaoIcon.svg';
 import { ReactComponent as GoogleIcon } from '../../lib/assets/googleIcon.svg';
 import { ReactComponent as NaverIcon } from '../../lib/assets/naverIcon.svg';
 
-const OAuth = ({ onOauth }) => {
+const OAuth = ({ onKakaoOauth, onGoogleOauth }) => {
   return (
     <Box sx={oAuthForm}>
       <Grid item container xs={4} justifyContent="center">
@@ -15,7 +15,7 @@ const OAuth = ({ onOauth }) => {
           useLoginForm={true}
           token={process.env.REACT_APP_KAKAO_SECRET}
           onSuccess={(result) => {
-            onOauth({ mode: 'kakao', access_token: result.response.access_token });
+            onKakaoOauth(result.response.access_token);
           }}
           onFail={(result) => console.log(result)}
           render={(props) => <KakaoIcon {...props} css={oAuthIcon}></KakaoIcon>}
@@ -24,8 +24,10 @@ const OAuth = ({ onOauth }) => {
       <Grid item container xs={4} justifyContent="center">
         <GoogleLogin
           clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-          render={(props) => <GoogleIcon {...props} css={oAuthIcon}></GoogleIcon>}
-          onSuccess={(result) => onOauth({ mode: 'google', access_token: result.accessToken })}
+          render={(props) => (
+            <GoogleIcon {...props} css={oAuthIcon}></GoogleIcon>
+          )}
+          onSuccess={(result) => onGoogleOauth(result.accessToken)}
           onFailure={(result) => console.log(result)}
           cookiePolicy={'single_host_origin'}
         />

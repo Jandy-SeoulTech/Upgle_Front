@@ -1,21 +1,43 @@
 import { createAction, handleActions } from 'redux-actions';
-import { pender } from 'redux-pender/lib/utils';
+import { takeLatest } from 'redux-saga/effects';
 import * as authAPI from '../lib/api/auth';
 import * as profileAPI from '../lib/api/profile';
+import createRequestSaga, {
+  createRequestActionTypes,
+} from '../lib/util/createRequestSaga';
 
-const UNFOLLOW = 'user/UNFOLLOW';
-const FOLLOW = 'user/FOLLOW';
+const [UNFOLLOW, UNFOLLOW_SUCCESS, UNFOLLOW_FAILURE] =
+  createRequestActionTypes('user/UNFOLLOW');
+const [FOLLOW, FOLLOW_SUCCESS, FOLLOW_FAILURE] =
+  createRequestActionTypes('user/FOLLOW');
 const SET_NICKNAME_STATE = 'user/SET_NICKNAME_STATE';
-const CHECK = 'user/CHECK';
+const [CHECK, CHECK_SUCCESS, CHECK_FAILURE] =
+  createRequestActionTypes('user/CHECK');
 const LOGOUT = 'user/LOGOUT';
 const INITIAL_USER = 'user/INITIAL_USER';
 
-export const unfollow = createAction(UNFOLLOW, profileAPI.unfollow);
-export const follow = createAction(FOLLOW, profileAPI.follow);
-export const check = createAction(CHECK, authAPI.check);
-export const logout = createAction(LOGOUT, authAPI.logout);
+export const unfollow = createAction(UNFOLLOW, ({ followingId }) => ({
+  followingId,
+}));
+export const follow = createAction(FOLLOW, ({ followingId }) => ({
+  followingId,
+}));
 export const setNicknameState = createAction(SET_NICKNAME_STATE);
+export const check = createAction(CHECK);
+export const logout = createAction(LOGOUT);
 export const initialUser = createAction(INITIAL_USER);
+
+const unfollowSaga = createRequestSaga(UNFOLLOW, profileAPI.unfollow);
+const followSaga = createRequestSaga(FOLLOW, profileAPI.follow);
+const checkSaga = createRequestSaga(CHECK, authAPI.check);
+const logoutSaga = createRequestSaga(LOGOUT, authAPI.logout);
+
+export function* userSaga() {
+  yield takeLatest(UNFOLLOW, unfollowSaga);
+  yield takeLatest(FOLLOW, followSaga);
+  yield takeLatest(CHECK, checkSaga);
+  yield takeLatest(LOGOUT, logoutSaga);
+}
 
 const initialState = {
   user: null,
@@ -26,6 +48,28 @@ const initialState = {
 
 export default handleActions(
   {
+    [UNFOLLOW_SUCCESS]: (state, { payload: { followings } }) => ({
+      ...state,
+      user: {
+        ...state.user,
+        followings,
+      },
+    }),
+    [UNFOLLOW_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
+    }),
+    [FOLLOW_SUCCESS]: (state, { payload: { followings } }) => ({
+      ...state,
+      user: {
+        ...state.user,
+        followings,
+      },
+    }),
+    [FOLLOW_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
+    }),
     [SET_NICKNAME_STATE]: (state, { payload: { nickname } }) => ({
       ...state,
       user: { ...state.user, nickname },
@@ -35,54 +79,20 @@ export default handleActions(
       ...state,
       success: false,
     }),
-    ...pender({
-      type: LOGOUT,
-      onPending: (state) => ({
-        ...state,
-        user: null,
-      }),
+    [CHECK_SUCCESS]: (state, { payload: user }) => ({
+      ...state,
+      user,
+      checkError: null,
+      success: true,
     }),
-    ...pender({
-      type: UNFOLLOW,
-      onSuccess: (state, { payload: { followings } }) => ({
-        ...state,
-        user: {
-          ...state.user,
-          followings,
-        },
-      }),
-      onFailure: (state, { payload: error }) => ({
-        ...state,
-        error,
-      }),
+    [CHECK_FAILURE]: (state, { payload: checkError }) => ({
+      ...state,
+      user: null,
+      checkError,
     }),
-    ...pender({
-      type: FOLLOW,
-      onSuccess: (state, { payload: { followings } }) => ({
-        ...state,
-        user: {
-          ...state.user,
-          followings,
-        },
-      }),
-      onFailure: (state, { payload: error }) => ({
-        ...state,
-        error,
-      }),
-    }),
-    ...pender({
-      type: CHECK,
-      onSuccess: (state, { payload: user }) => ({
-        ...state,
-        user,
-        checkError: null,
-        success: true,
-      }),
-      onFailure: (state, { payload: checkError }) => ({
-        ...state,
-        user: null,
-        checkError,
-      }),
+    [LOGOUT]: (state) => ({
+      ...state,
+      user: null,
     }),
   },
   initialState,
