@@ -34,7 +34,6 @@ const ChattingRoom = ({
   setReplyMessage,
   participants,
   handleSuccess,
-  success,
 }) => {
   const [reviewToglle, setReviewToglle] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState();
@@ -54,9 +53,14 @@ const ChattingRoom = ({
     chatEndRef.current.scrollIntoView();
   };
 
+  const onSendMessage = () => {
+    handleSendMessage();
+    scrollBottom();
+  };
+
   useEffect(() => {
     scrollBottom();
-  }, [success]);
+  }, []);
 
   return (
     <Box css={chatListWrapper}>
@@ -80,9 +84,7 @@ const ChattingRoom = ({
         </Box>
         <Box css={nav}>
           <Box css={[navItem, { background: `${palette.white}` }]}>채팅</Box>
-          <Box css={[navItem, { background: `#FFFFFF33`, color: '#BDBDBD' }]}>
-            화면
-          </Box>
+          <Box css={[navItem, { background: `#FFFFFF33`, color: '#BDBDBD' }]}>화면</Box>
           <Box css={[navItem, { background: `${palette.black}` }]}>
             <ClickAwayListener
               onClickAway={() => {
@@ -99,11 +101,7 @@ const ChattingRoom = ({
                 onClick={handleMenu}
               >
                 <Hamburger />
-                <Popper
-                  open={!!menuAnchor}
-                  anchorEl={menuAnchor}
-                  placement="bottom-end"
-                >
+                <Popper open={!!menuAnchor} anchorEl={menuAnchor} placement="bottom-end">
                   <Paper>
                     <MenuList dense css={menuWrapper}>
                       <MenuItem>
@@ -133,10 +131,7 @@ const ChattingRoom = ({
         {[...messages].reverse().map((message, i) => (
           <RoomChatItem
             key={message.id}
-            isContinue={
-              i > 0 &&
-              [...messages].reverse()[i - 1].sendUserId === message.sendUserId
-            }
+            isContinue={i > 0 && [...messages].reverse()[i - 1].sendUserId === message.sendUserId}
             prevMessage={i ? messages[i - 1] : { sendUserId: 0 }}
             right={
               user.id === room.roomOwner.id
@@ -146,8 +141,7 @@ const ChattingRoom = ({
             isMe={user.id === message.sendUserId}
             isLast={
               i === messages.length - 1 ||
-              [...messages].reverse()[i].sendUserId !==
-                [...messages].reverse()[i + 1].sendUserId
+              [...messages].reverse()[i].sendUserId !== [...messages].reverse()[i + 1].sendUserId
             }
             admin={message.sendUserId === room.roomOwner.id}
             message={message}
@@ -160,12 +154,8 @@ const ChattingRoom = ({
         {replyMessage && (
           <Box css={reply}>
             <Box>
-              <Typography className="user">
-                {replyMessage.sendUser.nickname}
-              </Typography>
-              <Typography className="content">
-                {replyMessage.content}
-              </Typography>
+              <Typography className="user">{replyMessage.sendUser.nickname}</Typography>
+              <Typography className="content">{replyMessage.content}</Typography>
             </Box>
             <ClearIcon
               onClick={() => {
@@ -182,16 +172,12 @@ const ChattingRoom = ({
             onChange={(e) => setMessage(e.target.value)}
             onKeyPress={(e) => {
               if (!e.shiftKey && e.key === 'Enter') {
-                handleSendMessage();
+                onSendMessage();
               }
             }}
             css={chatInput}
           />
-          <Button
-            variant="contained"
-            onClick={handleSendMessage}
-            css={sendButton}
-          >
+          <Button variant="contained" onClick={onSendMessage} css={sendButton}>
             전송
           </Button>
         </Box>

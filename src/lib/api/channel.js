@@ -9,12 +9,16 @@ export const createChannel = async ({
   category,
   src,
 }) => {
-  const response = await axios({
-    url: '/api/Channel',
-    method: 'POST',
-    data: { userId, channelId, name, introduce, tags, category, src },
+  const response = await axios.post('/api/Channel', {
+    userId,
+    channelId,
+    name,
+    introduce,
+    tags,
+    category,
+    src,
   });
-  return response.data;
+  return response.data.data;
 };
 
 export const updateChannel = async ({
@@ -26,88 +30,64 @@ export const updateChannel = async ({
   category,
   src,
 }) => {
-  const response = await axios({
-    url: '/api/Channel',
-    method: 'PATCH',
-    data: { userId, channelId, name, introduce, tags, category, src },
+  const response = await axios.post('/api/Channel', {
+    userId,
+    channelId,
+    name,
+    introduce,
+    tags,
+    category,
+    src,
   });
-  return response.data;
-};
-
-export const getChannelList = async (userId) => {
-  const response = await axios({
-    url: `/api/Channel/${userId}`,
-    method: 'GET',
-  });
-  return response.data;
+  return response.data.data;
 };
 
 export const enterChannel = async ({ adminId, channelId }) => {
-  const response = await axios({
-    url: '/api/Channel/enter',
-    method: 'POST',
-    data: { adminId, channelId },
-  });
-  return response.data;
+  const response = await axios.post('/api/Channel/enter', { adminId, channelId });
+  return response.data.data;
 };
 
 export const exitChannel = async ({ adminId, channelId }) => {
-  const response = await axios({
-    url: '/api/Channel/exit',
-    method: 'POST',
-    data: { adminId, channelId },
-  });
-  return response.data;
+  const response = await axios.post('/api/Channel/exit', { adminId, channelId });
+  return response.data.data;
 };
 
 export const passAdmin = async ({ adminId, userId, channelId }) => {
-  const response = await axios({
-    url: '/api/Channel/pass',
-    method: 'POST',
-    data: { adminId, userId, channelId },
-  });
-  return response.data;
+  const response = await axios.post('/api/Channel/pass', { adminId, userId, channelId });
+  return response.data.data;
 };
 
 export const likeChannel = async (channelId) => {
-  const response = await axios({
-    url: '/api/Channel/like',
-    method: 'POST',
-    data: { channelId },
-  });
-  return response.data;
+  const response = await axios.post('/api/Channel/like', { channelId });
+  return response.data.data;
 };
 
 export const unlikeChannel = async (channelId) => {
-  const response = await axios({
-    url: '/api/Channel/unlike',
-    method: 'POST',
-    data: { channelId },
-  });
-  return response.data;
+  const response = await axios.post('/api/Channel/unlike', { channelId });
+  return response.data.data;
 };
 
 export const banUser = async ({ adminId, userId, channelId }) => {
-  const response = await axios({
-    url: `/api/Channel/ban`,
-    method: 'GET',
-    data: { adminId, userId, channelId },
-  });
-  return response.data;
+  const response = await axios.post('/api/Channel/ban', { adminId, userId, channelId });
+  return response.data.data;
 };
 
 export const getChannelData = async (channelId) => {
-  const response = await axios({
-    url: `/api/Channel/info/${channelId}`,
-    method: 'GET',
-  });
-  return response.data;
+  const response = await axios.get(`/api/Channel/info/${channelId}`);
+  return response.data.data;
 };
 
 export const getMyChannel = async () => {
-  const response = await axios({
-    url: `/api/Profile/mychannel`,
-    method: 'GET',
-  });
-  return response.data;
+  const response = await axios.get(`/api/Profile/mychannel`);
+  return response.data.data;
+};
+
+export const getChannelPostList = async (channelId) => {
+  const response = await axios.get(`/api/Post/channel/${channelId}`);
+  return response.data.data;
+};
+
+export const getChannelPost = async (postId) => {
+  const response = await axios.get(`/api/Post/${postId}`);
+  return response.data.data;
 };

@@ -4,12 +4,7 @@ import { useHistory } from 'react-router';
 import EditChannel from '../../components/channel/EditChannel';
 import { setImage } from '../../modules/image';
 import { check } from '../../modules/user';
-import {
-  changeChannel,
-  createChannel,
-  initialize,
-  updateChannel,
-} from '../../modules/write';
+import { changeChannel, createChannel, initialize, updateChannel } from '../../modules/write';
 
 const EditChannelContainer = (props) => {
   const { writeChannel, channel, error } = useSelector((state) => state.write);
@@ -23,24 +18,31 @@ const EditChannelContainer = (props) => {
     dispatch(changeChannel({ key, value }));
   };
 
-  const editChannel = () => {
-    if (writeChannel.id) {
-      dispatch(
-        updateChannel({
-          userId: user.id,
-          channelId,
-          ...writeChannel,
-          src: images[0] || null,
-        }),
-      );
-    } else {
-      dispatch(
-        createChannel({
-          userId: user.id,
-          ...writeChannel,
-          src: images[0] || null,
-        }),
-      );
+  const editChannel = async () => {
+    try {
+      if (writeChannel.id) {
+        await dispatch(
+          updateChannel({
+            userId: user.id,
+            channelId,
+            ...writeChannel,
+            src: images[0] || null,
+          }),
+        );
+      } else {
+        await dispatch(
+          createChannel({
+            userId: user.id,
+            ...writeChannel,
+            src: images[0] || null,
+          }),
+        );
+      }
+      dispatch(check());
+      history.push('/myChannel');
+      alert('등록이 완료됐습니다!');
+    } catch {
+      alert('등록을 실패했습니다.');
     }
   };
 
@@ -55,17 +57,6 @@ const EditChannelContainer = (props) => {
       dispatch(initialize());
     };
   }, [dispatch]);
-
-  useEffect(() => {
-    if (channel) {
-      alert('등록이 완료됐습니다!');
-      dispatch(check());
-      history.push('/myChannel');
-    }
-    if (error) {
-      alert('등록을 실패했습니다.');
-    }
-  }, [history, channel, dispatch, error]);
 
   return (
     <EditChannel
