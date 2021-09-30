@@ -45,7 +45,7 @@
   "scripts": {
     "start": "react-scripts start",
     "start:server": "npx json-server ./data.json --port 4002",
-    "build": "react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false npx react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
