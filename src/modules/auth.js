@@ -29,7 +29,7 @@ export const sendVerificationCode = createAction(
   authAPI.sendVerificationCode,
 );
 export const checkEmail = createAction(CHECK_EMAIL, authAPI.checkEmail);
-export const checkNickname = createAction(CHECK_NICKNAME);
+export const checkNickname = createAction(CHECK_NICKNAME, authAPI.checkNickname);
 export const signup = createAction(SIGNUP, authAPI.signup);
 export const signin = createAction(SIGNIN, authAPI.signin);
 export const setSigninError = createAction(SET_SIGNIN_ERROR, (message) => message);

@@ -3,12 +3,7 @@ import { css } from '@emotion/react';
 import { useState } from 'react';
 import { Grid, Typography, useMediaQuery } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import {
-  isCode,
-  isEmail,
-  isNickname,
-  isPassword,
-} from '../../lib/util/validate';
+import { isCode, isEmail, isNickname, isPassword } from '../../lib/util/validate';
 import TextField from '../common/TextField';
 import Button from '../common/Button';
 import palette from '../../lib/styles/palette';
@@ -181,9 +176,7 @@ const Signup = ({
                 helperText={
                   codeError
                     ? codeError
-                    : emailChecked &&
-                      codeVerified === false &&
-                      '인증번호를 다시 확인해주세요.'
+                    : emailChecked && codeVerified === false && '인증번호를 다시 확인해주세요.'
                 }
                 value={code}
                 onChange={handleCodeChange}
@@ -224,9 +217,7 @@ const Signup = ({
               type="password"
               autoComplete="new-password"
               error={passwordError}
-              helperText={
-                passwordError && '영문, 숫자 포함 8자리 이상 입력해주세요.'
-              }
+              helperText={passwordError && '영문, 숫자 포함 8자리 이상 입력해주세요.'}
               value={password}
               onChange={handlePasswordChange}
               sx={input}
@@ -241,9 +232,7 @@ const Signup = ({
               type="password"
               autoComplete="new-repassword"
               error={repasswordError}
-              helperText={
-                repasswordError && '입력한 비밀번호와 일치하지 않습니다.'
-              }
+              helperText={repasswordError && '입력한 비밀번호와 일치하지 않습니다.'}
               value={repassword}
               onChange={handleRepasswordChange}
               sx={input}
@@ -270,16 +259,12 @@ const Signup = ({
           </Grid>
 
           <Grid item container xs={12} mb={2} justifyContent="center">
+            {console.log(codeVerified, password, repasswordError, nicknameChecked)}
             <Button
               variant="contained"
               fullWidth
               onClick={handleSubmit}
-              disabled={
-                !codeVerified ||
-                !password ||
-                repasswordError ||
-                !nicknameChecked
-              }
+              disabled={!codeVerified || !password || repasswordError || !nicknameChecked}
               sx={submitButton}
             >
               가입하기
@@ -295,9 +280,7 @@ const Signup = ({
           )}
 
           <Grid item xs={12} md={10} mt="80px" textAlign="center">
-            <Typography>
-              {m600 ? 'SNS 간편 가입' : 'SNS 계정으로 간편하게 시작해보세요'}
-            </Typography>
+            <Typography>{m600 ? 'SNS 간편 가입' : 'SNS 계정으로 간편하게 시작해보세요'}</Typography>
           </Grid>
 
           <Grid item container xs={12} justifyContent="center">

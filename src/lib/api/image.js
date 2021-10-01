@@ -9,5 +9,5 @@ export const uploadImages = async (data) => {
     },
     data,
   });
-  return response.data;
+  return response.data.data;
 };
