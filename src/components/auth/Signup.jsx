@@ -259,7 +259,6 @@ const Signup = ({
           </Grid>
 
           <Grid item container xs={12} mb={2} justifyContent="center">
-            {console.log(codeVerified, password, repasswordError, nicknameChecked)}
             <Button
               variant="contained"
               fullWidth
