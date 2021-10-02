@@ -7,6 +7,7 @@ import ChannelPostListPage from '../pages/channel/ChannelPostListPage';
 import ChannelPostPage from '../pages/channel/ChannelPostPage';
 import EditChannelPage from '../pages/channel/EditChannelPage';
 import CheckJoinChannel from '../middlewares/CheckJoinChannel';
+import ChannelPostWritingPage from '../pages/channel/ChannelPostWritingPage';
 
 const ChannelRouter = () => {
   return (
@@ -19,6 +20,10 @@ const ChannelRouter = () => {
       <Route
         path="/channel/:channelId/postList"
         render={(props) => <CheckJoinChannel {...props} Component={ChannelPostListPage} />}
+      />
+      <Route
+        path="/channel/:channelId/writing"
+        render={(props) => <CheckJoinChannel {...props} Component={ChannelPostWritingPage} />}
       />
       <Route
         path="/channel/:channelId/post/edit"
