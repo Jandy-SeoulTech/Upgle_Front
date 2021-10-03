@@ -37,7 +37,7 @@ const SignupContainer = ({ OAuthComponent }) => {
   };
 
   const onCheckCode = ({ email, code }) => {
-    dispatch(checkVerificationCode({ email, code }));
+    dispatch(checkVerificationCode({ email, auth: code }));
   };
 
   const onCheckNickname = ({ nickname }) => {
