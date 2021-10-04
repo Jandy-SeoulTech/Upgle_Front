@@ -8,8 +8,9 @@ import { TextField } from '../TextField';
 import Button from './../common/Button';
 import palette from '../../lib/styles/palette';
 import { useRef, useState } from 'react';
+import editorConfig from '../../lib/util/editorConfig';
 
-const ChannelPostWriting = ({ channel, user, onWriteChannelPost }) => {
+const ChannelPostWriting = ({ channel, user, onWriteChannelPost, initialValue }) => {
   const editorRef = useRef();
   const [title, setTitle] = useState('');
   const [isNotice, setIsNotice] = useState(false);
@@ -26,7 +27,7 @@ const ChannelPostWriting = ({ channel, user, onWriteChannelPost }) => {
   };
 
   const onSubmit = async () => {
-    const content = editorRef.current.getInstance().getHTML();
+    const content = editorRef.current.getInstance().getMarkdown();
     await onWriteChannelPost({
       channelId: channel.id,
       title,
@@ -56,13 +57,15 @@ const ChannelPostWriting = ({ channel, user, onWriteChannelPost }) => {
         </Box>
         <Box css={editor}>
           <Editor
+            ref={editorRef}
             language="ko"
-            previewStyle="vertical"
+            initialValue={initialValue}
             initialEditType="wysiwyg"
+            previewStyle="vertical"
             height="100%"
             useCommandShortcut={true}
-            placeholder="서로가 가진 재능을 공유해보세요!"
-            ref={editorRef}
+            customHTMLRenderer={editorConfig.renderer}
+            hooks={editorConfig.hooks}
           />
         </Box>
         <Grid container justifyContent="flex-end">
@@ -104,6 +107,24 @@ const editor = css`
   height: calc(100vh - 215px);
   margin-top: 30px;
   .toastui-editor-contents p {
+    font-size: 20px;
+    font-family: 'Barlow', 'Noto Sans KR';
+  }
+  .toastui-editor-contents .question {
+    border: 1px solid #7b7b7b;
+    border-radius: 10px;
+    background-color: #c8ff8a;
+    width: 200px;
+    margin-right: 0;
+    margin-left: auto;
+    font-size: 20px;
+    font-family: 'Barlow', 'Noto Sans KR';
+  }
+  .toastui-editor-contents .answer {
+    border: 1px solid #7b7b7b;
+    border-radius: 10px;
+    background-color: #8aecff;
+    width: 200px;
     font-size: 20px;
     font-family: 'Barlow', 'Noto Sans KR';
   }
