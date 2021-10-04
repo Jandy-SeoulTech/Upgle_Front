@@ -18,6 +18,7 @@
     "@toast-ui/editor": "^3.0.3",
     "@toast-ui/react-editor": "^3.0.3",
     "axios": "^0.21.1",
+    "cross-env": "^7.0.3",
     "http-proxy-middleware": "^2.0.0",
     "jodit-react": "^1.1.1",
     "json-server": "^0.16.3",
@@ -45,7 +46,7 @@
   "scripts": {
     "start": "react-scripts start",
     "start:server": "npx json-server ./data.json --port 4002",
-    "build": "GENERATE_SOURCEMAP=false npx react-scripts build",
+    "build": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
