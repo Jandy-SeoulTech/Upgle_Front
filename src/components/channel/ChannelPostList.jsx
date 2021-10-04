@@ -31,7 +31,7 @@ const ChannelPostList = ({ postList, channel }) => {
     <Grid container css={backgroudWrapper}>
       <Grid item css={{ width: '1200px' }}>
         <Box css={writeTitleWrapper}>
-          <Button css={write}>
+          <Button css={write} onClick={() => history.push(`/channel/${channel.id}/writing`)}>
             <PostWrite className="icon" css={{ marginRight: '10px' }} />
             요청하기
           </Button>
