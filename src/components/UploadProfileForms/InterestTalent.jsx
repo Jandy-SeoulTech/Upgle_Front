@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import { Typography } from '@material-ui/core';
 import palette from '../../lib/styles/palette';
-import TagBox from '../TagBox';
+import TagBox from '../common/TagBox';
 import { TagInput } from '../TextField';
 
 const InterestTalent = ({ interestTalent, handleChangeFiled }) => {

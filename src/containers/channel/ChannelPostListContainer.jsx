@@ -1,24 +1,12 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getChannelData, getChannelPostList } from '../../modules/channel';
+import { getChannelData } from '../../modules/channel';
+import { getChannelPostList } from '../../modules/post';
 import ChannelPostList from './../../components/channel/ChannelPostList';
 
 const ChannelPostListContainer = ({ channelId }) => {
-  /* const { user } = useSelector((state) => state.user);
   const { channel } = useSelector((state) => state.channel);
-  const [isParticipant, setIsParticipant] = useState(false);
-
-  useEffect(() => {
-    if (channel && user) {
-      channel.admin.id === user.id && setIsParticipant(true);
-      channel.participants.forEach(
-        (participant) =>
-          participant.userId === user.id && setIsParticipant(true),
-      );
-    }
-  }, [channel, user]);
- */
-  const { channel, postList } = useSelector((state) => state.channel);
+  const { postList } = useSelector((state) => state.post);
   const dispatch = useDispatch();
 
   useEffect(() => {

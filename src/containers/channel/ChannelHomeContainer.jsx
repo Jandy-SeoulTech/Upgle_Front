@@ -1,15 +1,19 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ChannelHome from '../../components/channel/ChannelHome';
-import { getChannelData, getChannelPost, getRoomList } from '../../modules/channel';
+import { getChannelData } from '../../modules/channel';
+import { getRoomList } from '../../modules/room';
+import { getChannelPostList } from '../../modules/post';
 
 const ChannelHomeContainer = ({ channelId }) => {
-  const { channel, postList, roomList } = useSelector((state) => state.channel);
+  const { channel } = useSelector((state) => state.channel);
+  const { postList } = useSelector((state) => state.post);
+  const { roomList } = useSelector((state) => state.room);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getRoomList({ channelId }));
-    dispatch(getChannelPost(channelId));
+    dispatch(getChannelPostList(channelId));
     dispatch(getChannelData(channelId));
   }, [dispatch, channelId]);
 

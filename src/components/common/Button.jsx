@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import { Button as MuiButton } from '@material-ui/core';
 
 export default function Button(props) {
@@ -23,6 +24,7 @@ export default function Button(props) {
           borderColor: 'black',
         },
         ...props.sx,
+        ...props.css,
       }}
     />
   );

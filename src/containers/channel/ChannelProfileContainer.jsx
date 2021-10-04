@@ -6,7 +6,7 @@ import {
   enterChannel,
   exitChannel,
   getChannelData,
-  initailChannel,
+  initChannel,
   likeChannel,
   unLikeChannel,
 } from '../../modules/channel';
@@ -52,7 +52,7 @@ const ChannelProfileContainer = ({ channelId }) => {
     },
   ]);
 
-  const { channel, success } = useSelector((state) => state.channel);
+  const { channel } = useSelector((state) => state.channel);
   const { user } = useSelector((state) => state.user);
   const [isParticipant, setIsParticipant] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
@@ -60,12 +60,14 @@ const ChannelProfileContainer = ({ channelId }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const onEnterChannel = () => {
-    dispatch(enterChannel({ adminId: channel.adminId, channelId }));
+  const onEnterChannel = async () => {
+    await dispatch(enterChannel({ adminId: channel.adminId, channelId }));
+    dispatch(getChannelData(channelId));
   };
 
-  const onExitChannel = () => {
-    dispatch(exitChannel({ adminId: channel.adminId, channelId }));
+  const onExitChannel = async () => {
+    await dispatch(exitChannel({ adminId: channel.adminId, channelId }));
+    dispatch(getChannelData(channelId));
   };
 
   const onLikeChannel = () => {
@@ -76,8 +78,8 @@ const ChannelProfileContainer = ({ channelId }) => {
     dispatch(unLikeChannel(channelId));
   };
 
-  const onEdit = () => {
-    dispatch(setChannel(channel));
+  const onEdit = async () => {
+    await dispatch(setChannel(channel));
     history.push(`/channel/edit`);
   };
 
@@ -99,6 +101,9 @@ const ChannelProfileContainer = ({ channelId }) => {
 
   useEffect(() => {
     dispatch(getChannelData(channelId));
+    return () => {
+      dispatch(initChannel());
+    };
   }, [dispatch, channelId]);
 
   useEffect(() => {
@@ -112,12 +117,6 @@ const ChannelProfileContainer = ({ channelId }) => {
       channel.channellike.forEach((like) => like.userId === user.id && setIsLiked(true));
     }
   }, [channel, user]);
-
-  useEffect(() => {
-    if (success) {
-      dispatch(getChannelData(channelId));
-    }
-  }, [success]);
 
   if (!channel || !user) return '로딩중';
 

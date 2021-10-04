@@ -5,12 +5,12 @@ import '@toast-ui/editor/dist/i18n/ko-kr';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import { TextField } from '../TextField';
-import Button from './../common/Button';
+import Button from '../common/Button';
 import palette from '../../lib/styles/palette';
 import { useRef, useState } from 'react';
 import editorConfig from '../../lib/util/editorConfig';
 
-const ChannelPostWriting = ({ channel, user, onWriteChannelPost, initialValue }) => {
+const EditPost = ({ channel, user, onWriteChannelPost, initialValue }) => {
   const editorRef = useRef();
   const [title, setTitle] = useState('');
   const [isNotice, setIsNotice] = useState(false);
@@ -116,4 +116,4 @@ const submitBtn = css`
   color: #ffffff;
 `;
 
-export default ChannelPostWriting;
+export default EditPost;

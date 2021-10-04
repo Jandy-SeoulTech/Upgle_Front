@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import { Box, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router';
-import postStatus from '../../lib/util/postStatus';
+import postStatus from '../../lib/util/postType';
 import Button from '../common/Button';
 
 const PostCard = ({ channelId, post }) => {
