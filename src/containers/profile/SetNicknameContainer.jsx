@@ -1,20 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import SetNickname from '../../components/profile/SetNickname';
-import {
-  checkNickname,
-  initAuth,
-  nicknameChanged,
-  setNickname,
-} from '../../modules/auth';
-import { check, setNicknameState } from '../../modules/user';
+import { checkNickname, nicknameChanged, setNickname } from '../../modules/auth';
+import { check } from '../../modules/user';
 
 const SetNicknameContainer = (props) => {
-  const { user } = useSelector((state) => state.user);
-  const { nicknameChecked, setNicknameSuccess } = useSelector(
-    (state) => state.auth,
-  );
+  const { nicknameChecked } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -26,39 +18,11 @@ const SetNicknameContainer = (props) => {
     dispatch(nicknameChanged());
   };
 
-  const onSetNickname = ({ nickname }) => {
-    dispatch(setNickname({ nickname }));
+  const onSetNickname = async ({ nickname }) => {
+    await dispatch(setNickname({ nickname }));
+    await dispatch(check());
+    history.push('/');
   };
-
-  useEffect(() => {
-    return () => {
-      dispatch(initAuth());
-    };
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (!!setNicknameSuccess) {
-      dispatch(setNicknameState({ nickname: setNicknameSuccess }));
-      dispatch(check());
-      history.push('/');
-    }
-  }, [setNicknameSuccess, history, dispatch]);
-
-  useEffect(() => {
-    if (user) {
-      if (user.isAdmin) {
-        alert('관리자님 환영합니다!');
-        history.push('/admin');
-      } else {
-        if (!user.nickname) {
-          alert('닉네임을 등록해주세요.');
-        } else {
-          alert(`${user.nickname}님 안녕하세요!`);
-          history.push('/');
-        }
-      }
-    }
-  }, [user, history]);
 
   return (
     <SetNickname

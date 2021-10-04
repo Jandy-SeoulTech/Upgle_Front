@@ -45,7 +45,6 @@ const initialState = {
   codeSent: null,
   codeVerified: null,
   nicknameChecked: null,
-  setNicknameSuccess: null,
   error: null,
 };
 
@@ -66,10 +65,6 @@ export default handleActions(
     [INIT_AUTH]: () => initialState,
     ...pender({
       type: SET_NICKNAME,
-      onSuccess: (state, { meta: { nickname } }) => ({
-        ...state,
-        setNicknameSuccess: nickname,
-      }),
     }),
     ...pender({
       type: CHECK_NICKNAME,
