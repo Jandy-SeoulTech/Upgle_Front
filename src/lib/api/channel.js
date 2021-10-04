@@ -82,17 +82,4 @@ export const getMyChannel = async () => {
   return response.data.data;
 };
 
-export const getChannelPostList = async (channelId) => {
-  const response = await axios.get(`/api/Post/channel/${channelId}`);
-  return response.data.data;
-};
 
-export const getChannelPost = async (postId) => {
-  const response = await axios.get(`/api/Post/${postId}`);
-  return response.data.data;
-};
-
-export const writeChannelPost = async ({ channelId, title, status, content, images }) => {
-  const response = await axios.post('/api/Post', { channelId, title, status, content, images });
-  return response.data.data;
-};
