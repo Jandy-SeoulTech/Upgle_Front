@@ -31,7 +31,7 @@ const ChannelPostWriting = ({ channel, user, onWriteChannelPost, initialValue })
     await onWriteChannelPost({
       channelId: channel.id,
       title,
-      status: isNotice ? 'Notice' : 'Open',
+      status: isNotice ? 'Notice' : 'Close',
       content,
       images: [],
     });
