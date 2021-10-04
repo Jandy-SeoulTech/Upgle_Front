@@ -55,14 +55,14 @@ const ChannelPostWriting = ({ channel, user, onWriteChannelPost, initialValue })
             />
           )}
         </Box>
-        <Box css={editor}>
+        <Box css={editorConfig.editorCss}>
           <Editor
             ref={editorRef}
             language="ko"
             initialValue={initialValue}
             initialEditType="wysiwyg"
             previewStyle="vertical"
-            height="100%"
+            height="calc(100vh - 215px)"
             useCommandShortcut={true}
             customHTMLRenderer={editorConfig.renderer}
             hooks={editorConfig.hooks}
@@ -100,40 +100,6 @@ const titleInput = css`
 const checkBox = css`
   &.Mui-checked {
     color: ${palette.orange};
-  }
-`;
-
-const editor = css`
-  height: calc(100vh - 215px);
-  margin-top: 30px;
-  .toastui-editor-contents p {
-    font-size: 20px;
-    font-family: 'Barlow', 'Noto Sans KR';
-  }
-  .toastui-editor-contents .question {
-    border: 1px solid #7b7b7b;
-    border-radius: 10px;
-    background-color: #c8ff8a;
-    width: 200px;
-    margin-right: 0;
-    margin-left: auto;
-    font-size: 20px;
-    font-family: 'Barlow', 'Noto Sans KR';
-  }
-  .toastui-editor-contents .answer {
-    border: 1px solid #7b7b7b;
-    border-radius: 10px;
-    background-color: #8aecff;
-    width: 200px;
-    font-size: 20px;
-    font-family: 'Barlow', 'Noto Sans KR';
-  }
-  .toastui-editor-contents::-webkit-scrollbar {
-    width: 10px;
-  }
-  .toastui-editor-contents::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 5px;
   }
 `;
 
