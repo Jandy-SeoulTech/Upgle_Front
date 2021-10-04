@@ -4,7 +4,7 @@ module.exports = function (app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'http://34.64.247.1:4000',
+      target: 'https://upgle.hisfolio.com',
       changeOrigin: true,
     }),
   );

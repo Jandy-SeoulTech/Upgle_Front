@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
-import { getChannelData, getChannelPost } from '../../modules/channel';
+import { getChannelData, getChannelPost, initPost } from '../../modules/channel';
 import { createRoom } from '../../modules/room';
 import ChannelPost from './../../components/channel/ChannelPost';
 
@@ -21,6 +21,12 @@ const ChannelPostContainer = ({ channelId, postId }) => {
     dispatch(getChannelData(channelId));
     dispatch(getChannelPost(postId));
   }, [dispatch, channelId]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(initPost())
+    }
+  }, [])
 
   if (!channel || !post) return '로딩중';
 

@@ -4,6 +4,7 @@ import * as channelAPI from '../lib/api/channel';
 import * as roomAPI from '../lib/api/room';
 
 const WRITE_CHANNEL_POST = 'channel/WRITE_CHANNEL_POST';
+const INIT_POST = 'channel/INIT_POST';
 const GET_ROOM_LIST = 'channel/GET_ROOM_LIST';
 const GET_CHANNEL_POST_LIST = 'channel/GET_CHANNEL_POST_LIST';
 const GET_CHANNEL_POST = 'channel/GET_CHANNEL_POST';
@@ -16,6 +17,7 @@ const UNLIKE_CHANNEL = 'channel/UNLIKE_CHANNEL';
 const INITIAL_CHANNEL = 'channel/INITIAL_CHANNEL';
 
 export const writeChannelPost = createAction(WRITE_CHANNEL_POST, channelAPI.writeChannelPost);
+export const initPost = createAction(INIT_POST);
 export const getRoomList = createAction(GET_ROOM_LIST, roomAPI.getRoomList);
 export const getChannelPostList = createAction(
   GET_CHANNEL_POST_LIST,
@@ -43,6 +45,10 @@ const initialState = {
 
 const channel = handleActions(
   {
+    [INIT_POST]: (state) => ({
+      ...state,
+      post: initialState.post,
+    }),
     ...pender({
       type: WRITE_CHANNEL_POST,
       onPending: (state) => ({

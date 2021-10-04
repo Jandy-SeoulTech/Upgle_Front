@@ -28,6 +28,9 @@ import Modal from '../common/Modal';
 import { TextField as MuiTextField } from '@material-ui/core';
 import { TextField } from '../TextField';
 import Clear from '@material-ui/icons/Clear';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Viewer } from '@toast-ui/react-editor';
+import editorConfig from '../../lib/util/editorConfig';
 
 const ChannelPost = ({
   post,
@@ -228,7 +231,13 @@ const ChannelPost = ({
           </Grid>
         </Box>
         <Box css={postContentWrapper}>
-          <Typography>{post.content}</Typography>
+          <Box css={editorConfig.editorCss}>
+            <Viewer
+              viewer={true}
+              initialValue={post.content}
+              customHTMLRenderer={editorConfig.renderer}
+            />
+          </Box>
           <ControllButtonList status={post.status} />
         </Box>
         <Modal open={createModalOpen} setOpen={setCreateModalOpen}>
@@ -390,15 +399,6 @@ const postContentWrapper = css`
   display: flex;
   flex-direction: column;
   padding: 30px;
-  & .MuiTypography-root {
-    font-family: 'Barlow', 'Noto Sans KR';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 30px;
-    letter-spacing: 0.2px;
-    color: #000000;
-  }
 `;
 
 const createRoomModal = css`

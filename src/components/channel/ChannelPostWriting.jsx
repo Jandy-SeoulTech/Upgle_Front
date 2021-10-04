@@ -8,8 +8,9 @@ import { TextField } from '../TextField';
 import Button from './../common/Button';
 import palette from '../../lib/styles/palette';
 import { useRef, useState } from 'react';
+import editorConfig from '../../lib/util/editorConfig';
 
-const ChannelPostWriting = ({ channel, user, onWriteChannelPost }) => {
+const ChannelPostWriting = ({ channel, user, onWriteChannelPost, initialValue }) => {
   const editorRef = useRef();
   const [title, setTitle] = useState('');
   const [isNotice, setIsNotice] = useState(false);
@@ -26,11 +27,11 @@ const ChannelPostWriting = ({ channel, user, onWriteChannelPost }) => {
   };
 
   const onSubmit = async () => {
-    const content = editorRef.current.getInstance().getHTML();
+    const content = editorRef.current.getInstance().getMarkdown();
     await onWriteChannelPost({
       channelId: channel.id,
       title,
-      status: isNotice ? 'Notice' : 'Open',
+      status: isNotice ? 'Notice' : 'Close',
       content,
       images: [],
     });
@@ -54,15 +55,17 @@ const ChannelPostWriting = ({ channel, user, onWriteChannelPost }) => {
             />
           )}
         </Box>
-        <Box css={editor}>
+        <Box css={editorConfig.editorCss}>
           <Editor
-            language="ko"
-            previewStyle="vertical"
-            initialEditType="wysiwyg"
-            height="100%"
-            useCommandShortcut={true}
-            placeholder="서로가 가진 재능을 공유해보세요!"
             ref={editorRef}
+            language="ko"
+            initialValue={initialValue}
+            initialEditType="wysiwyg"
+            previewStyle="vertical"
+            height="calc(100vh - 215px)"
+            useCommandShortcut={true}
+            customHTMLRenderer={editorConfig.renderer}
+            hooks={editorConfig.hooks}
           />
         </Box>
         <Grid container justifyContent="flex-end">
@@ -97,22 +100,6 @@ const titleInput = css`
 const checkBox = css`
   &.Mui-checked {
     color: ${palette.orange};
-  }
-`;
-
-const editor = css`
-  height: calc(100vh - 215px);
-  margin-top: 30px;
-  .toastui-editor-contents p {
-    font-size: 20px;
-    font-family: 'Barlow', 'Noto Sans KR';
-  }
-  .toastui-editor-contents::-webkit-scrollbar {
-    width: 10px;
-  }
-  .toastui-editor-contents::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 5px;
   }
 `;
 
