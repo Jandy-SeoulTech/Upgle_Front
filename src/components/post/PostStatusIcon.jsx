@@ -36,7 +36,9 @@ const defaultStyle = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  & p {
+  .MuiTypography-root {
+    padding: 0;
+    text-align: center;
     font-family: 'Barlow', 'Noto Sans KR';
     font-weight: bold;
     font-size: 0.9375rem;

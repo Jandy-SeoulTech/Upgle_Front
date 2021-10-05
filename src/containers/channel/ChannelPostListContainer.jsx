@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import Loading from '../../components/common/Loading';
 import { getChannelData } from '../../modules/channel';
 import { getChannelPostList } from '../../modules/post';
 import ChannelPostList from './../../components/channel/ChannelPostList';
@@ -14,7 +15,7 @@ const ChannelPostListContainer = ({ channelId }) => {
     dispatch(getChannelData(channelId));
   }, [dispatch, channelId]);
 
-  if (!channel) return '로딩중';
+  if (!channel || !postList) return <Loading css={{ backgroundColor: '#fafafc' }} />;
 
   return <ChannelPostList postList={postList} channel={channel} />;
 };
