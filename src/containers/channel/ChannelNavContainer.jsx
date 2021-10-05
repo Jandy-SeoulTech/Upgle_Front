@@ -8,11 +8,12 @@ const ChannelNavContainer = (props) => {
   const [isParticipant, setIsParticipant] = useState(false);
 
   useEffect(() => {
+    console.log('변화 감지');
     if (channel && user) {
+      setIsParticipant(false);
       channel.admin.id === user.id && setIsParticipant(true);
       channel.participants.forEach(
-        (participant) =>
-          participant.userId === user.id && setIsParticipant(true),
+        (participant) => participant.userId === user.id && setIsParticipant(true),
       );
     }
   }, [channel, user]);
