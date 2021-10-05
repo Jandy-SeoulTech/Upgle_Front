@@ -44,6 +44,7 @@ const ChannelPostList = ({ postList, channel }) => {
           <Box css={postListWrapper}>
             {postList.map((post) => (
               <Box
+                key={post.id}
                 css={postItem}
                 onClick={(e) => {
                   let parentNode = e.target;

@@ -1,39 +1,26 @@
 /** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import ReactLoading from 'react-loading';
+import palette from '../../lib/styles/palette';
 
-const Loading = ({ visible }) =>
-  visible ? (
-    <Wrapper>
-      <svg
-        width="64"
-        height="64"
-        viewBox="0 0 38 38"
-        xmlns="http://www.w3.org/2000/svg"
-        stroke="gray"
-      >
-        <g fill="none" fillRule="evenodd">
-          <g transform="translate(1 1)" strokeWidth="2">
-            <circle strokeOpacity=".5" cx="18" cy="18" r="18" />
-            <path d="M36 18c0-9.94-8.06-18-18-18">
-              <animateTransform
-                attributeName="transform"
-                type="rotate"
-                from="0 18 18"
-                to="360 18 18"
-                dur="1s"
-                repeatCount="indefinite"
-              />
-            </path>
-          </g>
-        </g>
-      </svg>
-    </Wrapper>
-  ) : null;
+const Loading = (props) => (
+  <LoadingWrapper {...props}>
+    <ReactLoading type="spinningBubbles" color={palette.black} css={defaultStyle} />
+  </LoadingWrapper>
+);
 
-const Wrapper = styled.div`
+const defaultStyle = css`
   text-align: center;
-  margin-top: 32px;
-  margin-bottom: 32px;
+`;
+
+const LoadingWrapper = styled.div`
+  padding: 2rem 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default Loading;

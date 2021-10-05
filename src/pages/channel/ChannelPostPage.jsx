@@ -1,8 +1,10 @@
 import React from 'react';
+import CommentContainer from '../../containers/common/CommentContainer';
 import FooterContainer from '../../containers/common/FooterContainer';
 import HeaderContainer from '../../containers/common/HeaderContainer';
+import PostButtonListContainer from '../../containers/post/PostButtonListContainer';
+import PostContainer from '../../containers/post/PostContainer';
 import ChannelNavContainer from './../../containers/channel/ChannelNavContainer';
-import ChannelPostContainer from './../../containers/channel/ChannelPostContainer';
 
 const ChannelPostPage = ({ match }) => {
   const { channelId, postId } = match.params;
@@ -10,10 +12,9 @@ const ChannelPostPage = ({ match }) => {
     <>
       <HeaderContainer />
       <ChannelNavContainer />
-      <ChannelPostContainer
-        channelId={parseInt(channelId, 10)}
-        postId={parseInt(postId, 10)}
-      />
+      <PostContainer channelId={parseInt(channelId, 10)} postId={parseInt(postId, 10)} />
+      <PostButtonListContainer channelId={parseInt(channelId, 10)} postId={parseInt(postId, 10)} />
+      <CommentContainer channelId={parseInt(channelId, 10)} postId={parseInt(postId, 10)} />
       <FooterContainer />
     </>
   );

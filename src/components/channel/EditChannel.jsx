@@ -1,32 +1,23 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import {
-  Box,
-  Grid,
-  MenuItem,
-  Paper,
-  Select,
-  Typography,
-} from '@material-ui/core';
+import { Box, Grid, MenuItem, Paper, Select, Typography } from '@material-ui/core';
 import palette from '../../lib/styles/palette';
 import Button from '../common/Button';
 import { ReactComponent as Check } from '../../lib/assets/check.svg';
 import UploadImageContainer from '../../containers/common/UploadImageContainer';
 import categories from '../../lib/util/categories';
 import { TagInput, TextArea, TextField } from '../TextField';
-import TagBox from '../TagBox';
+import TagBox from '../common/TagBox';
 
 const EditChannel = ({ writeChannel, handleChangeFiled, editChannel }) => {
   return (
     <Box css={createChannelWrapper}>
       <Box css={createChannelContent}>
-        <Typography css={title}>
-          채널 {writeChannel.id ? '관리' : '만들기'}
-        </Typography>
+        <Typography css={title}>채널 {writeChannel.id ? '관리' : '만들기'}</Typography>
         <Paper css={description}>
-          <span className="highlight">잠깐!</span> Upgle에는 재능을 공유하기
-          위한 다양한 채널이 있습니다. 채널을 만들기 전에 재능을 공유하고 싶은
-          기존 채널이 있는지 탐색해보세요! <Button>재능 찾기</Button>
+          <span className="highlight">잠깐!</span> Upgle에는 재능을 공유하기 위한 다양한 채널이
+          있습니다. 채널을 만들기 전에 재능을 공유하고 싶은 기존 채널이 있는지 탐색해보세요!
+          <Button>재능 찾기</Button>
         </Paper>
 
         <Paper css={createChannelForm}>
@@ -129,8 +120,8 @@ const EditChannel = ({ writeChannel, handleChangeFiled, editChannel }) => {
             <Grid item container xs={8} justifyContent="center">
               <UploadImageContainer />
               <Typography css={uploadImageDescription}>
-                채널을 드러낼 수 있는 프로필 사진을 등록해주세요. 등록하지
-                않으면 기본 이미지로 설정됩니다.
+                채널을 드러낼 수 있는 프로필 사진을 등록해주세요. 등록하지 않으면 기본 이미지로
+                설정됩니다.
               </Typography>
             </Grid>
           </Grid>

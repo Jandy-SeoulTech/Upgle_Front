@@ -9,9 +9,9 @@ const EXIT_ROOM = 'chat/EXIT_ROOM';
 const CLOSE_ROOM = 'chat/CLOSE_ROOM';
 const REVIEW_ROOM = 'chat/REVIEW_ROOM';
 
+export const getRoomList = createAction(GET_ROOM_LIST, roomAPI.getRoomList);
 export const createRoom = createAction(CREATE_ROOM, roomAPI.createRoom);
 export const getRoomData = createAction(GET_ROOM_DATA, roomAPI.getRoomData);
-export const getRoomList = createAction(GET_ROOM_LIST, roomAPI.getRoomList);
 export const exitRoom = createAction(EXIT_ROOM, roomAPI.exitRoom);
 export const closeRoom = createAction(CLOSE_ROOM, roomAPI.closeRoom);
 export const reviewRoom = createAction(REVIEW_ROOM, roomAPI.reviewRoom);

@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import ChannelPostWriting from '../../components/channel/ChannelPostWriting';
-import { getChannelData, writeChannelPost } from '../../modules/channel';
+import EditPost from '../../components/post/EditPost';
+import { getChannelData } from '../../modules/channel';
+import { writePost } from '../../modules/post';
 
-const ChannelPostWritingContainer = ({ channelId, isEdit }) => {
+const EditPostContainer = ({ channelId }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
@@ -15,14 +16,14 @@ const ChannelPostWritingContainer = ({ channelId, isEdit }) => {
   }, [dispatch, channelId]);
 
   const onWriteChannelPost = async ({ channelId, title, status, content, images }) => {
-    await dispatch(writeChannelPost({ channelId, title, status, content, images }));
+    await dispatch(writePost({ channelId, title, status, content, images }));
     history.push(`/channel/${channelId}/postList`);
   };
 
   const initialVaue = '재능 공유 요청을 작성해주세요.';
 
   return (
-    <ChannelPostWriting
+    <EditPost
       channel={channel}
       user={user}
       onWriteChannelPost={onWriteChannelPost}
@@ -31,4 +32,4 @@ const ChannelPostWritingContainer = ({ channelId, isEdit }) => {
   );
 };
 
-export default ChannelPostWritingContainer;
+export default EditPostContainer;

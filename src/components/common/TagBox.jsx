@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import { Box, Grid, Typography } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/Clear';
-import palette from '../lib/styles/palette';
+import palette from '../../lib/styles/palette';
 
 const TagBox = ({ tagList, onClick, ...props }) => {
   return (
