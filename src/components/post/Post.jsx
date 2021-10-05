@@ -89,14 +89,14 @@ const Post = ({ post, channel, onEditPost, onDeletePost }) => {
 export default Post;
 
 const backgroudWrapper = css`
-  margin-top: 135px;
+  margin-top: 8.4375rem;
   background: #fafafc;
   padding: 0 calc((100% - 71.25rem) / 2);
 `;
 
 const postWrapper = css`
-  margin-top: 80px;
-  min-height: 200px;
+  margin-top: 5rem;
+  min-height: 12.5rem;
   height: fit-content;
   border-bottom: 1px solid #bdbdbd;
 `;
@@ -104,30 +104,30 @@ const postWrapper = css`
 const postTitleWrapper = css`
   display: flex;
   flex-direction: column;
-  padding: 30px 30px 20px 30px;
+  padding: 1.875rem 1.875rem 1.25rem 1.875rem;
   & .MuiTypography-root {
     font-family: 'Barlow', 'Noto Sans KR';
   }
   .title {
-    margin-top: 15px;
+    margin-top: 0.9375rem;
     font-style: normal;
     font-weight: bold;
-    font-size: 34px;
+    font-size: 2.125rem;
     color: #000000;
   }
   .nickname {
-    margin-left: 8px;
+    margin-left: 0.5rem;
     font-style: normal;
     font-weight: 500;
-    font-size: 15px;
+    font-size: 0.9375rem;
     color: #000000;
   }
   .date {
     font-family: 'Noto Sans KR';
-    margin-left: 30px;
+    margin-left: 1.875rem;
     font-style: normal;
     font-weight: 500;
-    font-size: 15px;
+    font-size: 0.9375rem;
   }
 `;
 
@@ -135,7 +135,7 @@ const postContentWrapper = css`
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 30px;
+  padding: 1.875rem;
 `;
 
 const authorWrapper = css`
@@ -147,18 +147,18 @@ const authorWrapper = css`
 `;
 
 const authorIcon = (isAdmin) => css`
-  width: 35px;
-  height: 35px;
+  width: 2.1875rem;
+  height: 2.1875rem;
   border: ${isAdmin && '2px solid #04BD9E'};
 `;
 
 const menuButton = css`
   cursor: pointer;
-  width: 24px;
-  height: 24px;
+  width: 1.5rem;
+  height: 1.5rem;
   display: flex;
   justify-content: center;
-  margin-left: 20px;
+  margin-left: 1.25rem;
 `;
 
 const menuWrapper = css`

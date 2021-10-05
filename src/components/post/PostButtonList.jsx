@@ -75,8 +75,10 @@ const PostButtonList = ({
   return (
     <>
       <Box css={controllButtonWrapper}>
-        {post.status !== 'Notice' && <SympathyButton />}
-        <ChatControllButton />
+        <Box css={{ marginRight: '1.875rem' }}>
+          {post.status !== 'Notice' && <SympathyButton />}
+          <ChatControllButton />
+        </Box>
       </Box>
       {createModalOpen && (
         <CreateRoomModal
@@ -101,13 +103,13 @@ const controllButtonWrapper = css`
     font-family: 'Barlow', 'Noto Sans KR';
     font-style: normal;
     font-weight: bold;
-    font-size: 18px;
-    height: 50px;
-    margin-left: 20px;
+    font-size: 1.125rem;
+    height: 3.125rem;
+    margin-left: 1.25rem;
   }
 
   .goChat {
-    width: 195px;
+    width: 12.1875rem;
     color: ${palette.white};
     background: ${palette.orange};
     border-radius: 100px;
@@ -116,7 +118,7 @@ const controllButtonWrapper = css`
     }
   }
   .makeChat {
-    width: 180px;
+    width: 11.25rem;
     color: ${palette.white};
     background: ${palette.black};
     border-radius: 100px;
@@ -126,7 +128,7 @@ const controllButtonWrapper = css`
   }
 
   .reservation {
-    width: 180px;
+    width: 11.25rem;
     color: ${palette.white};
     background: #5f5f5f;
     border-radius: 100px;
@@ -137,7 +139,7 @@ const controllButtonWrapper = css`
 `;
 
 const attentionButton = (isLiked) => css`
-  width: 105px;
+  width: 6.5625rem;
   color: ${isLiked ? palette.orange : palette.black};
   background: ${palette.white};
   border: 2px solid ${isLiked ? palette.orange : palette.black};
