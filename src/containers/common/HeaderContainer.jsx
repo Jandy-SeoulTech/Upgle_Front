@@ -4,7 +4,7 @@ import Header from '../../components/common/Header';
 import { logout } from '../../modules/user';
 import { useHistory } from 'react-router';
 
-const HeaderContainer = (props) => {
+const HeaderContainer = ({ initialKeyword = '' }) => {
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -13,7 +13,7 @@ const HeaderContainer = (props) => {
     dispatch(logout());
     history.push('/');
   };
-  return <Header user={user} onLogout={onLogout} />;
+  return <Header user={user} initialKeyword={initialKeyword} onLogout={onLogout} />;
 };
 
 export default HeaderContainer;

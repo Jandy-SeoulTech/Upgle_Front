@@ -10,6 +10,7 @@ import ProfileSettingPage from '../pages/profile/ProfileSettingPage';
 import ChannelRouter from './ChannelRouter';
 import MyChannelPage from '../pages/channel/MyChannelPage';
 import CheckLogin from '../middlewares/CheckLogin';
+import SearchPage from '../pages/search/SearchPage';
 
 export default function RootRouter() {
   return (
@@ -25,9 +26,7 @@ export default function RootRouter() {
       />
       <Route
         path="/setting"
-        render={(props) => (
-          <CheckLogin {...props} Component={ProfileSettingPage} />
-        )}
+        render={(props) => <CheckLogin {...props} Component={ProfileSettingPage} />}
       />
       <Route
         path="/myChannel"
@@ -38,6 +37,7 @@ export default function RootRouter() {
         path="/channel/:channelId"
         render={(props) => <CheckLogin {...props} Component={ChannelRouter} />}
       />
+      <Route path="/search" component={SearchPage} />
     </BrowserRouter>
   );
 }
