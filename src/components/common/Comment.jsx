@@ -10,6 +10,7 @@ const Comment = ({ user, comments = [], onWriteComment }) => {
 
   const onWrite = () => {
     onWriteComment({ content });
+    setContent('');
   };
 
   return (

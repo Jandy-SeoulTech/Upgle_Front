@@ -10,7 +10,7 @@ const INIT_COMMENT = 'comment/INIT_COMMENT';
 export const writeComment = createAction(WRITE_COMMENT, commentAPI.writeComment);
 export const editComment = createAction(EDIT_COMMENT, commentAPI.editComment);
 export const deleteComment = createAction(DELETE_COMMENT, commentAPI.deleteComment);
-export const initialize = createAction(INIT_COMMENT);
+export const initComment = createAction(INIT_COMMENT);
 
 const initialState = {
   comment: null,

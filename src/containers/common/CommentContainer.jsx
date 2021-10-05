@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import Comment from '../../components/common/Comment';
 import { useSelector, useDispatch } from 'react-redux';
-import Loading from '../../components/common/Loading';
-import { writeComment } from '../../modules/comment';
+import { initComment, writeComment } from '../../modules/comment';
+import { getPost } from '../../modules/post';
 
 const CommentContainer = ({ channelId, postId }) => {
   const { post } = useSelector((state) => state.post);
@@ -15,10 +15,14 @@ const CommentContainer = ({ channelId, postId }) => {
   };
 
   useEffect(() => {
-    console.log(post?.comment);
-  }, [dispatch]);
+    dispatch(getPost(postId));
+  }, [dispatch, comment]);
 
-  // if (!comment) return <Loading css={{ backgroundColor: '#fafafc' }} />;
+  useEffect(() => {
+    return () => {
+      dispatch(initComment());
+    };
+  }, []);
 
   return <Comment user={user} comments={post?.comment} onWriteComment={onWriteComment} />;
 };
