@@ -51,13 +51,12 @@ const ChattingRoomContainer = ({ roomId }) => {
     });
   }, []);
 
-  const handleSendMessage = useCallback(() => {
+  const handleSendMessage = async () => {
     if (message === '' || message === '\n') {
-      setMessage('');
       return;
     }
     if (replyMessage) {
-      dispatch(
+      await dispatch(
         replyRoomMessage({
           roomId,
           answeredId: replyMessage.id,
@@ -65,8 +64,9 @@ const ChattingRoomContainer = ({ roomId }) => {
         }),
       );
       setReplyMessage('');
-    } else dispatch(sendRoomMessage({ roomId, content: message }));
-  }, [message]);
+    } else await dispatch(sendRoomMessage({ roomId, content: message }));
+    setMessage('');
+  };
 
   const handleGetMassage = async () => {
     console.log('스크롤 응답', currentId, ' ', lastId);
@@ -88,7 +88,7 @@ const ChattingRoomContainer = ({ roomId }) => {
 
   useEffect(() => {
     handleGetMassage();
-    dispatch(getRoomData({ roomId }));
+    dispatch(getRoomData(roomId));
     return () => {
       dispatch(initialize());
     };

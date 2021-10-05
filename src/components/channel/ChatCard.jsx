@@ -27,7 +27,7 @@ const ChatCard = ({ isFinished, user, chatInfo, onCloseRoom, onExitRoom }) => {
   const handleExit = (e) => {
     e.stopPropagation();
     if (user === 'admin') onCloseRoom({ roomId: chatInfo.id });
-    else onExitRoom({ roomId: chatInfo.id });
+    else onExitRoom(chatInfo.id);
   };
 
   const handleCancel = (e) => {
@@ -41,9 +41,7 @@ const ChatCard = ({ isFinished, user, chatInfo, onCloseRoom, onExitRoom }) => {
         <Box css={exitWrapper}>
           {isFinished ? (
             <>
-              <Typography className="reviewTitle">
-                종료된 채팅방 입니다.
-              </Typography>
+              <Typography className="reviewTitle">종료된 채팅방 입니다.</Typography>
               <Button className="exit" onClick={handleExit}>
                 리뷰 작성
               </Button>
@@ -77,10 +75,7 @@ const ChatCard = ({ isFinished, user, chatInfo, onCloseRoom, onExitRoom }) => {
         </Typography>
       </Box>
       <Box css={bottomContent}>
-        <Avatar
-          css={bottomIcon}
-          src={chatInfo.channel.channelImage.src}
-        ></Avatar>
+        <Avatar css={bottomIcon} src={chatInfo.channel.channelImage.src}></Avatar>
         <Typography css={bottomTitle}>{chatInfo.channel.name}</Typography>
       </Box>
     </Box>

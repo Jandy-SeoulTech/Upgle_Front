@@ -9,13 +9,13 @@ const MyChannelContainer = () => {
   const { myChannel } = useSelector((state) => state.channel);
   const dispatch = useDispatch();
 
-  const handleExitRoom = async ({ roomId }) => {
-    await dispatch(exitRoom({ roomId }));
+  const handleExitRoom = async (roomId) => {
+    await dispatch(exitRoom(roomId));
     dispatch(getMychannel());
   };
 
-  const handleCloseRoom = async ({ roomId }) => {
-    await dispatch(closeRoom({ roomId }));
+  const handleCloseRoom = async (roomId) => {
+    await dispatch(closeRoom(roomId));
     dispatch(getMychannel());
   };
 
