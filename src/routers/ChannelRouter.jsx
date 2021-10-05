@@ -18,7 +18,7 @@ const ChannelRouter = () => {
         render={(props) => <CheckJoinChannel {...props} Component={ChannelHomePage} />}
       />
       <Route
-        path="/channel/:channelId/postList"
+        path="/channel/:channelId/post"
         exact
         render={(props) => <CheckJoinChannel {...props} Component={ChannelPostListPage} />}
       />

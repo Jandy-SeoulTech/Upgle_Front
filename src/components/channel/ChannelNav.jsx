@@ -28,7 +28,7 @@ const ChannelNav = ({ channel, isParticipant }) => {
     },
     {
       title: '재능 공유 요청',
-      url: `/channel/${channel.id}/postList`,
+      url: `/channel/${channel.id}/post`,
     },
     {
       title: '재능 공유 채팅',
