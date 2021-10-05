@@ -47,6 +47,10 @@ const Header = ({ user, initialKeyword, onLogout }) => {
     history.push(`/search?keyword=${keyword}`);
   };
 
+  const onSearchKeyDown = (e) => {
+    if (e.keyCode === 13) onSearch();
+  };
+
   useEffect(() => {
     window.addEventListener('scroll', updateScroll);
     return () => window.removeEventListener('scroll', updateScroll);
@@ -102,6 +106,7 @@ const Header = ({ user, initialKeyword, onLogout }) => {
           }}
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
+          onKeyDown={onSearchKeyDown}
         />
       )}
 
