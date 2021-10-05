@@ -1,14 +1,21 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Avatar, Grid, Typography } from '@material-ui/core';
+import { useState } from 'react';
 import { getDateString } from '../../lib/util/dateFormat';
 import Button from './Button';
 
-const Comment = ({ comment, user }) => {
+const Comment = ({ user, comments = [], onWriteComment }) => {
+  const [content, setContent] = useState('');
+
+  const onWrite = () => {
+    onWriteComment({ content });
+  };
+
   return (
     <Grid container alignItems="center" css={postCommentWrapper}>
-      <Typography className="postCommentHeader">댓글 {comment.length}</Typography>
-      {comment.map((comment) => (
+      <Typography className="postCommentHeader">댓글 {comments.length}</Typography>
+      {comments?.map((comment) => (
         <Grid container css={postCommentItem}>
           <Grid container className="avatarBox" justifyContent="center" alignItems="center">
             <Avatar
@@ -32,8 +39,15 @@ const Comment = ({ comment, user }) => {
         </Grid>
       ))}
       <Grid container css={postCommentWrite}>
-        <textarea placeholder="댓글을 입력해주세요." className="commentWrite" />
-        <Button className="commentSubmit">등록</Button>
+        <textarea
+          placeholder="댓글을 입력해주세요."
+          className="commentWrite"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
+        <Button className="commentSubmit" onClick={onWrite}>
+          등록
+        </Button>
       </Grid>
     </Grid>
   );
@@ -42,6 +56,9 @@ const Comment = ({ comment, user }) => {
 export default Comment;
 
 const postCommentWrapper = css`
+  padding: 0 calc((100% - 71.25rem) / 2);
+  background: #fafafc;
+
   & .MuiTypography-root {
     font-family: 'Barlow', 'Noto Sans KR';
   }
