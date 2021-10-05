@@ -16,7 +16,7 @@ const EditChannel = ({ writeChannel, handleChangeFiled, editChannel }) => {
         <Typography css={title}>채널 {writeChannel.id ? '관리' : '만들기'}</Typography>
         <Paper css={description}>
           <span className="highlight">잠깐!</span> Upgle에는 재능을 공유하기 위한 다양한 채널이
-          있습니다. 채널을 만들기 전에 재능을 공유하고 싶은 기존 채널이 있는지 탐색해보세요!{' '}
+          있습니다. 채널을 만들기 전에 재능을 공유하고 싶은 기존 채널이 있는지 탐색해보세요!
           <Button>재능 찾기</Button>
         </Paper>
 
