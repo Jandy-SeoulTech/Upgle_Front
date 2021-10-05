@@ -25,13 +25,14 @@ import { ReactComponent as UserProfile } from '../../lib/assets/userProfile.svg'
 import { ReactComponent as SearchIcon } from '../../lib/assets/searchIcon.svg';
 import palette from '../../lib/styles/palette';
 
-const Header = ({ user, onLogout }) => {
+const Header = ({ user, initialKeyword, onLogout }) => {
   const history = useHistory();
   const [menuAnchor, setMenuAnchor] = useState();
   const [scrollPosition, setScrollPosition] = useState(0);
   const m1200 = useMediaQuery('(max-width: 1199px)');
   const isMobile = useMediaQuery('(max-width: 600px)');
   const { pathname } = useLocation();
+  const [keyword, setKeyword] = useState(initialKeyword);
 
   const updateScroll = () => {
     setScrollPosition(window.scrollY || document.documentElement.scrollTop);
@@ -40,6 +41,10 @@ const Header = ({ user, onLogout }) => {
   const handleMenu = (e) => {
     if (!e) return;
     setMenuAnchor(menuAnchor ? null : e.currentTarget);
+  };
+
+  const onSearch = () => {
+    history.push(`/search?keyword=${keyword}`);
   };
 
   useEffect(() => {
@@ -89,12 +94,14 @@ const Header = ({ user, onLogout }) => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton size="small">
+                <IconButton size="small" onClick={onSearch}>
                   <SearchIcon />
                 </IconButton>
               </InputAdornment>
             ),
           }}
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
         />
       )}
 
@@ -102,7 +109,7 @@ const Header = ({ user, onLogout }) => {
         <>
           <IconButton
             css={[
-              iconButotn,
+              iconButton,
               css`
                 margin-right: 1.3125rem;
               `,
@@ -116,7 +123,7 @@ const Header = ({ user, onLogout }) => {
             }}
           >
             <Box>
-              <IconButton css={iconButotn} onClick={handleMenu}>
+              <IconButton css={iconButton} onClick={handleMenu}>
                 <UserProfile />
               </IconButton>
               <Popper
@@ -137,9 +144,7 @@ const Header = ({ user, onLogout }) => {
                     </Box>
                     <Divider />
                     <MenuItem>
-                      <ListItemText
-                        onClick={() => history.push(`/profile/${user.id}`)}
-                      >
+                      <ListItemText onClick={() => history.push(`/profile/${user.id}`)}>
                         프로필
                       </ListItemText>
                     </MenuItem>
@@ -147,9 +152,7 @@ const Header = ({ user, onLogout }) => {
                       <ListItemText>모아 보기</ListItemText>
                     </MenuItem>
                     <MenuItem>
-                      <ListItemText onClick={() => history.push('/setting')}>
-                        설정
-                      </ListItemText>
+                      <ListItemText onClick={() => history.push('/setting')}>설정</ListItemText>
                     </MenuItem>
                     <Divider />
                     <Box className="menuFotter">
@@ -276,7 +279,7 @@ const menuWrapper = css`
   }
 `;
 
-const iconButotn = css`
+const iconButton = css`
   width: 2.1875rem;
   height: 2.1875rem;
   padding: 0;
