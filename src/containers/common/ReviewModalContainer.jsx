@@ -11,7 +11,7 @@ const ReviewModalContainer = ({ room, open, setOpen, onSuccess }) => {
   const dispatch = useDispatch();
 
   const handleReview = () => {
-    dispatch(exitRoom({ roomId: room.id }));
+    dispatch(exitRoom(room.id));
   };
 
   useEffect(() => {

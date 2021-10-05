@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Box, Typography } from '@material-ui/core';
+import { Avatar, Box, Typography } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
 
@@ -17,6 +17,7 @@ const ChannelNav = ({ channel, isParticipant }) => {
     return () => window.removeEventListener('scroll', updateScroll);
   });
 
+  console.log(isParticipant);
   const channelNavReducer = [
     {
       title: '채널 프로필',
@@ -32,35 +33,46 @@ const ChannelNav = ({ channel, isParticipant }) => {
     },
     {
       title: '재능 공유 채팅',
-      url: `/channel/${channel.id}/profile`,
+      url: `/channel/${channel.id}/chat`,
     },
     {
       title: '모아 보기',
-      url: `/channel/${channel.id}/profile`,
+      url: `/channel/${channel.id}/archive`,
     },
   ];
 
   return (
-    <Box
-      css={channelNav({
-        isProfile: pathname === `/channel/${channel.id}/profile`,
-        scrolled: scrollPosition !== 0,
-      })}
-    >
-      {isParticipant &&
-        channelNavReducer.map((item, index) => (
-          <Typography
-            key={index}
-            css={navItem}
-            onClick={() => {
-              window.scrollTo(0, 0);
-              history.push(item.url);
-            }}
-          >
-            {item.title}
-          </Typography>
-        ))}
-    </Box>
+    <>
+      {isParticipant && (
+        <Box
+          css={channelNav({
+            isProfile: pathname === `/channel/${channel.id}/profile`,
+            scrolled: scrollPosition !== 0,
+          })}
+        >
+          <Box css={channelHead}>
+            {pathname !== `/channel/${channel.id}/profile` && (
+              <>
+                <Avatar src={channel.channelImage.src} />
+                <Typography>{channel.name}</Typography>
+              </>
+            )}
+          </Box>
+          {channelNavReducer.map((item, index) => (
+            <Typography
+              key={index}
+              css={navItem}
+              onClick={() => {
+                window.scrollTo(0, 0);
+                history.push(item.url);
+              }}
+            >
+              {item.title}
+            </Typography>
+          ))}
+        </Box>
+      )}
+    </>
   );
 };
 
@@ -71,11 +83,28 @@ const channelNav = ({ isProfile, scrolled }) => css`
   height: 4.6875rem;
   background: ${isProfile ? '#f0f0f0' : '#FAFAFC'};
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
-  padding: 0 calc((100% - 69rem) / 2);
+  padding: 0 calc((100% - 71.25rem) / 2);
   box-shadow: ${scrolled && '0px 1px 10px rgba(0, 0, 0, 0.25);'};
   z-index: 900;
+`;
+
+const channelHead = css`
+  flex: 1;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  .MuiAvatar-root {
+    width: 2.1875rem;
+    height: 2.1875rem;
+    margin-right: 0.9375rem;
+  }
+  .MuiTypography-root {
+    font-family: 'Noto Sans KR';
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
 `;
 
 const navItem = css`

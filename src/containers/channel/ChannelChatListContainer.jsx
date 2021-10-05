@@ -1,25 +1,23 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ChannelHome from '../../components/channel/ChannelHome';
+import ChannelChatList from '../../components/channel/ChannelChatList';
+import Loading from '../../components/common/Loading';
 import { getChannelData } from '../../modules/channel';
 import { getRoomList } from '../../modules/room';
-import { getChannelPostList } from '../../modules/post';
 
-const ChannelHomeContainer = ({ channelId }) => {
+const ChannelChatListContainer = ({ channelId }) => {
   const { channel } = useSelector((state) => state.channel);
-  const { postList } = useSelector((state) => state.post);
   const { roomList } = useSelector((state) => state.room);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getRoomList(channelId));
-    dispatch(getChannelPostList(channelId));
     dispatch(getChannelData(channelId));
   }, [dispatch, channelId]);
 
-  if (!channel) return '로딩중';
+  if (!channel || !roomList)
+    return <Loading css={{ marginTop: '8.4375rem', backgroundColor: '#fafafc' }} />;
 
-  return <ChannelHome channel={channel} postList={postList} roomList={roomList} />;
+  return <ChannelChatList roomList={roomList} />;
 };
-
-export default ChannelHomeContainer;
+export default ChannelChatListContainer;

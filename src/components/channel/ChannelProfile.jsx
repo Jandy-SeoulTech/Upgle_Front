@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Avatar, Box, Grid, Modal, Paper, Typography } from '@material-ui/core';
+import { Avatar, Box, Grid, Paper, Typography } from '@material-ui/core';
 import { ReactComponent as LikeIcon } from '../../lib/assets/likeIcon.svg';
 import { ReactComponent as LikedButton } from '../../lib/assets/likedButton.svg';
 import { ReactComponent as UserPlus } from '../../lib/assets/userPlus.svg';
@@ -8,10 +8,8 @@ import { ReactComponent as MoreIcon } from '../../lib/assets/moreIcon.svg';
 import { ReactComponent as Setting } from '../../lib/assets/setting.svg';
 import palette from '../../lib/styles/palette';
 import CheckIcon from '@material-ui/icons/Check';
-
 import Button from '../common/Button';
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
 import ProfileModal from '../common/ProfileModal';
 import ModalUserCard from '../common/ModalUserCard';
 
@@ -32,9 +30,7 @@ const ChannelProfile = ({
   onProfileUnfollow,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [tabs, setTabs] = useState([
-    { key: 'members', name: '재능 공유 멤버', data: <></> },
-  ]);
+  const [tabs, setTabs] = useState([{ key: 'members', name: '재능 공유 멤버', data: <></> }]);
   const [currentTab, setCurrentTab] = useState('members');
 
   useEffect(() => {
@@ -42,12 +38,7 @@ const ChannelProfile = ({
     if (channel?.participants) {
       newTabs.find((tab) => tab.key === 'members').data =
         channel.participants.length === 0 ? (
-          <Grid
-            container
-            height="67vh"
-            justifyContent="center"
-            alignItems="center"
-          >
+          <Grid container height="67vh" justifyContent="center" alignItems="center">
             <ModalUserCard
               loggedInUser={user}
               profileUserId={channel.admin.id}
@@ -89,7 +80,7 @@ const ChannelProfile = ({
 
   return (
     <>
-      <Box css={head}>
+      <Box css={head(isParticipant)}>
         <Avatar src={channel.channelImage.src} css={headeIcon} />
         <Box css={headContent}>
           <Box>
@@ -102,9 +93,7 @@ const ChannelProfile = ({
             <Typography css={headTotal}>
               재능 공유 멤버 {channel.participants.length + 1}
             </Typography>
-            <Typography css={headLike}>
-              좋아요 {channel.channellike.length}
-            </Typography>
+            <Typography css={headLike}>좋아요 {channel.channellike.length}</Typography>
           </Box>
           {user.id !== channel.adminId && (
             <Box css={headButtonWrapper}>
@@ -123,11 +112,7 @@ const ChannelProfile = ({
                 className={isLiked ? 'likedButton' : 'likeButton'}
                 onClick={isLiked ? onUnLikeChannel : onLikeChannel}
               >
-                {isLiked ? (
-                  <LikedButton className="icon" />
-                ) : (
-                  <LikeIcon className="icon" />
-                )}
+                {isLiked ? <LikedButton className="icon" /> : <LikeIcon className="icon" />}
                 좋아요
               </Button>
             </Box>
@@ -142,9 +127,7 @@ const ChannelProfile = ({
         <Box>
           <Typography css={sectionTitle}>채널 정보</Typography>
           <Box css={channelInfo}>
-            <Typography css={channelCategory}>
-              {channel.category.category.name}
-            </Typography>
+            <Typography css={channelCategory}>{channel.category.category.name}</Typography>
             <Grid container spacing={2} css={channelTagList}>
               {channel.tags.map((tag) => (
                 <Grid item key={tag.tagId}>
@@ -161,23 +144,16 @@ const ChannelProfile = ({
               <Typography css={adminTitle}>관리자</Typography>
               <Avatar
                 css={channelAdmin}
-                src={
-                  channel.admin['profile'] &&
-                  channel.admin.profile.profileImage.src
-                }
+                src={channel.admin['profile'] && channel.admin.profile.profileImage.src}
               />
-              <Typography css={adminNickname}>
-                {channel.admin.nickname}
-              </Typography>
+              <Typography css={adminNickname}>{channel.admin.nickname}</Typography>
             </Box>
             <Box css={participantList}>
               {channel.participants.map((user) => (
                 <>
                   <Avatar
                     key={user.userId}
-                    src={
-                      user.user['profile'] && user.user.profile.profileImage.src
-                    }
+                    src={user.user['profile'] && user.user.profile.profileImage.src}
                     css={channelParticipant}
                   />
                 </>
@@ -216,12 +192,8 @@ const ChannelProfile = ({
                   ]}
                 >
                   <Box css={channelCollectionLayer}>
-                    <Typography css={collectionTitle}>
-                      {collection.title}
-                    </Typography>
-                    <Typography css={collectionCreatedAt}>
-                      {collection.createdAt}
-                    </Typography>
+                    <Typography css={collectionTitle}>{collection.title}</Typography>
+                    <Typography css={collectionCreatedAt}>{collection.createdAt}</Typography>
                   </Box>
                 </Paper>
               </Grid>
@@ -233,8 +205,8 @@ const ChannelProfile = ({
   );
 };
 
-const head = css`
-  margin-top: 8.4375rem;
+const head = (isParticipant) => css`
+  margin-top: ${isParticipant ? '8.4375rem' : '3.75rem'};
   width: 100vw;
   padding: 5rem calc((100% - 59.125rem) / 2);
   background-color: #f0f0f0;
@@ -287,14 +259,17 @@ const headButtonWrapper = css`
     color: ${palette.orange};
     border: 2px solid ${palette.orange};
     &:hover {
+      border: 2px solid ${palette.orange};
+      color: ${palette.orange};
       background: ${palette.white};
-      filter: brightness(0.85);
+      filter: brightness(0.95);
     }
   }
   .enterButton {
     background: ${palette.orange};
     margin-right: 1.375rem;
     &:hover {
+      background: ${palette.orange};
       filter: brightness(0.85);
       border: none;
     }
@@ -304,6 +279,9 @@ const headButtonWrapper = css`
     color: ${palette.orange};
     border: 2px solid ${palette.orange};
     &:hover {
+      background: ${palette.white};
+      color: ${palette.orange};
+      border: 2px solid ${palette.orange};
       filter: brightness(0.85);
     }
   }
@@ -312,6 +290,9 @@ const headButtonWrapper = css`
     background: ${palette.white};
     border: 2px solid ${palette.black};
     &:hover {
+      color: ${palette.black};
+      background: ${palette.white};
+      border: 2px solid ${palette.black};
       filter: brightness(0.95);
     }
   }
