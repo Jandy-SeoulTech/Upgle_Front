@@ -17,7 +17,7 @@ const EditPostContainer = ({ channelId }) => {
 
   const onWriteChannelPost = async ({ channelId, title, status, content, images }) => {
     await dispatch(writePost({ channelId, title, status, content, images }));
-    history.push(`/channel/${channelId}/postList`);
+    history.push(`/channel/${channelId}/post`);
   };
 
   const initialVaue = '재능 공유 요청을 작성해주세요.';

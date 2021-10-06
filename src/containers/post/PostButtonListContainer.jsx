@@ -23,7 +23,7 @@ const PostButtonListContainer = ({ channelId, postId }) => {
 
   const onCreateRoom = async ({ status, name, reservedTime }) => {
     await dispatch(createRoom({ status, name, channelId, postId, reservedTime }));
-    history.push(`channel/${channelId}/chat`);
+    history.push(`/channel/${channelId}/chat`);
   };
 
   const handleMoveChat = (roomId) => {

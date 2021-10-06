@@ -23,7 +23,7 @@ const PostItem = ({ channel, post }) => {
             <PostStatusIcon status={post.status} />
             <Typography className="title">{post.title}</Typography>
           </Box>
-          <Typography className="date">{getDateString(post.updatedAt)}</Typography>
+          <Typography className="date">{getDateString(post.createdAt)}</Typography>
         </Box>
         <Typography css={postContent}>{post.content}</Typography>
       </Box>
