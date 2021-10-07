@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import Comment from '../../components/common/Comment';
+import Comments from '../../components/common/Comments';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteComment, getComments, initComment, writeComment } from '../../modules/comment';
 
-const CommentContainer = ({ channelId, postId }) => {
+const CommentsContainer = ({ channelId, postId }) => {
   const { user } = useSelector((state) => state.user);
   const { comments } = useSelector((state) => state.comment);
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ const CommentContainer = ({ channelId, postId }) => {
   }, []);
 
   return (
-    <Comment
+    <Comments
       user={user}
       comments={comments}
       onWriteComment={onWriteComment}
@@ -45,4 +45,4 @@ const CommentContainer = ({ channelId, postId }) => {
   );
 };
 
-export default CommentContainer;
+export default CommentsContainer;

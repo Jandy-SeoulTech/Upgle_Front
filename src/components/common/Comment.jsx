@@ -5,76 +5,39 @@ import { useState } from 'react';
 import { getDateString } from '../../lib/util/dateFormat';
 import Button from './Button';
 
-const Comment = ({ user, comments = [], onWriteComment, onDeleteComment }) => {
+const Comment = ({ user, comment, onDeleteComment }) => {
   const [content, setContent] = useState('');
 
-  const onWrite = () => {
-    onWriteComment({ content });
-    setContent('');
-  };
-
   const onDelete = (commentId) => {
-    console.log(comments);
     onDeleteComment({ commentId });
   };
 
   return (
-    <Grid container alignItems="center" css={postCommentWrapper}>
-      <Typography className="postCommentHeader">댓글 {comments?.length}</Typography>
-      {comments?.map((comment) => (
-        <Grid container css={postCommentItem}>
-          <Grid container className="avatarBox" justifyContent="center" alignItems="center">
-            <Avatar
-              src={comment.author.profile.profileImage.src}
-              css={{ width: '50px', height: '50px' }}
-            />
-          </Grid>
-          <Grid className="postCommentBody" container>
-            {comment.author.id === user.id && (
-              <Grid container justifyContent="flex-end">
-                <Button>수정</Button>
-                <Button onClick={() => onDelete(comment.id)}>삭제</Button>
-              </Grid>
-            )}
-            <Grid container alignItems="center" css={{ marginTop: '20px' }}>
-              <Typography className="nickname">{comment.author.nickname}</Typography>
-              <Typography className="date">ㆍ {getDateString(comment.updatedAt)}</Typography>
-            </Grid>
-            <Typography className="postCommentContent">{comment.content}</Typography>
-          </Grid>
-        </Grid>
-      ))}
-      <Grid container css={postCommentWrite}>
-        <textarea
-          placeholder="댓글을 입력해주세요."
-          className="commentWrite"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
+    <Grid container css={postCommentItem}>
+      <Grid container className="avatarBox" justifyContent="center" alignItems="center">
+        <Avatar
+          src={comment.author.profile.profileImage.src}
+          css={{ width: '50px', height: '50px' }}
         />
-        <Button className="commentSubmit" onClick={onWrite}>
-          등록
-        </Button>
+      </Grid>
+      <Grid className="postCommentBody" container>
+        {comment.author.id === user.id && (
+          <Grid container justifyContent="flex-end">
+            <Button>수정</Button>
+            <Button onClick={() => onDelete(comment.id)}>삭제</Button>
+          </Grid>
+        )}
+        <Grid container alignItems="center" css={{ marginTop: '10px' }}>
+          <Typography className="nickname">{comment.author.nickname}</Typography>
+          <Typography className="date">ㆍ {getDateString(comment.updatedAt)}</Typography>
+        </Grid>
+        <Typography className="postCommentContent">{comment.content}</Typography>
       </Grid>
     </Grid>
   );
 };
 
 export default Comment;
-
-const postCommentWrapper = css`
-  padding: 0 calc((100% - 71.25rem) / 2);
-  background: #fafafc;
-
-  & .MuiTypography-root {
-    font-family: 'Barlow', 'Noto Sans KR';
-  }
-  .postCommentHeader {
-    padding: 20px 0 20px 30px;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-  }
-`;
 
 const postCommentItem = css`
   border-top: 1px solid #bdbdbd;
