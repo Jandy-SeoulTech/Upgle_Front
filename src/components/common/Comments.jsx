@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Button from './Button';
 import Comment from '../../components/common/Comment';
 
-const Comments = ({ user, comments = [], onWriteComment, onDeleteComment }) => {
+const Comments = ({ user, comments = [], onWriteComment, onDeleteComment, onEditComment }) => {
   const [content, setContent] = useState('');
 
   const onWrite = () => {
@@ -17,7 +17,12 @@ const Comments = ({ user, comments = [], onWriteComment, onDeleteComment }) => {
     <Grid container alignItems="center" css={postCommentWrapper}>
       <Typography className="postCommentHeader">댓글 {comments?.length}</Typography>
       {comments?.map((comment) => (
-        <Comment user={user} comment={comment} onDeleteComment={onDeleteComment} />
+        <Comment
+          user={user}
+          comment={comment}
+          onDeleteComment={onDeleteComment}
+          onEditComment={onEditComment}
+        />
       ))}
       <Grid container css={postCommentWrite}>
         <textarea

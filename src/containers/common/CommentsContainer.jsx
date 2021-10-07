@@ -1,7 +1,13 @@
 import React, { useEffect } from 'react';
 import Comments from '../../components/common/Comments';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteComment, getComments, initComment, writeComment } from '../../modules/comment';
+import {
+  deleteComment,
+  editComment,
+  getComments,
+  initComment,
+  writeComment,
+} from '../../modules/comment';
 
 const CommentsContainer = ({ channelId, postId }) => {
   const { user } = useSelector((state) => state.user);
@@ -19,6 +25,11 @@ const CommentsContainer = ({ channelId, postId }) => {
       await dispatch(deleteComment({ commentId }));
       refreshComments();
     }
+  };
+
+  const onEditComment = async ({ commentId, content }) => {
+    await dispatch(editComment({ commentId, content }));
+    refreshComments();
   };
 
   const refreshComments = () => {
@@ -41,6 +52,7 @@ const CommentsContainer = ({ channelId, postId }) => {
       comments={comments}
       onWriteComment={onWriteComment}
       onDeleteComment={onDeleteComment}
+      onEditComment={onEditComment}
     />
   );
 };

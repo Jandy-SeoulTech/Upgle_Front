@@ -1,15 +1,34 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Avatar, Grid, Typography } from '@material-ui/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getDateString } from '../../lib/util/dateFormat';
 import Button from './Button';
 
-const Comment = ({ user, comment, onDeleteComment }) => {
-  const [content, setContent] = useState('');
+const Comment = ({ user, comment, onDeleteComment, onEditComment }) => {
+  const [newContent, setNewContent] = useState('');
+  const [editMode, setEditMode] = useState(false);
 
-  const onDelete = (commentId) => {
-    onDeleteComment({ commentId });
+  useEffect(() => {
+    setNewContent(comment.content);
+  }, [comment]);
+
+  const onDelete = () => {
+    onDeleteComment({ commentId: comment.id });
+  };
+
+  const onEditStart = () => {
+    setEditMode(true);
+  };
+
+  const onEditCancel = () => {
+    setEditMode(false);
+    setNewContent(comment.content);
+  };
+
+  const onEdit = () => {
+    onEditComment({ commentId: comment.id, content: newContent });
+    setEditMode(false);
   };
 
   return (
@@ -21,17 +40,39 @@ const Comment = ({ user, comment, onDeleteComment }) => {
         />
       </Grid>
       <Grid className="postCommentBody" container>
-        {comment.author.id === user.id && (
-          <Grid container justifyContent="flex-end">
-            <Button>수정</Button>
-            <Button onClick={() => onDelete(comment.id)}>삭제</Button>
-          </Grid>
-        )}
+        <Grid container justifyContent="flex-end">
+          {comment.author.id === user.id ? (
+            !editMode ? (
+              <>
+                <Button onClick={onEditStart}>수정</Button>
+                <Button onClick={onDelete}>삭제</Button>
+              </>
+            ) : (
+              <>
+                <Button onClick={onEditCancel}>취소</Button>
+                <Button onClick={onEdit}>완료</Button>
+              </>
+            )
+          ) : (
+            <>
+              <Button>신고</Button>
+            </>
+          )}
+        </Grid>
         <Grid container alignItems="center" css={{ marginTop: '10px' }}>
           <Typography className="nickname">{comment.author.nickname}</Typography>
-          <Typography className="date">ㆍ {getDateString(comment.updatedAt)}</Typography>
+          <Typography className="date">ㆍ {getDateString(comment.createdAt)}</Typography>
         </Grid>
-        <Typography className="postCommentContent">{comment.content}</Typography>
+        {!editMode ? (
+          <Typography className="postCommentContent">{comment.content}</Typography>
+        ) : (
+          <textarea
+            placeholder="댓글을 수정해주세요."
+            css={editTextarea}
+            value={newContent}
+            onChange={(e) => setNewContent(e.target.value)}
+          />
+        )}
       </Grid>
     </Grid>
   );
@@ -75,30 +116,18 @@ const postCommentItem = css`
   }
 `;
 
-const postCommentWrite = css`
-  margin: 50px 10px 50px 110px;
-  flex-direction: column;
-  .commentWrite {
-    flex: 1;
-    font-family: 'Barlow', 'Noto Sans KR';
-    font-weight: 500;
-    font-size: 15px;
-    resize: vertical;
-    padding: 30px;
-    width: 100%;
-    min-height: 190px;
-    outline: 1px solid rgba(0, 0, 0, 0);
-    background: #fafafc;
-    border: 2px solid #bdbdbd;
-    border-radius: 10px;
-  }
-  .commentSubmit {
-    margin: 10px 0px 10px auto;
-    font-family: 'Barlow', 'Noto Sans KR';
-    font-weight: 600;
-    font-size: 18px;
-    color: #7b7b7b;
-    border: 2px solid #bdbdbd;
-    border-radius: 25px;
-  }
+const editTextarea = css`
+  margin: 10px;
+  flex: 1;
+  font-family: 'Barlow', 'Noto Sans KR';
+  font-weight: 500;
+  font-size: 15px;
+  resize: vertical;
+  padding: 30px;
+  width: 100%;
+  min-height: 190px;
+  outline: 1px solid rgba(0, 0, 0, 0);
+  background: #fafafc;
+  border: 2px solid #bdbdbd;
+  border-radius: 10px;
 `;
