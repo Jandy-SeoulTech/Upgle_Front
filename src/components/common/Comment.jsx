@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import { Avatar, Grid, Typography } from '@material-ui/core';
 import { useEffect, useState } from 'react';
-import { getDateString } from '../../lib/util/dateFormat';
+import { getCommentDateString } from '../../lib/util/dateFormat';
 import Button from './Button';
 
 const Comment = ({ user, comment, onDeleteComment, onEditComment }) => {
@@ -60,8 +60,10 @@ const Comment = ({ user, comment, onDeleteComment, onEditComment }) => {
           )}
         </Grid>
         <Grid container alignItems="center" css={{ marginTop: '10px' }}>
-          <Typography className="nickname">{comment.author.nickname}</Typography>
-          <Typography className="date">ㆍ {getDateString(comment.createdAt)}</Typography>
+          <Typography className="nickname">{comment.author.nickname} ㆍ </Typography>
+          <Typography className="date">
+            {getCommentDateString(comment.createdAt, comment.updatedAt)}
+          </Typography>
         </Grid>
         {!editMode ? (
           <Typography className="postCommentContent">{comment.content}</Typography>
@@ -105,7 +107,6 @@ const postCommentItem = css`
       color: #000000;
     }
     .date {
-      margin-left: 10px;
       font-size: 14px;
       color: #5f5f5f;
     }
