@@ -18,6 +18,7 @@ const Comments = ({ user, comments = [], onWriteComment, onDeleteComment, onEdit
       <Typography className="postCommentHeader">댓글 {comments?.length}</Typography>
       {comments?.map((comment) => (
         <Comment
+          key={comment.id}
           user={user}
           comment={comment}
           onDeleteComment={onDeleteComment}

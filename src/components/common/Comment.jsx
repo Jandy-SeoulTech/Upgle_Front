@@ -40,7 +40,7 @@ const Comment = ({ user, comment, onDeleteComment, onEditComment }) => {
         />
       </Grid>
       <Grid className="postCommentBody" container>
-        <Grid container justifyContent="flex-end">
+        <Grid container justifyContent="flex-end" gap="10px">
           {comment.author.id === user.id ? (
             !editMode ? (
               <>
