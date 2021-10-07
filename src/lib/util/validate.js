@@ -1,6 +1,5 @@
 export function isEmail(asValue) {
-  var regExp =
-    /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+  var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
   return regExp.test(asValue);
 }
 
@@ -15,7 +14,8 @@ export function isPassword(asValue) {
   return regExp.test(asValue);
 }
 
+// 10자 이내
 export function isNickname(asValue) {
-  var regExp = /^[a-zA-Z0-9가-힣]{4,12}$/;
+  var regExp = /^[a-zA-Z0-9가-힣]{1,10}$/;
   return regExp.test(asValue);
 }
