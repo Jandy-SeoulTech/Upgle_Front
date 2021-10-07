@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Box, TextareaAutosize, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import { TextareaAutosize, Typography } from '@material-ui/core';
+import { useState } from 'react';
 
-const TextArea = ({ onChange, maxLength, ...props }) => {
+const TextArea = ({ onChange, maxLength, inputRef, ...props }) => {
   const [lengthError, setLengthError] = useState();
 
   const handleCahnge = (e) => {
@@ -20,6 +20,7 @@ const TextArea = ({ onChange, maxLength, ...props }) => {
       <TextareaAutosize
         placeholder={maxLength && `${maxLength}자 이내로 작성해주세요.`}
         onChange={maxLength ? handleCahnge : onChange}
+        ref={inputRef}
         {...props}
         css={[defaultStyle(lengthError)]}
       />
@@ -40,9 +41,7 @@ const defaultStyle = (lengthError) => css`
   resize: none;
   outline: ${lengthError && '1px solid red'};
   &:focus-visible {
-    outline: ${lengthError
-      ? '2px solid red !important;'
-      : '2px solid black !important;'};
+    outline: ${lengthError ? '2px solid red !important;' : '2px solid black !important;'};
   }
 `;
 

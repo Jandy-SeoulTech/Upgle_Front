@@ -66,7 +66,7 @@ const Post = ({ post, channel, onEditPost, onDeletePost }) => {
                 css={authorIcon(post.authorId === channel.adminId)}
               />
               <Typography className="nickname">{post.author.nickname}</Typography>
-              <Typography className="date">{getDateString(post.updatedAt)}</Typography>
+              <Typography className="date">{getDateString(post.createdAt)}</Typography>
               <PostSetting css={menuButton} onClick={handleMenuClick} />
               <PostMenu />
             </Box>

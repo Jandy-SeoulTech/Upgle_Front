@@ -43,6 +43,7 @@ const ChattingRoomContainer = ({ roomId }) => {
   useEffect(() => {
     socket.on('message', (message) => {
       if (message) {
+        if (messages.length > 0 && messages[0].id === message.id) return;
         dispatch(concatRoomMessages(message));
       }
     });
@@ -55,24 +56,23 @@ const ChattingRoomContainer = ({ roomId }) => {
     if (message === '' || message === '\n') {
       return;
     }
+    let tempMessage = message;
+    setMessage('');
     if (replyMessage) {
       await dispatch(
         replyRoomMessage({
           roomId,
           answeredId: replyMessage.id,
-          content: message,
+          content: tempMessage,
         }),
       );
       setReplyMessage('');
-    } else await dispatch(sendRoomMessage({ roomId, content: message }));
-    setMessage('');
+    } else await dispatch(sendRoomMessage({ roomId, content: tempMessage }));
   };
 
   const handleGetMassage = async () => {
-    console.log('스크롤 응답', currentId, ' ', lastId);
     if (lastId && currentId === lastId) return;
     await setCurrentId(lastId);
-    console.log('요청 전송');
     await dispatch(
       getRoomMessages({
         roomId,

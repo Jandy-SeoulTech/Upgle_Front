@@ -38,6 +38,7 @@ const ChattingRoom = ({
   const [reviewToglle, setReviewToglle] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState();
   const chatEndRef = useRef();
+  const inputRef = useRef();
   const handleScroll = (e) => {
     if (e.target.scrollTop < 100) {
       handleGetMassage();
@@ -53,8 +54,13 @@ const ChattingRoom = ({
     chatEndRef.current.scrollIntoView();
   };
 
-  const onSendMessage = () => {
-    handleSendMessage();
+  const onReply = (message) => {
+    inputRef.current.focus();
+    setReplyMessage(message);
+  };
+
+  const onSendMessage = async () => {
+    await handleSendMessage();
     scrollBottom();
   };
 
@@ -146,6 +152,7 @@ const ChattingRoom = ({
             admin={message.sendUserId === room.roomOwner.id}
             message={message}
             setReplyMessage={setReplyMessage}
+            onReply={onReply}
           />
         ))}
         <div ref={chatEndRef}></div>
@@ -169,7 +176,11 @@ const ChattingRoom = ({
           <TextArea
             value={message}
             placeholder="여기에 입력해주세요"
-            onChange={(e) => setMessage(e.target.value)}
+            inputRef={inputRef}
+            onChange={(e) => {
+              if (e.target.value === '\n') return;
+              setMessage(e.target.value);
+            }}
             onKeyPress={(e) => {
               if (!e.shiftKey && e.key === 'Enter') {
                 onSendMessage();
@@ -302,7 +313,6 @@ const reply = css`
     font-size: 1rem;
   }
   .content {
-    width: 44rem;
     font-family: 'Noto Sans KR';
     font-weight: 500;
     font-size: 1rem;
