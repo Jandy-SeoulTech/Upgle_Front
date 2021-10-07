@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { getDateString } from '../../lib/util/dateFormat';
 import Button from './Button';
 
-const Comment = ({ user, comments = [], onWriteComment }) => {
+const Comment = ({ user, comments = [], onWriteComment, onDeleteComment }) => {
   const [content, setContent] = useState('');
 
   const onWrite = () => {
@@ -13,9 +13,14 @@ const Comment = ({ user, comments = [], onWriteComment }) => {
     setContent('');
   };
 
+  const onDelete = (commentId) => {
+    console.log(comments);
+    onDeleteComment({ commentId });
+  };
+
   return (
     <Grid container alignItems="center" css={postCommentWrapper}>
-      <Typography className="postCommentHeader">댓글 {comments.length}</Typography>
+      <Typography className="postCommentHeader">댓글 {comments?.length}</Typography>
       {comments?.map((comment) => (
         <Grid container css={postCommentItem}>
           <Grid container className="avatarBox" justifyContent="center" alignItems="center">
@@ -25,10 +30,10 @@ const Comment = ({ user, comments = [], onWriteComment }) => {
             />
           </Grid>
           <Grid className="postCommentBody" container>
-            {comment.author.nickname === user.nickname && (
+            {comment.author.id === user.id && (
               <Grid container justifyContent="flex-end">
                 <Button>수정</Button>
-                <Button>삭제</Button>
+                <Button onClick={() => onDelete(comment.id)}>삭제</Button>
               </Grid>
             )}
             <Grid container alignItems="center" css={{ marginTop: '20px' }}>
