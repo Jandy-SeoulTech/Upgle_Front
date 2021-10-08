@@ -2,6 +2,7 @@ import { createAction, handleActions } from 'redux-actions';
 import * as profileAPI from '../lib/api/profile';
 import * as channelAPI from '../lib/api/channel';
 import * as postAPI from '../lib/api/post';
+import * as archiveAPI from '../lib/api/archive';
 import { pender } from 'redux-pender/lib/utils';
 
 const SET_PROFILE = 'write/SET_PROFILE';
@@ -19,6 +20,11 @@ const CHANGE_POST = 'write/CHANGE_POST';
 const WRITE_POST = 'write/WRITE_POST';
 const EDIT_POST = 'write/EDIT_POST';
 
+const SET_ARCHIVE = 'write/SET_ARCHIVE';
+const CHANGE_ARCHIVE = 'write/CHANGE_ARCHIVE';
+const WRITE_ARCHIVE = 'write/WRITE_ARCHIVE';
+const EDIT_ARCHIVE = 'write/EDIT_ARCHIVE';
+
 const INITIALIZE = 'write/INITIALIZE';
 
 export const setProfile = createAction(SET_PROFILE, (profile) => profile);
@@ -35,6 +41,11 @@ export const setPost = createAction(SET_POST, (post) => post);
 export const changePost = createAction(CHANGE_POST, ({ key, value }) => ({ key, value }));
 export const writePost = createAction(WRITE_POST, postAPI.writePost);
 export const editPost = createAction(EDIT_POST, postAPI.editPost);
+
+export const setArchive = createAction(SET_ARCHIVE, (archive) => archive);
+export const changeArchive = createAction(CHANGE_ARCHIVE, ({ key, value }) => ({ key, value }));
+export const writeArchive = createAction(WRITE_ARCHIVE, archiveAPI.writeArchive);
+export const editArchive = createAction(EDIT_ARCHIVE, archiveAPI.editArchive);
 
 export const initialize = createAction(INITIALIZE);
 
@@ -62,8 +73,14 @@ const initialState = {
     content: '',
     images: null
   },
-  profile: null,
-  channel: null,
+  archive: {
+    channelId: null,
+    postId: null,
+    title: null,
+    status: null,
+    content: null,
+    images: null,
+  },
   updatedProfile: null,
   error: null,
 };
@@ -118,14 +135,23 @@ export default handleActions(
       writeChannel: { ...state.writeChannel, [key]: value },
     }),
 
-    [INITIALIZE]: () => initialState,
-    ...pender({
-      type: UPLOAD_PROFILE,
-      onSuccess: (state, { payload: profile }) => ({
-        ...state,
-        profile,
-      }),
+    [SET_POST]: (state, { payload }) => ({
+      ...state,
+      post: {
+        postId: payload.id,
+        channelId: payload.channelId,
+        title: payload.title,
+        status: payload.status,
+        content: payload.content,
+        images: payload.images,
+      },
     }),
+    [CHANGE_POST]: (state, { payload: { key, value } }) => ({
+      ...state,
+      writeChannel: { ...state.writeChannel, [key]: value },
+    }),
+
+    [INITIALIZE]: () => initialState,
     ...pender({
       type: UPDATE_PROFILE,
       onSuccess: (state, { payload: profile }) => ({
@@ -137,28 +163,6 @@ export default handleActions(
         ...state,
         error,
         updatedProfile: false,
-      }),
-    }),
-    ...pender({
-      type: CREATE_CHANNEL,
-      onSuccess: (state, { payload: channel }) => ({
-        ...state,
-        channel,
-      }),
-      onFailure: (state, { payload: error }) => ({
-        ...state,
-        error,
-      }),
-    }),
-    ...pender({
-      type: UPDATE_CHANNEL,
-      onSuccess: (state, { payload: channel }) => ({
-        ...state,
-        channel,
-      }),
-      onFailure: (state, { payload: error }) => ({
-        ...state,
-        error,
       }),
     }),
 
