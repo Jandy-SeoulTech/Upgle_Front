@@ -1,6 +1,11 @@
 import axios from 'axios';
 
-export const getComments = async ({ postId }) => {
+export const getComment = async (commentId) => {
+  const response = await axios.get(`/api/Comment/${commentId}`);
+  return response.data.data;
+};
+
+export const getComments = async (postId) => {
   const response = await axios.get(`/api/Comment/?type=post&id=${postId}`);
   return response.data.data;
 };
