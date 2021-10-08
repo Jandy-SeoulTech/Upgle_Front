@@ -7,7 +7,7 @@ import { check } from '../../modules/user';
 import { changeChannel, createChannel, initialize, updateChannel } from '../../modules/write';
 
 const EditChannelContainer = (props) => {
-  const { writeChannel, channel, error } = useSelector((state) => state.write);
+  const { writeChannel } = useSelector((state) => state.write);
   const { id: channelId } = useSelector((state) => state.write.writeChannel);
   const { images } = useSelector((state) => state.image);
   const { user } = useSelector((state) => state.user);
