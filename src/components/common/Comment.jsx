@@ -12,7 +12,7 @@ const Comment = ({ comment, user }) => {
         <Grid container css={postCommentItem}>
           <Grid container className="avatarBox" justifyContent="center" alignItems="center">
             <Avatar
-              src={comment.author.profile.profileImage.src}
+              src={comment.author.profile.profileImage}
               css={{ width: '50px', height: '50px' }}
             />
           </Grid>

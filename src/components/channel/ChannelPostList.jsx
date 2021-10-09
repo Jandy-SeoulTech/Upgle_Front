@@ -38,7 +38,7 @@ const PostItem = ({ channel, post }) => {
               <p>관리자</p>
             </div>
             <Avatar
-              src={post.author.profile.profileImage.src}
+              src={post.author.profile.profileImage}
               css={{
                 width: '3.125rem',
                 height: '3.125rem',
@@ -50,7 +50,7 @@ const PostItem = ({ channel, post }) => {
         ) : (
           <>
             <Avatar
-              src={post.author.profile.profileImage.src}
+              src={post.author.profile.profileImage}
               css={{ width: '3.125rem', height: '3.125rem', margin: '0 auto' }}
             />
           </>

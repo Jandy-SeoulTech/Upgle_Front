@@ -75,7 +75,7 @@ const ChatCard = ({ isFinished, user, chatInfo, onCloseRoom, onExitRoom }) => {
         </Typography>
       </Box>
       <Box css={bottomContent}>
-        <Avatar css={bottomIcon} src={chatInfo.channel.channelImage.src}></Avatar>
+        <Avatar css={bottomIcon} src={chatInfo.channel.channelImage}></Avatar>
         <Typography css={bottomTitle}>{chatInfo.channel.name}</Typography>
       </Box>
     </Box>

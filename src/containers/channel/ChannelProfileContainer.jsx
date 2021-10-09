@@ -114,7 +114,7 @@ const ChannelProfileContainer = ({ channelId }) => {
       channel.participants.forEach(
         (participant) => participant.userId === user.id && setIsParticipant(true),
       );
-      channel.channellike.forEach((like) => like.userId === user.id && setIsLiked(true));
+      channel.channelLike.forEach((like) => like.userId === user.id && setIsLiked(true));
     }
   }, [channel, user]);
 

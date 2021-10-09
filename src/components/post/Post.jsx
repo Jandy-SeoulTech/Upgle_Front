@@ -62,7 +62,7 @@ const Post = ({ post, channel, onEditPost, onDeletePost }) => {
             <Typography className="title">{post.title}</Typography>
             <Box css={authorWrapper}>
               <Avatar
-                src={post.author.profile.profileImage.src}
+                src={post.author.profile.profileImage}
                 css={authorIcon(post.authorId === channel.adminId)}
               />
               <Typography className="nickname">{post.author.nickname}</Typography>

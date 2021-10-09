@@ -7,26 +7,13 @@ import { ReactComponent as ReplyWhite } from '../../lib/assets/replyWhite.svg';
 import { ReactComponent as ReplyBlack } from '../../lib/assets/replyBlack.svg';
 import { ReactComponent as ReplyButton } from '../../lib/assets/replyButton.svg';
 
-const RoomChatItem = ({
-  message,
-  isContinue,
-  right,
-  isMe,
-  isLast,
-  admin,
-  setReplyMessage,
-}) => {
+const RoomChatItem = ({ message, isContinue, right, isMe, isLast, admin, setReplyMessage }) => {
   return (
     <Box css={chatItemWrapper}>
       {!isContinue && (
         <Box css={userWrapper(right)}>
           {right && <Typography>{message.sendUser.nickname}</Typography>}
-          <Avatar
-            src={
-              message.sendUser['profile'] &&
-              message.sendUser.profile.profileImage.src
-            }
-          />
+          <Avatar src={message.sendUser['profile'] && message.sendUser.profile.profileImage} />
           {!right && <Typography>{message.sendUser.nickname}</Typography>}
         </Box>
       )}
@@ -39,9 +26,7 @@ const RoomChatItem = ({
         <Box css={[messageWrapper({ isContinue, right, isMe, admin }), css``]}>
           {message.answeredId && (
             <>
-              <Typography className="answer">
-                {message.answeredMessage.content}
-              </Typography>
+              <Typography className="answer">{message.answeredMessage.content}</Typography>
             </>
           )}
           <Box css={{ display: 'flex', alignItems: 'center' }}>
@@ -107,11 +92,7 @@ const messageWrapper = ({ isContinue, right, isMe, admin }) => css`
   color: ${!admin && isMe && palette.white};
   background: ${!admin && isMe ? 'rgba(255, 81, 27, 0.8);' : '#f0f0f0'};
   margin: ${right ? '0 6rem 0 auto' : '0 auto 0 6rem'};
-  border-radius: ${isContinue
-    ? '20px'
-    : right
-    ? '20px 3px 20px 20px;'
-    : '3px 20px 20px 20px;'};
+  border-radius: ${isContinue ? '20px' : right ? '20px 3px 20px 20px;' : '3px 20px 20px 20px;'};
   border: ${admin && '2px solid #04BD9E'};
   .MuiTypography-root {
     min-height: 2rem;
