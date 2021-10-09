@@ -24,14 +24,28 @@ const ChannelRouter = () => {
         exact
         render={(props) => <CheckJoinChannel {...props} Component={ChannelPostListPage} />}
       />
-      <Route path="/channel/:channelId/archive" exact component={ChannelArchivePage} />
+      <Route
+        path="/channel/:channelId/editArchive"
+        exact
+        render={(props) => <CheckJoinChannel {...props} Component={EditPostPage} />}
+      />
+      <Route
+        path="/channel/:channelId/archive"
+        exact
+        render={(props) => <CheckJoinChannel {...props} Component={ChannelArchivePage} />}
+      />
+      <Route
+        path="/channel/:channelId/archive/:archiveId"
+        exact
+        render={(props) => <CheckJoinChannel {...props} Component={ChannelArchivePage} />}
+      />
       <Route
         path="/channel/:channelId/chat"
         exact
         render={(props) => <CheckJoinChannel {...props} Component={ChannelChatListPage} />}
       />
       <Route
-        path="/channel/:channelId/writing"
+        path="/channel/:channelId/editPost"
         exact
         render={(props) => <CheckJoinChannel {...props} Component={EditPostPage} />}
       />

@@ -5,69 +5,70 @@ import Button from './../common/Button';
 import { ReactComponent as PostWrite } from '../../lib/assets/postWrite.svg';
 import { getDateString } from '../../lib/util/dateFormat';
 import { useHistory } from 'react-router';
-import PostStatusIcon from '../post/PostStatusIcon';
+import { Image } from '@material-ui/icons';
 
-const PostItem = ({ channel, post }) => {
+const ArchiveItem = ({ channel, archive }) => {
   const history = useHistory();
 
   return (
     <Box
       css={postItem}
       onClick={() => {
-        history.push(`/channel/${channel.id}/post/${post.id}`);
+        history.push(`/channel/${channel.id}/archive/${archive.id}`);
       }}
     >
       <Box css={postItemLeft}>
         <Box css={postTitle}>
           <Box css={{ display: 'flex' }}>
-            <PostStatusIcon status={post.status} />
-            <Typography className="title">{post.title}</Typography>
+            <Typography className="title">{archive.title}</Typography>
           </Box>
-          <Typography className="date">{getDateString(post.createdAt)}</Typography>
+          <Typography className="date">{getDateString(archive.createdAt)}</Typography>
         </Box>
-        <Typography css={postContent}>{post.content}</Typography>
+        <Typography css={postContent}>{archive.content}</Typography>
+        <Box css={{ display: 'flex', alignItems: 'center' }}>
+          {archive.authorId === channel.adminId ? (
+            <>
+              <div css={adminIconCss}>
+                <p>관리자</p>
+              </div>
+              <Avatar
+                src={archive.owner.profile.profileImage}
+                css={{
+                  width: '3.125rem',
+                  height: '3.125rem',
+                  border: '2px solid #04BD9E',
+                }}
+              />
+            </>
+          ) : (
+            <>
+              <Avatar
+                src={archive.owner.profile.profileImage}
+                css={{ width: '3.125rem', height: '3.125rem' }}
+              />
+            </>
+          )}
+          <Typography css={nicknameCss}>{archive.owner.nickname}</Typography>
+        </Box>
       </Box>
       <Box
         css={postItemRight}
         className="avatar"
-        onClick={() => history.push(`/profile/${post.author.id}`)}
+        onClick={() => history.push(`/profile/${archive.owner.id}`)}
       >
-        {post.authorId === channel.adminId ? (
-          <>
-            <div css={adminIconCss}>
-              <p>관리자</p>
-            </div>
-            <Avatar
-              src={post.author.profile.profileImage.src}
-              css={{
-                width: '3.125rem',
-                height: '3.125rem',
-                margin: '.3125rem auto 0 auto',
-                border: '2px solid #04BD9E',
-              }}
-            />
-          </>
-        ) : (
-          <>
-            <Avatar
-              src={post.author.profile.profileImage.src}
-              css={{ width: '3.125rem', height: '3.125rem', margin: '0 auto' }}
-            />
-          </>
-        )}
-        <Typography css={nicknameCss}>{post.author.nickname}</Typography>
+        {archive.images.length > 0 && <Image src={archive.images[0]} alt="" />}
       </Box>
     </Box>
   );
 };
 
-const ChannelArchive = ({ postList, channel }) => {
+const ChannelArchive = ({ channelArchive, channel }) => {
   const history = useHistory();
 
   return (
     <Box css={backgroudWrapper}>
       <Box css={writeTitleWrapper}>
-        <Button css={write} onClick={() => history.push(`/channel/${channel.id}/writing`)}>
+        <Button css={write} onClick={() => history.push(`/channel/${channel.id}/editArchive`)}>
           <PostWrite className="icon" css={{ marginRight: '.625rem' }} />
           요청하기
         </Button>
@@ -76,10 +77,10 @@ const ChannelArchive = ({ postList, channel }) => {
           업글을 도와줄거예요!
         </Typography>
       </Box>
-      {postList?.length > 0 ? (
-        <Box css={postListWrapper}>
-          {postList.map((post) => (
-            <PostItem key={post.id} channel={channel} post={post} />
+      {channelArchive?.length > 0 ? (
+        <Box css={channelArchiveWrapper}>
+          {channelArchive.map((archive) => (
+            <ArchiveItem key={archive.id} channel={channel} archive={archive} />
           ))}
         </Box>
       ) : (
@@ -122,7 +123,7 @@ const writeTitle = css`
   margin: 1.875rem auto auto auto;
 `;
 
-const postListWrapper = css`
+const channelArchiveWrapper = css`
   display: flex;
   flex-direction: column;
   border-top: 2px solid black;
@@ -131,7 +132,7 @@ const postListWrapper = css`
 `;
 
 const postItem = css`
-  height: 10.625rem;
+  height: 15rem;
   border-bottom: 1px solid #bdbdbd;
   display: flex;
   align-items: flex-start;
@@ -146,9 +147,11 @@ const postItem = css`
 
 const postItemLeft = css`
   flex: 1;
-  height: 10.625rem;
-  padding: 0;
-  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1.875rem 1.25rem;
 `;
 
 const postItemRight = css`
@@ -162,8 +165,9 @@ const postItemRight = css`
 `;
 
 const postTitle = css`
+  width: 100%;
   height: 1.5625rem;
-  margin: 2rem 0 0.625rem 1.875rem;
+  margin-bottom: 0.625rem;
   display: flex;
   justify-content: space-between;
   & .MuiTypography-root {
@@ -172,6 +176,7 @@ const postTitle = css`
     font-style: normal;
   }
   .title {
+    padding: 0;
     font-weight: 600;
     font-size: 1.25rem;
   }
@@ -183,8 +188,8 @@ const postTitle = css`
 `;
 
 const postContent = css`
-  height: 2.75rem;
-  margin: 1.4375rem 0.625rem 0 2.5rem;
+  flex: 1;
+  margin-top: 2.34375rem;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -216,10 +221,8 @@ const adminIconCss = css`
 `;
 
 const nicknameCss = css`
-  margin-top: 0.75rem;
-  text-align: center;
-  font-family: 'Barlow', 'Noto Sans KR';
-  font-weight: 500;
+  margin-left: 0.75rem;
+  font-family: 'Noto Sans KR';
   font-size: 0.8125rem;
   color: #000000;
 `;

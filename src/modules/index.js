@@ -9,6 +9,7 @@ import profile from './profile';
 import room from './room';
 import comment from './comment';
 import post from './post';
+import archive from './archive';
 import { penderReducer } from 'redux-pender';
 
 const rootReducer = combineReducers({
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   room,
   comment,
   post,
+  archive,
   pender: penderReducer,
 });
 

@@ -8,7 +8,7 @@ const GET_USER_ARCHIVE = 'archive/GET_USER_ARCHIVE';
 const DELETE_ARCHIVE = 'archive/DELETE_ARCHIVE';
 const LIKE_ARCHIVE = 'archive/LIKE_ARCHIVE';
 const UNLIKE_ARCHIVE = 'archive/UNLIKE_ARCHIVE';
-const INIT_ARCHIVE = 'archive/INIT_ARCHIVE'
+const INIT_ARCHIVE = 'archive/INIT_ARCHIVE';
 
 export const getArchive = createAction(GET_ARCHIVE, archiveAPI.getArchive);
 export const getChannelArchive = createAction(GET_CHANNEL_ARCHIVE, archiveAPI.getChannelArchive);
@@ -19,36 +19,36 @@ export const unlikeArchive = createAction(UNLIKE_ARCHIVE, archiveAPI.unlikeArchi
 export const initPost = createAction(INIT_ARCHIVE);
 
 const initialState = {
-    channelArchive: null,
-    userArchive: null,
-    archive: null,
-    error: null,
+  channelArchive: null,
+  userArchive: null,
+  archive: null,
+  error: null,
 };
 
 export default handleActions(
-    {
-        [INIT_ARCHIVE]: (state) => initialState,
-        ...pender({
-            type: GET_ARCHIVE,
-            onSuccess: (state, { payload: archive }) => ({
-                ...state,
-                archive
-            }),
-        }),
-        ...pender({
-            type: GET_CHANNEL_ARCHIVE,
-            onSuccess: (state, { payload: channelArchive }) => ({
-                ...state,
-                channelArchive
-            }),
-        }),
-        ...pender({
-            type: GET_USER_ARCHIVE,
-            onSuccess: (state, { payload: userArchive }) => ({
-                ...state,
-                userArchive
-            }),
-        }),
-    },
-    initialState,
+  {
+    [INIT_ARCHIVE]: (state) => initialState,
+    ...pender({
+      type: GET_ARCHIVE,
+      onSuccess: (state, { payload: archive }) => ({
+        ...state,
+        archive,
+      }),
+    }),
+    ...pender({
+      type: GET_CHANNEL_ARCHIVE,
+      onSuccess: (state, { payload: channelArchive }) => ({
+        ...state,
+        channelArchive,
+      }),
+    }),
+    ...pender({
+      type: GET_USER_ARCHIVE,
+      onSuccess: (state, { payload: userArchive }) => ({
+        ...state,
+        userArchive,
+      }),
+    }),
+  },
+  initialState,
 );

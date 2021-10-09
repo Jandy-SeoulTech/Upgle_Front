@@ -67,7 +67,7 @@ const ChannelPostList = ({ postList, channel }) => {
   return (
     <Box css={backgroudWrapper}>
       <Box css={writeTitleWrapper}>
-        <Button css={write} onClick={() => history.push(`/channel/${channel.id}/writing`)}>
+        <Button css={write} onClick={() => history.push(`/channel/${channel.id}/editPost`)}>
           <PostWrite className="icon" css={{ marginRight: '.625rem' }} />
           요청하기
         </Button>
