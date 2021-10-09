@@ -71,7 +71,7 @@ const initialState = {
     title: '',
     status: null,
     content: '',
-    images: null
+    images: null,
   },
   archive: {
     channelId: null,
@@ -95,7 +95,7 @@ export default handleActions(
         introduce: payload.introduce,
         tags: payload.tags.map((tag) => tag.tag.name),
         category: payload.category.category.name,
-        src: payload.channelImage.src,
+        src: payload.channelImage,
       },
     }),
     [CHANGE_PROFILE]: (state, { payload: { key, value } }) => ({
@@ -111,7 +111,7 @@ export default handleActions(
         introduce: payload.introduce,
         tags: payload.tags.map((tag) => tag.tag.name),
         category: payload.category.category.name,
-        src: payload.channelImage.src,
+        src: payload.channelImage,
       },
     }),
     [CHANGE_CHANNEL]: (state, { payload: { key, value } }) => ({
@@ -165,7 +165,6 @@ export default handleActions(
         updatedProfile: false,
       }),
     }),
-
   },
   initialState,
 );

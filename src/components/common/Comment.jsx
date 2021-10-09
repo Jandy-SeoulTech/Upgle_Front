@@ -34,10 +34,7 @@ const Comment = ({ user, comment, onDeleteComment, onEditComment }) => {
   return (
     <Grid container css={postCommentItem}>
       <Grid container className="avatarBox" justifyContent="center" alignItems="center">
-        <Avatar
-          src={comment.author.profile.profileImage.src}
-          css={{ width: '50px', height: '50px' }}
-        />
+        <Avatar src={comment.author.profile.profileImage} css={{ width: '50px', height: '50px' }} />
       </Grid>
       <Grid className="postCommentBody" container>
         <Grid container justifyContent="flex-end" gap="10px">

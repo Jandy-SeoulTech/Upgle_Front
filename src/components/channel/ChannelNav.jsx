@@ -53,7 +53,7 @@ const ChannelNav = ({ channel, isParticipant }) => {
           <Box css={channelHead}>
             {pathname !== `/channel/${channel.id}/profile` && (
               <>
-                <Avatar src={channel.channelImage.src} />
+                <Avatar src={channel.channelImage} />
                 <Typography>{channel.name}</Typography>
               </>
             )}

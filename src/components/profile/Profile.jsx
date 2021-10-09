@@ -230,7 +230,7 @@ const Profile = ({
       <Grid item container xs={12} css={widthContainer} justifyContent="center">
         <Grid item container css={leftProfile}>
           <Grid item container css={leftProfileTop}>
-            <Avatar css={avatar} src={profile.profile.profileImage.src} />
+            <Avatar css={avatar} src={profile.profile.profileImage} />
 
             <Typography css={nickname}>{profile.nickname}</Typography>
 
@@ -447,7 +447,7 @@ const Profile = ({
                     <Grid css={channelCard}>
                       <Box
                         sx={{
-                          backgroundImage: `url(${channel?.channelImage?.src})`,
+                          backgroundImage: `url(${channel?.channelImage})`,
                           backgroundColor: getRandomColor(channel.name),
                           backgroundRepeat: 'no-repeat',
                           backgroundSize: 'cover',
@@ -455,8 +455,8 @@ const Profile = ({
                           height: '125px',
                           borderRadius: '50%',
                           ':hover': {
-                            backgroundImage: channel?.channelImage?.src
-                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${channel?.channelImage?.src})`
+                            backgroundImage: channel?.channelImage
+                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${channel?.channelImage})`
                               : 'linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%)',
                           },
                         }}
@@ -490,7 +490,7 @@ const Profile = ({
                     <Grid css={channelCard}>
                       <Box
                         sx={{
-                          backgroundImage: `url(${channel?.channelImage?.src})`,
+                          backgroundImage: `url(${channel?.channelImage})`,
                           backgroundColor: getRandomColor(channel.name),
                           backgroundRepeat: 'no-repeat',
                           backgroundSize: 'cover',
@@ -498,8 +498,8 @@ const Profile = ({
                           height: '125px',
                           borderRadius: '50%',
                           ':hover': {
-                            backgroundImage: channel?.channelImage?.src
-                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${channel?.channelImage?.src})`
+                            backgroundImage: channel?.channelImage
+                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${channel?.channelImage})`
                               : 'linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%)',
                           },
                         }}

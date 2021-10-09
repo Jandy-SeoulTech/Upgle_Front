@@ -9,12 +9,7 @@ const ChatItem = ({ message, isContinue, isMe }) => {
     <Box css={chatItemWrapper}>
       {!isMe && !isContinue && (
         <Box css={userWrapper}>
-          <Avatar
-            src={
-              message.sendUser['profile'] &&
-              message.sendUser.profile.profileImage.src
-            }
-          />
+          <Avatar src={message.sendUser['profile'] && message.sendUser.profile.profileImage} />
           <Typography>{message.sendUser.nickname}</Typography>
         </Box>
       )}
@@ -59,11 +54,7 @@ const messageWrapper = (isContinue, isMe) => css`
   color: ${isMe && palette.white};
   background: ${isMe ? 'rgba(255, 81, 27, 0.8);' : '#f0f0f0'};
   margin: ${isMe ? '0 2.5rem 0 auto' : '0 auto 0 0'};
-  border-radius: ${isContinue
-    ? '20px'
-    : isMe
-    ? '20px 3px 20px 20px;'
-    : '3px 20px 20px 20px;'};
+  border-radius: ${isContinue ? '20px' : isMe ? '20px 3px 20px 20px;' : '3px 20px 20px 20px;'};
   .MuiTypography-root {
     font-family: 'Barlow', 'Noto Sans KR';
     letter-spacing: 0;

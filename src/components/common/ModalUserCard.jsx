@@ -22,11 +22,7 @@ function ModalUserCard({
     if (loggedInUser && user) {
       setIsMe(Boolean(loggedInUser?.id === user?.id));
       setIsFollowing(
-        Boolean(
-          loggedInUser?.followings
-            ?.map((el) => el.followingId)
-            .includes(user?.id),
-        ),
+        Boolean(loggedInUser?.followings?.map((el) => el.followingId).includes(user?.id)),
       );
     }
   }, [loggedInUser, user]);
@@ -36,16 +32,13 @@ function ModalUserCard({
       <Grid item container xs={2}>
         <Avatar
           css={avatar}
-          src={user?.profile?.profileImage.src}
+          src={user?.profile?.profileImage}
           onClick={() => (window.location.href = `/profile/${user.id}`)}
         />
       </Grid>
       <Grid item container xs={8} alignContent="center" rowGap={0.5}>
         <Grid item xs={12}>
-          <Typography
-            css={nickname}
-            onClick={() => (window.location.href = `/profile/${user.id}`)}
-          >
+          <Typography css={nickname} onClick={() => (window.location.href = `/profile/${user.id}`)}>
             {user.nickname}
           </Typography>
         </Grid>
@@ -151,8 +144,7 @@ const followButton = css`
 
   &:hover {
     border: none;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
-      #ff511b;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), #ff511b;
   }
 `;
 
