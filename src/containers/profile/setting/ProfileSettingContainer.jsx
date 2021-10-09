@@ -13,9 +13,7 @@ const ProfileSettingContainer = () => {
   const { auth, nicknameChecked } = useSelector((state) => state.auth);
   const { updatedProfile } = useSelector((state) => state.write);
   const { images } = useSelector((state) => state.image);
-  const { checkedPassword, changedPassword } = useSelector(
-    (state) => state.profile,
-  );
+  const { checkedPassword, changedPassword } = useSelector((state) => state.profile);
 
   const onChangePassword = ({ password }) => {
     dispatch(changePassword({ password }));
@@ -25,13 +23,7 @@ const ProfileSettingContainer = () => {
     dispatch(checkPassword({ password }));
   };
 
-  const onUpdateProfile = ({
-    nickname,
-    department,
-    introduce,
-    wellTalent,
-    interestTalent,
-  }) => {
+  const onUpdateProfile = ({ nickname, department, introduce, wellTalent, interestTalent }) => {
     dispatch(
       updateProfile({
         userId: user.id,
@@ -59,7 +51,7 @@ const ProfileSettingContainer = () => {
 
   useEffect(() => {
     if (user?.profile) {
-      dispatch(setImage(user.profile.profileImage.src));
+      dispatch(setImage(user.profile.profileImage));
     }
   }, [user]);
 

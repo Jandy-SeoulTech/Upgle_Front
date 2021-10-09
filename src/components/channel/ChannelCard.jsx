@@ -12,14 +12,9 @@ const ChannelCard = ({ channel }) => {
   };
 
   return (
-    <Grid
-      container
-      component={Paper}
-      css={ChannelCardWrapper}
-      onClick={handleMoveChannel}
-    >
+    <Grid container component={Paper} css={ChannelCardWrapper} onClick={handleMoveChannel}>
       <Grid item container xs={6} css={leftContent}>
-        <Avatar src={channel.channelImage.src} css={channelIcon}></Avatar>
+        <Avatar src={channel.channelImage} css={channelIcon}></Avatar>
       </Grid>
       <Grid item xs={6} css={rightContent}>
         <Typography css={title}>{channel.name}</Typography>

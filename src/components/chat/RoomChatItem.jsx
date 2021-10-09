@@ -13,7 +13,7 @@ const RoomChatItem = ({ message, isContinue, right, isMe, isLast, admin, onReply
       {!isContinue && (
         <Box css={userWrapper(right)}>
           {right && <Typography>{message.sendUser.nickname}</Typography>}
-          <Avatar src={message.sendUser['profile'] && message.sendUser.profile.profileImage.src} />
+          <Avatar src={message.sendUser['profile'] && message.sendUser.profile.profileImage} />
           {!right && <Typography>{message.sendUser.nickname}</Typography>}
         </Box>
       )}

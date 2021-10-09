@@ -81,7 +81,7 @@ const ChannelProfile = ({
   return (
     <>
       <Box css={head(isParticipant)}>
-        <Avatar src={channel.channelImage.src} css={headeIcon} />
+        <Avatar src={channel.channelImage} css={headeIcon} />
         <Box css={headContent}>
           <Box>
             <Typography css={headTitle}>
@@ -93,7 +93,7 @@ const ChannelProfile = ({
             <Typography css={headTotal}>
               재능 공유 멤버 {channel.participants.length + 1}
             </Typography>
-            <Typography css={headLike}>좋아요 {channel.channellike.length}</Typography>
+            <Typography css={headLike}>좋아요 {channel.channelLike.length}</Typography>
           </Box>
           {user.id !== channel.adminId && (
             <Box css={headButtonWrapper}>
@@ -144,7 +144,7 @@ const ChannelProfile = ({
               <Typography css={adminTitle}>관리자</Typography>
               <Avatar
                 css={channelAdmin}
-                src={channel.admin['profile'] && channel.admin.profile.profileImage.src}
+                src={channel.admin['profile'] && channel.admin.profile.profileImage}
               />
               <Typography css={adminNickname}>{channel.admin.nickname}</Typography>
             </Box>
@@ -153,7 +153,7 @@ const ChannelProfile = ({
                 <>
                   <Avatar
                     key={user.userId}
-                    src={user.user['profile'] && user.user.profile.profileImage.src}
+                    src={user.user['profile'] && user.user.profile.profileImage}
                     css={channelParticipant}
                   />
                 </>
