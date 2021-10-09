@@ -7,7 +7,7 @@ import { ReactComponent as ReplyWhite } from '../../lib/assets/replyWhite.svg';
 import { ReactComponent as ReplyBlack } from '../../lib/assets/replyBlack.svg';
 import { ReactComponent as ReplyButton } from '../../lib/assets/replyButton.svg';
 
-const RoomChatItem = ({ message, isContinue, right, isMe, isLast, admin, setReplyMessage }) => {
+const RoomChatItem = ({ message, isContinue, right, isMe, isLast, admin, onReply }) => {
   return (
     <Box css={chatItemWrapper}>
       {!isContinue && (
@@ -36,7 +36,7 @@ const RoomChatItem = ({ message, isContinue, right, isMe, isLast, admin, setRepl
             <Typography>{message.content}</Typography>
             <ReplyButton
               onClick={() => {
-                setReplyMessage(message);
+                onReply(message);
               }}
               className="replyButton"
             />

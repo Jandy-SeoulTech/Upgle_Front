@@ -6,8 +6,15 @@ export function getDateString(date) {
     now.getDate() === ret.getDate() &&
     now.getMonth() === ret.getMonth()
   ) {
-    return `${ret.getHours()}:${ret.getMinutes()}`;
+    return `${ret.getHours().toString().padStart(2, '0')}:${ret
+      .getMinutes()
+      .toString()
+      .padStart(2, '0')}`;
   } else {
     return `${ret.getFullYear()}.${ret.getMonth() + 1}.${ret.getDate()}`;
   }
+}
+
+export function getCommentDateString(createdAt, updatedAt) {
+  return !updatedAt ? getDateString(createdAt) : getDateString(updatedAt) + ' (수정됨)';
 }

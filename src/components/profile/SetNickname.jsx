@@ -9,12 +9,7 @@ import Button from '../common/Button';
 import palette from '../../lib/styles/palette';
 import { ReactComponent as LogoWithTextTemp2 } from '../../lib/assets/logoWithTextTemp2.svg';
 
-const SetNickname = ({
-  onCheckNickname,
-  onNicknameChanged,
-  onSetNickname,
-  nicknameChecked,
-}) => {
+const SetNickname = ({ onCheckNickname, onNicknameChanged, onSetNickname, nicknameChecked }) => {
   const m1200 = useMediaQuery('(max-width: 1200px)');
   const [nickname, setNickname] = useState('');
   const [nicknameError, setNicknameError] = useState(false);
@@ -57,9 +52,7 @@ const SetNickname = ({
           </Grid>
 
           <Grid item container xs={12} justifyContent="center">
-            <Typography sx={helpText}>
-              자신을 나타낼 수 있는 닉네임을 입력해주세요.
-            </Typography>
+            <Typography sx={helpText}>자신을 나타낼 수 있는 닉네임을 입력해주세요.</Typography>
           </Grid>
 
           <Grid item container xs={12} mb={4} justifyContent="center">
@@ -67,7 +60,7 @@ const SetNickname = ({
               size="small"
               fullWidth
               label="닉네임"
-              placeholder="4 ~ 8자 제한"
+              placeholder="10자 이내"
               error={nicknameError || nicknameChecked === false}
               helperText={
                 (nicknameError && '유효하지 않은 닉네임입니다.') ||

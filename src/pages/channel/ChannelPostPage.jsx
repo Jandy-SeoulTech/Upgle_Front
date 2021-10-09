@@ -1,5 +1,5 @@
 import React from 'react';
-import CommentContainer from '../../containers/common/CommentContainer';
+import CommentsContainer from '../../containers/common/CommentsContainer';
 import FooterContainer from '../../containers/common/FooterContainer';
 import HeaderContainer from '../../containers/common/HeaderContainer';
 import PostButtonListContainer from '../../containers/post/PostButtonListContainer';
@@ -14,7 +14,7 @@ const ChannelPostPage = ({ match }) => {
       <ChannelNavContainer />
       <PostContainer channelId={parseInt(channelId, 10)} postId={parseInt(postId, 10)} />
       <PostButtonListContainer channelId={parseInt(channelId, 10)} postId={parseInt(postId, 10)} />
-      <CommentContainer channelId={parseInt(channelId, 10)} postId={parseInt(postId, 10)} />
+      <CommentsContainer channelId={parseInt(channelId, 10)} postId={parseInt(postId, 10)} />
       <FooterContainer />
     </>
   );
