@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Box, Typography, Avatar } from '@material-ui/core';
-import Button from './../common/Button';
+import Button from '../common/Button';
 import { ReactComponent as PostWrite } from '../../lib/assets/postWrite.svg';
 import { getDateString } from '../../lib/util/dateFormat';
 import { useHistory } from 'react-router';
@@ -62,7 +62,7 @@ const ArchiveItem = ({ channel, archive }) => {
   );
 };
 
-const ChannelArchive = ({ channelArchive, channel }) => {
+const ChannelArchiveList = ({ channelArchive, channel }) => {
   const history = useHistory();
 
   return (
@@ -227,4 +227,4 @@ const nicknameCss = css`
   color: #000000;
 `;
 
-export default ChannelArchive;
+export default ChannelArchiveList;
