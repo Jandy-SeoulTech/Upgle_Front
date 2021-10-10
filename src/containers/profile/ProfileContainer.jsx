@@ -16,9 +16,7 @@ import { check, follow, unfollow } from '../../modules/user';
 const ProfileContainer = () => {
   const { auth, error: authError } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.user);
-  const { profile, followers, followings, reviews } = useSelector(
-    (state) => state.profile,
-  );
+  const { profile, followers, followings, reviews } = useSelector((state) => state.profile);
   const { pending } = useSelector((state) => state.pender);
 
   const [isMe, setIsMe] = useState();
@@ -75,14 +73,12 @@ const ProfileContainer = () => {
   }, [user, profile]);
 
   if (!profile) return '로딩중';
-
   return (
     <Profile
       getProfileLoading={pending['profile/GET_PROFILE']}
       getFollowersLoading={pending['profile/GET_FOLLOWERS']}
       getFollowingsLoading={pending['profile/GET_FOLLOWINGS']}
       getReviewsLoading={pending['profile/GET_REVIEWS']}
-      pending={pending}
       isMe={isMe}
       isFollowing={isFollowing}
       user={user}

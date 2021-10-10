@@ -28,7 +28,6 @@ const Profile = ({
   followers,
   followings,
   reviews,
-  channels,
   onFollow,
   onUnfollow,
   onProfileFollow,
@@ -62,9 +61,7 @@ const Profile = ({
       </Grid>
     ) : !followers || followers.length === 0 ? (
       <Grid container height="67vh" justifyContent="center" alignItems="center">
-        <Typography css={noContents}>
-          {profile?.nickname}님을 팔로우하는 유저가 없습니다.
-        </Typography>
+        <Typography css={noContents}>{profile.nickname}님을 팔로우하는 유저가 없습니다.</Typography>
       </Grid>
     ) : (
       <Grid>
@@ -96,9 +93,7 @@ const Profile = ({
       </Grid>
     ) : !followings || followings.length === 0 ? (
       <Grid container height="67vh" justifyContent="center" alignItems="center">
-        <Typography css={noContents}>
-          {profile?.nickname}님이 팔로우하는 유저가 없습니다.
-        </Typography>
+        <Typography css={noContents}>{profile.nickname}님이 팔로우하는 유저가 없습니다.</Typography>
       </Grid>
     ) : (
       <Grid>
@@ -130,7 +125,7 @@ const Profile = ({
       </Grid>
     ) : !reviews || reviews.length === 0 ? (
       <Grid container height="67vh" justifyContent="center" alignItems="center">
-        <Typography css={noContents}>{profile?.nickname}님에 대한 리뷰가 없습니다.</Typography>
+        <Typography css={noContents}>{profile.nickname}님에 대한 리뷰가 없습니다.</Typography>
       </Grid>
     ) : (
       <Grid>
@@ -431,12 +426,12 @@ const Profile = ({
               <Button sx={orangeLabel}>오픈 채널</Button>
             </Grid>
             <Grid item container columns={5}>
-              {profile?.admin?.length === 0 ? (
+              {profile.admin.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   오픈된 채널이 없습니다.
                 </Grid>
               ) : (
-                profile?.admin?.map((channel, i) => (
+                profile.admin.map((channel, i) => (
                   <Grid
                     key={i}
                     item
@@ -447,7 +442,7 @@ const Profile = ({
                     <Grid css={channelCard}>
                       <Box
                         sx={{
-                          backgroundImage: `url(${channel?.channelImage})`,
+                          backgroundImage: `url(${channel.channelImage})`,
                           backgroundColor: getRandomColor(channel.name),
                           backgroundRepeat: 'no-repeat',
                           backgroundSize: 'cover',
@@ -455,8 +450,8 @@ const Profile = ({
                           height: '125px',
                           borderRadius: '50%',
                           ':hover': {
-                            backgroundImage: channel?.channelImage
-                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${channel?.channelImage})`
+                            backgroundImage: channel.channelImage
+                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${channel.channelImage})`
                               : 'linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%)',
                           },
                         }}
@@ -474,12 +469,12 @@ const Profile = ({
               <Button sx={orangeLabel}>참여 채널</Button>
             </Grid>
             <Grid item container columns={5}>
-              {profile?.participants?.length === 0 ? (
+              {profile.participants.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   참여하는 채널이 없습니다.
                 </Grid>
               ) : (
-                profile?.participants?.map(({ channel }, i) => (
+                profile.participants.map((channel, i) => (
                   <Grid
                     key={i}
                     item
@@ -490,7 +485,7 @@ const Profile = ({
                     <Grid css={channelCard}>
                       <Box
                         sx={{
-                          backgroundImage: `url(${channel?.channelImage})`,
+                          backgroundImage: `url(${channel.channelImage})`,
                           backgroundColor: getRandomColor(channel.name),
                           backgroundRepeat: 'no-repeat',
                           backgroundSize: 'cover',
@@ -498,8 +493,8 @@ const Profile = ({
                           height: '125px',
                           borderRadius: '50%',
                           ':hover': {
-                            backgroundImage: channel?.channelImage
-                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${channel?.channelImage})`
+                            backgroundImage: channel.channelImage
+                              ? `linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%), url(${channel.channelImage})`
                               : 'linear-gradient(0deg, rgba(0, 0, 0, 0.3) 23.2%, rgba(0, 0, 0, 0) 100%, rgba(0, 0, 0, 0.06) 100%)',
                           },
                         }}
