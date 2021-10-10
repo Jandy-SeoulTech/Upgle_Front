@@ -8,6 +8,7 @@ import EditChannelPage from '../pages/channel/EditChannelPage';
 import CheckJoinChannel from '../middlewares/CheckJoinChannel';
 import EditPostPage from '../pages/channel/EditPostPage';
 import ChannelChatListPage from '../pages/channel/ChannelChatListPage';
+import ChannelArchiveListPage from '../pages/channel/ChannelArchiveListPage';
 
 const ChannelRouter = () => {
   return (
@@ -24,12 +25,27 @@ const ChannelRouter = () => {
         render={(props) => <CheckJoinChannel {...props} Component={ChannelPostListPage} />}
       />
       <Route
+        path="/channel/:channelId/editArchive"
+        exact
+        render={(props) => <CheckJoinChannel {...props} Component={EditPostPage} />}
+      />
+      <Route
+        path="/channel/:channelId/archive"
+        exact
+        render={(props) => <CheckJoinChannel {...props} Component={ChannelArchiveListPage} />}
+      />
+      <Route
+        path="/channel/:channelId/archive/:archiveId"
+        exact
+        render={(props) => <CheckJoinChannel {...props} Component={ChannelArchiveListPage} />}
+      />
+      <Route
         path="/channel/:channelId/chat"
         exact
         render={(props) => <CheckJoinChannel {...props} Component={ChannelChatListPage} />}
       />
       <Route
-        path="/channel/:channelId/writing"
+        path="/channel/:channelId/editPost"
         exact
         render={(props) => <CheckJoinChannel {...props} Component={EditPostPage} />}
       />

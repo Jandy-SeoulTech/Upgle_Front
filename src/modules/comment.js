@@ -2,12 +2,14 @@ import { createAction, handleActions } from 'redux-actions';
 import { pender } from 'redux-pender/lib/utils';
 import * as commentAPI from '../lib/api/comment';
 
+const GET_COMMENT = 'comment/GET_COMMENT';
 const GET_COMMENTS = 'comment/GET_COMMENTS';
 const WRITE_COMMENT = 'comment/WRITE_COMMENT';
 const EDIT_COMMENT = 'comment/EDIT_COMMENT';
 const DELETE_COMMENT = 'comment/DELETE_COMMENT';
 const INIT_COMMENT = 'comment/INIT_COMMENT';
 
+export const getComment = createAction(GET_COMMENT, commentAPI.getComment);
 export const getComments = createAction(GET_COMMENTS, commentAPI.getComments);
 export const writeComment = createAction(WRITE_COMMENT, commentAPI.writeComment);
 export const editComment = createAction(EDIT_COMMENT, commentAPI.editComment);
@@ -31,7 +33,7 @@ export default handleActions(
       }),
     }),
     ...pender({
-      type: WRITE_COMMENT,
+      type: GET_COMMENT,
       onSuccess: (state, { payload: comment }) => ({
         ...state,
         comment,

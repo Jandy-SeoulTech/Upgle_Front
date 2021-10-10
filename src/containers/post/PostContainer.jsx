@@ -15,7 +15,7 @@ const PostContainer = ({ channelId, postId }) => {
 
   const onEditPost = async () => {
     await dispatch(setPost(post));
-    history.push(`/channel/${channelId}/writing`);
+    history.push(`/channel/${channelId}/editPost`);
   };
 
   const onDeletePost = async () => {
