@@ -25,14 +25,14 @@ import { ReactComponent as UserProfile } from '../../lib/assets/userProfile.svg'
 import { ReactComponent as SearchIcon } from '../../lib/assets/searchIcon.svg';
 import palette from '../../lib/styles/palette';
 
-const Header = ({ user, initialKeyword, onLogout }) => {
+const Header = ({ user, onLogout }) => {
   const history = useHistory();
   const [menuAnchor, setMenuAnchor] = useState();
   const [scrollPosition, setScrollPosition] = useState(0);
   const m1200 = useMediaQuery('(max-width: 1199px)');
   const isMobile = useMediaQuery('(max-width: 600px)');
   const { pathname } = useLocation();
-  const [keyword, setKeyword] = useState(initialKeyword);
+  const [keyword, setKeyword] = useState('');
 
   const updateScroll = () => {
     setScrollPosition(window.scrollY || document.documentElement.scrollTop);
@@ -65,10 +65,10 @@ const Header = ({ user, initialKeyword, onLogout }) => {
     >
       <LogoWithTextTemp css={logo} onClick={() => history.push('/')} />
       <Link
-        to="/talent"
+        to="/search"
         css={[
           navItem(isMobile),
-          pathname === '/talent' &&
+          pathname === '/search' &&
             css`
               border-bottom: 3px solid ${palette.orange} !important;
             `,

@@ -10,7 +10,7 @@ const SearchPage = () => {
 
   return (
     <>
-      <HeaderContainer initialKeyword={keyword} />
+      <HeaderContainer />
       <SearchContainer keyword={keyword} />
       <FooterContainer />
     </>
