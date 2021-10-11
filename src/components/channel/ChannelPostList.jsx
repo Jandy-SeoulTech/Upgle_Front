@@ -1,11 +1,34 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Box, Typography, Avatar } from '@material-ui/core';
+import { Box, Typography, Avatar, Pagination } from '@material-ui/core';
 import Button from './../common/Button';
 import { ReactComponent as PostWrite } from '../../lib/assets/postWrite.svg';
 import { getDateString } from '../../lib/util/dateFormat';
 import { useHistory } from 'react-router';
 import PostStatusIcon from '../post/PostStatusIcon';
+
+const categories = [
+  {
+    type: 'All',
+    title: '전체',
+  },
+  {
+    type: 'Open',
+    title: '채팅방 오픈',
+  },
+  {
+    type: 'Reservation',
+    title: '채팅방 예약',
+  },
+  {
+    type: 'Close',
+    title: '채팅 대기',
+  },
+  {
+    type: 'Archived',
+    title: '해결 완료',
+  },
+];
 
 const PostItem = ({ channel, post }) => {
   const history = useHistory();
@@ -61,7 +84,7 @@ const PostItem = ({ channel, post }) => {
   );
 };
 
-const ChannelPostList = ({ postList, channel }) => {
+const ChannelPostList = ({ postList, channel, onQueryChange, type, page, lastPage }) => {
   const history = useHistory();
 
   return (
@@ -76,6 +99,18 @@ const ChannelPostList = ({ postList, channel }) => {
           업글을 도와줄거예요!
         </Typography>
       </Box>
+      <Box css={categoryList}>
+        {categories.map((category) => (
+          <Typography
+            css={categoryItem(type === category.type)}
+            onClick={() => {
+              onQueryChange('type', category.type);
+            }}
+          >
+            {category.title}
+          </Typography>
+        ))}
+      </Box>
       {postList?.length > 0 ? (
         <Box css={postListWrapper}>
           {postList.map((post) => (
@@ -83,8 +118,18 @@ const ChannelPostList = ({ postList, channel }) => {
           ))}
         </Box>
       ) : (
-        <Typography>아직 등록된 요청글이 없습니다.</Typography>
+        <Box css={notFound}>글이 존재하지 않습니다.</Box>
       )}
+      <Pagination
+        css={pagenation}
+        count={lastPage}
+        page={page}
+        showFirstButton
+        showLastButton
+        onChange={(e, page) => {
+          onQueryChange('page', parseInt(page, 10));
+        }}
+      />
     </Box>
   );
 };
@@ -93,12 +138,13 @@ const backgroudWrapper = css`
   margin-top: 8.4375rem;
   background: #fafafc;
   padding: 0 calc((100% - 71.25rem) / 2);
+  padding-top: 5rem;
 `;
 
 const writeTitleWrapper = css`
   display: flex;
   flex-direction: column;
-  margin: 5rem 1rem;
+  margin-bottom: 5rem;
 `;
 
 const write = css`
@@ -122,12 +168,34 @@ const writeTitle = css`
   margin: 1.875rem auto auto auto;
 `;
 
+const categoryList = css`
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 1.875rem;
+  border-bottom: 2px solid black;
+`;
+
+const categoryItem = (isChecked) => css`
+  font-family: 'Noto Sans KR';
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: ${isChecked ? '#000' : '#7B7B7B'};
+  cursor: pointer;
+`;
+
 const postListWrapper = css`
   display: flex;
   flex-direction: column;
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
-  margin-bottom: 6.25rem;
+  margin-bottom: 2.496875rem;
+`;
+
+const notFound = css`
+  font-family: 'Noto Sans KR';
+  font-weight: 400;
+  font-size: 1rem;
+  margin: 14.9375rem 0;
+  display: flex;
+  justify-content: center;
 `;
 
 const postItem = css`
@@ -222,6 +290,12 @@ const nicknameCss = css`
   font-weight: 500;
   font-size: 0.8125rem;
   color: #000000;
+`;
+
+const pagenation = css`
+  display: flex;
+  justify-content: center;
+  padding-bottom: 12.5rem;
 `;
 
 export default ChannelPostList;

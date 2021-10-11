@@ -17,7 +17,6 @@ const ChannelNav = ({ channel, isParticipant }) => {
     return () => window.removeEventListener('scroll', updateScroll);
   });
 
-  console.log(isParticipant);
   const channelNavReducer = [
     {
       title: '채널 프로필',
