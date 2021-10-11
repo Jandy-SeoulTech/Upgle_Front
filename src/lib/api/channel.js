@@ -30,7 +30,7 @@ export const updateChannel = async ({
   category,
   src,
 }) => {
-  const response = await axios.post('/api/Channel', {
+  const response = await axios.patch('/api/Channel', {
     userId,
     channelId,
     name,
