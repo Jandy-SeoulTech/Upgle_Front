@@ -16,7 +16,7 @@ export const getUserArchive = createAction(GET_USER_ARCHIVE, archiveAPI.getUserA
 export const deleteArchive = createAction(DELETE_ARCHIVE, archiveAPI.deleteArchive);
 export const likeArchive = createAction(LIKE_ARCHIVE, archiveAPI.likeArchive);
 export const unlikeArchive = createAction(UNLIKE_ARCHIVE, archiveAPI.unlikeArchive);
-export const initPost = createAction(INIT_ARCHIVE);
+export const initArchive = createAction(INIT_ARCHIVE);
 
 const initialState = {
   channelArchive: null,
