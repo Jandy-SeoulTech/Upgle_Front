@@ -5,7 +5,6 @@ import Button from '../common/Button';
 import { ReactComponent as PostWrite } from '../../lib/assets/postWrite.svg';
 import { getDateString } from '../../lib/util/dateFormat';
 import { useHistory } from 'react-router';
-import { Image } from '@material-ui/icons';
 
 const Item = ({ channel, archive }) => {
   const history = useHistory();
@@ -51,7 +50,7 @@ const Item = ({ channel, archive }) => {
       </Box>
       {archive.images.length !== 0 && (
         <Box css={itemRight}>
-          <img src={archive.images[0]} alt={archive.images[0]} />
+          <img src={archive.images[0].src} alt={archive.images[0].src} />
         </Box>
       )}
     </Box>
