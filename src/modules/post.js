@@ -22,6 +22,7 @@ export const initPost = createAction(INIT_POST);
 
 const initialState = {
     postList: null,
+    totalPage: null,
     post: null,
     error: null,
 };
@@ -31,9 +32,10 @@ export default handleActions(
         [INIT_POST]: (state) => initialState,
         ...pender({
             type: GET_CHANNEL_POST_LIST,
-            onSuccess: (state, { payload: postList }) => ({
+            onSuccess: (state, { payload }) => ({
                 ...state,
-                postList
+                postList: payload.posts,
+                totalPage: payload.totalPage
             }),
         }),
         ...pender({
