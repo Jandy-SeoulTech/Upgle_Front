@@ -47,7 +47,7 @@ export const likeArchive = async ({ channelId, archiveId }) => {
   return response.data.data;
 };
 
-export const unlikeArchive = async (archiveId) => {
+export const unlikeArchive = async ({ archiveId }) => {
   const response = await axios.post(`/api/Archive/unlike`, { archiveId });
   return response.data.data;
 };

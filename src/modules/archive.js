@@ -23,6 +23,8 @@ const initialState = {
   userArchive: null,
   archive: null,
   error: null,
+  likeError: false,
+  unlikeError: false,
 };
 
 export default handleActions(
@@ -47,6 +49,28 @@ export default handleActions(
       onSuccess: (state, { payload: userArchive }) => ({
         ...state,
         userArchive,
+      }),
+    }),
+    ...pender({
+      type: LIKE_ARCHIVE,
+      onSuccess: (state) => ({
+        ...state,
+        likeError: false,
+      }),
+      onFailure: (state) => ({
+        ...state,
+        likeError: true,
+      }),
+    }),
+    ...pender({
+      type: UNLIKE_ARCHIVE,
+      onSuccess: (state) => ({
+        ...state,
+        unlikeError: false,
+      }),
+      onFailure: (state) => ({
+        ...state,
+        unlikeError: true,
       }),
     }),
   },
