@@ -7,62 +7,58 @@ import { getDateString } from '../../lib/util/dateFormat';
 import { useHistory } from 'react-router';
 import { Image } from '@material-ui/icons';
 
-const ArchiveItem = ({ channel, archive }) => {
+const Item = ({ channel, archive }) => {
   const history = useHistory();
 
   return (
     <Box
-      css={postItem}
+      css={item}
       onClick={() => {
         history.push(`/channel/${channel.id}/archive/${archive.id}`);
       }}
     >
-      <Box css={postItemLeft}>
-        <Box css={postTitle}>
+      <Box css={itemLeft}>
+        <Box css={title}>
           <Box css={{ display: 'flex' }}>
             <Typography className="title">{archive.title}</Typography>
           </Box>
           <Typography className="date">{getDateString(archive.createdAt)}</Typography>
         </Box>
-        <Typography css={postContent}>{archive.content}</Typography>
+        <Typography css={content}>{archive.content}</Typography>
         <Box css={{ display: 'flex', alignItems: 'center' }}>
           {archive.authorId === channel.adminId ? (
             <>
-              <div css={adminIconCss}>
+              <div css={adminIcon}>
                 <p>관리자</p>
               </div>
               <Avatar
                 src={archive.owner.profile.profileImage}
                 css={{
-                  width: '3.125rem',
-                  height: '3.125rem',
+                  width: '2.8125rem',
+                  height: '2.8125rem',
                   border: '2px solid #04BD9E',
                 }}
               />
             </>
           ) : (
-            <>
-              <Avatar
-                src={archive.owner.profile.profileImage}
-                css={{ width: '3.125rem', height: '3.125rem' }}
-              />
-            </>
+            <Avatar
+              src={archive.owner.profile.profileImage}
+              css={{ width: '2.8125rem', height: '2.8125rem' }}
+            />
           )}
-          <Typography css={nicknameCss}>{archive.owner.nickname}</Typography>
+          <Typography css={nickname}>{archive.owner.nickname}</Typography>
         </Box>
       </Box>
-      <Box
-        css={postItemRight}
-        className="avatar"
-        onClick={() => history.push(`/profile/${archive.owner.id}`)}
-      >
-        {archive.images.length > 0 && <Image src={archive.images[0]} alt="" />}
-      </Box>
+      {archive.images.length !== 0 && (
+        <Box css={itemRight}>
+          <img src={archive.images[0]} alt={archive.images[0]} />
+        </Box>
+      )}
     </Box>
   );
 };
 
-const ChannelArchiveList = ({ channelArchive, channel }) => {
+const ArchiveList = ({ channel, archives }) => {
   const history = useHistory();
 
   return (
@@ -70,21 +66,21 @@ const ChannelArchiveList = ({ channelArchive, channel }) => {
       <Box css={writeTitleWrapper}>
         <Button css={write} onClick={() => history.push(`/channel/${channel.id}/editArchive`)}>
           <PostWrite className="icon" css={{ marginRight: '.625rem' }} />
-          요청하기
+          글쓰기
         </Button>
         <Typography css={writeTitle}>
-          재능과 관련하여 배우고 싶은 내용을 요청해보세요. 재능 고수들이 공유 채팅을 열어 재능
-          업글을 도와줄거예요!
+          채널과 관련하여 공유하고 싶은 내용을 작성해주세요. 자신이 오픈한 채팅 목록을 불러와
+          아카이빙 할 수도 있습니다.
         </Typography>
       </Box>
-      {channelArchive?.length > 0 ? (
-        <Box css={channelArchiveWrapper}>
-          {channelArchive.map((archive) => (
-            <ArchiveItem key={archive.id} channel={channel} archive={archive} />
+      {archives?.length > 0 ? (
+        <Box css={archivesWrapper}>
+          {archives.map((archive) => (
+            <Item key={archive.id} channel={channel} archive={archive} />
           ))}
         </Box>
       ) : (
-        <Typography>아직 등록된 요청글이 없습니다.</Typography>
+        <Typography css={noContents}>아직 등록된 아카이브가 없습니다.</Typography>
       )}
     </Box>
   );
@@ -99,7 +95,7 @@ const backgroudWrapper = css`
 const writeTitleWrapper = css`
   display: flex;
   flex-direction: column;
-  margin: 5rem 1rem;
+  padding: 6.25rem 0;
 `;
 
 const write = css`
@@ -123,7 +119,7 @@ const writeTitle = css`
   margin: 1.875rem auto auto auto;
 `;
 
-const channelArchiveWrapper = css`
+const archivesWrapper = css`
   display: flex;
   flex-direction: column;
   border-top: 2px solid black;
@@ -131,11 +127,11 @@ const channelArchiveWrapper = css`
   margin-bottom: 6.25rem;
 `;
 
-const postItem = css`
-  height: 15rem;
+const item = css`
+  height: 14.875rem;
   border-bottom: 1px solid #bdbdbd;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   cursor: pointer;
   & .MuiTypography-root {
     font-family: 'Barlow', 'Noto Sans KR';
@@ -145,29 +141,31 @@ const postItem = css`
   }
 `;
 
-const postItemLeft = css`
-  flex: 1;
+const itemLeft = css`
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 1.875rem 1.25rem;
 `;
 
-const postItemRight = css`
+const itemRight = css`
+  padding: 1.875rem;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  width: 11.25rem;
-  height: 10.625rem;
-  padding: 0;
-  margin: 0;
+  align-items: center;
+  img {
+    width: 11.25rem;
+    height: 11.25rem;
+    object-fit: cover;
+  }
 `;
 
-const postTitle = css`
+const title = css`
   width: 100%;
   height: 1.5625rem;
-  margin-bottom: 0.625rem;
+  margin-bottom: 2.5rem;
   display: flex;
   justify-content: space-between;
   & .MuiTypography-root {
@@ -187,9 +185,8 @@ const postTitle = css`
   }
 `;
 
-const postContent = css`
+const content = css`
   flex: 1;
-  margin-top: 2.34375rem;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -202,7 +199,7 @@ const postContent = css`
   color: #5f5f5f;
 `;
 
-const adminIconCss = css`
+const adminIcon = css`
   width: 2.375rem;
   height: 1.125rem;
   background: #04bd9e;
@@ -220,11 +217,20 @@ const adminIconCss = css`
   }
 `;
 
-const nicknameCss = css`
+const nickname = css`
   margin-left: 0.75rem;
   font-family: 'Noto Sans KR';
   font-size: 0.8125rem;
   color: #000000;
 `;
 
-export default ChannelArchiveList;
+const noContents = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
+  font-size: 1rem;
+  color: #5f5f5f;
+  text-align: center;
+  height: 10rem;
+  line-height: 10rem;
+`;
+
+export default ArchiveList;
