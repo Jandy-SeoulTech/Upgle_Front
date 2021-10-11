@@ -40,8 +40,7 @@ const PostButtonList = ({
           <Button
             className="goChat"
             onClick={() => {
-              handleMoveChat(1);
-              // TODO: 추후 룸id를 넣어야 함
+              handleMoveChat(post.channelRoom && post.channelRoom.id);
             }}
           >
             <ChatGo className="icon" />
