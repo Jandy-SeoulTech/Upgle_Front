@@ -39,15 +39,17 @@ const Archive = ({ userId, channel, archive }) => {
             <MenuItem>
               <ListItemText>신고하기</ListItemText>
             </MenuItem>
-            <Divider />
-            <MenuItem>
-              <ListItemText>수정하기</ListItemText>
-            </MenuItem>
-            <Divider />
             {userId === archive.ownerId && (
-              <MenuItem>
-                <ListItemText>삭제하기</ListItemText>
-              </MenuItem>
+              <>
+                <Divider />
+                <MenuItem>
+                  <ListItemText>수정하기</ListItemText>
+                </MenuItem>
+                <Divider />
+                <MenuItem>
+                  <ListItemText>삭제하기</ListItemText>
+                </MenuItem>
+              </>
             )}
           </MenuList>
         </Paper>
