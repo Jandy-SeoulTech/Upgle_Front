@@ -9,13 +9,13 @@ import {
   writeComment,
 } from '../../modules/comment';
 
-const CommentsContainer = ({ channelId, postId }) => {
+const CommentsContainer = ({ type, channelId, postOrArchiveId }) => {
   const { user } = useSelector((state) => state.user);
   const { comments } = useSelector((state) => state.comment);
   const dispatch = useDispatch();
 
   const onWriteComment = async ({ content }) => {
-    await dispatch(writeComment({ channelId, postId, content }));
+    await dispatch(writeComment({ type, channelId, postOrArchiveId, content }));
     refreshComments();
   };
 
@@ -33,11 +33,11 @@ const CommentsContainer = ({ channelId, postId }) => {
   };
 
   const refreshComments = () => {
-    dispatch(getComments(postId));
+    dispatch(getComments({ type, postOrArchiveId }));
   };
 
   useEffect(() => {
-    dispatch(getComments(postId));
+    refreshComments();
   }, [dispatch]);
 
   useEffect(() => {

@@ -17,7 +17,11 @@ const ArchivePage = ({ match }) => {
         channelId={parseInt(channelId, 10)}
         archiveId={parseInt(archiveId, 10)}
       />
-      <CommentsContainer channelId={parseInt(channelId, 10)} postId={parseInt(archiveId, 10)} />
+      <CommentsContainer
+        type="archive"
+        channelId={parseInt(channelId, 10)}
+        postOrArchiveId={parseInt(archiveId, 10)}
+      />
       <FooterContainer />
     </>
   );
