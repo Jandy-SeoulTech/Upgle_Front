@@ -33,11 +33,11 @@ const CommentsContainer = ({ channelId, postId }) => {
   };
 
   const refreshComments = () => {
-    dispatch(getComments({ postId }));
+    dispatch(getComments(postId));
   };
 
   useEffect(() => {
-    dispatch(getComments({ postId }));
+    dispatch(getComments(postId));
   }, [dispatch]);
 
   useEffect(() => {

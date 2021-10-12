@@ -16,13 +16,15 @@ export const getUserArchive = createAction(GET_USER_ARCHIVE, archiveAPI.getUserA
 export const deleteArchive = createAction(DELETE_ARCHIVE, archiveAPI.deleteArchive);
 export const likeArchive = createAction(LIKE_ARCHIVE, archiveAPI.likeArchive);
 export const unlikeArchive = createAction(UNLIKE_ARCHIVE, archiveAPI.unlikeArchive);
-export const initPost = createAction(INIT_ARCHIVE);
+export const initArchive = createAction(INIT_ARCHIVE);
 
 const initialState = {
   channelArchive: null,
   userArchive: null,
   archive: null,
   error: null,
+  likeError: false,
+  unlikeError: false,
 };
 
 export default handleActions(
@@ -47,6 +49,28 @@ export default handleActions(
       onSuccess: (state, { payload: userArchive }) => ({
         ...state,
         userArchive,
+      }),
+    }),
+    ...pender({
+      type: LIKE_ARCHIVE,
+      onSuccess: (state) => ({
+        ...state,
+        likeError: false,
+      }),
+      onFailure: (state) => ({
+        ...state,
+        likeError: true,
+      }),
+    }),
+    ...pender({
+      type: UNLIKE_ARCHIVE,
+      onSuccess: (state) => ({
+        ...state,
+        unlikeError: false,
+      }),
+      onFailure: (state) => ({
+        ...state,
+        unlikeError: true,
       }),
     }),
   },

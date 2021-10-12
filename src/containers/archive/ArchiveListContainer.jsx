@@ -1,24 +1,26 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
-import ChannelArchiveList from '../../components/channel/ChannelArchiveList';
+import ArchiveList from '../../components/archive/ArchiveList';
 import Loading from '../../components/common/Loading';
-import { getChannelArchive } from '../../modules/archive';
+import { getChannelArchive, initArchive } from '../../modules/archive';
 import { getChannelData } from '../../modules/channel';
 
-const ChannelArchiveListContainer = ({ channelId }) => {
+const ArchiveListContainer = ({ channelId }) => {
   const { channel } = useSelector((state) => state.channel);
   const { channelArchive } = useSelector((state) => state.archive);
   const dispatch = useDispatch();
-  const history = useHistory();
 
   useEffect(() => {
     dispatch(getChannelArchive(channelId));
     dispatch(getChannelData(channelId));
-  }, [dispatch]);
+    return () => {
+      dispatch(initArchive());
+    };
+  }, [dispatch, channelId]);
 
   if (!channel || !channelArchive) return <Loading css={{ backgroundColor: '#fafafc' }} />;
-  return <ChannelArchiveList channelArchive={channelArchive} channel={channel} />;
+
+  return <ArchiveList channel={channel} archives={channelArchive} />;
 };
 
-export default ChannelArchiveListContainer;
+export default ArchiveListContainer;
