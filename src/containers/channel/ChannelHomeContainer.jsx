@@ -14,7 +14,9 @@ const ChannelHomeContainer = ({ channelId }) => {
 
   useEffect(() => {
     dispatch(getRoomList(channelId));
-    dispatch(getChannelPostList(channelId, qs.stringify({ type: 'All', page: 1, pageSize: 5 })));
+    dispatch(
+      getChannelPostList({ channelId, query: qs.stringify({ type: 'All', page: 1, pageSize: 5 }) }),
+    );
     dispatch(getChannelData(channelId));
   }, [dispatch, channelId]);
 
