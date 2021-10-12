@@ -50,6 +50,8 @@ const postCommentWrapper = css`
     font-family: 'Barlow', 'Noto Sans KR';
   }
   .postCommentHeader {
+    width: 100%;
+    border-bottom: 1px solid #bdbdbd;
     padding: 20px 0 20px 30px;
     font-style: normal;
     font-weight: 500;

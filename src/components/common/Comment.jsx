@@ -80,7 +80,6 @@ const Comment = ({ user, comment, onDeleteComment, onEditComment }) => {
 export default Comment;
 
 const postCommentItem = css`
-  border-top: 1px solid #bdbdbd;
   border-bottom: 1px solid #bdbdbd;
   & .MuiTypography-root {
     font-family: 'Barlow', 'Noto Sans KR';

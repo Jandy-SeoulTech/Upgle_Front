@@ -14,7 +14,11 @@ const ChannelPostPage = ({ match }) => {
       <ChannelNavContainer />
       <PostContainer channelId={parseInt(channelId, 10)} postId={parseInt(postId, 10)} />
       <PostButtonListContainer channelId={parseInt(channelId, 10)} postId={parseInt(postId, 10)} />
-      <CommentsContainer channelId={parseInt(channelId, 10)} postId={parseInt(postId, 10)} />
+      <CommentsContainer
+        type="post"
+        channelId={parseInt(channelId, 10)}
+        postOrArchiveId={parseInt(postId, 10)}
+      />
       <FooterContainer />
     </>
   );
