@@ -5,13 +5,16 @@ export const getComment = async (commentId) => {
   return response.data.data;
 };
 
-export const getComments = async (postId) => {
-  const response = await axios.get(`/api/Comment/?type=post&id=${postId}`);
+export const getComments = async ({ type, postOrArchiveId }) => {
+  const response = await axios.get(`/api/Comment/?type=${type}&id=${postOrArchiveId}`);
   return response.data.data;
 };
 
-export const writeComment = async ({ channelId, postId, content }) => {
-  const response = await axios.post('/api/Comment', { channelId, postId, content });
+export const writeComment = async ({ type, channelId, postOrArchiveId, content }) => {
+  const response = await axios.post(`/api/Comment/?type=${type}&id=${postOrArchiveId}`, {
+    channelId,
+    content,
+  });
   return response.data.data;
 };
 
