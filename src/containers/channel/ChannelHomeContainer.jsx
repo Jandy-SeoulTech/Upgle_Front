@@ -4,6 +4,7 @@ import ChannelHome from '../../components/channel/ChannelHome';
 import { getChannelData } from '../../modules/channel';
 import { getRoomList } from '../../modules/room';
 import { getChannelPostList } from '../../modules/post';
+import qs from 'qs';
 
 const ChannelHomeContainer = ({ channelId }) => {
   const { channel } = useSelector((state) => state.channel);
@@ -13,7 +14,7 @@ const ChannelHomeContainer = ({ channelId }) => {
 
   useEffect(() => {
     dispatch(getRoomList(channelId));
-    dispatch(getChannelPostList(channelId));
+    dispatch(getChannelPostList(channelId, qs.stringify({ type: 'All', page: 1, pageSize: 5 })));
     dispatch(getChannelData(channelId));
   }, [dispatch, channelId]);
 

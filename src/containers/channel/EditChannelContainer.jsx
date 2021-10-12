@@ -34,6 +34,7 @@ const EditChannelContainer = (props) => {
           createChannel({
             userId: user.id,
             ...writeChannel,
+            category: writeChannel.category.id,
             src: images[0] || null,
           }),
         );
