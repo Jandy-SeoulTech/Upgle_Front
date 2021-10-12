@@ -78,7 +78,7 @@ const EditChannel = ({ writeChannel, handleChangeFiled, editChannel }) => {
               >
                 {categories.map((category) => (
                   <MenuItem value={category} key={category}>
-                    {category}
+                    {category.name}
                   </MenuItem>
                 ))}
               </Select>
