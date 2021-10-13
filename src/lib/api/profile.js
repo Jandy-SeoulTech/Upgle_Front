@@ -25,11 +25,6 @@ export const getFollowings = async ({ userId }) => {
   return response.data.data;
 };
 
-export const getReviews = async ({ userId }) => {
-  const response = await axios.get(`/api/Profile/reviewlist/${userId}`);
-  return response.data.data;
-};
-
 export const uploadProfile = async ({
   userId,
   department,
