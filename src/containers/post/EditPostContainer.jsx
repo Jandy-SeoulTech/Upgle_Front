@@ -6,6 +6,8 @@ import { changePost, updatePost, createPost } from '../../modules/write';
 import EditPost from '../../components/post/EditPost';
 import { uploadImages } from '../../lib/api/image';
 import { concatImage } from '../../modules/image';
+import { initialize as initializePost } from '../../modules/write';
+import { initialize as initializeImages } from '../../modules/write';
 
 const EditPostContainer = ({ channelId }) => {
   const history = useHistory();
@@ -44,6 +46,10 @@ const EditPostContainer = ({ channelId }) => {
 
   useEffect(() => {
     dispatch(getChannelData(channelId));
+    return () => {
+      dispatch(initializePost());
+      dispatch(initializeImages());
+    };
   }, [dispatch, channelId]);
 
   return (
