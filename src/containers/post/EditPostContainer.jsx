@@ -30,6 +30,10 @@ const EditPostContainer = ({ channelId }) => {
   };
 
   const onWriteChannelPost = async () => {
+    if (!writePost.title) {
+      alert('제목을 입력해주세요');
+      return;
+    }
     try {
       if (writePost.postId) {
         await dispatch(updatePost({ ...writePost, channelId, images }));
