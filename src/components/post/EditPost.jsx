@@ -7,34 +7,21 @@ import { Editor } from '@toast-ui/react-editor';
 import { TextField } from '../TextField';
 import Button from '../common/Button';
 import palette from '../../lib/styles/palette';
-import { useRef, useState } from 'react';
 import editorConfig from '../../lib/util/editorConfig';
+import { useRef } from 'react';
 
-const EditPost = ({ channel, user, onWriteChannelPost, initialValue }) => {
+const EditPost = ({ post, channel, user, onWriteChannelPost, handleChangeFiled, imageHook }) => {
   const editorRef = useRef();
-  const [title, setTitle] = useState('');
-  const [isNotice, setIsNotice] = useState(false);
 
   const onTitleChange = (e) => {
     const value = e.target.value;
     if (value.length <= 100) {
-      setTitle(value);
+      handleChangeFiled({ key: 'title', value: e.target.value });
     }
   };
 
   const onIsNoticeChange = (e) => {
-    setIsNotice(e.target.checked);
-  };
-
-  const onSubmit = async () => {
-    const content = editorRef.current.getInstance().getMarkdown();
-    await onWriteChannelPost({
-      channelId: channel.id,
-      title,
-      status: isNotice ? 'Notice' : 'Close',
-      content,
-      images: [],
-    });
+    handleChangeFiled({ key: 'status', value: e.target.checked ? 'Notice' : 'Close' });
   };
 
   return (
@@ -42,7 +29,7 @@ const EditPost = ({ channel, user, onWriteChannelPost, initialValue }) => {
       <Box css={{ width: '1140px', display: 'flex', flexDirection: 'column' }}>
         <TextField
           css={titleInput}
-          value={title}
+          value={post.title}
           placeholder="제목을 입력해주세요."
           multiline={true}
           onChange={onTitleChange}
@@ -50,7 +37,13 @@ const EditPost = ({ channel, user, onWriteChannelPost, initialValue }) => {
         <Box css={{ display: 'flex', justifyContent: 'flex-end' }}>
           {user.id === channel.adminId && (
             <FormControlLabel
-              control={<Checkbox css={checkBox} onChange={onIsNoticeChange} />}
+              control={
+                <Checkbox
+                  value={post.status === 'Notice'}
+                  css={checkBox}
+                  onChange={onIsNoticeChange}
+                />
+              }
               label="공지로 설정"
             />
           )}
@@ -58,18 +51,24 @@ const EditPost = ({ channel, user, onWriteChannelPost, initialValue }) => {
         <Box css={editorConfig.editorCss}>
           <Editor
             ref={editorRef}
+            onChange={(e) => {
+              handleChangeFiled({
+                key: 'content',
+                value: editorRef.current.getInstance().getMarkdown(),
+              });
+            }}
             language="ko"
-            initialValue={initialValue}
+            initialValue={post.content || '재능공유 요청을 작성해주세요'}
             initialEditType="wysiwyg"
             previewStyle="vertical"
             height="calc(100vh - 215px)"
             useCommandShortcut={true}
             customHTMLRenderer={editorConfig.renderer}
-            hooks={editorConfig.hooks}
+            hooks={{ addImageBlobHook: imageHook }}
           />
         </Box>
         <Grid container justifyContent="flex-end">
-          <Button css={submitBtn} onClick={onSubmit}>
+          <Button css={submitBtn} onClick={onWriteChannelPost}>
             작성 완료
           </Button>
         </Grid>
@@ -81,13 +80,13 @@ const EditPost = ({ channel, user, onWriteChannelPost, initialValue }) => {
 const wrapper = css`
   margin-top: 135px;
   background-color: #fafafc;
+  padding: 0 calc((100% - 71.25rem) / 2);
   font-size: 30px;
 `;
 
 const titleInput = css`
   height: fit-content;
   min-height: 70px;
-  width: 1140px;
   textarea {
     font-family: 'Barlow', 'Noto Sans KR';
     font-weight: 500;

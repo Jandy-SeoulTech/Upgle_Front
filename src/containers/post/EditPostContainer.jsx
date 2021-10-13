@@ -1,33 +1,59 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
-import EditPost from '../../components/post/EditPost';
 import { getChannelData } from '../../modules/channel';
-import { writePost } from '../../modules/post';
+import { changePost, updatePost, createPost } from '../../modules/write';
+import EditPost from '../../components/post/EditPost';
+import { uploadImages } from '../../lib/api/image';
+import { concatImage } from '../../modules/image';
 
 const EditPostContainer = ({ channelId }) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { writePost } = useSelector((state) => state.write);
   const { user } = useSelector((state) => state.user);
+  const { images } = useSelector((state) => state.image);
   const { channel } = useSelector((state) => state.channel);
+
+  const handleChangeFiled = ({ key, value }) => {
+    dispatch(changePost({ key, value }));
+  };
+
+  const imageHook = async (blob, callback) => {
+    let formData = new FormData();
+    formData.append('files', blob);
+    const imgUrl = await uploadImages(formData);
+    dispatch(concatImage(imgUrl));
+    callback(imgUrl, 'alt text');
+  };
+
+  const onWriteChannelPost = async () => {
+    try {
+      if (writePost.postId) {
+        await dispatch(updatePost({ ...writePost, channelId, images }));
+        alert('수정을 성공했습니다.');
+      } else {
+        await dispatch(createPost({ ...writePost, channelId, images }));
+        alert('등록을 성공했습니다.');
+      }
+    } catch {
+      alert('등록을 실패했습니다.');
+    }
+    history.push(`/channel/${channelId}/post`);
+  };
 
   useEffect(() => {
     dispatch(getChannelData(channelId));
   }, [dispatch, channelId]);
 
-  const onWriteChannelPost = async ({ channelId, title, status, content, images }) => {
-    await dispatch(writePost({ channelId, title, status, content, images }));
-    history.push(`/channel/${channelId}/post`);
-  };
-
-  const initialVaue = '재능 공유 요청을 작성해주세요.';
-
   return (
     <EditPost
+      post={writePost}
       channel={channel}
       user={user}
       onWriteChannelPost={onWriteChannelPost}
-      initialValue={initialVaue}
+      handleChangeFiled={handleChangeFiled}
+      imageHook={imageHook}
     />
   );
 };
