@@ -10,6 +10,7 @@ import palette from '../../lib/styles/palette';
 import CheckIcon from '@material-ui/icons/Check';
 import Button from '../common/Button';
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import ProfileModal from '../common/ProfileModal';
 import ModalUserCard from '../common/ModalUserCard';
 import ArchiveCard from './ArchiveCard';
@@ -30,6 +31,7 @@ const ChannelProfile = ({
   onProfileFollow,
   onProfileUnfollow,
 }) => {
+  const history = useHistory();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tabs, setTabs] = useState([{ key: 'members', name: '재능 공유 멤버', data: <></> }]);
   const [currentTab, setCurrentTab] = useState('members');
@@ -179,7 +181,10 @@ const ChannelProfile = ({
         </Box>
         <Box>
           <Typography css={sectionTitle}>
-            모아보기 <Button css={moreButton}>더보기</Button>
+            모아보기{' '}
+            <Button css={moreButton} onClick={() => history.push(`/channel/${channel.id}/archive`)}>
+              더보기
+            </Button>
           </Typography>
           {channelArchive?.length > 0 ? (
             <Grid container spacing={3} columns={5}>
