@@ -21,43 +21,48 @@ const ChannelNav = ({ channel, isParticipant }) => {
     {
       title: '채널 프로필',
       url: `/channel/${channel.id}/profile`,
+      isParticipant: false,
     },
     {
       title: '채널 홈',
       url: `/channel/${channel.id}/home`,
+      isParticipant: true,
     },
     {
       title: '재능 공유 요청',
       url: `/channel/${channel.id}/post`,
+      isParticipant: true,
     },
     {
       title: '재능 공유 채팅',
       url: `/channel/${channel.id}/chat`,
+      isParticipant: true,
     },
     {
       title: '모아 보기',
       url: `/channel/${channel.id}/archive`,
+      isParticipant: false,
     },
   ];
 
   return (
-    <>
-      {isParticipant && (
-        <Box
-          css={channelNav({
-            isProfile: pathname === `/channel/${channel.id}/profile`,
-            scrolled: scrollPosition !== 0,
-          })}
-        >
-          <Box css={channelHead}>
-            {pathname !== `/channel/${channel.id}/profile` && (
-              <>
-                <Avatar src={channel.channelImage} />
-                <Typography>{channel.name}</Typography>
-              </>
-            )}
-          </Box>
-          {channelNavReducer.map((item, index) => (
+    <Box
+      css={channelNav({
+        isProfile: pathname === `/channel/${channel.id}/profile`,
+        scrolled: scrollPosition !== 0,
+      })}
+    >
+      <Box css={channelHead}>
+        {pathname !== `/channel/${channel.id}/profile` && (
+          <>
+            <Avatar src={channel.channelImage} />
+            <Typography>{channel.name}</Typography>
+          </>
+        )}
+      </Box>
+      {channelNavReducer.map(
+        (item, index) =>
+          (!item.isParticipant || isParticipant) && (
             <Typography
               key={index}
               css={navItem}
@@ -68,10 +73,9 @@ const ChannelNav = ({ channel, isParticipant }) => {
             >
               {item.title}
             </Typography>
-          ))}
-        </Box>
+          ),
       )}
-    </>
+    </Box>
   );
 };
 
