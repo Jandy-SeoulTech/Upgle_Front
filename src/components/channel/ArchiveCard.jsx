@@ -1,16 +1,20 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Box, Grid, Typography } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+import { Box, Typography } from '@material-ui/core';
 import { getRandomColor } from '../../lib/util/random';
 
-const ArchiveCard = ({ post }) => {
+const ArchiveCard = ({ archive }) => {
+  const history = useHistory();
+
   return (
     <Box
       css={archiveCard}
       sx={{
-        backgroundColor: getRandomColor(post.title),
-        backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.510208) 75.52%, rgba(0, 0, 0, 0.79) 100%), url(${post.imgUrl})`,
+        backgroundColor: getRandomColor(archive.title),
+        backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.510208) 75.52%, rgba(0, 0, 0, 0.79) 100%), url(${archive.imgUrl})`,
       }}
+      onClick={() => history.push(`/channel/${archive.channelId}/archive/${archive.id}`)}
     >
       <Box
         sx={{
@@ -19,13 +23,8 @@ const ArchiveCard = ({ post }) => {
           padding: '12.5px',
         }}
       >
-        <Typography
-          className="archiveTitle"
-          gutterBottom
-          component="div"
-          sx={archiveTitle}
-        >
-          {post.title}
+        <Typography className="archiveTitle" gutterBottom component="div" sx={archiveTitle}>
+          {archive.title}
         </Typography>
         <Typography
           sx={{
@@ -35,7 +34,7 @@ const ArchiveCard = ({ post }) => {
             alignSelf: 'flex-end',
           }}
         >
-          {post.date}
+          {archive.date}
         </Typography>
       </Box>
     </Box>

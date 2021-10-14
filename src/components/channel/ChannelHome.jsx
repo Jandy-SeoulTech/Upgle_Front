@@ -10,38 +10,7 @@ import { ReactComponent as PostIcon } from '../../lib/assets/postIcon.svg';
 import PostCard from './PostCard';
 import { useHistory } from 'react-router';
 
-const archived = [
-  {
-    title: '머핀이 잘 부풀지 않을때 어떻게 해야할까?',
-    date: '2021.09.07',
-    imgUrl:
-      'https://i2.wp.com/smittenkitchen.com/wp-content/uploads//2010/08/perfect-blueberry-muffins.jpg?fit=750%2C500&ssl=1',
-  },
-  {
-    title: '멋있게 춤추기 위해 알아야 하는 기본 동작',
-    date: '2021.08.14',
-    imgUrl: 'https://pbs.twimg.com/profile_images/625698094345117696/pjhb6Zgx_400x400.jpg',
-  },
-  {
-    title: '몸에 좋고 맛있는 샐러드 만드는 방법',
-    date: '2021.07.02',
-  },
-  {
-    title: '홈페이지를 만들 때 사용할 수 있는 여러 무료 이미지 알려드립니다!',
-    date: '2021.03.18',
-  },
-  {
-    title: '유연성을 기르기 위한 여러가지 동작',
-    date: '2021.01.04',
-  },
-  {
-    title: '사실적으로 눈 그리는 방법',
-    date: '2020.12.11',
-    imgUrl: 'https://t1.daumcdn.net/cfile/blog/9905734D5C01316F32',
-  },
-];
-
-const ChannerHome = ({ channel, postList, roomList }) => {
+const ChannerHome = ({ channel, postList, roomList, channelArchive }) => {
   const history = useHistory();
 
   return (
@@ -101,13 +70,19 @@ const ChannerHome = ({ channel, postList, roomList }) => {
             <Typography css={contentTitle}>모아보기</Typography>
             <Button onClick={() => history.push(`/channel/${channel.id}/archive`)}>더보기</Button>
           </Box>
-          <Grid container spacing={3}>
-            {archived.map((post, i) => (
-              <Grid item key={i}>
-                <ArchiveCard post={post} />
-              </Grid>
-            ))}
-          </Grid>
+          {channelArchive?.length > 0 ? (
+            <Grid container spacing={3}>
+              {channelArchive?.map((archive, i) => (
+                <Grid item key={i}>
+                  <ArchiveCard archive={archive} />
+                </Grid>
+              ))}
+            </Grid>
+          ) : (
+            <Typography css={[noContent, { height: '100px', lineHeight: '100px' }]}>
+              아직 등록된 글이 없습니다.
+            </Typography>
+          )}
         </Box>
       </Box>
     </Box>
