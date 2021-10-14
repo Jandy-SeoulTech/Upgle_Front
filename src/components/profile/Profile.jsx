@@ -22,6 +22,7 @@ const Profile = ({
   getFollowersLoading,
   getFollowingsLoading,
   getReviewsLoading,
+  getUserArchiveLoading,
   isMe,
   isFollowing,
   user,
@@ -37,18 +38,26 @@ const Profile = ({
   onGetFollowers,
   onGetFollowings,
   onGetReviews,
+  onGetUserArchive,
 }) => {
   const history = useHistory();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [tabs, setTabs] = useState([
+
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [profileModalTabs, setTabs] = useState([
     { key: 'followers', name: '팔로워', data: <></>, onTab: onGetFollowers },
     { key: 'followings', name: '팔로잉', data: <></>, onTab: onGetFollowings },
     { key: 'reviews', name: '전체 리뷰', data: <></>, onTab: onGetReviews },
   ]);
-  const [currentTab, setCurrentTab] = useState('followers');
+  const [currentProfileModalTab, setCurrentProfileModalTab] = useState('followers');
+
+  const [isArchiveModalOpen, setIsArchiveModalOpen] = useState(false);
+  const [archiveModalTabs, setArchiveModalTabs] = useState([
+    { key: 'archives', name: '모아 보기', data: <></>, onTab: onGetUserArchive },
+  ]);
+  const [currentArchiveModalTab, setCurrentArchiveModalTab] = useState('archives');
 
   useEffect(() => {
-    const newTabs = [...tabs];
+    const newTabs = [...profileModalTabs];
 
     newTabs.find((tab) => tab.key === 'followers').data = getFollowersLoading ? (
       <Grid container height="67vh" justifyContent="center" alignItems="center">
@@ -147,9 +156,45 @@ const Profile = ({
     getReviewsLoading,
   ]);
 
-  const openModal = (initialTab) => {
-    setCurrentTab(initialTab);
-    setIsModalOpen(true);
+  useEffect(() => {
+    const newTabs = [...archiveModalTabs];
+
+    newTabs.find((tab) => tab.key === 'archives').data = getUserArchiveLoading ? (
+      <Grid container height="67vh" justifyContent="center" alignItems="center">
+        <ReactLoading
+          type="spinningBubbles"
+          color="black"
+          style={{
+            width: '60px',
+            height: '60px',
+          }}
+        />
+      </Grid>
+    ) : !userArchive || userArchive.length === 0 ? (
+      <Grid container height="67vh" justifyContent="center" alignItems="center">
+        <Typography css={noContents}>{profile.nickname}님이 작성한 글이 없습니다.</Typography>
+      </Grid>
+    ) : (
+      <Grid item container columns={4} spacing="1.625rem" p="1.5625rem">
+        {userArchive.map((archive) => (
+          <Grid key={archive.id} item xs={1}>
+            <ArchiveCard archive={archive} />
+          </Grid>
+        ))}
+      </Grid>
+    );
+
+    setArchiveModalTabs(newTabs);
+  }, [userArchive, getUserArchiveLoading]);
+
+  const openProfileModal = (initialTab) => {
+    setCurrentProfileModalTab(initialTab);
+    setIsProfileModalOpen(true);
+  };
+
+  const openArchiveModal = (initialTab) => {
+    setCurrentArchiveModalTab(initialTab);
+    setIsArchiveModalOpen(true);
   };
 
   if (getProfileLoading) {
@@ -179,11 +224,17 @@ const Profile = ({
   return (
     <Grid container css={wrapper}>
       <ProfileModal
-        isOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        tabs={tabs}
-        currentTab={currentTab}
-        setCurrentTab={setCurrentTab}
+        isOpen={isProfileModalOpen}
+        setIsModalOpen={setIsProfileModalOpen}
+        tabs={profileModalTabs}
+        currentTab={currentProfileModalTab}
+        setCurrentTab={setCurrentProfileModalTab}
+      />
+      <ProfileModal
+        isOpen={isArchiveModalOpen}
+        setIsModalOpen={setIsArchiveModalOpen}
+        tabs={archiveModalTabs}
+        currentTab={currentArchiveModalTab}
       />
       <Grid item container xs={12} css={widthContainer} justifyContent="center">
         <Grid item container css={leftProfile}>
@@ -277,13 +328,13 @@ const Profile = ({
             <Grid item container mt={6} mb={6} rowGap={2.5}>
               <Grid item container justifyContent="space-between" alignItems="center">
                 <Typography css={followLabel}>팔로워</Typography>
-                <Button sx={orangeSmallLabel} onClick={() => openModal('followers')}>
+                <Button sx={orangeSmallLabel} onClick={() => openProfileModal('followers')}>
                   {profile.followers.length}
                 </Button>
               </Grid>
               <Grid item container justifyContent="space-between" alignItems="center">
                 <Typography css={followLabel}>팔로잉</Typography>
-                <Button sx={orangeSmallLabel} onClick={() => openModal('followings')}>
+                <Button sx={orangeSmallLabel} onClick={() => openProfileModal('followings')}>
                   {profile.followings.length}
                 </Button>
               </Grid>
@@ -292,7 +343,7 @@ const Profile = ({
               <Grid item container justifyContent="space-between" alignItems="center" mb={2}>
                 <Button
                   sx={orangeLabel}
-                  onClick={() => openModal('reviews')}
+                  onClick={() => openProfileModal('reviews')}
                   css={{
                     ':hover .positiveReviews': { display: 'none' },
                     ':hover .allReviews': { display: 'block' },
@@ -334,10 +385,12 @@ const Profile = ({
         <Grid item container css={rightProfile}>
           <Grid item container xs={12} height="fit-content" mb={6.25}>
             <Grid item mb={2.5}>
-              <Button sx={orangeLabel}>모아 보기</Button>
+              <Button sx={orangeLabel} onClick={() => openArchiveModal('archives')}>
+                모아 보기
+              </Button>
             </Grid>
             <Grid item container columns={4} spacing="22px">
-              {userArchive.length === 0 ? (
+              {userArchive?.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   아직 등록된 글이 없습니다.
                 </Grid>
@@ -650,38 +703,6 @@ const editProfileButton = css`
 const rightProfile = css`
   width: 776px;
   padding-left: 50px;
-`;
-
-const archiveCell = css`
-  height: 256px;
-`;
-
-const archiveCard = css`
-  width: 165px;
-  height: 240px;
-  cursor: pointer;
-  border-radius: 5px;
-  height: 100%;
-  color: white;
-  background-repeat: no-repeat;
-  background-size: cover;
-  display: flex;
-  align-items: flex-end;
-  &:not(:hover) .archiveTitle {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-`;
-
-const archiveTitle = css`
-  font-family: 'Noto Sans KR', 'sans-serif' !important;
-  transition: all ease 0.2s;
-  font-size: 12px;
-  font-weight: 700;
-  width: 140px;
 `;
 
 const channelCell = css`

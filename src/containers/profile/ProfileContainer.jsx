@@ -54,8 +54,12 @@ const ProfileContainer = () => {
     dispatch(getReviews({ userId }));
   };
 
-  useEffect(() => {
+  const onGetUserArchive = () => {
     dispatch(getUserArchive(userId));
+  };
+
+  useEffect(() => {
+    onGetUserArchive();
     dispatch(getProfile({ userId }));
     return () => {
       dispatch(initProfile());
@@ -82,6 +86,7 @@ const ProfileContainer = () => {
       getFollowersLoading={pending['profile/GET_FOLLOWERS']}
       getFollowingsLoading={pending['profile/GET_FOLLOWINGS']}
       getReviewsLoading={pending['profile/GET_REVIEWS']}
+      getUserArchiveLoading={pending['archive/GET_USER_ARCHIVE']}
       isMe={isMe}
       isFollowing={isFollowing}
       user={user}
@@ -97,6 +102,7 @@ const ProfileContainer = () => {
       onGetFollowers={onGetFollowers}
       onGetFollowings={onGetFollowings}
       onGetReviews={onGetReviews}
+      onGetUserArchive={onGetUserArchive}
     />
   );
 };
