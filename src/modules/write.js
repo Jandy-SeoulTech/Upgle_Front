@@ -17,8 +17,8 @@ const UPDATE_CHANNEL = 'write/UPDATE_CHANNEL';
 
 const SET_POST = 'write/SET_POST';
 const CHANGE_POST = 'write/CHANGE_POST';
-const WRITE_POST = 'write/WRITE_POST';
-const EDIT_POST = 'write/EDIT_POST';
+const CREATE_POST = 'write/CREATE_POST';
+const UPDATE_POST = 'write/UPDATE_POST';
 
 const SET_ARCHIVE = 'write/SET_ARCHIVE';
 const CHANGE_ARCHIVE = 'write/CHANGE_ARCHIVE';
@@ -39,8 +39,8 @@ export const updateChannel = createAction(UPDATE_CHANNEL, channelAPI.updateChann
 
 export const setPost = createAction(SET_POST, (post) => post);
 export const changePost = createAction(CHANGE_POST, ({ key, value }) => ({ key, value }));
-export const writePost = createAction(WRITE_POST, postAPI.writePost);
-export const editPost = createAction(EDIT_POST, postAPI.editPost);
+export const createPost = createAction(CREATE_POST, postAPI.writePost);
+export const updatePost = createAction(UPDATE_POST, postAPI.editPost);
 
 export const setArchive = createAction(SET_ARCHIVE, (archive) => archive);
 export const changeArchive = createAction(CHANGE_ARCHIVE, ({ key, value }) => ({ key, value }));
@@ -65,15 +65,15 @@ const initialState = {
     tags: [],
     src: '',
   },
-  post: {
+  writePost: {
     postId: null,
     channelId: null,
     title: '',
-    status: null,
+    status: 'Close',
     content: '',
     images: null,
   },
-  archive: {
+  writeArchive: {
     channelId: null,
     postId: null,
     title: null,
@@ -121,7 +121,7 @@ export default handleActions(
 
     [SET_POST]: (state, { payload }) => ({
       ...state,
-      post: {
+      writePost: {
         postId: payload.id,
         channelId: payload.channelId,
         title: payload.title,
@@ -132,12 +132,12 @@ export default handleActions(
     }),
     [CHANGE_POST]: (state, { payload: { key, value } }) => ({
       ...state,
-      writeChannel: { ...state.writeChannel, [key]: value },
+      writePost: { ...state.writePost, [key]: value },
     }),
 
-    [SET_POST]: (state, { payload }) => ({
+    [SET_ARCHIVE]: (state, { payload }) => ({
       ...state,
-      post: {
+      writeArchive: {
         postId: payload.id,
         channelId: payload.channelId,
         title: payload.title,
@@ -146,9 +146,9 @@ export default handleActions(
         images: payload.images,
       },
     }),
-    [CHANGE_POST]: (state, { payload: { key, value } }) => ({
+    [CHANGE_ARCHIVE]: (state, { payload: { key, value } }) => ({
       ...state,
-      writeChannel: { ...state.writeChannel, [key]: value },
+      writeArchive: { ...state.writeArchive, [key]: value },
     }),
 
     [INITIALIZE]: () => initialState,

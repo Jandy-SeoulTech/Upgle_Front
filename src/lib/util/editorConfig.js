@@ -32,6 +32,19 @@ const editorCss = css`
     flex-direction: column;
   }
 
+  .toastui-editor-defaultUI {
+    border: 0;
+  }
+  .toastui-editor-defaultUI-toolbar {
+    background: white;
+  }
+  .toastui-editor {
+    background: #fafafc;
+  }
+  .toastui-editor-mode-switch {
+    display: none !important;
+  }
+
   .toastui-editor-contents p {
     font-family: 'Barlow', 'Noto Sans KR';
     font-style: normal;
