@@ -154,9 +154,6 @@ const Header = ({ user, onLogout }) => {
                       </ListItemText>
                     </MenuItem>
                     <MenuItem>
-                      <ListItemText>모아 보기</ListItemText>
-                    </MenuItem>
-                    <MenuItem>
                       <ListItemText onClick={() => history.push('/setting')}>설정</ListItemText>
                     </MenuItem>
                     <Divider />
@@ -246,7 +243,6 @@ const search = css`
 
 const menuWrapper = css`
   width: 15rem;
-  height: 22.5rem;
   box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.3);
   transform: translateY(0.875rem);
   z-index: 1001;
@@ -255,17 +251,16 @@ const menuWrapper = css`
     height: 100%;
     padding: 0;
     .userInfo {
-      height: 7.8125rem;
+      height: 7.875rem;
       display: flex;
       flex-direction: column;
-      padding-left: 2.6875rem;
-      align-items: flex-start;
+      align-items: center;
       justify-content: center;
     }
     .MuiListItem-root {
-      height: 2.8125rem;
+      text-align: center;
+      height: 3.125rem;
       font-size: 1rem;
-      padding-left: 1.625rem;
       &:hover {
         .MuiTypography-root {
           font-weight: bold;
