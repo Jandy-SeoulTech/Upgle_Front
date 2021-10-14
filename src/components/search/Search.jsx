@@ -12,6 +12,8 @@ import {
 } from '@material-ui/core';
 import { useHistory } from 'react-router';
 import { ReactComponent as SearchIcon } from '../../lib/assets/searchIcon.svg';
+import { ReactComponent as AddIcon } from '../../lib/assets/add.svg';
+import { ReactComponent as RemoveIcon } from '../../lib/assets/remove.svg';
 import Button from '../common/Button';
 import ChannelCard from '../channel/ChannelCard';
 import UserCard from '../common/UserCard';
@@ -168,9 +170,20 @@ const Search = ({ keyword }) => {
           pl={5}
           onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
         >
-          <Typography fontSize="1.125rem" fontWeight="700">
-            카테고리 {isCategoriesOpen ? '-' : '+'}
-          </Typography>
+          <Grid item>
+            <Typography fontSize="1.125rem" fontWeight="700">
+              카테고리
+            </Typography>
+          </Grid>
+          {isCategoriesOpen ? (
+            <Grid item width="24px" height="24px" ml={0.6} lineHeight="15px" textAlign="center">
+              <RemoveIcon />
+            </Grid>
+          ) : (
+            <Grid item height="24px" ml={0.6} lineHeight="24px">
+              <AddIcon />
+            </Grid>
+          )}
         </Grid>
         <Grid item container bgcolor="#FAFAFC" py={1}>
           {isCategoriesOpen && (
