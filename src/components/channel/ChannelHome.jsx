@@ -99,7 +99,7 @@ const ChannerHome = ({ channel, postList, roomList }) => {
         <Box css={contentWrapper}>
           <Box css={contentTitleWrapper}>
             <Typography css={contentTitle}>모아보기</Typography>
-            <Button>더보기</Button>
+            <Button onClick={() => history.push(`/channel/${channel.id}/archive`)}>더보기</Button>
           </Box>
           <Grid container spacing={3}>
             {archived.map((post, i) => (
