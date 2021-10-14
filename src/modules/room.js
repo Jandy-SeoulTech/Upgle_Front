@@ -20,8 +20,6 @@ const initialState = {
   room: null,
   roomList: null,
   error: null,
-  reviewSuccess: null,
-  userExit: null,
 };
 
 export default handleActions(
@@ -33,24 +31,6 @@ export default handleActions(
     ...pender({
       type: GET_ROOM_LIST,
       onSuccess: (state, { payload }) => ({ ...state, roomList: payload }),
-    }),
-    ...pender({
-      type: EXIT_ROOM,
-      onPending: (state) => ({ ...state, userExit: null }),
-      onSuccess: (state) => ({ ...state, userExit: true }),
-      onFailure: (state, { payload: error }) => ({ ...state, error }),
-    }),
-    ...pender({
-      type: CLOSE_ROOM,
-      onPending: (state) => ({ ...state, userExit: null }),
-      onSuccess: (state) => ({ ...state, userExit: true }),
-      onFailure: (state, { payload: error }) => ({ ...state, error }),
-    }),
-    ...pender({
-      type: REVIEW_ROOM,
-      onPending: (state) => ({ ...state, reviewSuccess: null }),
-      onSuccess: (state) => ({ ...state, reviewSuccess: true }),
-      onFailure: (state, { payload: error }) => ({ ...state, error }),
     }),
   },
   initialState,

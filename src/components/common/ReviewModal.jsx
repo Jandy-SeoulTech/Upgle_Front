@@ -8,21 +8,13 @@ import { ReactComponent as Soso } from '../../lib/assets/soso.svg';
 import { ReactComponent as Bad } from '../../lib/assets/bad.svg';
 import { useState } from 'react';
 import palette from '../../lib/styles/palette';
+import { useLocation } from 'react-router';
 
-const ReviewModal = ({
-  room,
-  review,
-  setReview,
-  rate,
-  setRate,
-  handleReview,
-  setOpen,
-}) => {
+const ReviewModal = ({ room, review, setReview, rate, setRate, handleReview, setOpen }) => {
+  const { pathname } = useLocation();
   return (
     <Paper css={reviewModal}>
-      <Typography align="center">
-        {room.roomOwner.nickname}님에 대한 리뷰를 남겨주세요
-      </Typography>
+      <Typography align="center">{room.roomOwner.nickname}님에 대한 리뷰를 남겨주세요</Typography>
       <Box css={reviewRate(rate)}>
         <Box
           className="good"
@@ -64,7 +56,8 @@ const ReviewModal = ({
       <Box css={buttonWrapper}>
         <Button
           className="cancel"
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             setOpen(false);
           }}
         >
@@ -73,11 +66,12 @@ const ReviewModal = ({
         <Button
           className="exit"
           disabled={!rate || !review}
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             handleReview({ review, rate });
           }}
         >
-          나가기
+          {pathname === '/myChannel' ? '리뷰완료' : '나가기'}
         </Button>
       </Box>
     </Paper>

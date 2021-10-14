@@ -1,21 +1,29 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useState } from 'react';
-import { Avatar, Box, Paper, Typography } from '@material-ui/core';
+import { Avatar, Box, Typography } from '@material-ui/core';
 import { ReactComponent as Owner } from '../../lib/assets/owner.svg';
 import { ReactComponent as Participants } from '../../lib/assets/participants.svg';
 import { ReactComponent as Time } from '../../lib/assets/time.svg';
 import ClearIcon from '@material-ui/icons/Clear';
 import Button from '../common/Button';
+import { getChatDate } from '../../lib/util/dateFormat';
 
-const ChatCard = ({ isFinished, user, chatInfo, onCloseRoom, onExitRoom }) => {
+const ChatCard = ({
+  isClosed,
+  isReserved,
+  user,
+  room,
+  onCloseRoom,
+  onExitRoom,
+  setReviewRoom,
+  onGetMychannel,
+}) => {
   const [exit, setExit] = useState(false);
+
   const handleMoveChat = () => {
-    window.open(
-      `/chat/${chatInfo.id}`,
-      '_blank',
-      'width=600, height=900, toolbars=no, scrollbars=yes',
-    );
+    if (isReserved) return;
+    window.open(`/chat/${room.id}`, '_blank', 'width=600, height=900, toolbars=no, scrollbars=yes');
     return false;
   };
 
@@ -24,10 +32,12 @@ const ChatCard = ({ isFinished, user, chatInfo, onCloseRoom, onExitRoom }) => {
     setExit(true);
   };
 
-  const handleExit = (e) => {
+  const handleExitOrClose = async (e) => {
     e.stopPropagation();
-    if (user === 'admin') onCloseRoom({ roomId: chatInfo.id });
-    else onExitRoom(chatInfo.id);
+    if (user.id === room.roomOwner.id) await onCloseRoom(room.id);
+    else await onExitRoom(room.id);
+    onGetMychannel();
+    setExit(false);
   };
 
   const handleCancel = (e) => {
@@ -36,53 +46,74 @@ const ChatCard = ({ isFinished, user, chatInfo, onCloseRoom, onExitRoom }) => {
   };
 
   return (
-    <Box css={CharCardWrapper} onClick={handleMoveChat}>
-      {exit && (
-        <Box css={exitWrapper}>
-          {isFinished ? (
-            <>
-              <Typography className="reviewTitle">종료된 채팅방 입니다.</Typography>
-              <Button className="exit" onClick={handleExit}>
-                리뷰 작성
-              </Button>
-            </>
+    <Box css={CharCardWrapper(isReserved)} onClick={handleMoveChat}>
+      {isClosed ? (
+        <Box css={modalWrapper}>
+          <Typography className="reviewTitle">종료된 채팅방 입니다.</Typography>
+          {room.roomOwner.id === user.id ? (
+            <Button
+              className="exit"
+              onClick={(e) => {
+                e.stopPropagation();
+                setReviewRoom(room);
+              }}
+            >
+              기록하기
+            </Button>
           ) : (
-            <>
-              <Button className="exit" onClick={handleExit}>
-                채팅방 {user === 'admin' ? '끝내기' : '나가기'}
-              </Button>
-              <Button className="cancel" onClick={handleCancel}>
-                취소
-              </Button>
-            </>
+            <Button
+              className="exit"
+              onClick={(e) => {
+                e.stopPropagation();
+                setReviewRoom(room);
+              }}
+            >
+              리뷰 작성
+            </Button>
           )}
         </Box>
-      )}
+      ) : null}
+      {exit ? (
+        <Box css={modalWrapper}>
+          <Button className="exit" onClick={handleExitOrClose}>
+            채팅방 {user.id === room.roomOwner.id ? '끝내기' : '나가기'}
+          </Button>
+          <Button className="cancel" onClick={handleCancel}>
+            취소
+          </Button>
+        </Box>
+      ) : null}
       <Box css={topContent}>
         <ClearIcon css={cnacelIcon} onClick={handleExitOpen} />
-        <Typography css={title}>{chatInfo.name}</Typography>
-        <Typography css={description}>
-          <Participants className="icon" />
-          {chatInfo.roomParticipant.length}
-        </Typography>
-        <Typography css={description}>
-          <Owner className="icon" />
-          {chatInfo.roomOwner.nickname}
-        </Typography>
+        <Typography css={title}>{room.name}</Typography>
+        {isReserved ? null : (
+          <Typography css={description}>
+            <Participants className="icon" />
+            {room.roomParticipant.length}
+          </Typography>
+        )}
+        {isReserved ? null : (
+          <Typography css={description}>
+            <Owner className="icon" />
+            {room.roomOwner.nickname}
+          </Typography>
+        )}
         <Typography css={description}>
           <Time className="icon" />
-          {new Date(chatInfo.createdAt).toLocaleString()}
+          {isReserved
+            ? getChatDate(new Date(room.reservedAt))
+            : getChatDate(new Date(room.reservedAt))}
         </Typography>
       </Box>
       <Box css={bottomContent}>
-        <Avatar css={bottomIcon} src={chatInfo.channel.channelImage}></Avatar>
-        <Typography css={bottomTitle}>{chatInfo.channel.name}</Typography>
+        <Avatar css={bottomIcon} src={room.channel.channelImage}></Avatar>
+        <Typography css={bottomTitle}>{room.channel.name}</Typography>
       </Box>
     </Box>
   );
 };
 
-const CharCardWrapper = css`
+const CharCardWrapper = (isReserved) => css`
   width: 10.625rem;
   height: 12.5rem;
   display: flex;
@@ -90,6 +121,7 @@ const CharCardWrapper = css`
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.7);
   border-radius: 5px;
   cursor: pointer;
+  background: ${isReserved ? '#f0f0f0' : 'white'};
   &:hover {
     box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);
   }
@@ -104,7 +136,7 @@ const cnacelIcon = css`
   cursor: pointer;
 `;
 
-const exitWrapper = css`
+const modalWrapper = css`
   width: 10.625rem;
   height: 12.5rem;
   border-radius: 5px;
@@ -131,6 +163,8 @@ const exitWrapper = css`
     font-family: 'Noto Sans KR';
     font-weight: 600;
     font-size: 0.875rem;
+    color: white;
+    margin-bottom: 5rem;
   }
   .exit {
     background: #ff511b;

@@ -1,5 +1,6 @@
 import { createAction, handleActions } from 'redux-actions';
 import * as profileAPI from '../lib/api/profile';
+import * as roomAPI from '../lib/api/room';
 import { pender } from 'redux-pender';
 
 const CHANGE_PASSWORD = 'profile/CHANGE_PASSWORD';
@@ -22,7 +23,7 @@ export const profileFollow = createAction(PROFILE_FOLLOW, ({ followingId, isMe }
 }));
 export const changePassword = createAction(CHANGE_PASSWORD, profileAPI.changePassword);
 export const checkPassword = createAction(CHECK_PASSWORD, profileAPI.checkPassword);
-export const getReviews = createAction(GET_REVIEWS, profileAPI.getReviews);
+export const getReviews = createAction(GET_REVIEWS, roomAPI.getUserReviews);
 export const getFollowings = createAction(GET_FOLLOWINGS, profileAPI.getFollowings);
 export const getFollowers = createAction(GET_FOLLOWERS, profileAPI.getFollowers);
 export const getProfile = createAction(GET_PROFILE, profileAPI.getProfile);
