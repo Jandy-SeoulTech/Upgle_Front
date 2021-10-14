@@ -119,6 +119,7 @@ const channerHomeWrapper = css`
   padding: 1rem calc((100% - 71.25rem) / 2);
   background-color: #fafafc;
   display: flex;
+  padding-bottom: 6.25rem;
 `;
 
 const rightContent = css`
