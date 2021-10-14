@@ -3,13 +3,14 @@ import { css } from '@emotion/react';
 import { useHistory } from 'react-router-dom';
 import { Box, Typography } from '@material-ui/core';
 import { getRandomColor } from '../../lib/util/random';
+import { getDateString } from '../../lib/util/dateFormat';
 
-const ArchiveCard = ({ archive }) => {
+const ArchiveCard = ({ archive, width }) => {
   const history = useHistory();
 
   return (
     <Box
-      css={archiveCard}
+      css={archiveCard(width)}
       sx={{
         backgroundColor: getRandomColor(archive.title),
         backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.510208) 75.52%, rgba(0, 0, 0, 0.79) 100%), url(${archive.imgUrl})`,
@@ -34,15 +35,15 @@ const ArchiveCard = ({ archive }) => {
             alignSelf: 'flex-end',
           }}
         >
-          {archive.date}
+          {getDateString(archive.createdAt)}
         </Typography>
       </Box>
     </Box>
   );
 };
 
-const archiveCard = css`
-  width: 10.3125rem;
+const archiveCard = (width) => css`
+  width: ${width ? width : '10.3125rem'};
   height: 15rem;
   cursor: pointer;
   border-radius: 5px;

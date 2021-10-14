@@ -71,10 +71,10 @@ const ChannerHome = ({ channel, postList, roomList, channelArchive }) => {
             <Button onClick={() => history.push(`/channel/${channel.id}/archive`)}>더보기</Button>
           </Box>
           {channelArchive?.length > 0 ? (
-            <Grid container spacing={3}>
+            <Grid container spacing="1.25rem">
               {channelArchive?.map((archive, i) => (
                 <Grid item key={i}>
-                  <ArchiveCard archive={archive} />
+                  <ArchiveCard archive={archive} width="10.625rem" />
                 </Grid>
               ))}
             </Grid>
