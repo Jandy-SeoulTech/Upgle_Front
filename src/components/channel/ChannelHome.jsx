@@ -54,7 +54,7 @@ const ChannerHome = ({ channel, postList, roomList }) => {
               재능 공유 요청 <PostIcon css={{ marginLeft: '.5625rem' }} />
             </Typography>
 
-            <Button onClick={() => history.push(`/channel/${channel.id}/postList`)}>더보기</Button>
+            <Button onClick={() => history.push(`/channel/${channel.id}/post`)}>더보기</Button>
           </Box>
           {postList?.length > 0 ? (
             <Box
