@@ -185,9 +185,9 @@ const Search = ({ keyword }) => {
             </Grid>
           )}
         </Grid>
-        <Grid item container bgcolor="#FAFAFC" py={1}>
+        <Grid item container bgcolor="#FAFAFC">
           {isCategoriesOpen && (
-            <Grid item container>
+            <Grid item container pt={1}>
               {categories.map((category) => (
                 <Grid key={category.name} item xs={2} pl={5} py={3}>
                   <FormControlLabel
@@ -205,52 +205,58 @@ const Search = ({ keyword }) => {
               ))}
             </Grid>
           )}
-          <Grid item container css={categoriesContainer}>
-            {categories
-              .filter((category) => category.selected)
-              .map((category) => (
-                <Grid key={category.name} item>
-                  <Typography
-                    css={selectedCategory}
-                    data-name={category.name}
-                    onClick={(e) => toggleCategory(e.target.dataset.name)}
-                  >
-                    {category.name}
-                    <span style={{ fontSize: '12px', marginLeft: '10px', color: 'gray' }}>✕</span>
-                  </Typography>
-                </Grid>
-              ))}
-          </Grid>
+          {(isCategoriesOpen ||
+            (!isCategoriesOpen &&
+              categories.filter((category) => category.selected).length > 0)) && (
+            <Grid item container css={categoriesContainer} pb={1}>
+              {categories
+                .filter((category) => category.selected)
+                .map((category) => (
+                  <Grid key={category.name} item>
+                    <Typography
+                      css={selectedCategory}
+                      data-name={category.name}
+                      onClick={(e) => toggleCategory(e.target.dataset.name)}
+                    >
+                      {category.name}
+                      <span style={{ fontSize: '12px', marginLeft: '10px', color: 'gray' }}>✕</span>
+                    </Typography>
+                  </Grid>
+                ))}
+            </Grid>
+          )}
         </Grid>
-        <Grid item container flexDirection="row">
-          <Grid
-            item
-            container
-            css={[borderTopBottom, { borderRight: '1px solid #5f5f5f' }]}
-            justifyContent="center"
-            alignItems="center"
-            xs={6}
-            onClick={() => {
-              setCategories(initialCategories);
-            }}
-          >
-            <Typography fontSize="1.125rem" fontWeight="700" color="#5F5F5F">
-              초기화
-            </Typography>
+        {isCategoriesOpen && (
+          <Grid item container flexDirection="row">
+            <Grid
+              item
+              container
+              css={[borderBottom, { borderRight: '1px solid #5f5f5f' }]}
+              justifyContent="center"
+              alignItems="center"
+              xs={6}
+              onClick={() => {
+                setCategories(initialCategories);
+              }}
+            >
+              <Typography fontSize="1.125rem" fontWeight="700" color="#5F5F5F">
+                초기화
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              container
+              css={[borderBottom]}
+              justifyContent="center"
+              alignItems="center"
+              xs={6}
+            >
+              <Typography fontSize="1.125rem" fontWeight="700" color="#5F5F5F">
+                검색
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid
-            item
-            container
-            css={[borderTopBottom]}
-            justifyContent="center"
-            alignItems="center"
-            xs={6}
-          >
-            <Typography fontSize="1.125rem" fontWeight="700" color="#5F5F5F">
-              검색
-            </Typography>
-          </Grid>
-        </Grid>
+        )}
       </Grid>
       <Grid item container css={width1140px} alignItems="center">
         <Grid item container mb={5} columnGap={5} xs={12} justifyContent="center">
@@ -383,6 +389,17 @@ const borderTopBottom = css`
   cursor: pointer;
 `;
 
+const borderBottom = css`
+  border-bottom: 1px solid #5f5f5f;
+  height: 3.75rem;
+  cursor: pointer;
+  :hover {
+    .MuiTypography-root {
+      color: black;
+    }
+  }
+`;
+
 const checkBox = css`
   &.Mui-checked {
     color: black;
@@ -397,6 +414,7 @@ const categoriesContainer = css`
   padding: 2.1875rem 2.5rem;
   column-gap: 1.875rem;
   row-gap: 1.25rem;
+  border-bottom: 1px solid #5f5f5f;
 `;
 
 const selectedCategory = css`
