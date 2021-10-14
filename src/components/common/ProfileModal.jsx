@@ -15,8 +15,8 @@ function ProfileModal({
   sxContent,
 }) {
   useEffect(() => {
-    if (tabs.find((tab) => tab.key === currentTab).onTab)
-      tabs.find((tab) => tab.key === currentTab).onTab();
+    const isOnTab = tabs.find((tab) => tab.key === currentTab)?.onTab;
+    if (isOnTab) isOnTab();
   }, [currentTab]);
 
   return (
@@ -55,19 +55,14 @@ function ProfileModal({
           borderBottom="1px solid #7B7B7B"
           css={header}
         >
-          <Grid
-            item
-            container
-            justifyContent="space-around"
-            width="fit-content"
-          >
+          <Grid item container justifyContent="space-around" width="fit-content">
             {tabs.map((tab) => (
               <MuiButton
                 key={tab.key}
                 className={currentTab === tab.key ? 'selected' : ''}
                 css={tabButton}
                 onClick={() => {
-                  setCurrentTab(tab.key);
+                  if (setCurrentTab) setCurrentTab(tab.key);
                 }}
               >
                 {tab.name}
@@ -75,11 +70,7 @@ function ProfileModal({
             ))}
           </Grid>
           <Grid item>
-            <CloseIcon
-              css={closeButton}
-              fontSize="medium"
-              onClick={() => setIsModalOpen(false)}
-            />
+            <CloseIcon css={closeButton} fontSize="medium" onClick={() => setIsModalOpen(false)} />
           </Grid>
         </Grid>
         <Grid item xs={12} css={contents}>

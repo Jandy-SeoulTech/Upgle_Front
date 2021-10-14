@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import Profile from '../../components/profile/Profile';
+import { getUserArchive } from '../../modules/archive';
 import {
   getFollowers,
   getFollowings,
@@ -16,6 +17,7 @@ import { check, follow, unfollow } from '../../modules/user';
 const ProfileContainer = () => {
   const { auth, error: authError } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.user);
+  const { userArchive } = useSelector((state) => state.archive);
   const { profile, followers, followings, reviews } = useSelector((state) => state.profile);
   const { pending } = useSelector((state) => state.pender);
 
@@ -52,7 +54,12 @@ const ProfileContainer = () => {
     dispatch(getReviews({ userId }));
   };
 
+  const onGetUserArchive = () => {
+    dispatch(getUserArchive(userId));
+  };
+
   useEffect(() => {
+    onGetUserArchive();
     dispatch(getProfile({ userId }));
     return () => {
       dispatch(initProfile());
@@ -79,6 +86,7 @@ const ProfileContainer = () => {
       getFollowersLoading={pending['profile/GET_FOLLOWERS']}
       getFollowingsLoading={pending['profile/GET_FOLLOWINGS']}
       getReviewsLoading={pending['profile/GET_REVIEWS']}
+      getUserArchiveLoading={pending['archive/GET_USER_ARCHIVE']}
       isMe={isMe}
       isFollowing={isFollowing}
       user={user}
@@ -86,6 +94,7 @@ const ProfileContainer = () => {
       followers={followers}
       followings={followings}
       reviews={reviews}
+      userArchive={userArchive}
       onFollow={onFollow}
       onUnfollow={onUnfollow}
       onProfileFollow={onProfileFollow}
@@ -93,6 +102,7 @@ const ProfileContainer = () => {
       onGetFollowers={onGetFollowers}
       onGetFollowings={onGetFollowings}
       onGetReviews={onGetReviews}
+      onGetUserArchive={onGetUserArchive}
     />
   );
 };
