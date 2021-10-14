@@ -58,7 +58,8 @@ const EditPost = ({ post, channel, user, onWriteChannelPost, handleChangeFiled, 
               });
             }}
             language="ko"
-            initialValue={post.content || '재능공유 요청을 작성해주세요'}
+            initialValue={post.content}
+            placeholder={post.content.length === 0 && '재능공유 요청을 작성해주세요'}
             initialEditType="wysiwyg"
             previewStyle="vertical"
             height="calc(100vh - 215px)"
@@ -68,7 +69,11 @@ const EditPost = ({ post, channel, user, onWriteChannelPost, handleChangeFiled, 
           />
         </Box>
         <Grid container justifyContent="flex-end">
-          <Button css={submitBtn} onClick={onWriteChannelPost}>
+          <Button
+            css={submitBtn}
+            onClick={onWriteChannelPost}
+            disabled={!post.title || !post.content}
+          >
             작성 완료
           </Button>
         </Grid>
@@ -78,9 +83,10 @@ const EditPost = ({ post, channel, user, onWriteChannelPost, handleChangeFiled, 
 };
 
 const wrapper = css`
-  margin-top: 135px;
+  margin-top: 8.4375rem;
   background-color: #fafafc;
   padding: 0 calc((100% - 71.25rem) / 2);
+  padding-bottom: 6rem;
   font-size: 30px;
 `;
 
@@ -113,6 +119,14 @@ const submitBtn = css`
   font-size: 15px;
   background: #000000;
   color: #ffffff;
+
+  &:disabled {
+    background: #e0e0e0;
+    color: white;
+    border: 0;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 100px;
+  }
 `;
 
 export default EditPost;

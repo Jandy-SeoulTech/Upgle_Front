@@ -2,9 +2,10 @@
 import { css } from '@emotion/react';
 import { ReactComponent as LikeIcon } from '../../lib/assets/likeIcon.svg';
 import { ReactComponent as LikedButton } from '../../lib/assets/likedButton.svg';
-import { ReactComponent as ChatMake } from '../../lib/assets/chatMake.svg';
 import { ReactComponent as ChatGo } from '../../lib/assets/chatGo.svg';
 import { ReactComponent as ChatIconWhite } from '../../lib/assets/chatGo.svg';
+import { ReactComponent as FileIcon } from '../../lib/assets/file.svg';
+import { ReactComponent as MakeChatIcon } from '../../lib/assets/makeChat.svg';
 import { Box, Button } from '@material-ui/core';
 import { useState } from 'react';
 import palette from '../../lib/styles/palette';
@@ -55,8 +56,20 @@ const PostButtonList = ({
               setCreateModalOpen(true);
             }}
           >
-            <ChatMake className="icon" />
+            <MakeChatIcon className="icon" />
             채팅방 만들기
+          </Button>
+        );
+      case 'Archived':
+        return (
+          <Button
+            className="goArchive"
+            onClick={() => {
+              setCreateModalOpen(true);
+            }}
+          >
+            <FileIcon className="icon" />
+            게시글 바로가기
           </Button>
         );
       case 'Reservation':
@@ -105,6 +118,9 @@ const controllButtonWrapper = css`
     font-size: 1.125rem;
     height: 3.125rem;
     margin-left: 1.25rem;
+    &:hover {
+      color: white;
+    }
   }
 
   .goChat {
@@ -113,16 +129,28 @@ const controllButtonWrapper = css`
     background: ${palette.orange};
     border-radius: 100px;
     &:hover {
-      filter: brightness(0.95);
+      background: ${palette.orange};
+      filter: brightness(0.85);
     }
   }
   .makeChat {
     width: 11.25rem;
     color: ${palette.white};
-    background: ${palette.black};
+    background: #04bd9e;
     border-radius: 100px;
     &:hover {
-      filter: brightness(0.95);
+      background: #04bd9e;
+      filter: brightness(0.85);
+    }
+  }
+
+  .goArchive {
+    width: 12.1875rem;
+    color: ${palette.white};
+    background: #252424;
+    border-radius: 100px;
+    &:hover {
+      background: #252424cc;
     }
   }
 
@@ -132,8 +160,15 @@ const controllButtonWrapper = css`
     background: #5f5f5f;
     border-radius: 100px;
     &:hover {
+      background: #5f5f5f;
       filter: brightness(0.8);
     }
+  }
+
+  .icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.625rem;
   }
 `;
 
@@ -143,6 +178,10 @@ const attentionButton = (isLiked) => css`
   background: ${palette.white};
   border: 2px solid ${isLiked ? palette.orange : palette.black};
   border-radius: 50px;
+
+  &:hover {
+    color: ${isLiked ? palette.orange : palette.black} !important;
+  }
 
   .icon {
     width: 1.25rem;
