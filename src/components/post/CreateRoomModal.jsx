@@ -27,6 +27,7 @@ const CreateRoomModal = ({ onCreateRoom, createModalOpen, setCreateModalOpen }) 
         <Box css={modalTitle}>
           <Typography>채팅방 만들기</Typography>
           <Clear
+            css={{ cursor: 'pointer' }}
             onClick={() => {
               setCreateModalOpen(false);
             }}

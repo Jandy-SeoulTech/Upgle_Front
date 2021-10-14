@@ -20,6 +20,7 @@ const PostContainer = ({ channelId, postId }) => {
 
   const onDeletePost = async () => {
     await dispatch(deletePost({ postId, channelId }));
+    history.push(`/channel/${channelId}/post`);
   };
 
   useEffect(() => {

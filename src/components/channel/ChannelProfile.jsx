@@ -10,13 +10,15 @@ import palette from '../../lib/styles/palette';
 import CheckIcon from '@material-ui/icons/Check';
 import Button from '../common/Button';
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import ProfileModal from '../common/ProfileModal';
 import ModalUserCard from '../common/ModalUserCard';
+import ArchiveCard from './ArchiveCard';
 
 const ChannelProfile = ({
   user,
   channel,
-  collection,
+  channelArchive,
   onEnterChannel,
   onExitChannel,
   isParticipant,
@@ -29,6 +31,7 @@ const ChannelProfile = ({
   onProfileFollow,
   onProfileUnfollow,
 }) => {
+  const history = useHistory();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tabs, setTabs] = useState([{ key: 'members', name: '재능 공유 멤버', data: <></> }]);
   const [currentTab, setCurrentTab] = useState('members');
@@ -178,27 +181,24 @@ const ChannelProfile = ({
         </Box>
         <Box>
           <Typography css={sectionTitle}>
-            모아보기 <Button css={moreButton}>더보기</Button>
+            모아보기{' '}
+            <Button css={moreButton} onClick={() => history.push(`/channel/${channel.id}/archive`)}>
+              더보기
+            </Button>
           </Typography>
-          <Grid container spacing={3}>
-            {collection.map((collection) => (
-              <Grid item key={collection.id}>
-                <Paper
-                  css={[
-                    channelCollection,
-                    css`
-                      background-image: url(${collection.image.src});
-                    `,
-                  ]}
-                >
-                  <Box css={channelCollectionLayer}>
-                    <Typography css={collectionTitle}>{collection.title}</Typography>
-                    <Typography css={collectionCreatedAt}>{collection.createdAt}</Typography>
-                  </Box>
-                </Paper>
-              </Grid>
-            ))}
-          </Grid>
+          {channelArchive?.length > 0 ? (
+            <Grid container spacing={3} columns={5}>
+              {channelArchive?.map((archive) => (
+                <Grid item key={archive.id}>
+                  <ArchiveCard archive={archive} width="10.625rem" />
+                </Grid>
+              ))}
+            </Grid>
+          ) : (
+            <Typography css={[noContent, { height: '100px', lineHeight: '100px' }]}>
+              아직 등록된 글이 없습니다.
+            </Typography>
+          )}
         </Box>
       </Box>
     </>
@@ -423,45 +423,11 @@ const moreButton = css`
   font-size: 1rem;
 `;
 
-const channelCollection = css`
-  width: 10.625rem;
-  height: 15rem;
-  background: #87eec3;
-  background-size: cover;
-  background-repeat: no-repeat;
-  box-shadow: 0px 2px 5px 3px rgba(0, 0, 0, 0.3);
-  border-radius: 4.53975px;
-`;
-
-const channelCollectionLayer = css`
-  height: 100%;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0.510208) 75.52%,
-    rgba(0, 0, 0, 0.79) 100%
-  );
-  border-radius: 4.53975px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 0.709375rem 1.3125rem;
-`;
-
-const collectionTitle = css`
-  font-family: 'Barlow', 'Noto Sans KR';
-  font-size: 0.6875rem;
-  font-weight: 700;
-  color: ${palette.white};
-`;
-
-const collectionCreatedAt = css`
-  font-family: 'Barlow', 'Noto Sans KR';
-  font-size: 0.45rem;
-  font-weight: 500;
-  text-align: right;
-  color: ${palette.white};
+const noContent = css`
+  text-align: center;
+  width: 100%;
+  font-family: 'Noto Sans KR';
+  color: #5f5f5f;
 `;
 
 export default ChannelProfile;
