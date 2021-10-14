@@ -186,7 +186,7 @@ const Search = ({ keyword }) => {
                         onChange={onCategoriesChanged}
                       />
                     }
-                    label={category.name}
+                    label={<Typography css={checkBoxLabel}>{category.name}</Typography>}
                   />
                 </Grid>
               ))}
@@ -374,6 +374,10 @@ const checkBox = css`
   &.Mui-checked {
     color: black;
   }
+`;
+
+const checkBoxLabel = css`
+  font-size: 0.875rem;
 `;
 
 const categoriesContainer = css`
