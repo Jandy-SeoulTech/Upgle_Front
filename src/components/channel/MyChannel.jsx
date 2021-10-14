@@ -1,7 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Box, Grid, Typography } from '@material-ui/core';
+import { useState } from 'react';
 import { useHistory } from 'react-router';
+import ReviewModalContainer from '../../containers/common/ReviewModalContainer';
 import { ReactComponent as Amico } from '../../lib/assets/amico.svg';
 import palette from '../../lib/styles/palette';
 
@@ -10,13 +12,16 @@ import ChannelCard from './ChannelCard';
 import ChatCard from './ChatCard';
 
 const MyChannel = ({
+  user,
   ownerRoom,
   participantRoom,
   adminChannel,
   participantChannel,
-  handleExitRoom,
-  handleCloseRoom,
+  onGetMychannel,
+  onExitRoom,
+  onCloseRoom,
 }) => {
+  const [reviewRoom, setReviewRoom] = useState(null);
   const history = useHistory();
   return (
     <Box css={myChannelWrapper}>
@@ -36,19 +41,29 @@ const MyChannel = ({
           </Button>
         </Box>
 
+        <ReviewModalContainer
+          room={reviewRoom}
+          open={!!reviewRoom}
+          setOpen={setReviewRoom}
+          onSuccess={onGetMychannel}
+        />
+
         <Box css={asignChatListWrapper}>
           <Typography css={listTitle}>오픈 채팅방</Typography>
           {ownerRoom.length === 0 && (
             <Typography css={nullDescription}>아직 오픈한 채팅방이 없습니다.</Typography>
           )}
           <Grid container spacing={2}>
-            {ownerRoom.map((chatInfo) => (
-              <Grid key={chatInfo.id} item>
+            {ownerRoom.map((room) => (
+              <Grid key={room.id} item>
                 <ChatCard
-                  isFinished={chatInfo.status !== 'Open'}
-                  user="admin"
-                  chatInfo={chatInfo}
-                  onCloseRoom={handleCloseRoom}
+                  isClosed={room.status === 'Close'}
+                  isReserved={room.status === 'Reservation'}
+                  user={user}
+                  room={room}
+                  onCloseRoom={onCloseRoom}
+                  setReviewRoom={setReviewRoom}
+                  onGetMychannel={onGetMychannel}
                 />
               </Grid>
             ))}
@@ -61,13 +76,25 @@ const MyChannel = ({
             <Typography css={nullDescription}>현재 참여하고 있는 채팅방이 없습니다.</Typography>
           )}
           <Grid container spacing={2}>
-            {participantRoom.map((chatInfo) => (
-              <Grid key={chatInfo.id} item>
+            {participantRoom.map((room) => (
+              <Grid key={room.id} item>
                 <ChatCard
-                  isFinished={chatInfo.status}
-                  user="part"
-                  chatInfo={chatInfo}
-                  onExitRoom={handleExitRoom}
+                  isClosed={
+                    room.roomParticipant
+                      .map((item) => {
+                        if (item.userId === user.id && item.status === 'inactive') return true;
+                        return false;
+                      })
+                      .reduce((sum, item) => {
+                        return sum + item;
+                      }) || room.status === 'Close'
+                  }
+                  isReserved={room.status === 'Reservation'}
+                  user={user}
+                  room={room}
+                  onExitRoom={onExitRoom}
+                  setReviewRoom={setReviewRoom}
+                  onGetMychannel={onGetMychannel}
                 />
               </Grid>
             ))}

@@ -10,7 +10,7 @@ import {
   initialize,
 } from '../../modules/chat';
 import ChattingRoom from '../../components/chat/ChattingRoom';
-import { getRoomData } from '../../modules/room';
+import { closeRoom, getRoomData } from '../../modules/room';
 import { getMychannel } from '../../modules/channel';
 
 let socket;
@@ -81,8 +81,8 @@ const ChattingRoomContainer = ({ roomId }) => {
     );
   };
 
-  const handleSuccess = () => {
-    dispatch(getMychannel());
+  const onCloseRoom = async () => {
+    await dispatch(closeRoom(roomId));
     window.close();
   };
 
@@ -109,7 +109,7 @@ const ChattingRoomContainer = ({ roomId }) => {
       replyMessage={replyMessage}
       setReplyMessage={setReplyMessage}
       participants={participants}
-      handleSuccess={handleSuccess}
+      onCloseRoom={onCloseRoom}
     />
   );
 };

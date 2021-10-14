@@ -17,8 +17,13 @@ const CreateRoomModal = ({ onCreateRoom, createModalOpen, setCreateModalOpen }) 
     onCreateRoom({
       status: isReserve ? 'Reservation' : 'Open',
       name: roomName,
-      reservedTime: isReserve ? reserveDate : null,
+      reservedTime: isReserve ? new Date(reserveDate).toUTCString() : null,
     });
+    console.log(
+      isReserve ? 'Reservation' : 'Open',
+      roomName,
+      isReserve ? new Date(reserveDate).toUTCString() : null,
+    );
   };
 
   return (

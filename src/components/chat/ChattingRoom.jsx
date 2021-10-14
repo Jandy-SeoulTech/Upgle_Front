@@ -34,6 +34,7 @@ const ChattingRoom = ({
   setReplyMessage,
   participants,
   handleSuccess,
+  onCloseRoom,
 }) => {
   const [reviewToglle, setReviewToglle] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState();
@@ -74,7 +75,9 @@ const ChattingRoom = ({
         room={room}
         open={reviewToglle}
         setOpen={setReviewToglle}
-        onSuccess={handleSuccess}
+        onSuccess={() => {
+          window.close();
+        }}
       />
       <Box css={roomTitle}>
         <Box css={{ margin: '1.67rem 0 0.58rem 1.25rem' }}>
@@ -118,13 +121,19 @@ const ChattingRoom = ({
                         <ListItemText>신고하기</ListItemText>
                       </MenuItem>
                       <Divider />
-                      <MenuItem
-                        onClick={() => {
-                          setReviewToglle(true);
-                        }}
-                      >
-                        <ListItemText>나가기</ListItemText>
-                      </MenuItem>
+                      {user.id === room.roomOwner.id ? (
+                        <MenuItem onClick={onCloseRoom}>
+                          <ListItemText>채팅 끝내기</ListItemText>
+                        </MenuItem>
+                      ) : (
+                        <MenuItem
+                          onClick={() => {
+                            setReviewToglle(true);
+                          }}
+                        >
+                          <ListItemText>나가기</ListItemText>
+                        </MenuItem>
+                      )}
                     </MenuList>
                   </Paper>
                 </Popper>
