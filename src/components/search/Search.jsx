@@ -316,13 +316,15 @@ const Search = ({
         )}
         {subMenu === 'archive' && (
           <>
-            <Grid item container columns={6} spacing="1.375rem">
+            <Grid item container columns={6} columnGap="1.5rem" rowGap="2.5rem">
               {archives.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   검색된 글이 없습니다.
                 </Grid>
               ) : (
-                archives.map((archive) => <ArchiveCard key={archive.id} archive={archive} />)
+                archives.map((archive) => (
+                  <ArchiveCard key={archive.id} archive={archive} width="10.625rem" />
+                ))
               )}
             </Grid>
             {archives.length < totalCounts.archives && (
