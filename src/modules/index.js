@@ -10,6 +10,7 @@ import room from './room';
 import comment from './comment';
 import post from './post';
 import archive from './archive';
+import search from './search';
 import { penderReducer } from 'redux-pender';
 
 const rootReducer = combineReducers({
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   comment,
   post,
   archive,
+  search,
   pender: penderReducer,
 });
 
