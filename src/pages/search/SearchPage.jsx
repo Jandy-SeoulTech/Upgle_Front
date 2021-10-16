@@ -7,11 +7,12 @@ import SearchContainer from '../../containers/search/SearchContainer';
 const SearchPage = () => {
   const qs = new URLSearchParams(useLocation().search);
   const keyword = qs.get('keyword');
+  const code = qs.get('code');
 
   return (
     <>
       <HeaderContainer />
-      <SearchContainer keyword={keyword} />
+      <SearchContainer keyword={keyword} code={code} />
       <FooterContainer />
     </>
   );

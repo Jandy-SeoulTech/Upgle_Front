@@ -19,7 +19,7 @@ const ChannelCard = ({ channel }) => {
       <Grid item xs={6} css={rightContent}>
         <Typography css={title}>{channel.name}</Typography>
         <Typography css={total}>
-          <Participants css={icon} /> {channel.participants.length + 1}
+          <Participants css={icon} /> {channel.participants?.length + 1}
         </Typography>
         <Typography css={category}>{channel.category.category.name}</Typography>
         <Box css={tagList}>

@@ -24,7 +24,7 @@ function UserCard({ loggedInUser, user, onFollow, onUnfollow }) {
       <Grid item container xs={2}>
         <Avatar
           css={avatar}
-          src={user?.profile?.profileImage.src}
+          src={user?.profile?.profileImage}
           onClick={() => (window.location.href = `/profile/${user.id}`)}
         />
       </Grid>
