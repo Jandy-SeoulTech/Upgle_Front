@@ -51,6 +51,7 @@ const Search = ({
   onChannelSearch,
   onUserSearch,
   onArchiveSearch,
+  totalCounts,
   channels,
   users,
   archives,
@@ -228,7 +229,7 @@ const Search = ({
               css={searchSubButton}
               onClick={() => setSubMenu('channel')}
             >
-              재능 공유 채널 ({channels.length})
+              재능 공유 채널 ({totalCounts.channels})
             </Button>
           </Grid>
           <Grid item>
@@ -237,7 +238,7 @@ const Search = ({
               css={searchSubButton}
               onClick={() => setSubMenu('user')}
             >
-              재능 고수 ({users.length})
+              재능 고수 ({totalCounts.users})
             </Button>
           </Grid>
           <Grid item>
@@ -246,7 +247,7 @@ const Search = ({
               css={searchSubButton}
               onClick={() => setSubMenu('archive')}
             >
-              모아 보기 ({archives.length})
+              모아 보기 ({totalCounts.archives})
             </Button>
           </Grid>
         </Grid>
@@ -265,16 +266,18 @@ const Search = ({
                 ))
               )}
             </Grid>
-            <Grid item container css={moreButton} justifyContent="center">
-              <Typography
-                css={moreButtonText}
-                onClick={() => {
-                  onChannelSearch({ skip: channels.length });
-                }}
-              >
-                더 보기 ▼
-              </Typography>
-            </Grid>
+            {channels.length < totalCounts.channels && (
+              <Grid item container css={moreButton} justifyContent="center">
+                <Typography
+                  css={moreButtonText}
+                  onClick={() => {
+                    onChannelSearch({ skip: channels.length });
+                  }}
+                >
+                  더 보기 ▼
+                </Typography>
+              </Grid>
+            )}
           </>
         )}
         {subMenu === 'user' && (
@@ -297,16 +300,18 @@ const Search = ({
                 ))
               )}
             </Grid>
-            <Grid item container css={moreButton} justifyContent="center">
-              <Typography
-                css={moreButtonText}
-                onClick={() => {
-                  onUserSearch({ skip: users.length });
-                }}
-              >
-                더 보기 ▼
-              </Typography>
-            </Grid>
+            {users.length < totalCounts.users && (
+              <Grid item container css={moreButton} justifyContent="center">
+                <Typography
+                  css={moreButtonText}
+                  onClick={() => {
+                    onUserSearch({ skip: users.length });
+                  }}
+                >
+                  더 보기 ▼
+                </Typography>
+              </Grid>
+            )}
           </>
         )}
         {subMenu === 'archive' && (
@@ -320,16 +325,18 @@ const Search = ({
                 archives.map((archive) => <ArchiveCard key={archive.id} archive={archive} />)
               )}
             </Grid>
-            <Grid item container css={moreButton} justifyContent="center">
-              <Typography
-                css={moreButtonText}
-                onClick={() => {
-                  onArchiveSearch({ skip: archives.length });
-                }}
-              >
-                더 보기 ▼
-              </Typography>
-            </Grid>
+            {archives.length < totalCounts.archives && (
+              <Grid item container css={moreButton} justifyContent="center">
+                <Typography
+                  css={moreButtonText}
+                  onClick={() => {
+                    onArchiveSearch({ skip: archives.length });
+                  }}
+                >
+                  더 보기 ▼
+                </Typography>
+              </Grid>
+            )}
           </>
         )}
       </Grid>
@@ -339,6 +346,7 @@ const Search = ({
 
 const wrapper = css`
   margin-top: 3.75rem;
+  margin-bottom: 6.25rem;
   width: 100vw;
 `;
 
@@ -434,7 +442,6 @@ const searchSubButton = css`
 const moreButton = css`
   cursor: pointer;
   margin-top: 1.875rem;
-  margin-bottom: 6.25rem;
   padding: 1.5625rem 0.5rem;
 `;
 

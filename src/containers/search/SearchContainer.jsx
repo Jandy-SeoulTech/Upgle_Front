@@ -10,7 +10,7 @@ import {
 
 const SearchContainer = ({ keyword, code }) => {
   const dispatch = useDispatch();
-  const { channels, users, archives } = useSelector((state) => state.search);
+  const { totalCounts, channels, users, archives } = useSelector((state) => state.search);
 
   const onChannelSearch = ({ skip, take }) => {
     dispatch(getChannelSearch({ keyword, code, skip, take }));
@@ -25,6 +25,7 @@ const SearchContainer = ({ keyword, code }) => {
   };
 
   useEffect(() => {
+    dispatch(initSearch());
     dispatch(getChannelSearch({ keyword, code }));
     dispatch(getUserSearch({ keyword }));
     dispatch(getArchiveSearch({ keyword }));
@@ -43,6 +44,7 @@ const SearchContainer = ({ keyword, code }) => {
       onChannelSearch={onChannelSearch}
       onUserSearch={onUserSearch}
       onArchiveSearch={onArchiveSearch}
+      totalCounts={totalCounts}
       channels={channels}
       users={users}
       archives={archives}

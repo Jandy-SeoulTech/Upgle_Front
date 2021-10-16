@@ -13,6 +13,7 @@ export const getChannelSearch = createAction(GET_CHANNEL_SEARCH, searchAPI.getCh
 export const initSearch = createAction(INIT_SEARCH);
 
 const initialState = {
+  totalCounts: { channels: 0, users: 0, archives: 0 },
   channels: [],
   users: [],
   archives: [],
@@ -24,22 +25,25 @@ export default handleActions(
     [INIT_SEARCH]: (state) => initialState,
     ...pender({
       type: GET_CHANNEL_SEARCH,
-      onSuccess: (state, { payload: channels }) => ({
+      onSuccess: (state, { payload: { totalCount, channels } }) => ({
         ...state,
+        totalCounts: { ...state.totalCounts, channels: totalCount },
         channels: [...state.channels, ...channels],
       }),
     }),
     ...pender({
       type: GET_USER_SEARCH,
-      onSuccess: (state, { payload: users }) => ({
+      onSuccess: (state, { payload: { totalCount, users } }) => ({
         ...state,
+        totalCounts: { ...state.totalCounts, users: totalCount },
         users: [...state.users, ...users],
       }),
     }),
     ...pender({
       type: GET_ARCHIVE_SEARCH,
-      onSuccess: (state, { payload: archives }) => ({
+      onSuccess: (state, { payload: { totalCount, archives } }) => ({
         ...state,
+        totalCounts: { ...state.totalCounts, archives: totalCount },
         archives: [...state.archives, ...archives],
       }),
     }),
