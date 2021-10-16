@@ -45,6 +45,7 @@ const Header = ({ user, onLogout }) => {
 
   const onSearch = () => {
     history.push(`/search?keyword=${keyword}`);
+    setKeyword('');
   };
 
   const onSearchKeyDown = (e) => {
