@@ -16,13 +16,13 @@ import { memo, useEffect, useRef, useState } from 'react';
 import palette from '../../lib/styles/palette';
 import Button from '../common/Button';
 import { TextArea } from '../TextField';
-import RoomChatItem from './RoomChatItem';
 import { ReactComponent as Participants } from '../../lib/assets/participants.svg';
 import { ReactComponent as Hamburger } from '../../lib/assets/hamburger.svg';
 import ClearIcon from '@material-ui/icons/Clear';
 import ReviewContainer from '../../containers/common/ReviewModalContainer';
+import Message from './Message';
 
-const ChattingRoom = ({
+const Room = ({
   user,
   room,
   messages,
@@ -144,7 +144,7 @@ const ChattingRoom = ({
       </Box>
       <Box css={chatWrapper} onScroll={handleScroll}>
         {[...messages].reverse().map((message, i) => (
-          <RoomChatItem
+          <Message
             key={message.id}
             isContinue={i > 0 && [...messages].reverse()[i - 1].sendUserId === message.sendUserId}
             prevMessage={i ? messages[i - 1] : { sendUserId: 0 }}
@@ -362,4 +362,4 @@ const sendButton = css`
   box-shadow: none;
 `;
 
-export default memo(ChattingRoom);
+export default memo(Room);

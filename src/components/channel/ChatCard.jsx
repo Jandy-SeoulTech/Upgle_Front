@@ -23,7 +23,7 @@ const ChatCard = ({
 
   const handleMoveChat = () => {
     if (isReserved) return;
-    window.open(`/chat/${room.id}`, '_blank', 'width=600, height=900, toolbars=no, scrollbars=yes');
+    window.open(`/room/${room.id}`, '_blank', 'width=600, height=900, toolbars=no, scrollbars=yes');
     return false;
   };
 
