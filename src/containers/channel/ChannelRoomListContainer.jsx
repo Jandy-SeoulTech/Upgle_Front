@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ChannelChatList from '../../components/channel/ChannelChatList';
+import ChannelRoomList from '../../components/channel/ChannelRoomList';
 import Loading from '../../components/common/Loading';
 import { getChannelData } from '../../modules/channel';
 import { getRoomList } from '../../modules/room';
 
-const ChannelChatListContainer = ({ channelId }) => {
+const ChannelRoomListContainer = ({ channelId }) => {
   const { channel } = useSelector((state) => state.channel);
   const { roomList } = useSelector((state) => state.room);
   const dispatch = useDispatch();
@@ -18,6 +18,6 @@ const ChannelChatListContainer = ({ channelId }) => {
   if (!channel || !roomList)
     return <Loading css={{ marginTop: '8.4375rem', backgroundColor: '#fafafc' }} />;
 
-  return <ChannelChatList roomList={roomList} />;
+  return <ChannelRoomList roomList={roomList} />;
 };
-export default ChannelChatListContainer;
+export default ChannelRoomListContainer;

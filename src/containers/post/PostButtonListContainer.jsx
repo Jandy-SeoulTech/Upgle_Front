@@ -23,11 +23,11 @@ const PostButtonListContainer = ({ channelId, postId }) => {
 
   const onCreateRoom = async ({ status, name, reservedTime }) => {
     await dispatch(createRoom({ status, name, channelId, postId, reservedTime }));
-    history.push(`/channel/${channelId}/chat`);
+    history.push(`/channel/${channelId}/room`);
   };
 
   const handleMoveChat = (roomId) => {
-    window.open(`/chat/${roomId}`, '_blank', 'width=600, height=900, toolbars=no, scrollbars=yes');
+    window.open(`/room/${roomId}`, '_blank', 'width=600, height=900, toolbars=no, scrollbars=yes');
     return false;
   };
 

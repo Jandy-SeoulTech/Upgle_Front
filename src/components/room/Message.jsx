@@ -7,7 +7,7 @@ import { ReactComponent as ReplyWhite } from '../../lib/assets/replyWhite.svg';
 import { ReactComponent as ReplyBlack } from '../../lib/assets/replyBlack.svg';
 import { ReactComponent as ReplyButton } from '../../lib/assets/replyButton.svg';
 
-const RoomChatItem = ({ message, isContinue, right, isMe, isLast, admin, onReply }) => {
+const Message = ({ message, isContinue, right, isMe, isLast, admin, onReply }) => {
   return (
     <Box css={chatItemWrapper}>
       {!isContinue && (
@@ -124,4 +124,4 @@ const messageWrapper = ({ isContinue, right, isMe, admin }) => css`
   }
 `;
 
-export default memo(RoomChatItem);
+export default memo(Message);

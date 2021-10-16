@@ -8,11 +8,7 @@ import { ReactComponent as Time } from '../../lib/assets/time.svg';
 
 const ChannelHomeChatCard = ({ chatInfo }) => {
   const handleMoveChat = (roomId) => {
-    window.open(
-      `/chat/${roomId}`,
-      '_blank',
-      'width=600, height=900, toolbars=no, scrollbars=yes',
-    );
+    window.open(`/room/${roomId}`, '_blank', 'width=600, height=900, toolbars=no, scrollbars=yes');
     return false;
   };
 

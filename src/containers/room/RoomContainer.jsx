@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { useLocation } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,13 +9,12 @@ import {
   replyRoomMessage,
   initialize,
 } from '../../modules/chat';
-import ChattingRoom from '../../components/chat/ChattingRoom';
+import Room from '../../components/room/Room';
 import { closeRoom, getRoomData } from '../../modules/room';
-import { getMychannel } from '../../modules/channel';
 
 let socket;
 
-const ChattingRoomContainer = ({ roomId }) => {
+const RoomContainer = ({ roomId }) => {
   const { user } = useSelector((state) => state.user);
   const { room } = useSelector((state) => state.room);
   const { messages, lastId } = useSelector((state) => state.chat);
@@ -98,7 +97,7 @@ const ChattingRoomContainer = ({ roomId }) => {
   if (!room || !messages || !participants) return '로딩중';
 
   return (
-    <ChattingRoom
+    <Room
       user={user}
       room={room}
       messages={messages}
@@ -114,4 +113,4 @@ const ChattingRoomContainer = ({ roomId }) => {
   );
 };
 
-export default ChattingRoomContainer;
+export default RoomContainer;
