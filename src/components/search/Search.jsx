@@ -19,113 +19,74 @@ import ChannelCard from '../channel/ChannelCard';
 import UserCard from '../common/UserCard';
 import ArchiveCard from '../common/ArchiveCard';
 
-const fakeChannels = [
-  {
-    id: 1,
-    channelImage: { src: null },
-    name: '코딩은 재미있어',
-    participants: [1, 2, 3, 4, 5, 6, 7],
-    category: { category: { name: '개발' } },
-    tags: [
-      { tagId: 1, tag: { name: '코딩' } },
-      { tagId: 2, tag: { name: '프로그래밍' } },
-      { tagId: 3, tag: { name: '프로젝트' } },
-    ],
-  },
-  {
-    id: 2,
-    channelImage: { src: null },
-    name: '코딩은 재미있어',
-    participants: [1, 2, 3, 4, 5, 6, 7],
-    category: { category: { name: '개발' } },
-    tags: [
-      { tagId: 1, tag: { name: '코딩' } },
-      { tagId: 2, tag: { name: '프로그래밍' } },
-      { tagId: 3, tag: { name: '프로젝트' } },
-    ],
-  },
-  {
-    id: 3,
-    channelImage: { src: null },
-    name: '코딩은 재미있어',
-    participants: [1, 2, 3, 4, 5, 6, 7],
-    category: { category: { name: '개발' } },
-    tags: [
-      { tagId: 1, tag: { name: '코딩' } },
-      { tagId: 2, tag: { name: '프로그래밍' } },
-      { tagId: 3, tag: { name: '프로젝트' } },
-    ],
-  },
-  {
-    id: 4,
-    channelImage: { src: null },
-    name: '코딩은 재미있어',
-    participants: [1, 2, 3, 4, 5, 6, 7],
-    category: { category: { name: '개발' } },
-    tags: [
-      { tagId: 1, tag: { name: '코딩' } },
-      { tagId: 2, tag: { name: '프로그래밍' } },
-      { tagId: 3, tag: { name: '프로젝트' } },
-    ],
-  },
-];
-
-const fakeUsers = [
-  { id: 1, nickname: 'fakeNick1' },
-  { id: 2, nickname: 'fakeNick2' },
-  { id: 3, nickname: 'fakeNick3' },
-];
-
-const fakeArchives = [
-  { id: 1, title: '재능을 가르쳐주세요!', date: '2021.10.10' },
-  { id: 2, title: '재능을 가르쳐주세요!', date: '2021.10.10' },
-  { id: 3, title: '재능을 가르쳐주세요!', date: '2021.10.10' },
-  { id: 4, title: '재능을 가르쳐주세요!', date: '2021.10.10' },
-  { id: 5, title: '재능을 가르쳐주세요!', date: '2021.10.10' },
-  { id: 6, title: '재능을 가르쳐주세요!', date: '2021.10.10' },
-  { id: 7, title: '재능을 가르쳐주세요!', date: '2021.10.10' },
-  { id: 8, title: '재능을 가르쳐주세요!', date: '2021.10.10' },
-];
-
 const initialCategories = [
-  { name: '미술 / 공예', selected: false },
-  { name: '디자인', selected: false },
-  { name: '음악', selected: false },
-  { name: '연기 / 미술', selected: false },
-  { name: '댄스', selected: false },
-  { name: '사진 / 영상', selected: false },
-  { name: '요리 / 조리', selected: false },
-  { name: '패션 / 뷰티', selected: false },
-  { name: '홈리빙 / 인테리어', selected: false },
-  { name: '펫 / 반려동물', selected: false },
-  { name: '여행', selected: false },
-  { name: '취미 생활', selected: false },
-  { name: '외국어', selected: false },
-  { name: '프로그래밍', selected: false },
-  { name: '시험 / 자격증', selected: false },
-  { name: '커리어', selected: false },
-  { name: '학문', selected: false },
-  { name: '창업', selected: false },
-  { name: '투자 / 부업', selected: false },
-  { name: '스포츠', selected: false },
-  { name: '건강', selected: false },
-  { name: '라이프', selected: false },
-  { name: '기타', selected: false },
+  { name: '미술 / 공예', selected: false, code: 'ART' },
+  { name: '디자인', selected: false, code: 'DESIGN' },
+  { name: '음악', selected: false, code: 'MUSIC' },
+  { name: '연기 / 미술', selected: false, code: 'ACT' },
+  { name: '댄스', selected: false, code: 'DANCE' },
+  { name: '사진 / 영상', selected: false, code: 'MEDIA' },
+  { name: '요리 / 조리', selected: false, code: 'COOK' },
+  { name: '패션 / 뷰티', selected: false, code: 'BEAUTY' },
+  { name: '홈리빙 / 인테리어', selected: false, code: 'INTERIOR' },
+  { name: '펫 / 반려동물', selected: false, code: 'PET' },
+  { name: '여행', selected: false, code: 'TRAVEL' },
+  { name: '취미 생활', selected: false, code: 'HOBBY' },
+  { name: '외국어', selected: false, code: 'LANGUAGE' },
+  { name: '프로그래밍', selected: false, code: 'PROGRAMMING' },
+  { name: '시험 / 자격증', selected: false, code: 'EXAM' },
+  { name: '커리어', selected: false, code: 'CAREER' },
+  { name: '학문', selected: false, code: 'STUDY' },
+  { name: '창업', selected: false, code: 'STARTUP' },
+  { name: '투자 / 부업', selected: false, code: 'INVEST' },
+  { name: '스포츠', selected: false, code: 'SPORTS' },
+  { name: '건강', selected: false, code: 'HEALTH' },
+  { name: '라이프', selected: false, code: 'LIFE' },
+  { name: '기타', selected: false, code: 'ETC' },
 ];
 
-const Search = ({ keyword }) => {
+const Search = ({
+  keyword,
+  code,
+  onChannelSearch,
+  onUserSearch,
+  onArchiveSearch,
+  channels,
+  users,
+  archives,
+}) => {
   const history = useHistory();
+  const getInitialCategories = () =>
+    initialCategories.map((category) =>
+      initialCode.includes(category.code) ? { ...category, selected: true } : category,
+    );
+  const initialCode = code?.split('!') || [];
   const [newKeyword, setNewKeyword] = useState(keyword);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
-  const [categories, setCategories] = useState(initialCategories);
+  const [categories, setCategories] = useState(getInitialCategories());
   const [subMenu, setSubMenu] = useState('channel');
 
-  const onSearch = () => {
-    history.push(`/search?keyword=${newKeyword}`);
+  useEffect(() => {
+    if (keyword) setNewKeyword(keyword);
+    else setNewKeyword('');
+  }, [keyword]);
+
+  useEffect(() => {
+    setCategories(getInitialCategories());
+  }, [code]);
+
+  const onSearch = (categories) => {
+    const code = categories
+      .filter((category) => category.selected)
+      .map((selectedCategory) => selectedCategory.code)
+      .join('!');
+    history.push(
+      `/search?${newKeyword ? `&keyword=${newKeyword}` : ''}${code ? `&code=${code}` : ''}`,
+    );
   };
 
   const onSearchKeyDown = (e) => {
-    if (e.keyCode === 13) onSearch();
+    if (e.keyCode === 13) onSearch(categories);
   };
 
   const onCategoriesChanged = (e) => {
@@ -134,11 +95,11 @@ const Search = ({ keyword }) => {
   };
 
   const toggleCategory = (name) => {
-    setCategories(
-      categories.map((category) =>
-        category.name === name ? { ...category, selected: !category.selected } : category,
-      ),
+    const newCategories = categories.map((category) =>
+      category.name === name ? { ...category, selected: !category.selected } : category,
     );
+    setCategories(newCategories);
+    onSearch(newCategories);
   };
 
   return (
@@ -150,7 +111,7 @@ const Search = ({ keyword }) => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton size="small" onClick={onSearch}>
+                <IconButton size="small" onClick={() => onSearch(categories)}>
                   <SearchIcon />
                 </IconButton>
               </InputAdornment>
@@ -250,6 +211,7 @@ const Search = ({ keyword }) => {
               justifyContent="center"
               alignItems="center"
               xs={6}
+              onClick={() => onSearch(categories)}
             >
               <Typography fontSize="1.125rem" fontWeight="700" color="#5F5F5F">
                 검색
@@ -266,7 +228,7 @@ const Search = ({ keyword }) => {
               css={searchSubButton}
               onClick={() => setSubMenu('channel')}
             >
-              재능 공유 채널 ({fakeChannels.length})
+              재능 공유 채널 ({channels.length})
             </Button>
           </Grid>
           <Grid item>
@@ -275,7 +237,7 @@ const Search = ({ keyword }) => {
               css={searchSubButton}
               onClick={() => setSubMenu('user')}
             >
-              재능 고수 ({fakeUsers.length})
+              재능 고수 ({users.length})
             </Button>
           </Grid>
           <Grid item>
@@ -284,19 +246,19 @@ const Search = ({ keyword }) => {
               css={searchSubButton}
               onClick={() => setSubMenu('archive')}
             >
-              모아 보기 ({fakeArchives.length})
+              모아 보기 ({archives.length})
             </Button>
           </Grid>
         </Grid>
         {subMenu === 'channel' && (
           <>
             <Grid item container spacing={2}>
-              {fakeChannels.length === 0 ? (
+              {channels.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   검색된 채널이 없습니다.
                 </Grid>
               ) : (
-                fakeChannels.map((channel) => (
+                channels.map((channel) => (
                   <Grid key={channel.id} item>
                     <ChannelCard channel={channel} />
                   </Grid>
@@ -304,19 +266,26 @@ const Search = ({ keyword }) => {
               )}
             </Grid>
             <Grid item container css={moreButton} justifyContent="center">
-              <Typography css={moreButtonText}>더 보기 ▼</Typography>
+              <Typography
+                css={moreButtonText}
+                onClick={() => {
+                  onChannelSearch({ skip: channels.length });
+                }}
+              >
+                더 보기 ▼
+              </Typography>
             </Grid>
           </>
         )}
         {subMenu === 'user' && (
           <>
             <Grid item container spacing={2}>
-              {fakeUsers.length === 0 ? (
+              {users.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   검색된 유저가 없습니다.
                 </Grid>
               ) : (
-                fakeUsers.map((user) => (
+                users.map((user) => (
                   <Grid key={user.id} item xs={12}>
                     <UserCard
                       loggedInUser={{ id: 1, followings: [] }}
@@ -329,23 +298,37 @@ const Search = ({ keyword }) => {
               )}
             </Grid>
             <Grid item container css={moreButton} justifyContent="center">
-              <Typography css={moreButtonText}>더 보기 ▼</Typography>
+              <Typography
+                css={moreButtonText}
+                onClick={() => {
+                  onUserSearch({ skip: users.length });
+                }}
+              >
+                더 보기 ▼
+              </Typography>
             </Grid>
           </>
         )}
         {subMenu === 'archive' && (
           <>
             <Grid item container columns={6} spacing="1.375rem">
-              {fakeArchives.length === 0 ? (
+              {archives.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   검색된 글이 없습니다.
                 </Grid>
               ) : (
-                fakeArchives.map((archive) => <ArchiveCard key={archive.id} archive={archive} />)
+                archives.map((archive) => <ArchiveCard key={archive.id} archive={archive} />)
               )}
             </Grid>
             <Grid item container css={moreButton} justifyContent="center">
-              <Typography css={moreButtonText}>더 보기 ▼</Typography>
+              <Typography
+                css={moreButtonText}
+                onClick={() => {
+                  onArchiveSearch({ skip: archives.length });
+                }}
+              >
+                더 보기 ▼
+              </Typography>
             </Grid>
           </>
         )}
