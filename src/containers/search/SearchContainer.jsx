@@ -7,9 +7,11 @@ import {
   getUserSearch,
   initSearch,
 } from '../../modules/search';
+import { follow, unfollow } from '../../modules/user';
 
 const SearchContainer = ({ keyword, code }) => {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
   const { totalCounts, channels, users, archives } = useSelector((state) => state.search);
 
   const onChannelSearch = ({ skip, take }) => {
@@ -22,6 +24,14 @@ const SearchContainer = ({ keyword, code }) => {
 
   const onArchiveSearch = ({ skip, take }) => {
     dispatch(getArchiveSearch({ keyword, skip, take }));
+  };
+
+  const onFollow = ({ followingId }) => {
+    dispatch(follow({ followingId }));
+  };
+
+  const onUnfollow = ({ followingId }) => {
+    dispatch(unfollow({ followingId }));
   };
 
   useEffect(() => {
@@ -44,6 +54,9 @@ const SearchContainer = ({ keyword, code }) => {
       onChannelSearch={onChannelSearch}
       onUserSearch={onUserSearch}
       onArchiveSearch={onArchiveSearch}
+      onFollow={onFollow}
+      onUnfollow={onUnfollow}
+      loggedInUser={user}
       totalCounts={totalCounts}
       channels={channels}
       users={users}

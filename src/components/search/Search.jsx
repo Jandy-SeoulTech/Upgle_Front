@@ -51,6 +51,9 @@ const Search = ({
   onChannelSearch,
   onUserSearch,
   onArchiveSearch,
+  onFollow,
+  onUnfollow,
+  loggedInUser,
   totalCounts,
   channels,
   users,
@@ -291,10 +294,10 @@ const Search = ({
                 users.map((user) => (
                   <Grid key={user.id} item xs={12}>
                     <UserCard
-                      loggedInUser={{ id: 1, followings: [] }}
+                      loggedInUser={loggedInUser}
                       user={user}
-                      onFollow={({ followingId }) => console.log(followingId)}
-                      onUnfollow={({ followingId }) => console.log(followingId)}
+                      onFollow={onFollow}
+                      onUnfollow={onUnfollow}
                     />
                   </Grid>
                 ))
