@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Box, Typography } from '@material-ui/core';
-import ChatListContainer from '../../containers/chat/ChannelTalkContainer';
+import ChannelTalkContainer from '../../containers/channel/ChannelTalkContainer';
 import { ReactComponent as TalkIcon } from '../../lib/assets/talkIcon.svg';
 import palette from '../../lib/styles/palette';
 
@@ -12,7 +12,7 @@ const ChannelTalk = ({ channel }) => {
         <Typography>자유로운 대화 </Typography>
         <TalkIcon css={{ marginLeft: '0.5625rem' }} />
       </Box>
-      <ChatListContainer channel={channel} />
+      <ChannelTalkContainer channel={channel} />
     </Box>
   );
 };

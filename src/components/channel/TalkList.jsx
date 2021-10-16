@@ -4,9 +4,9 @@ import { Box } from '@material-ui/core';
 import { memo, useEffect, useRef } from 'react';
 import Button from '../common/Button';
 import { TextArea, TextField } from '../TextField';
-import ChatItem from './ChatItem';
+import ChatItem from './TalkMessage';
 
-const ChatList = ({
+const TalkList = ({
   user,
   message,
   messages,
@@ -24,16 +24,13 @@ const ChatList = ({
   };
 
   return (
-    <Box css={chatListWrapper}>
-      <Box css={ChatWrapper} onScroll={handleScroll}>
+    <Box css={talkListWrapper}>
+      <Box css={talkWrapper} onScroll={handleScroll}>
         {[...messages].reverse().map((message, i) => (
           <ChatItem
             key={message.id}
             user={user}
-            isContinue={
-              i > 0 &&
-              [...messages].reverse()[i - 1].sendUserId === message.sendUserId
-            }
+            isContinue={i > 0 && [...messages].reverse()[i - 1].sendUserId === message.sendUserId}
             prevMessage={i ? messages[i - 1] : { sendUserId: 0 }}
             isMe={user.id === message.sendUserId}
             message={message}
@@ -51,13 +48,9 @@ const ChatList = ({
               handleSendMessage();
             }
           }}
-          css={chatInput}
+          css={messageInput}
         />
-        <Button
-          variant="contained"
-          onClick={handleSendMessage}
-          css={sendButton}
-        >
+        <Button variant="contained" onClick={handleSendMessage} css={sendButton}>
           전송
         </Button>
       </Box>
@@ -65,14 +58,14 @@ const ChatList = ({
   );
 };
 
-const chatListWrapper = css`
+const talkListWrapper = css`
   flex: 1;
   height: 44.6875rem;
   display: flex;
   flex-direction: column;
 `;
 
-const ChatWrapper = css`
+const talkWrapper = css`
   width: 100%;
   height: 100%;
   padding: 1rem 0;
@@ -88,7 +81,7 @@ const sendMessageForm = css`
   z-index: 1;
 `;
 
-const chatInput = css`
+const messageInput = css`
   flex: 1;
   height: 100% !important;
   border: 0;
@@ -107,4 +100,4 @@ const sendButton = css`
   box-shadow: none;
 `;
 
-export default memo(ChatList);
+export default memo(TalkList);

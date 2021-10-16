@@ -8,7 +8,7 @@ import {
   concatChannelMessages,
   initialize,
 } from '../../modules/chat';
-import ChatList from '../../components/chat/ChatList';
+import ChatList from '../../components/channel/TalkList';
 
 let socket;
 

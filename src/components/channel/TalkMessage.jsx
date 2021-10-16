@@ -4,23 +4,23 @@ import { Avatar, Box, Typography } from '@material-ui/core';
 import { memo } from 'react';
 import palette from '../../lib/styles/palette';
 
-const ChatItem = ({ message, isContinue, isMe }) => {
+const TalkMessage = ({ message, isContinue, isMe }) => {
   return (
-    <Box css={chatItemWrapper}>
+    <Box css={talkMessageWrapper}>
       {!isMe && !isContinue && (
         <Box css={userWrapper}>
           <Avatar src={message.sendUser['profile'] && message.sendUser.profile.profileImage} />
           <Typography>{message.sendUser.nickname}</Typography>
         </Box>
       )}
-      <Box css={[messageWrapper(isContinue, isMe), css``]}>
+      <Box css={[talkMessageWrapper(isContinue, isMe), css``]}>
         <Typography>{message.content}</Typography>
       </Box>
     </Box>
   );
 };
 
-const chatItemWrapper = css`
+const talkMessageWrapper = css`
   width: 100%;
   margin-top: 0.84rem;
 `;
@@ -64,4 +64,4 @@ const messageWrapper = (isContinue, isMe) => css`
   }
 `;
 
-export default memo(ChatItem);
+export default memo(TalkMessage);
