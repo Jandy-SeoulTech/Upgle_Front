@@ -13,7 +13,7 @@ const TalkMessage = ({ message, isContinue, isMe }) => {
           <Typography>{message.sendUser.nickname}</Typography>
         </Box>
       )}
-      <Box css={[talkMessageWrapper(isContinue, isMe), css``]}>
+      <Box css={[messageWrapper(isContinue, isMe), css``]}>
         <Typography>{message.content}</Typography>
       </Box>
     </Box>

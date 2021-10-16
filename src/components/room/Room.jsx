@@ -197,7 +197,7 @@ const Room = ({
             }}
             css={chatInput}
           />
-          <Button variant="contained" onClick={onSendMessage} css={sendButton}>
+          <Button variant="contained" onClick={onSendMessage} disabled={!message} css={sendButton}>
             전송
           </Button>
         </Box>
@@ -355,11 +355,16 @@ const chatInput = css`
 const sendButton = css`
   width: 4.34rem;
   height: 2.583rem;
-  background: #e0e0e0;
   border-radius: 5px;
   margin: 1.3125rem 1.125rem 0 0;
   font-size: 1.167rem;
   box-shadow: none;
+  background: black;
+  color: white;
+  &:disabled {
+    color: #5f5f5f;
+    background: #e0e0e0;
+  }
 `;
 
 export default memo(Room);

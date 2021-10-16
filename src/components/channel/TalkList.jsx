@@ -1,20 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Box } from '@material-ui/core';
-import { memo, useEffect, useRef } from 'react';
+import { memo, useRef, useEffect } from 'react';
 import Button from '../common/Button';
-import { TextArea, TextField } from '../TextField';
+import { TextArea } from '../TextField';
 import ChatItem from './TalkMessage';
 
-const TalkList = ({
-  user,
-  message,
-  messages,
-  setMessage,
-  handleSendMessage,
-  handleGetMassage,
-  success,
-}) => {
+const TalkList = ({ user, message, messages, setMessage, handleSendMessage, handleGetMassage }) => {
   const chatEndRef = useRef();
 
   const handleScroll = (e) => {
@@ -22,6 +14,19 @@ const TalkList = ({
       handleGetMassage();
     }
   };
+
+  const scrollBottom = () => {
+    chatEndRef.current.scrollIntoView();
+  };
+
+  const onSendMessage = async () => {
+    await handleSendMessage();
+    scrollBottom();
+  };
+
+  useEffect(() => {
+    scrollBottom();
+  }, []);
 
   return (
     <Box css={talkListWrapper}>
@@ -42,15 +47,23 @@ const TalkList = ({
         <TextArea
           value={message}
           placeholder="여기에 입력해주세요"
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={(e) => {
+            if (e.target.value === '\n') return;
+            setMessage(e.target.value);
+          }}
           onKeyPress={(e) => {
             if (!e.shiftKey && e.key === 'Enter') {
-              handleSendMessage();
+              onSendMessage();
             }
           }}
           css={messageInput}
         />
-        <Button variant="contained" onClick={handleSendMessage} css={sendButton}>
+        <Button
+          variant="contained"
+          onClick={handleSendMessage}
+          disabled={!message}
+          css={sendButton}
+        >
           전송
         </Button>
       </Box>
@@ -94,10 +107,14 @@ const messageInput = css`
 const sendButton = css`
   width: 3.25rem;
   height: 1.9375rem;
-  background: #e0e0e0;
   border-radius: 5px;
   margin: 1.3125rem 1.125rem 0 0;
   box-shadow: none;
+  background: black;
+  color: white;
+  &:disabled {
+    background: #e0e0e0;
+  }
 `;
 
 export default memo(TalkList);
