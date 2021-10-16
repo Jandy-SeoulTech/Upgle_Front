@@ -35,7 +35,7 @@ const ChannelNav = ({ channel, isParticipant }) => {
     },
     {
       title: '재능 공유 채팅',
-      url: `/channel/${channel.id}/chat`,
+      url: `/channel/${channel.id}/room`,
       isParticipant: true,
     },
     {
