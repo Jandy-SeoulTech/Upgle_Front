@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import ProfileModal from '../common/ProfileModal';
 import ModalUserCard from '../common/ModalUserCard';
-import ArchiveCard from './ArchiveCard';
+import ArchiveCard from '../common/ArchiveCard';
 
 const ChannelProfile = ({
   user,

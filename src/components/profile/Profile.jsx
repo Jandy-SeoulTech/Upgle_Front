@@ -15,7 +15,7 @@ import ReactLoading from 'react-loading';
 import ProfileModal from '../common/ProfileModal';
 import { useHistory } from 'react-router';
 import ModalReviewCard from '../common/ModalReviewCard';
-import ArchiveCard from '../channel/ArchiveCard';
+import ArchiveCard from '../common/ArchiveCard';
 
 const Profile = ({
   getProfileLoading,
@@ -395,7 +395,7 @@ const Profile = ({
                   아직 등록된 글이 없습니다.
                 </Grid>
               ) : (
-                userArchive.slice(0, 8).map((archive) => (
+                userArchive?.slice(0, 8).map((archive) => (
                   <Grid key={archive.id} item xs={1}>
                     <ArchiveCard archive={archive} />
                   </Grid>
