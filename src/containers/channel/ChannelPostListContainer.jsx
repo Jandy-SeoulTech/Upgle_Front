@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Loading from '../../components/common/Loading';
 import { getChannelData } from '../../modules/channel';
 import { getChannelPostList } from '../../modules/post';
-import ChannelPostList from './../../components/channel/ChannelPostList';
+import ChannelPostList from '../../components/channel/ChannelPostList';
 import { useHistory, useLocation } from 'react-router';
 import qs from 'qs';
 

@@ -25,6 +25,7 @@ const initialState = {
   error: null,
   likeError: false,
   unlikeError: false,
+  totalPage: null
 };
 
 export default handleActions(
@@ -39,9 +40,10 @@ export default handleActions(
     }),
     ...pender({
       type: GET_CHANNEL_ARCHIVE,
-      onSuccess: (state, { payload: channelArchive }) => ({
+      onSuccess: (state, { payload }) => ({
         ...state,
-        channelArchive,
+        channelArchive: payload.archives,
+        totalPage: payload.totalPage,
       }),
     }),
     ...pender({

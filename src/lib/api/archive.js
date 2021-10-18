@@ -5,8 +5,8 @@ export const getArchive = async (archiveId) => {
   return response.data.data;
 };
 
-export const getChannelArchive = async (channelId) => {
-  const response = await axios.get(`/api/Archive/channel/${channelId}`);
+export const getChannelArchive = async ({ channelId, query }) => {
+  const response = await axios.get(`/api/Archive/channel/${channelId}?${query}`);
   return response.data.data;
 };
 
