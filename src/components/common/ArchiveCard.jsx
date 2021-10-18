@@ -1,54 +1,52 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Grid, Typography } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+import { Box, Typography } from '@material-ui/core';
 import { getRandomColor } from '../../lib/util/random';
+import { getDateString } from '../../lib/util/dateFormat';
 
-function ArchiveCard({ archive }) {
+const ArchiveCard = ({ archive, width }) => {
+  const history = useHistory();
+
   return (
-    <Grid item css={archiveCell}>
-      <Grid
-        css={archiveCard}
+    <Box
+      css={archiveCard(width)}
+      sx={{
+        backgroundColor: getRandomColor(archive.title),
+        backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.510208) 75.52%, rgba(0, 0, 0, 0.79) 100%), url(${archive.imgUrl})`,
+      }}
+      onClick={() => history.push(`/channel/${archive.channelId}/archive/${archive.id}`)}
+    >
+      <Box
         sx={{
-          backgroundColor: getRandomColor(archive.title),
-          backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.510208) 75.52%, rgba(0, 0, 0, 0.79) 100%), url(${archive.imgUrl})`,
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '12.5px',
         }}
       >
-        <Grid
+        <Typography className="archiveTitle" gutterBottom component="div" sx={archiveTitle}>
+          {archive.title}
+        </Typography>
+        <Typography
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            padding: '12.5px',
+            fontFamily: 'Noto Sans KR',
+            fontSize: '8px',
+            width: 'fit-content',
+            alignSelf: 'flex-end',
           }}
         >
-          <Typography className="archiveTitle" gutterBottom component="div" sx={archiveTitle}>
-            {archive.title}
-          </Typography>
-          <Typography
-            sx={{
-              fontFamily: 'Noto Sans KR',
-              fontSize: '8px',
-              width: 'fit-content',
-              alignSelf: 'flex-end',
-            }}
-          >
-            {archive.date}
-          </Typography>
-        </Grid>
-      </Grid>
-    </Grid>
+          {getDateString(archive.createdAt)}
+        </Typography>
+      </Box>
+    </Box>
   );
-}
+};
 
-const archiveCell = css`
-  height: 256px;
-`;
-
-const archiveCard = css`
-  width: 165px;
-  height: 240px;
+const archiveCard = (width) => css`
+  width: ${width ? width : '10.3125rem'};
+  height: 15rem;
   cursor: pointer;
   border-radius: 5px;
-  height: 100%;
   color: white;
   background-repeat: no-repeat;
   background-size: cover;

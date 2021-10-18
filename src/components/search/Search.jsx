@@ -12,118 +12,85 @@ import {
 } from '@material-ui/core';
 import { useHistory } from 'react-router';
 import { ReactComponent as SearchIcon } from '../../lib/assets/searchIcon.svg';
+import { ReactComponent as AddIcon } from '../../lib/assets/add.svg';
+import { ReactComponent as RemoveIcon } from '../../lib/assets/remove.svg';
 import Button from '../common/Button';
 import ChannelCard from '../channel/ChannelCard';
 import UserCard from '../common/UserCard';
 import ArchiveCard from '../common/ArchiveCard';
 
-const fakeChannels = [
-  {
-    id: 1,
-    channelImage: { src: null },
-    name: '코딩은 재미있어',
-    participants: [1, 2, 3, 4, 5, 6, 7],
-    category: { category: { name: '개발' } },
-    tags: [
-      { tagId: 1, tag: { name: '코딩' } },
-      { tagId: 2, tag: { name: '프로그래밍' } },
-      { tagId: 3, tag: { name: '프로젝트' } },
-    ],
-  },
-  {
-    id: 2,
-    channelImage: { src: null },
-    name: '코딩은 재미있어',
-    participants: [1, 2, 3, 4, 5, 6, 7],
-    category: { category: { name: '개발' } },
-    tags: [
-      { tagId: 1, tag: { name: '코딩' } },
-      { tagId: 2, tag: { name: '프로그래밍' } },
-      { tagId: 3, tag: { name: '프로젝트' } },
-    ],
-  },
-  {
-    id: 3,
-    channelImage: { src: null },
-    name: '코딩은 재미있어',
-    participants: [1, 2, 3, 4, 5, 6, 7],
-    category: { category: { name: '개발' } },
-    tags: [
-      { tagId: 1, tag: { name: '코딩' } },
-      { tagId: 2, tag: { name: '프로그래밍' } },
-      { tagId: 3, tag: { name: '프로젝트' } },
-    ],
-  },
-  {
-    id: 4,
-    channelImage: { src: null },
-    name: '코딩은 재미있어',
-    participants: [1, 2, 3, 4, 5, 6, 7],
-    category: { category: { name: '개발' } },
-    tags: [
-      { tagId: 1, tag: { name: '코딩' } },
-      { tagId: 2, tag: { name: '프로그래밍' } },
-      { tagId: 3, tag: { name: '프로젝트' } },
-    ],
-  },
-];
-
-const fakeUsers = [
-  { id: 1, nickname: 'fakeNick1' },
-  { id: 2, nickname: 'fakeNick2' },
-  { id: 3, nickname: 'fakeNick3' },
-];
-
-const fakeArchives = [
-  { id: 1, title: '재능을 가르쳐주세요!', date: '2021.10.10' },
-  { id: 2, title: '재능을 가르쳐주세요!', date: '2021.10.10' },
-  { id: 3, title: '재능을 가르쳐주세요!', date: '2021.10.10' },
-  { id: 4, title: '재능을 가르쳐주세요!', date: '2021.10.10' },
-  { id: 5, title: '재능을 가르쳐주세요!', date: '2021.10.10' },
-  { id: 6, title: '재능을 가르쳐주세요!', date: '2021.10.10' },
-  { id: 7, title: '재능을 가르쳐주세요!', date: '2021.10.10' },
-  { id: 8, title: '재능을 가르쳐주세요!', date: '2021.10.10' },
-];
-
 const initialCategories = [
-  { name: '미술 / 공예', selected: false },
-  { name: '디자인', selected: false },
-  { name: '음악', selected: false },
-  { name: '연기 / 미술', selected: false },
-  { name: '댄스', selected: false },
-  { name: '사진 / 영상', selected: false },
-  { name: '요리 / 조리', selected: false },
-  { name: '패션 / 뷰티', selected: false },
-  { name: '홈리빙 / 인테리어', selected: false },
-  { name: '펫 / 반려동물', selected: false },
-  { name: '여행', selected: false },
-  { name: '취미 생활', selected: false },
-  { name: '외국어', selected: false },
-  { name: '프로그래밍', selected: false },
-  { name: '시험 / 자격증', selected: false },
-  { name: '커리어', selected: false },
-  { name: '학문', selected: false },
-  { name: '창업', selected: false },
-  { name: '투자 / 부업', selected: false },
-  { name: '스포츠', selected: false },
-  { name: '건강', selected: false },
-  { name: '라이프', selected: false },
-  { name: '기타', selected: false },
+  { name: '미술 / 공예', selected: false, code: 'ART' },
+  { name: '디자인', selected: false, code: 'DESIGN' },
+  { name: '음악', selected: false, code: 'MUSIC' },
+  { name: '연기 / 미술', selected: false, code: 'ACT' },
+  { name: '댄스', selected: false, code: 'DANCE' },
+  { name: '사진 / 영상', selected: false, code: 'MEDIA' },
+  { name: '요리 / 조리', selected: false, code: 'COOK' },
+  { name: '패션 / 뷰티', selected: false, code: 'BEAUTY' },
+  { name: '홈리빙 / 인테리어', selected: false, code: 'INTERIOR' },
+  { name: '펫 / 반려동물', selected: false, code: 'PET' },
+  { name: '여행', selected: false, code: 'TRAVEL' },
+  { name: '취미 생활', selected: false, code: 'HOBBY' },
+  { name: '외국어', selected: false, code: 'LANGUAGE' },
+  { name: '프로그래밍', selected: false, code: 'PROGRAMMING' },
+  { name: '시험 / 자격증', selected: false, code: 'EXAM' },
+  { name: '커리어', selected: false, code: 'CAREER' },
+  { name: '학문', selected: false, code: 'STUDY' },
+  { name: '창업', selected: false, code: 'STARTUP' },
+  { name: '투자 / 부업', selected: false, code: 'INVEST' },
+  { name: '스포츠', selected: false, code: 'SPORTS' },
+  { name: '건강', selected: false, code: 'HEALTH' },
+  { name: '라이프', selected: false, code: 'LIFE' },
+  { name: '기타', selected: false, code: 'ETC' },
 ];
 
-const Search = ({ keyword }) => {
+const Search = ({
+  keyword,
+  code,
+  onChannelSearch,
+  onUserSearch,
+  onArchiveSearch,
+  onFollow,
+  onUnfollow,
+  loggedInUser,
+  totalCounts,
+  channels,
+  users,
+  archives,
+}) => {
   const history = useHistory();
+  const getInitialCategories = () =>
+    initialCategories.map((category) =>
+      initialCode.includes(category.code) ? { ...category, selected: true } : category,
+    );
+  const initialCode = code?.split('!') || [];
   const [newKeyword, setNewKeyword] = useState(keyword);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
-  const [categories, setCategories] = useState(initialCategories);
+  const [categories, setCategories] = useState(getInitialCategories());
   const [subMenu, setSubMenu] = useState('channel');
 
-  const onSearch = () => {
-    history.push(`/search?keyword=${newKeyword}`);
+  useEffect(() => {
+    if (keyword) setNewKeyword(keyword);
+    else setNewKeyword('');
+  }, [keyword]);
+
+  useEffect(() => {
+    setCategories(getInitialCategories());
+  }, [code]);
+
+  const onSearch = (categories) => {
+    const code = categories
+      .filter((category) => category.selected)
+      .map((selectedCategory) => selectedCategory.code)
+      .join('!');
+    history.push(
+      `/search?${newKeyword ? `&keyword=${newKeyword}` : ''}${code ? `&code=${code}` : ''}`,
+    );
   };
 
   const onSearchKeyDown = (e) => {
-    if (e.keyCode === 13) onSearch();
+    if (e.keyCode === 13) onSearch(categories);
   };
 
   const onCategoriesChanged = (e) => {
@@ -132,11 +99,11 @@ const Search = ({ keyword }) => {
   };
 
   const toggleCategory = (name) => {
-    setCategories(
-      categories.map((category) =>
-        category.name === name ? { ...category, selected: !category.selected } : category,
-      ),
+    const newCategories = categories.map((category) =>
+      category.name === name ? { ...category, selected: !category.selected } : category,
     );
+    setCategories(newCategories);
+    onSearch(newCategories);
   };
 
   return (
@@ -148,7 +115,7 @@ const Search = ({ keyword }) => {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton size="small" onClick={onSearch}>
+                <IconButton size="small" onClick={() => onSearch(categories)}>
                   <SearchIcon />
                 </IconButton>
               </InputAdornment>
@@ -168,13 +135,24 @@ const Search = ({ keyword }) => {
           pl={5}
           onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
         >
-          <Typography fontSize="1.125rem" fontWeight="700">
-            카테고리 {isCategoriesOpen ? '-' : '+'}
-          </Typography>
+          <Grid item>
+            <Typography fontSize="1.125rem" fontWeight="700">
+              카테고리
+            </Typography>
+          </Grid>
+          {isCategoriesOpen ? (
+            <Grid item width="24px" height="24px" ml={0.6} lineHeight="15px" textAlign="center">
+              <RemoveIcon />
+            </Grid>
+          ) : (
+            <Grid item height="24px" ml={0.6} lineHeight="24px">
+              <AddIcon />
+            </Grid>
+          )}
         </Grid>
-        <Grid item container bgcolor="#FAFAFC" py={1}>
+        <Grid item container bgcolor="#FAFAFC">
           {isCategoriesOpen && (
-            <Grid item container>
+            <Grid item container pt={1}>
               {categories.map((category) => (
                 <Grid key={category.name} item xs={2} pl={5} py={3}>
                   <FormControlLabel
@@ -186,58 +164,65 @@ const Search = ({ keyword }) => {
                         onChange={onCategoriesChanged}
                       />
                     }
-                    label={category.name}
+                    label={<Typography css={checkBoxLabel}>{category.name}</Typography>}
                   />
                 </Grid>
               ))}
             </Grid>
           )}
-          <Grid item container css={categoriesContainer}>
-            {categories
-              .filter((category) => category.selected)
-              .map((category) => (
-                <Grid key={category.name} item>
-                  <Typography
-                    css={selectedCategory}
-                    data-name={category.name}
-                    onClick={(e) => toggleCategory(e.target.dataset.name)}
-                  >
-                    {category.name}
-                    <span style={{ fontSize: '12px', marginLeft: '10px', color: 'gray' }}>✕</span>
-                  </Typography>
-                </Grid>
-              ))}
-          </Grid>
+          {(isCategoriesOpen ||
+            (!isCategoriesOpen &&
+              categories.filter((category) => category.selected).length > 0)) && (
+            <Grid item container css={categoriesContainer} pb={1}>
+              {categories
+                .filter((category) => category.selected)
+                .map((category) => (
+                  <Grid key={category.name} item>
+                    <Typography
+                      css={selectedCategory}
+                      data-name={category.name}
+                      onClick={(e) => toggleCategory(e.target.dataset.name)}
+                    >
+                      {category.name}
+                      <span style={{ fontSize: '12px', marginLeft: '10px', color: 'gray' }}>✕</span>
+                    </Typography>
+                  </Grid>
+                ))}
+            </Grid>
+          )}
         </Grid>
-        <Grid item container flexDirection="row">
-          <Grid
-            item
-            container
-            css={[borderTopBottom, { borderRight: '1px solid #5f5f5f' }]}
-            justifyContent="center"
-            alignItems="center"
-            xs={6}
-            onClick={() => {
-              setCategories(initialCategories);
-            }}
-          >
-            <Typography fontSize="1.125rem" fontWeight="700" color="#5F5F5F">
-              초기화
-            </Typography>
+        {isCategoriesOpen && (
+          <Grid item container flexDirection="row">
+            <Grid
+              item
+              container
+              css={[borderBottom, { borderRight: '1px solid #5f5f5f' }]}
+              justifyContent="center"
+              alignItems="center"
+              xs={6}
+              onClick={() => {
+                setCategories(initialCategories);
+              }}
+            >
+              <Typography fontSize="1.125rem" fontWeight="700" color="#5F5F5F">
+                초기화
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              container
+              css={[borderBottom]}
+              justifyContent="center"
+              alignItems="center"
+              xs={6}
+              onClick={() => onSearch(categories)}
+            >
+              <Typography fontSize="1.125rem" fontWeight="700" color="#5F5F5F">
+                검색
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid
-            item
-            container
-            css={[borderTopBottom]}
-            justifyContent="center"
-            alignItems="center"
-            xs={6}
-          >
-            <Typography fontSize="1.125rem" fontWeight="700" color="#5F5F5F">
-              검색
-            </Typography>
-          </Grid>
-        </Grid>
+        )}
       </Grid>
       <Grid item container css={width1140px} alignItems="center">
         <Grid item container mb={5} columnGap={5} xs={12} justifyContent="center">
@@ -247,7 +232,7 @@ const Search = ({ keyword }) => {
               css={searchSubButton}
               onClick={() => setSubMenu('channel')}
             >
-              재능 공유 채널 ({fakeChannels.length})
+              재능 공유 채널 ({totalCounts.channels})
             </Button>
           </Grid>
           <Grid item>
@@ -256,7 +241,7 @@ const Search = ({ keyword }) => {
               css={searchSubButton}
               onClick={() => setSubMenu('user')}
             >
-              재능 고수 ({fakeUsers.length})
+              재능 고수 ({totalCounts.users})
             </Button>
           </Grid>
           <Grid item>
@@ -265,69 +250,98 @@ const Search = ({ keyword }) => {
               css={searchSubButton}
               onClick={() => setSubMenu('archive')}
             >
-              모아 보기 ({fakeArchives.length})
+              모아 보기 ({totalCounts.archives})
             </Button>
           </Grid>
         </Grid>
         {subMenu === 'channel' && (
           <>
             <Grid item container spacing={2}>
-              {fakeChannels.length === 0 ? (
+              {channels.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   검색된 채널이 없습니다.
                 </Grid>
               ) : (
-                fakeChannels.map((channel) => (
+                channels.map((channel) => (
                   <Grid key={channel.id} item>
                     <ChannelCard channel={channel} />
                   </Grid>
                 ))
               )}
             </Grid>
-            <Grid item container css={moreButton} justifyContent="center">
-              <Typography css={moreButtonText}>더 보기 ▼</Typography>
-            </Grid>
+            {channels.length < totalCounts.channels && (
+              <Grid item container css={moreButton} justifyContent="center">
+                <Typography
+                  css={moreButtonText}
+                  onClick={() => {
+                    onChannelSearch({ skip: channels.length });
+                  }}
+                >
+                  더 보기 ▼
+                </Typography>
+              </Grid>
+            )}
           </>
         )}
         {subMenu === 'user' && (
           <>
             <Grid item container spacing={2}>
-              {fakeUsers.length === 0 ? (
+              {users.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   검색된 유저가 없습니다.
                 </Grid>
               ) : (
-                fakeUsers.map((user) => (
+                users.map((user) => (
                   <Grid key={user.id} item xs={12}>
                     <UserCard
-                      loggedInUser={{ id: 1, followings: [] }}
+                      loggedInUser={loggedInUser}
                       user={user}
-                      onFollow={({ followingId }) => console.log(followingId)}
-                      onUnfollow={({ followingId }) => console.log(followingId)}
+                      onFollow={onFollow}
+                      onUnfollow={onUnfollow}
                     />
                   </Grid>
                 ))
               )}
             </Grid>
-            <Grid item container css={moreButton} justifyContent="center">
-              <Typography css={moreButtonText}>더 보기 ▼</Typography>
-            </Grid>
+            {users.length < totalCounts.users && (
+              <Grid item container css={moreButton} justifyContent="center">
+                <Typography
+                  css={moreButtonText}
+                  onClick={() => {
+                    onUserSearch({ skip: users.length });
+                  }}
+                >
+                  더 보기 ▼
+                </Typography>
+              </Grid>
+            )}
           </>
         )}
         {subMenu === 'archive' && (
           <>
-            <Grid item container columns={6} spacing="1.375rem">
-              {fakeArchives.length === 0 ? (
+            <Grid item container columns={6} columnGap="1.5rem" rowGap="2.5rem">
+              {archives.length === 0 ? (
                 <Grid item xs={12} css={noContents}>
                   검색된 글이 없습니다.
                 </Grid>
               ) : (
-                fakeArchives.map((archive) => <ArchiveCard key={archive.id} archive={archive} />)
+                archives.map((archive) => (
+                  <ArchiveCard key={archive.id} archive={archive} width="10.625rem" />
+                ))
               )}
             </Grid>
-            <Grid item container css={moreButton} justifyContent="center">
-              <Typography css={moreButtonText}>더 보기 ▼</Typography>
-            </Grid>
+            {archives.length < totalCounts.archives && (
+              <Grid item container css={moreButton} justifyContent="center">
+                <Typography
+                  css={moreButtonText}
+                  onClick={() => {
+                    onArchiveSearch({ skip: archives.length });
+                  }}
+                >
+                  더 보기 ▼
+                </Typography>
+              </Grid>
+            )}
           </>
         )}
       </Grid>
@@ -337,6 +351,7 @@ const Search = ({ keyword }) => {
 
 const wrapper = css`
   margin-top: 3.75rem;
+  margin-bottom: 6.25rem;
   width: 100vw;
 `;
 
@@ -370,16 +385,32 @@ const borderTopBottom = css`
   cursor: pointer;
 `;
 
+const borderBottom = css`
+  border-bottom: 1px solid #5f5f5f;
+  height: 3.75rem;
+  cursor: pointer;
+  :hover {
+    .MuiTypography-root {
+      color: black;
+    }
+  }
+`;
+
 const checkBox = css`
   &.Mui-checked {
     color: black;
   }
 `;
 
+const checkBoxLabel = css`
+  font-size: 0.875rem;
+`;
+
 const categoriesContainer = css`
   padding: 2.1875rem 2.5rem;
   column-gap: 1.875rem;
   row-gap: 1.25rem;
+  border-bottom: 1px solid #5f5f5f;
 `;
 
 const selectedCategory = css`
@@ -416,7 +447,6 @@ const searchSubButton = css`
 const moreButton = css`
   cursor: pointer;
   margin-top: 1.875rem;
-  margin-bottom: 6.25rem;
   padding: 1.5625rem 0.5rem;
 `;
 

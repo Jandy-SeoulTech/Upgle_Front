@@ -8,7 +8,7 @@ import { ReactComponent as Time } from '../../lib/assets/time.svg';
 const RoomCard = ({ room }) => {
   const handleMoveChat = () => {
     if (room.status === 'Reservation') return;
-    window.open(`/chat/${room.id}`, '_blank', 'width=600, height=900, toolbars=no, scrollbars=yes');
+    window.open(`/room/${room.id}`, '_blank', 'width=600, height=900, toolbars=no, scrollbars=yes');
     return false;
   };
 
@@ -33,7 +33,7 @@ const RoomCard = ({ room }) => {
   );
 };
 
-const ChannelChatList = ({ roomList }) => {
+const ChannelRoomList = ({ roomList }) => {
   return (
     <Box css={chatListWrapper}>
       <Box css={sectionWrapper}>
@@ -61,7 +61,7 @@ const ChannelChatList = ({ roomList }) => {
     </Box>
   );
 };
-export default ChannelChatList;
+export default ChannelRoomList;
 
 const chatListWrapper = css`
   margin-top: 8.4375rem;

@@ -16,13 +16,13 @@ import { memo, useEffect, useRef, useState } from 'react';
 import palette from '../../lib/styles/palette';
 import Button from '../common/Button';
 import { TextArea } from '../TextField';
-import RoomChatItem from './RoomChatItem';
 import { ReactComponent as Participants } from '../../lib/assets/participants.svg';
 import { ReactComponent as Hamburger } from '../../lib/assets/hamburger.svg';
 import ClearIcon from '@material-ui/icons/Clear';
 import ReviewContainer from '../../containers/common/ReviewModalContainer';
+import Message from './Message';
 
-const ChattingRoom = ({
+const Room = ({
   user,
   room,
   messages,
@@ -144,7 +144,7 @@ const ChattingRoom = ({
       </Box>
       <Box css={chatWrapper} onScroll={handleScroll}>
         {[...messages].reverse().map((message, i) => (
-          <RoomChatItem
+          <Message
             key={message.id}
             isContinue={i > 0 && [...messages].reverse()[i - 1].sendUserId === message.sendUserId}
             prevMessage={i ? messages[i - 1] : { sendUserId: 0 }}
@@ -197,7 +197,7 @@ const ChattingRoom = ({
             }}
             css={chatInput}
           />
-          <Button variant="contained" onClick={onSendMessage} css={sendButton}>
+          <Button variant="contained" onClick={onSendMessage} disabled={!message} css={sendButton}>
             전송
           </Button>
         </Box>
@@ -355,11 +355,16 @@ const chatInput = css`
 const sendButton = css`
   width: 4.34rem;
   height: 2.583rem;
-  background: #e0e0e0;
   border-radius: 5px;
   margin: 1.3125rem 1.125rem 0 0;
   font-size: 1.167rem;
   box-shadow: none;
+  background: black;
+  color: white;
+  &:disabled {
+    color: #5f5f5f;
+    background: #e0e0e0;
+  }
 `;
 
-export default memo(ChattingRoom);
+export default memo(Room);

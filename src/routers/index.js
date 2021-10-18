@@ -5,12 +5,12 @@ import SigninPage from '../pages/auth/SigninPage';
 import SetNicknamePage from '../pages/profile/SetNicknamePage';
 import ProfilePage from '../pages/profile/ProfilePage';
 import UploadProfilePage from '../pages/profile/UploadProfilePage';
-import ChattingRoomPage from '../pages/chat/ChattingRoomPage';
 import ProfileSettingPage from '../pages/profile/ProfileSettingPage';
 import ChannelRouter from './ChannelRouter';
 import MyChannelPage from '../pages/channel/MyChannelPage';
 import CheckLogin from '../middlewares/CheckLogin';
 import SearchPage from '../pages/search/SearchPage';
+import RoomPage from '../pages/RoomPage';
 
 export default function RootRouter() {
   return (
@@ -32,7 +32,7 @@ export default function RootRouter() {
         path="/myChannel"
         render={(props) => <CheckLogin {...props} Component={MyChannelPage} />}
       />
-      <Route path="/chat/:id" component={ChattingRoomPage} />
+      <Route path="/room/:id" component={RoomPage} />
       <Route
         path="/channel/:channelId"
         render={(props) => <CheckLogin {...props} Component={ChannelRouter} />}

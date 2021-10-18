@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import { Box, Grid, Typography } from '@material-ui/core';
 import ChannelTalk from './ChannelTalk';
-import ArchiveCard from './ArchiveCard';
+import ArchiveCard from '../common/ArchiveCard';
 import Button from '../common/Button';
 import ChannelHomeChatCard from './ChannelHomeChatCard';
 import { ReactComponent as ChatIcon } from '../../lib/assets/chatIcon.svg';
