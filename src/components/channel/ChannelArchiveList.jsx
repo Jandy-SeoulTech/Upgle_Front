@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Box, Typography, Avatar } from '@material-ui/core';
+import { Box, Typography, Avatar, Pagination } from '@material-ui/core';
 import Button from '../common/Button';
 import { ReactComponent as PostWrite } from '../../lib/assets/postWrite.svg';
 import { getDateString } from '../../lib/util/dateFormat';
@@ -57,7 +57,7 @@ const Item = ({ channel, archive }) => {
   );
 };
 
-const ArchiveList = ({ channel, archives }) => {
+const ChannelArchiveList = ({ channel, archives, onQueryChange, page, lastPage }) => {
   const history = useHistory();
 
   return (
@@ -73,11 +73,23 @@ const ArchiveList = ({ channel, archives }) => {
         </Typography>
       </Box>
       {archives?.length > 0 ? (
-        <Box css={archivesWrapper}>
-          {archives.map((archive) => (
-            <Item key={archive.id} channel={channel} archive={archive} />
-          ))}
-        </Box>
+        <>
+          <Box css={archivesWrapper}>
+            {archives.map((archive) => (
+              <Item key={archive.id} channel={channel} archive={archive} />
+            ))}
+          </Box>
+          <Pagination
+            css={pagination}
+            count={lastPage}
+            page={page}
+            showFirstButton
+            showLastButton
+            onChange={(e, page) => {
+              onQueryChange('page', parseInt(page, 10));
+            }}
+          />
+        </>
       ) : (
         <Typography css={noContents}>아직 등록된 아카이브가 없습니다.</Typography>
       )}
@@ -232,4 +244,10 @@ const noContents = css`
   line-height: 10rem;
 `;
 
-export default ArchiveList;
+const pagination = css`
+  display: flex;
+  justify-content: center;
+  padding-bottom: 12.5rem;
+`;
+
+export default ChannelArchiveList;

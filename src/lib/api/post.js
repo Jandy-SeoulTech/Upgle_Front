@@ -1,5 +1,4 @@
 import axios from 'axios';
-import qs from 'qs';
 
 export const getChannelPostList = async ({ channelId, query }) => {
     const response = await axios.get(`/api/Post/channel/${channelId}?${query}`);

@@ -112,24 +112,26 @@ const ChannelPostList = ({ postList, channel, onQueryChange, type, page, lastPag
         ))}
       </Box>
       {postList?.length > 0 ? (
-        <Box css={postListWrapper}>
-          {postList.map((post) => (
-            <PostItem key={post.id} channel={channel} post={post} />
-          ))}
-        </Box>
+        <>
+          <Box css={postListWrapper}>
+            {postList.map((post) => (
+              <PostItem key={post.id} channel={channel} post={post} />
+            ))}
+          </Box>
+          <Pagination
+            css={pagination}
+            count={lastPage}
+            page={page}
+            showFirstButton
+            showLastButton
+            onChange={(e, page) => {
+              onQueryChange('page', parseInt(page, 10));
+            }}
+          />
+        </>
       ) : (
         <Box css={notFound}>글이 존재하지 않습니다.</Box>
       )}
-      <Pagination
-        css={pagenation}
-        count={lastPage}
-        page={page}
-        showFirstButton
-        showLastButton
-        onChange={(e, page) => {
-          onQueryChange('page', parseInt(page, 10));
-        }}
-      />
     </Box>
   );
 };
@@ -289,7 +291,7 @@ const nicknameCss = css`
   color: #000000;
 `;
 
-const pagenation = css`
+const pagination = css`
   display: flex;
   justify-content: center;
   padding-bottom: 12.5rem;

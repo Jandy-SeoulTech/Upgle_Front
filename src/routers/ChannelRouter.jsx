@@ -15,6 +15,7 @@ const ChannelRouter = () => {
   return (
     <>
       <Route path="/channel/:channelId/profile" exact component={ChannelProfilePage} />
+      <Route path="/channel/edit" exact render={(props) => <EditChannelPage />} />
       <Route
         path="/channel/:channelId/home"
         exact
@@ -26,9 +27,19 @@ const ChannelRouter = () => {
         render={(props) => <CheckJoinChannel {...props} Component={ChannelPostListPage} />}
       />
       <Route
-        path="/channel/:channelId/editArchive"
+        path="/channel/:channelId/post/:postId"
+        exact
+        render={(props) => <CheckJoinChannel {...props} Component={ChannelPostPage} />}
+      />
+      <Route
+        path="/channel/:channelId/editPost"
         exact
         render={(props) => <CheckJoinChannel {...props} Component={EditPostPage} />}
+      />
+      <Route
+        path="/channel/:channelId/room"
+        exact
+        render={(props) => <CheckJoinChannel {...props} Component={ChannelRoomListPage} />}
       />
       <Route path="/channel/:channelId/archive" exact component={ArchiveListPage} />
       <Route
@@ -37,21 +48,10 @@ const ChannelRouter = () => {
         render={(props) => <CheckJoinChannel {...props} Component={ArchivePage} />}
       />
       <Route
-        path="/channel/:channelId/room"
-        exact
-        render={(props) => <CheckJoinChannel {...props} Component={ChannelRoomListPage} />}
-      />
-      <Route
-        path="/channel/:channelId/editPost"
+        path="/channel/:channelId/editArchive"
         exact
         render={(props) => <CheckJoinChannel {...props} Component={EditPostPage} />}
       />
-      <Route
-        path="/channel/:channelId/post/:postId"
-        exact
-        render={(props) => <CheckJoinChannel {...props} Component={ChannelPostPage} />}
-      />
-      <Route path="/channel/edit" exact render={(props) => <EditChannelPage />} />
     </>
   );
 };
