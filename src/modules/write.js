@@ -139,7 +139,16 @@ export default handleActions(
 
     [SET_ARCHIVE]: (state, { payload }) => ({
       ...state,
-      writeArchive: { archiveId: payload.id, ...payload },
+      writeArchive: {
+        archiveId: payload?.id,
+        channelId: payload.channelId,
+        postId: payload.postId,
+        title: payload.title,
+        status: payload.status,
+        content: payload.content,
+        tags: payload.tags.map((tag) => tag.tag.name),
+        images: payload.images,
+      },
     }),
     [CHANGE_ARCHIVE]: (state, { payload: { key, value } }) => ({
       ...state,

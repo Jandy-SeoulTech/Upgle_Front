@@ -24,3 +24,8 @@ export const replyRoomMessage = async ({ roomId, answeredId, content }) => {
   const response = await axios.post(`/api/Chat/room/${roomId}/answer`, { answeredId, content });
   return response.data.data;
 };
+
+export const getAnswerList = async (roomId) => {
+  const response = await axios.get(`/api/Chat/room/${roomId}/answer`);
+  return response.data.data;
+};

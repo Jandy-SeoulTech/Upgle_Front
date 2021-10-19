@@ -1,14 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Box, Grid, FormControlLabel, Checkbox } from '@material-ui/core';
+import { Box, Grid, FormControlLabel, Checkbox, Typography } from '@material-ui/core';
 import '@toast-ui/editor/dist/i18n/ko-kr';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
-import { TextField } from '../TextField';
+import { TagInput, TextField } from '../TextField';
 import Button from '../common/Button';
 import palette from '../../lib/styles/palette';
 import editorConfig from '../../lib/util/editorConfig';
 import { useRef } from 'react';
+import TagBox from '../common/TagBox';
 
 const EditArchive = ({
   archive,
@@ -32,8 +33,8 @@ const EditArchive = ({
   };
 
   return (
-    <Grid container justifyContent="center" css={wrapper}>
-      <Box css={{ width: '1140px', display: 'flex', flexDirection: 'column' }}>
+    <Box css={wrapper}>
+      <Box css={{ width: '71.25rem', display: 'flex', flexDirection: 'column' }}>
         <TextField
           css={titleInput}
           value={archive.title}
@@ -42,18 +43,36 @@ const EditArchive = ({
           onChange={onTitleChange}
         />
         <Box css={{ display: 'flex', justifyContent: 'flex-end' }}>
-          {user.id === channel.adminId && (
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={archive.status === 'Notice'}
-                  css={checkBox}
-                  onChange={onIsNoticeChange}
-                />
-              }
-              label="공지로 설정"
-            />
-          )}
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={archive.status === 'Public'}
+                css={checkBox}
+                onChange={(e) => {
+                  handleChangeFiled({
+                    key: 'status',
+                    value: e.target.checked ? 'Public' : archive.status,
+                  });
+                }}
+              />
+            }
+            label="전체 공개"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={archive.status === 'Private'}
+                css={checkBox}
+                onChange={(e) => {
+                  handleChangeFiled({
+                    key: 'status',
+                    value: e.target.checked ? 'Private' : archive.status,
+                  });
+                }}
+              />
+            }
+            label="채널 공개"
+          />
         </Box>
         <Box css={editorConfig.editorCss}>
           <Editor
@@ -69,10 +88,35 @@ const EditArchive = ({
             placeholder={archive.content.length === 0 && '재능공유 요청을 작성해주세요'}
             initialEditType="wysiwyg"
             previewStyle="vertical"
-            height="calc(100vh - 215px)"
+            height="calc(100vh - 13.4375rem)"
             useCommandShortcut={true}
             customHTMLRenderer={editorConfig.renderer}
             hooks={{ addImageBlobHook: imageHook }}
+          />
+        </Box>
+        <Box>
+          <Box css={tagInput}>
+            <Typography># 태그 입력</Typography>
+            <TagInput
+              tagList={archive.tags}
+              onCreate={(input) => {
+                handleChangeFiled({
+                  key: 'tags',
+                  value: archive.tags.concat(input),
+                });
+              }}
+              size="small"
+            />
+          </Box>
+          <TagBox
+            css={tagBox}
+            tagList={archive.tags}
+            onClick={(index) => {
+              handleChangeFiled({
+                key: 'tags',
+                value: archive.tags.filter((input, i) => index !== i),
+              });
+            }}
           />
         </Box>
         <Grid container justifyContent="flex-end">
@@ -85,7 +129,7 @@ const EditArchive = ({
           </Button>
         </Grid>
       </Box>
-    </Grid>
+    </Box>
   );
 };
 
@@ -94,19 +138,21 @@ const wrapper = css`
   background-color: #fafafc;
   padding: 0 calc((100% - 71.25rem) / 2);
   padding-bottom: 6rem;
-  font-size: 30px;
+  font-size: 1.875rem;
+  display: flex;
+  flex-direction: column;
 `;
 
 const titleInput = css`
   height: fit-content;
-  min-height: 70px;
+  min-height: 4.375rem;
   textarea {
     font-family: 'Barlow', 'Noto Sans KR';
     font-weight: 500;
-    font-size: 34px;
-    line-height: 50px;
+    font-size: 2.125rem;
+    line-height: 3.125rem;
   }
-  margin-top: 30px;
+  margin-top: 1.875rem;
 `;
 
 const checkBox = css`
@@ -115,15 +161,39 @@ const checkBox = css`
   }
 `;
 
+const tagInput = css`
+  display: flex;
+  .MuiTypography-root {
+    font-family: 'Noto Sans KR';
+    font-size: 1.125rem;
+  }
+  .MuiFormControl-root {
+    flex: 1;
+    margin-left: 2rem;
+  }
+`;
+
+const tagBox = css`
+  width: 100%;
+  margin: 0;
+  margin-top: 0.9375rem;
+  margin-left: 7rem;
+  .MuiBox-root {
+    background-color: white;
+    .MuiTypography-root {
+      color: black;
+    }
+  }
+`;
+
 const submitBtn = css`
-  margin: 20px 0 20px 0;
-  width: 100px;
-  height: 40px;
-  border-radius: 50px;
-  font-family: 'Barlow', 'Noto Sans KR';
-  font-style: normal;
-  font-weight: bold;
-  font-size: 15px;
+  margin: 1.25rem 0 1.25rem 0;
+  width: 12.5rem;
+  height: 3.5625rem;
+  border-radius: 100px;
+  font-family: 'Noto Sans KR';
+  font-weight: 700;
+  font-size: 1.25rem;
   background: #000000;
   color: #ffffff;
 

@@ -36,3 +36,8 @@ export const getUserReviews = async ({ userId }) => {
   const response = await axios.get(`/api/Review/list/${userId}`);
   return response.data.data;
 };
+
+export const getOwnRoomList = async () => {
+  const response = await axios.get('/api/Room/list');
+  return response.data.data;
+};

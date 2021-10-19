@@ -33,11 +33,12 @@ export const deleteArchive = async (archiveId) => {
   return response.data.data;
 };
 
-export const editArchive = async ({ archiveId, title, status, content, images }) => {
+export const editArchive = async ({ archiveId, title, status, tags, content, images }) => {
   const response = await axios.patch(`/api/Archive/${archiveId}`, {
     title,
     status,
     content,
+    tags,
     images,
   });
   return response.data.data;

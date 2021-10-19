@@ -26,7 +26,7 @@ const EditPost = ({ post, channel, user, onWriteChannelPost, handleChangeFiled, 
 
   return (
     <Grid container justifyContent="center" css={wrapper}>
-      <Box css={{ width: '1140px', display: 'flex', flexDirection: 'column' }}>
+      <Box css={{ width: '71.25rem', display: 'flex', flexDirection: 'column' }}>
         <TextField
           css={titleInput}
           value={post.title}
@@ -39,7 +39,7 @@ const EditPost = ({ post, channel, user, onWriteChannelPost, handleChangeFiled, 
             <FormControlLabel
               control={
                 <Checkbox
-                  value={post.status === 'Notice'}
+                  checked={post.status === 'Notice'}
                   css={checkBox}
                   onChange={onIsNoticeChange}
                 />
@@ -62,7 +62,7 @@ const EditPost = ({ post, channel, user, onWriteChannelPost, handleChangeFiled, 
             placeholder={post.content.length === 0 && '재능공유 요청을 작성해주세요'}
             initialEditType="wysiwyg"
             previewStyle="vertical"
-            height="calc(100vh - 215px)"
+            height="calc(100vh - 13.4375rem)"
             useCommandShortcut={true}
             customHTMLRenderer={editorConfig.renderer}
             hooks={{ addImageBlobHook: imageHook }}
@@ -87,19 +87,19 @@ const wrapper = css`
   background-color: #fafafc;
   padding: 0 calc((100% - 71.25rem) / 2);
   padding-bottom: 6rem;
-  font-size: 30px;
+  font-size: 1.875rem;
 `;
 
 const titleInput = css`
   height: fit-content;
-  min-height: 70px;
+  min-height: 4.375rem;
   textarea {
     font-family: 'Barlow', 'Noto Sans KR';
     font-weight: 500;
-    font-size: 34px;
-    line-height: 50px;
+    font-size: 2.125rem;
+    line-height: 3.125rem;
   }
-  margin-top: 30px;
+  margin-top: 1.875rem;
 `;
 
 const checkBox = css`
@@ -109,14 +109,13 @@ const checkBox = css`
 `;
 
 const submitBtn = css`
-  margin: 20px 0 20px 0;
-  width: 100px;
-  height: 40px;
-  border-radius: 50px;
-  font-family: 'Barlow', 'Noto Sans KR';
-  font-style: normal;
-  font-weight: bold;
-  font-size: 15px;
+  margin: 1.25rem 0 1.25rem 0;
+  width: 12.5rem;
+  height: 3.5625rem;
+  border-radius: 6.25rem;
+  font-family: 'Noto Sans KR';
+  font-weight: 700;
+  font-size: 1.25rem;
   background: #000000;
   color: #ffffff;
 

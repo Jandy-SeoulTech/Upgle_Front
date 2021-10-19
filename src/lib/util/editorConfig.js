@@ -84,6 +84,7 @@ const editorCss = css`
   }
 
   .toastui-editor-contents .answer {
+    margin-left: auto;
     align-self: flex-end;
     border-bottom-right-radius: 0;
     background-color: #f0f0f0;

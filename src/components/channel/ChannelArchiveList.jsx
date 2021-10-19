@@ -5,6 +5,11 @@ import Button from '../common/Button';
 import { ReactComponent as PostWrite } from '../../lib/assets/postWrite.svg';
 import { getDateString } from '../../lib/util/dateFormat';
 import { useHistory } from 'react-router';
+import { useState } from 'react';
+import Modal from '../common/Modal';
+import ClearIcon from '@material-ui/icons/Clear';
+import RoomListModalContainer from '../../containers/common/RoomListModalContainer';
+import AnswerListModalContainer from '../../containers/common/AnswerListModalContainer';
 
 const Item = ({ channel, archive }) => {
   const history = useHistory();
@@ -24,7 +29,7 @@ const Item = ({ channel, archive }) => {
           <Typography className="date">{getDateString(archive.createdAt)}</Typography>
         </Box>
         <Typography css={content}>{archive.content}</Typography>
-        <Box css={{ display: 'flex', alignItems: 'center' }}>
+        <Box css={{ display: 'flex', alignItems: 'center', marginTop: '1.375rem' }}>
           {archive.authorId === channel.adminId ? (
             <>
               <div css={adminIcon}>
@@ -57,13 +62,87 @@ const Item = ({ channel, archive }) => {
   );
 };
 
-const ChannelArchiveList = ({ channel, archives, onQueryChange, page, lastPage }) => {
+const ChannelArchiveList = ({
+  channel,
+  archives,
+  onQueryChange,
+  page,
+  lastPage,
+  onCreateRoomArchive,
+}) => {
   const history = useHistory();
+  const [writeModal, setWriteModal] = useState(false);
+  const [ownRoomListModal, setOwnRoomListModal] = useState(false);
+  const [selectRoom, setSelectRoom] = useState(null);
 
   return (
     <Box css={backgroudWrapper}>
+      <Modal open={writeModal} setOpen={setWriteModal}>
+        <Box css={modal}>
+          <Box css={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+            <ClearIcon
+              css={{ cursor: 'pointer' }}
+              onClick={() => {
+                setWriteModal(false);
+              }}
+            />
+          </Box>
+          <Box css={{ fontFamily: 'Noto Sans KR', fontSize: '1.25rem', fontWeight: '700' }}>
+            채팅방 내용을 기록하시겠습니까?
+          </Box>
+          <Box css={buttonWrapper}>
+            <Button
+              className="yes"
+              onClick={() => {
+                setWriteModal(false);
+                setOwnRoomListModal(true);
+              }}
+            >
+              네
+            </Button>
+            <Button
+              className="no"
+              onClick={() => {
+                history.push(`/channel/${channel.id}/editArchive`);
+              }}
+            >
+              아니오
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+      <RoomListModalContainer
+        open={ownRoomListModal}
+        setOpen={setOwnRoomListModal}
+        onBefore={() => {
+          setOwnRoomListModal(false);
+          setWriteModal(true);
+        }}
+        onSuccess={(room) => {
+          console.log(room);
+          setSelectRoom(room);
+        }}
+      />
+      <AnswerListModalContainer
+        roomId={selectRoom?.id}
+        open={selectRoom}
+        setOpen={setSelectRoom}
+        onBefore={() => {
+          setSelectRoom(false);
+          setOwnRoomListModal(true);
+        }}
+        onSuccess={(selectedAnswer) => {
+          console.log(selectedAnswer);
+          onCreateRoomArchive({ room: selectRoom, content: selectedAnswer.join('\n') });
+        }}
+      />
       <Box css={writeTitleWrapper}>
-        <Button css={write} onClick={() => history.push(`/channel/${channel.id}/editArchive`)}>
+        <Button
+          css={write}
+          onClick={() => {
+            setWriteModal(true);
+          }}
+        >
           <PostWrite className="icon" css={{ marginRight: '.625rem' }} />
           글쓰기
         </Button>
@@ -101,6 +180,43 @@ const backgroudWrapper = css`
   margin-top: 8.4375rem;
   background: #fafafc;
   padding: 0 calc((100% - 71.25rem) / 2);
+`;
+
+const modal = css`
+  padding: 1.125rem;
+  width: 37.5rem;
+  height: 21.875rem;
+  z-index: 999;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const buttonWrapper = css`
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 4rem;
+
+  .MuiButton-root {
+    width: 12.5rem;
+    height: 3.5625rem;
+    border-radius: 10px;
+    font-size: 1.25rem;
+    color: white;
+  }
+
+  .yes {
+    background-color: #ff511b;
+    border: none;
+  }
+
+  .no {
+    background-color: black;
+    border: none;
+  }
 `;
 
 const writeTitleWrapper = css`
@@ -142,7 +258,8 @@ const item = css`
   height: 14.875rem;
   border-bottom: 1px solid #bdbdbd;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: space-between;
   cursor: pointer;
   & .MuiTypography-root {
     font-family: 'Barlow', 'Noto Sans KR';
@@ -153,8 +270,8 @@ const item = css`
 `;
 
 const itemLeft = css`
-  height: 100%;
-  width: 100%;
+  flex: 1;
+  width: 70%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -163,6 +280,7 @@ const itemLeft = css`
 
 const itemRight = css`
   padding: 1.875rem;
+  flex-shrink: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -197,14 +315,12 @@ const title = css`
 `;
 
 const content = css`
-  flex: 1;
+  width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  font-family: 'Barlow', 'Noto Sans KR';
-  font-style: normal;
+  font-family: 'Noto Sans KR';
   font-weight: 500;
   font-size: 0.875rem;
   color: #5f5f5f;
