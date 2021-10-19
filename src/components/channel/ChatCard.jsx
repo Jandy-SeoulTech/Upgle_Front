@@ -100,9 +100,7 @@ const ChatCard = ({
         )}
         <Typography css={description}>
           <Time className="icon" />
-          {isReserved
-            ? getChatDate(new Date(room.reservedAt))
-            : getChatDate(new Date(room.reservedAt))}
+          {isReserved ? getChatDate(room.reservedAt) : getChatDate(room.createdAt)}
         </Typography>
       </Box>
       <Box css={bottomContent}>

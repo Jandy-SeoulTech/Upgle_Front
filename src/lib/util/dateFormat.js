@@ -20,11 +20,12 @@ export function getCommentDateString(createdAt, updatedAt) {
 }
 
 export const getChatDate = (date) => {
-  var nowHour = date.getUTCHours();
-  var nowMt = date.getUTCMinutes();
-  var nowYear = date.getUTCFullYear();
-  var nowMonth = date.getUTCMonth() + 1;
-  var nowDate = date.getUTCDate();
+  const newDate = new Date(date);
+  var nowHour = newDate.getHours();
+  var nowMt = newDate.getMinutes();
+  var nowYear = newDate.getFullYear();
+  var nowMonth = newDate.getMonth() + 1;
+  var nowDate = newDate.getDate();
 
   if (nowHour < 12 && nowHour >= 0) {
     return 'AM ' + nowHour + ':' + nowMt + ' ( ' + nowYear + '.' + nowMonth + '.' + nowDate + ' )';

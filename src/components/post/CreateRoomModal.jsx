@@ -19,11 +19,6 @@ const CreateRoomModal = ({ onCreateRoom, createModalOpen, setCreateModalOpen }) 
       name: roomName,
       reservedTime: isReserve ? new Date(reserveDate).toUTCString() : null,
     });
-    console.log(
-      isReserve ? 'Reservation' : 'Open',
-      roomName,
-      isReserve ? new Date(reserveDate).toUTCString() : null,
-    );
   };
 
   return (
@@ -70,7 +65,6 @@ const CreateRoomModal = ({ onCreateRoom, createModalOpen, setCreateModalOpen }) 
               disabled={!isReserve}
               onChange={(e) => {
                 setReserveDate(e.target.value);
-                console.log(reserveDate);
               }}
               InputLabelProps={{
                 shrink: true,

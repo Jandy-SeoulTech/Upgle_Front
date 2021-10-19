@@ -36,7 +36,6 @@ const AnswerListModalContainer = ({ roomId, open, setOpen, onBefore, onSuccess }
 
   useEffect(() => {
     if (roomId) {
-      console.log(roomId);
       dispatch(getAnswerList(roomId));
     }
   }, [dispatch, roomId]);
