@@ -1,16 +1,24 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Box, Grid, FormControlLabel, Checkbox } from '@material-ui/core';
+import { Box, Grid, FormControlLabel, Checkbox, Typography } from '@material-ui/core';
 import '@toast-ui/editor/dist/i18n/ko-kr';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
-import { TextField } from '../TextField';
+import { TagInput, TextField } from '../TextField';
 import Button from '../common/Button';
 import palette from '../../lib/styles/palette';
 import editorConfig from '../../lib/util/editorConfig';
 import { useRef } from 'react';
+import TagBox from '../common/TagBox';
 
-const EditPost = ({ post, channel, user, onWriteChannelPost, handleChangeFiled, imageHook }) => {
+const EditArchive = ({
+  archive,
+  channel,
+  user,
+  onWriteChannelPost,
+  handleChangeFiled,
+  imageHook,
+}) => {
   const editorRef = useRef();
 
   const onTitleChange = (e) => {
@@ -25,41 +33,59 @@ const EditPost = ({ post, channel, user, onWriteChannelPost, handleChangeFiled, 
   };
 
   return (
-    <Grid container justifyContent="center" css={wrapper}>
+    <Box css={wrapper}>
       <Box css={{ width: '71.25rem', display: 'flex', flexDirection: 'column' }}>
         <TextField
           css={titleInput}
-          value={post.title}
+          value={archive.title}
           placeholder="제목을 입력해주세요."
           multiline={true}
           onChange={onTitleChange}
         />
         <Box css={{ display: 'flex', justifyContent: 'flex-end' }}>
-          {user.id === channel.adminId && (
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={post.status === 'Notice'}
-                  css={checkBox}
-                  onChange={onIsNoticeChange}
-                />
-              }
-              label="공지로 설정"
-            />
-          )}
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={archive.status === 'Public'}
+                css={checkBox}
+                onChange={(e) => {
+                  handleChangeFiled({
+                    key: 'status',
+                    value: e.target.checked ? 'Public' : archive.status,
+                  });
+                }}
+              />
+            }
+            label="전체 공개"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={archive.status === 'Private'}
+                css={checkBox}
+                onChange={(e) => {
+                  handleChangeFiled({
+                    key: 'status',
+                    value: e.target.checked ? 'Private' : archive.status,
+                  });
+                }}
+              />
+            }
+            label="채널 공개"
+          />
         </Box>
         <Box css={editorConfig.editorCss}>
           <Editor
             ref={editorRef}
-            onChange={(e) => {
+            onChange={() => {
               handleChangeFiled({
                 key: 'content',
                 value: editorRef.current.getInstance().getMarkdown(),
               });
             }}
             language="ko"
-            initialValue={post.content}
-            placeholder={post.content.length === 0 && '재능공유 요청을 작성해주세요'}
+            initialValue={archive.content}
+            placeholder={archive.content.length === 0 && '재능공유 요청을 작성해주세요'}
             initialEditType="wysiwyg"
             previewStyle="vertical"
             height="calc(100vh - 13.4375rem)"
@@ -68,17 +94,42 @@ const EditPost = ({ post, channel, user, onWriteChannelPost, handleChangeFiled, 
             hooks={{ addImageBlobHook: imageHook }}
           />
         </Box>
+        <Box>
+          <Box css={tagInput}>
+            <Typography># 태그 입력</Typography>
+            <TagInput
+              tagList={archive.tags}
+              onCreate={(input) => {
+                handleChangeFiled({
+                  key: 'tags',
+                  value: archive.tags.concat(input),
+                });
+              }}
+              size="small"
+            />
+          </Box>
+          <TagBox
+            css={tagBox}
+            tagList={archive.tags}
+            onClick={(index) => {
+              handleChangeFiled({
+                key: 'tags',
+                value: archive.tags.filter((input, i) => index !== i),
+              });
+            }}
+          />
+        </Box>
         <Grid container justifyContent="flex-end">
           <Button
             css={submitBtn}
             onClick={onWriteChannelPost}
-            disabled={!post.title || !post.content}
+            disabled={!archive.title || !archive.content}
           >
             작성 완료
           </Button>
         </Grid>
       </Box>
-    </Grid>
+    </Box>
   );
 };
 
@@ -88,6 +139,8 @@ const wrapper = css`
   padding: 0 calc((100% - 71.25rem) / 2);
   padding-bottom: 6rem;
   font-size: 1.875rem;
+  display: flex;
+  flex-direction: column;
 `;
 
 const titleInput = css`
@@ -108,11 +161,36 @@ const checkBox = css`
   }
 `;
 
+const tagInput = css`
+  display: flex;
+  .MuiTypography-root {
+    font-family: 'Noto Sans KR';
+    font-size: 1.125rem;
+  }
+  .MuiFormControl-root {
+    flex: 1;
+    margin-left: 2rem;
+  }
+`;
+
+const tagBox = css`
+  width: 100%;
+  margin: 0;
+  margin-top: 0.9375rem;
+  margin-left: 7rem;
+  .MuiBox-root {
+    background-color: white;
+    .MuiTypography-root {
+      color: black;
+    }
+  }
+`;
+
 const submitBtn = css`
   margin: 1.25rem 0 1.25rem 0;
   width: 12.5rem;
   height: 3.5625rem;
-  border-radius: 6.25rem;
+  border-radius: 100px;
   font-family: 'Noto Sans KR';
   font-weight: 700;
   font-size: 1.25rem;
@@ -128,4 +206,4 @@ const submitBtn = css`
   }
 `;
 
-export default EditPost;
+export default EditArchive;

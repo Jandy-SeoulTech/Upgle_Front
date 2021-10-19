@@ -5,6 +5,7 @@ import ChannelHomePage from '../pages/channel/ChannelHomePage';
 import ChannelPostListPage from '../pages/channel/ChannelPostListPage';
 import ChannelPostPage from '../pages/channel/ChannelPostPage';
 import EditChannelPage from '../pages/channel/EditChannelPage';
+import EditArchivePage from '../pages/channel/EditArchivePage';
 import CheckJoinChannel from '../middlewares/CheckJoinChannel';
 import EditPostPage from '../pages/channel/EditPostPage';
 import ChannelRoomListPage from '../pages/channel/ChannelRoomListPage';
@@ -50,7 +51,7 @@ const ChannelRouter = () => {
       <Route
         path="/channel/:channelId/editArchive"
         exact
-        render={(props) => <CheckJoinChannel {...props} Component={EditPostPage} />}
+        render={(props) => <CheckJoinChannel {...props} Component={EditArchivePage} />}
       />
     </>
   );

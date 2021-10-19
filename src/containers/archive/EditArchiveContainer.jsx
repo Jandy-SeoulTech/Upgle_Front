@@ -2,23 +2,23 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { getChannelData } from '../../modules/channel';
-import { changePost, updatePost, createPost } from '../../modules/write';
-import EditPost from '../../components/post/EditPost';
+import { changeArchive, createArchive, editArchive } from '../../modules/write';
 import { uploadImages } from '../../lib/api/image';
 import { concatImage } from '../../modules/image';
 import { initialize as initializePost } from '../../modules/write';
 import { initialize as initializeImages } from '../../modules/write';
+import EditArchive from '../../components/archive/EditArchive';
 
-const EditPostContainer = ({ channelId }) => {
+const EditArchiveContainer = ({ channelId }) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { writePost } = useSelector((state) => state.write);
+  const { writeArchive } = useSelector((state) => state.write);
   const { user } = useSelector((state) => state.user);
   const { images } = useSelector((state) => state.image);
   const { channel } = useSelector((state) => state.channel);
 
   const handleChangeFiled = ({ key, value }) => {
-    dispatch(changePost({ key, value }));
+    dispatch(changeArchive({ key, value }));
   };
 
   const imageHook = async (blob, callback) => {
@@ -29,23 +29,23 @@ const EditPostContainer = ({ channelId }) => {
     callback(imgUrl, 'alt text');
   };
 
-  const onWriteChannelPost = async () => {
-    if (!writePost.title) {
+  const onWriteChannelArchive = async () => {
+    if (!writeArchive.title) {
       alert('제목을 입력해주세요');
       return;
     }
     try {
-      if (writePost.postId) {
-        await dispatch(updatePost({ ...writePost, channelId, images }));
+      if (writeArchive.archiveId) {
+        await dispatch(editArchive({ ...writeArchive, channelId, images }));
         alert('수정을 성공했습니다.');
       } else {
-        await dispatch(createPost({ ...writePost, channelId, images }));
+        await dispatch(createArchive({ ...writeArchive, channelId, images }));
         alert('등록을 성공했습니다.');
       }
     } catch {
       alert('등록을 실패했습니다.');
     }
-    history.push(`/channel/${channelId}/post`);
+    history.push(`/channel/${channelId}/archive`);
   };
 
   useEffect(() => {
@@ -57,15 +57,15 @@ const EditPostContainer = ({ channelId }) => {
   }, [dispatch, channelId]);
 
   return (
-    <EditPost
-      post={writePost}
+    <EditArchive
+      archive={writeArchive}
       channel={channel}
       user={user}
-      onWriteChannelPost={onWriteChannelPost}
+      onWriteChannelPost={onWriteChannelArchive}
       handleChangeFiled={handleChangeFiled}
       imageHook={imageHook}
     />
   );
 };
 
-export default EditPostContainer;
+export default EditArchiveContainer;

@@ -8,6 +8,7 @@ const GET_ROOM_LIST = 'room/GET_ROOM_LIST';
 const EXIT_ROOM = 'room/EXIT_ROOM';
 const CLOSE_ROOM = 'room/CLOSE_ROOM';
 const REVIEW_ROOM = 'room/REVIEW_ROOM';
+const GET_OWN_ROOM_LIST = 'room/GET_OWN_ROOM_LIST';
 
 export const getRoomList = createAction(GET_ROOM_LIST, roomAPI.getRoomList);
 export const createRoom = createAction(CREATE_ROOM, roomAPI.createRoom);
@@ -15,10 +16,12 @@ export const getRoomData = createAction(GET_ROOM_DATA, roomAPI.getRoomData);
 export const exitRoom = createAction(EXIT_ROOM, roomAPI.exitRoom);
 export const closeRoom = createAction(CLOSE_ROOM, roomAPI.closeRoom);
 export const reviewRoom = createAction(REVIEW_ROOM, roomAPI.reviewRoom);
+export const getOwnRoomList = createAction(GET_OWN_ROOM_LIST, roomAPI.getOwnRoomList);
 
 const initialState = {
   room: null,
   roomList: null,
+  ownRoomList: null,
   error: null,
 };
 
@@ -31,6 +34,10 @@ export default handleActions(
     ...pender({
       type: GET_ROOM_LIST,
       onSuccess: (state, { payload }) => ({ ...state, roomList: payload }),
+    }),
+    ...pender({
+      type: GET_OWN_ROOM_LIST,
+      onSuccess: (state, { payload }) => ({ ...state, ownRoomList: payload }),
     }),
   },
   initialState,

@@ -15,13 +15,14 @@ export const getUserArchive = async (userId) => {
   return response.data.data;
 };
 
-export const writeArchive = async ({ channelId, postId, title, status, content, images }) => {
+export const writeArchive = async ({ channelId, postId, title, status, content, tags, images }) => {
   const response = await axios.post(`/api/Archive`, {
     channelId,
     postId,
     title,
     status,
     content,
+    tags,
     images,
   });
   return response.data.data;
@@ -32,11 +33,12 @@ export const deleteArchive = async (archiveId) => {
   return response.data.data;
 };
 
-export const editArchive = async ({ archiveId, title, status, content, images }) => {
+export const editArchive = async ({ archiveId, title, status, tags, content, images }) => {
   const response = await axios.patch(`/api/Archive/${archiveId}`, {
     title,
     status,
     content,
+    tags,
     images,
   });
   return response.data.data;
