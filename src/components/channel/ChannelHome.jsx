@@ -51,13 +51,16 @@ const ChannerHome = ({ channel, postList, roomList, channelArchive }) => {
             </Box>
             <Button>더보기</Button>
           </Box>
-          {roomList?.length > 0 ? (
-            <Grid container spacing={3}>
-              {roomList?.openRoom.map((chatInfo, i) => (
-                <Grid item key={i}>
-                  <ChannelHomeChatCard chatInfo={chatInfo} />
-                </Grid>
-              ))}
+          {roomList?.openRoom.length > 0 ? (
+            <Grid container columnGap="1.25rem" rowGap="1.5rem">
+              {roomList.openRoom
+                .slice(-6)
+                .reverse()
+                .map((room) => (
+                  <Grid item key={room.id}>
+                    <ChannelHomeChatCard room={room} />
+                  </Grid>
+                ))}
             </Grid>
           ) : (
             <Typography css={[noContent, { height: '100px', lineHeight: '100px' }]}>
