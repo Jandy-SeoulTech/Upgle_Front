@@ -11,6 +11,8 @@ import { useState } from 'react';
 import palette from '../../lib/styles/palette';
 import CreateRoomModal from './CreateRoomModal';
 import { getDateString } from '../../lib/util/dateFormat';
+import { HistoryTwoTone } from '@material-ui/icons';
+import { useHistory } from 'react-router';
 
 const PostButtonList = ({
   post,
@@ -21,6 +23,7 @@ const PostButtonList = ({
   handleMoveChat,
 }) => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
+  const history = useHistory();
 
   const SympathyButton = () => (
     <Button
@@ -65,7 +68,7 @@ const PostButtonList = ({
           <Button
             className="goArchive"
             onClick={() => {
-              setCreateModalOpen(true);
+              history.push(`/channel/${post.channelId}/archive/${post.archive.id}`);
             }}
           >
             <FileIcon className="icon" />
