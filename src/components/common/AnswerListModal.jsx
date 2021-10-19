@@ -40,7 +40,6 @@ const AnswerListModal = ({ tempList, onCheckChange, setOpen, onBefore, handleSuc
           선택한 채팅방에서 불러운 질문과 그에 대한 답변입니다. 글을 작성할 때 사용할 내용들을
           선택해주세요
         </Box>
-        {console.log(tempList)}
         {tempList.map((question) => (
           <Box css={messagesWrapper}>
             <Checkbox

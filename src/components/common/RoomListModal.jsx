@@ -19,7 +19,7 @@ const RoomCard = ({ room, checked, onSelect }) => {
         <Typography css={title}>{room.name}</Typography>
         <Typography css={description}>
           <Time className="icon" />
-          {getChatDate(new Date(room.createdAt))}
+          {getChatDate(room.createdAt)}
         </Typography>
       </Box>
       <Box css={bottomContent}>

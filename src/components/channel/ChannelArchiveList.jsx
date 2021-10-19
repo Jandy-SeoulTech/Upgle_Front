@@ -119,7 +119,6 @@ const ChannelArchiveList = ({
           setWriteModal(true);
         }}
         onSuccess={(room) => {
-          console.log(room);
           setSelectRoom(room);
         }}
       />
@@ -132,7 +131,6 @@ const ChannelArchiveList = ({
           setOwnRoomListModal(true);
         }}
         onSuccess={(selectedAnswer) => {
-          console.log(selectedAnswer);
           onCreateRoomArchive({ room: selectRoom, content: selectedAnswer.join('\n') });
         }}
       />
