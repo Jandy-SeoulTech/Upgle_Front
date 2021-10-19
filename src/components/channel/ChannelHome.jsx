@@ -49,7 +49,7 @@ const ChannerHome = ({ channel, postList, roomList, channelArchive }) => {
               <Typography css={contentTitle}>오픈된 채팅방</Typography>
               <ChatIcon css={{ marginLeft: '.4rem' }} />
             </Box>
-            <Button>더보기</Button>
+            <Button onClick={() => history.push(`/channel/${channel.id}/room`)}>더보기</Button>
           </Box>
           {roomList?.openRoom.length > 0 ? (
             <Grid container columnGap="1.25rem" rowGap="1.5rem">
