@@ -10,7 +10,14 @@ import palette from '../../lib/styles/palette';
 import editorConfig from '../../lib/util/editorConfig';
 import { useRef } from 'react';
 
-const EditPost = ({ post, channel, user, onWriteChannelPost, handleChangeFiled, imageHook }) => {
+const EditArchive = ({
+  archive,
+  channel,
+  user,
+  onWriteChannelPost,
+  handleChangeFiled,
+  imageHook,
+}) => {
   const editorRef = useRef();
 
   const onTitleChange = (e) => {
@@ -29,7 +36,7 @@ const EditPost = ({ post, channel, user, onWriteChannelPost, handleChangeFiled, 
       <Box css={{ width: '1140px', display: 'flex', flexDirection: 'column' }}>
         <TextField
           css={titleInput}
-          value={post.title}
+          value={archive.title}
           placeholder="제목을 입력해주세요."
           multiline={true}
           onChange={onTitleChange}
@@ -39,7 +46,7 @@ const EditPost = ({ post, channel, user, onWriteChannelPost, handleChangeFiled, 
             <FormControlLabel
               control={
                 <Checkbox
-                  value={post.status === 'Notice'}
+                  value={archive.status === 'Notice'}
                   css={checkBox}
                   onChange={onIsNoticeChange}
                 />
@@ -58,8 +65,8 @@ const EditPost = ({ post, channel, user, onWriteChannelPost, handleChangeFiled, 
               });
             }}
             language="ko"
-            initialValue={post.content}
-            placeholder={post.content.length === 0 && '재능공유 요청을 작성해주세요'}
+            initialValue={archive.content}
+            placeholder={archive.content.length === 0 && '재능공유 요청을 작성해주세요'}
             initialEditType="wysiwyg"
             previewStyle="vertical"
             height="calc(100vh - 215px)"
@@ -72,7 +79,7 @@ const EditPost = ({ post, channel, user, onWriteChannelPost, handleChangeFiled, 
           <Button
             css={submitBtn}
             onClick={onWriteChannelPost}
-            disabled={!post.title || !post.content}
+            disabled={!archive.title || !archive.content}
           >
             작성 완료
           </Button>
@@ -129,4 +136,4 @@ const submitBtn = css`
   }
 `;
 
-export default EditPost;
+export default EditArchive;

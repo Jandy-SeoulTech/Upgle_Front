@@ -20,7 +20,7 @@ import { Viewer } from '@toast-ui/react-editor';
 import editorConfig from '../../lib/util/editorConfig';
 import ArchiveStatusIcon from './ArchiveStatusIcon';
 
-const Archive = ({ userId, channel, archive }) => {
+const Archive = ({ userId, channel, archive, onEditArchive, onDeleteArchive }) => {
   const [menuAnchor, setMenuAnchor] = useState();
   const handleMenuClick = (e) => {
     if (!e) return;
@@ -43,11 +43,11 @@ const Archive = ({ userId, channel, archive }) => {
               <>
                 <Divider />
                 <MenuItem>
-                  <ListItemText>수정하기</ListItemText>
+                  <ListItemText onClick={onEditArchive}>수정하기</ListItemText>
                 </MenuItem>
                 <Divider />
                 <MenuItem>
-                  <ListItemText>삭제하기</ListItemText>
+                  <ListItemText onClick={onDeleteArchive}>삭제하기</ListItemText>
                 </MenuItem>
               </>
             )}

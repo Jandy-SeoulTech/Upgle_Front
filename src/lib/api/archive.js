@@ -15,13 +15,14 @@ export const getUserArchive = async (userId) => {
   return response.data.data;
 };
 
-export const writeArchive = async ({ channelId, postId, title, status, content, images }) => {
+export const writeArchive = async ({ channelId, postId, title, status, content, tags, images }) => {
   const response = await axios.post(`/api/Archive`, {
     channelId,
     postId,
     title,
     status,
     content,
+    tags,
     images,
   });
   return response.data.data;

@@ -44,7 +44,7 @@ export const updatePost = createAction(UPDATE_POST, postAPI.editPost);
 
 export const setArchive = createAction(SET_ARCHIVE, (archive) => archive);
 export const changeArchive = createAction(CHANGE_ARCHIVE, ({ key, value }) => ({ key, value }));
-export const writeArchive = createAction(WRITE_ARCHIVE, archiveAPI.writeArchive);
+export const createArchive = createAction(WRITE_ARCHIVE, archiveAPI.writeArchive);
 export const editArchive = createAction(EDIT_ARCHIVE, archiveAPI.editArchive);
 
 export const initialize = createAction(INITIALIZE);
@@ -74,11 +74,13 @@ const initialState = {
     images: null,
   },
   writeArchive: {
+    archiveId: null,
     channelId: null,
     postId: null,
     title: null,
-    status: null,
-    content: null,
+    status: 'Public',
+    content: '',
+    tags: [],
     images: null,
   },
   updatedProfile: null,
@@ -137,14 +139,7 @@ export default handleActions(
 
     [SET_ARCHIVE]: (state, { payload }) => ({
       ...state,
-      writeArchive: {
-        postId: payload.id,
-        channelId: payload.channelId,
-        title: payload.title,
-        status: payload.status,
-        content: payload.content,
-        images: payload.images,
-      },
+      writeArchive: { archiveId: payload.id, ...payload },
     }),
     [CHANGE_ARCHIVE]: (state, { payload: { key, value } }) => ({
       ...state,
