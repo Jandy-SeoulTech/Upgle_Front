@@ -3,8 +3,8 @@ import { css } from '@emotion/react';
 import Button from '../common/Button';
 import { Box, Grid, Typography, useMediaQuery } from '@material-ui/core';
 import { useState } from 'react';
-import { ReactComponent as LogoWithTextTemp } from '../../lib/assets/logoWithTextTemp.svg';
-import { ReactComponent as LogoWithTextTemp2 } from '../../lib/assets/logoWithTextTemp2.svg';
+import { ReactComponent as LogoText } from '../../lib/assets/logoText.svg';
+import { ReactComponent as LogoTextWhite } from '../../lib/assets/logoTextWhite.svg';
 import { ReactComponent as Rafiki } from '../../lib/assets/rafiki.svg';
 import { ReactComponent as ArrowLeft } from '../../lib/assets/arrowLeft.svg';
 import palette from '../../lib/styles/palette';
@@ -12,12 +12,7 @@ import palette from '../../lib/styles/palette';
 import NextButton from './NextButton';
 import { UploadProfileForms } from '../UploadProfileForms';
 
-const UploadProfile = ({
-  user,
-  data,
-  handleChangeFiled,
-  handleUploadProfile,
-}) => {
+const UploadProfile = ({ user, data, handleChangeFiled, handleUploadProfile }) => {
   const [activeStep, setActiveStep] = useState(0);
   const m1200 = useMediaQuery('(max-width: 1199px)');
 
@@ -35,19 +30,10 @@ const UploadProfile = ({
 
   return (
     <Box sx={UploadProfileWrapper}>
-      {m1200 ? (
-        <LogoWithTextTemp css={smallLogo} />
-      ) : (
-        <LogoWithTextTemp2 css={logo} />
-      )}
+      {m1200 ? <LogoText css={smallLogo} /> : <LogoTextWhite css={logo} />}
 
       <Grid container css={[UploadForm, m1200 && smallUploadForm]}>
-        <Grid
-          item
-          xs={12}
-          lg={5}
-          css={[uploadFormHeader, m1200 && smallUploadFormHeader]}
-        >
+        <Grid item xs={12} lg={5} css={[uploadFormHeader, m1200 && smallUploadFormHeader]}>
           <Typography variant="h4" css={UploadFormTitle}>
             반갑습니다, {user.nickname}님!
           </Typography>
@@ -58,12 +44,7 @@ const UploadProfile = ({
           </Typography>
           <Rafiki css={uploadFormTitleLogo} />
         </Grid>
-        <Grid
-          item
-          xs={12}
-          lg={7}
-          css={[uploadFormSection, m1200 && smallUploadFormSection]}
-        >
+        <Grid item xs={12} lg={7} css={[uploadFormSection, m1200 && smallUploadFormSection]}>
           <Box css={uploadFormContent}>
             <Typography>{activeStep + 1}/5</Typography>
             <UploadProfileForms
@@ -81,11 +62,7 @@ const UploadProfile = ({
             ) : (
               <Box sx={{ flex: 1 }}></Box>
             )}
-            <NextButton
-              data={data}
-              activeStep={activeStep}
-              onClick={handleNext}
-            />
+            <NextButton data={data} activeStep={activeStep} onClick={handleNext} />
           </Box>
         </Grid>
       </Grid>

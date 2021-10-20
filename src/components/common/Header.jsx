@@ -18,7 +18,7 @@ import {
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { memo, useEffect, useState } from 'react';
 import TextField from './TextField';
-import { ReactComponent as LogoWithTextTemp } from '../../lib/assets/logoWithTextTemp.svg';
+import { ReactComponent as LogoText } from '../../lib/assets/logoText.svg';
 import { ReactComponent as AlarmOff } from '../../lib/assets/alarmOff.svg';
 import { ReactComponent as alarmOn } from '../../lib/assets/alarmOn.svg';
 import { ReactComponent as UserProfile } from '../../lib/assets/userProfile.svg';
@@ -64,7 +64,7 @@ const Header = ({ user, onLogout }) => {
         scrolled: scrollPosition !== 0,
       })}
     >
-      <LogoWithTextTemp css={logo} onClick={() => history.push('/')} />
+      <LogoText css={logo} onClick={() => history.push('/')} />
       <Link
         to="/search"
         css={[

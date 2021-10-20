@@ -4,7 +4,7 @@ import { Box, Grid, Typography, useMediaQuery } from '@material-ui/core';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { isEmail } from '../../lib/util/validate';
-import { ReactComponent as LogoWithTextTemp2 } from '../../lib/assets/logoWithTextTemp2.svg';
+import { ReactComponent as LogoTextWhite } from '../../lib/assets/logoTextWhite.svg';
 import TextField from '../common/TextField';
 import Button from '../common/Button';
 import palette from '../../lib/styles/palette';
@@ -36,7 +36,7 @@ const Signin = ({ onLogin, errorMessage, OAuthComponent }) => {
     <Grid container css={signinWrapper}>
       <Grid item xs={12} lg={6} css={[logoSection, m1200 && smallLogoSection]}>
         <Link to="/">
-          <LogoWithTextTemp2 />
+          <LogoTextWhite css={{ width: '12.5rem', height: '3.589375rem' }} />
         </Link>
       </Grid>
       <Grid item container lg={6} xs={12} p={5} alignItems="center">
@@ -78,12 +78,7 @@ const Signin = ({ onLogin, errorMessage, OAuthComponent }) => {
             ></TextField>
           </Grid>
           <Grid item container xs={12} mb={2} justifyContent="center">
-            <Button
-              variant="contained"
-              fullWidth
-              onClick={handleLogin}
-              sx={signinButton}
-            >
+            <Button variant="contained" fullWidth onClick={handleLogin} sx={signinButton}>
               로그인
             </Button>
           </Grid>
