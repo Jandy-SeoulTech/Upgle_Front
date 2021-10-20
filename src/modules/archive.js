@@ -25,7 +25,7 @@ const initialState = {
   error: null,
   likeError: false,
   unlikeError: false,
-  totalPage: null
+  totalPage: null,
 };
 
 export default handleActions(
