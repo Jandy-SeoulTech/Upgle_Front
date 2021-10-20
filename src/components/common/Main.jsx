@@ -3,12 +3,28 @@ import { css } from '@emotion/react';
 import { Box, Typography } from '@material-ui/core';
 import { useHistory } from 'react-router';
 import Button from './Button';
+import { ReactComponent as Start } from '../../lib/assets/start.svg';
+import { ReactComponent as Search } from '../../lib/assets/search.svg';
 
 const Main = ({ user }) => {
   const history = useHistory();
   return (
     <Box css={MainWrapper}>
-      <img src="/image/main1.png" css={mainImage}></img>
+      <div css={{ position: 'relative' }}>
+        <img src="/image/main1.png" css={mainImage}></img>
+        <div
+          css={button}
+          onClick={() => {
+            history.push(user ? '/search' : '/signup');
+          }}
+        >
+          {user ? (
+            <Search css={{ width: '40%', height: '47.3684%' }} />
+          ) : (
+            <Start css={{ width: '40%', height: '47.3684%' }} />
+          )}
+        </div>
+      </div>
       <img src="/image/main2.png" css={mainImage}></img>
       <img src="/image/main3.png" css={mainImage}></img>
       <img src="/image/main4.png" css={mainImage}></img>
@@ -54,17 +70,19 @@ const contentWrapper = css`
 `;
 
 const button = css`
-  width: 12.5rem;
-  height: 3.5625rem;
-  margin-top: 4.5625rem;
-  font-family: 'Noto Sans KR';
-  font-size: 1.25rem;
-  border: 2px solid #ffffff;
-  border-radius: 10px;
-  color: white;
+  position: absolute;
+  width: 10.4166%;
+  height: 7.125%;
+  top: 45.25%;
+  left: 22.9166%;
+  border: 0.125rem solid #ffffff;
+  border-radius: 0.625rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   &:hover {
     background-color: rgba(255, 255, 255, 0.3);
-    border: 2px solid #ffffff;
+    border: 0.125rem solid #ffffff;
   }
 `;
 
