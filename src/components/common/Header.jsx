@@ -149,13 +149,11 @@ const Header = ({ user, onLogout }) => {
                       </Typography>
                     </Box>
                     <Divider />
-                    <MenuItem>
-                      <ListItemText onClick={() => history.push(`/profile/${user.id}`)}>
-                        프로필
-                      </ListItemText>
+                    <MenuItem onClick={() => history.push(`/profile/${user.id}`)}>
+                      <ListItemText>프로필</ListItemText>
                     </MenuItem>
-                    <MenuItem>
-                      <ListItemText onClick={() => history.push('/setting')}>설정</ListItemText>
+                    <MenuItem onClick={() => history.push('/setting')}>
+                      <ListItemText>설정</ListItemText>
                     </MenuItem>
                     <Divider />
                     <Box className="menuFotter">
