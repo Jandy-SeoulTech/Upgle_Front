@@ -313,6 +313,7 @@ const title = css`
 `;
 
 const content = css`
+  height: 2.8125rem;
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
