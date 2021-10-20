@@ -5,8 +5,10 @@ import { ReactComponent as LikedButton } from '../../lib/assets/likedButton.svg'
 import { ReactComponent as PostGo } from '../../lib/assets/postGo.svg';
 import { Box, Button } from '@material-ui/core';
 import palette from '../../lib/styles/palette';
+import { useHistory } from 'react-router';
 
 const ArchiveButtonList = ({ archive, isLiked, onLikeArchive, onUnlikeArchive }) => {
+  const history = useHistory();
   return (
     <Box css={wrapper}>
       <Box css={{ marginRight: '1.875rem' }}>
@@ -21,7 +23,12 @@ const ArchiveButtonList = ({ archive, isLiked, onLikeArchive, onUnlikeArchive })
         </Button>
 
         {archive.postId && (
-          <Button css={goPostButton}>
+          <Button
+            css={goPostButton}
+            onClick={() => {
+              history.push(`/channel/${archive.channelId}/post/${archive.postId}`);
+            }}
+          >
             <PostGo className="icon" />
             요청글 바로 가기
           </Button>
