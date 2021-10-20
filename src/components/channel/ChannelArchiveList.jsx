@@ -24,6 +24,11 @@ const Item = ({ channel, archive }) => {
       <Box css={itemLeft}>
         <Box css={title}>
           <Box css={{ display: 'flex' }}>
+            {archive.postId && (
+              <Box css={statusIcon}>
+                <Typography>요청 해결</Typography>
+              </Box>
+            )}
             <Typography className="title">{archive.title}</Typography>
           </Box>
           <Typography className="date">{getDateString(archive.createdAt)}</Typography>
@@ -312,7 +317,27 @@ const title = css`
   }
 `;
 
+const statusIcon = css`
+  width: 5rem;
+  height: 2.125rem;
+  border-radius: 20px;
+  margin-right: 1.65625rem;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .MuiTypography-root {
+    padding: 0;
+    text-align: center;
+    font-family: 'Barlow', 'Noto Sans KR';
+    font-weight: bold;
+    font-size: 0.9375rem;
+    color: #ffffff;
+  }
+`;
+
 const content = css`
+  height: 2.8125rem;
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;

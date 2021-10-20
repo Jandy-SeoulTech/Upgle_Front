@@ -7,7 +7,7 @@ import { isNickname } from '../../lib/util/validate';
 import TextField from '../common/TextField';
 import Button from '../common/Button';
 import palette from '../../lib/styles/palette';
-import { ReactComponent as LogoWithTextTemp2 } from '../../lib/assets/logoWithTextTemp2.svg';
+import { ReactComponent as LogoTextWhite } from '../../lib/assets/logoTextWhite.svg';
 
 const SetNickname = ({ onCheckNickname, onNicknameChanged, onSetNickname, nicknameChecked }) => {
   const m1200 = useMediaQuery('(max-width: 1200px)');
@@ -39,7 +39,7 @@ const SetNickname = ({ onCheckNickname, onNicknameChanged, onSetNickname, nickna
     <Grid container css={wrapper}>
       <Grid item xs={12} lg={6} css={[logoSection, m1200 && smallLogoSection]}>
         <Link to="/">
-          <LogoWithTextTemp2 />
+          <LogoTextWhite />
         </Link>
       </Grid>
 
