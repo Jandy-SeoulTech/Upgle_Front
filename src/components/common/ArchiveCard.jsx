@@ -13,7 +13,7 @@ const ArchiveCard = ({ archive, width }) => {
       css={archiveCard(width)}
       sx={{
         backgroundColor: getRandomColor(archive.title),
-        backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.510208) 75.52%, rgba(0, 0, 0, 0.79) 100%), url(${archive.imgUrl})`,
+        backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.510208) 75.52%, rgba(0, 0, 0, 0.79) 100%), url(${archive.images[0]?.src})`,
       }}
       onClick={() => history.push(`/channel/${archive.channelId}/archive/${archive.id}`)}
     >
