@@ -19,7 +19,7 @@ const ChannelHomeContainer = ({ channelId }) => {
     dispatch(
       getChannelPostList({ channelId, query: qs.stringify({ type: 'All', page: 1, pageSize: 5 }) }),
     );
-    dispatch(getChannelArchive({ channelId, query: qs.stringify({ page: 1, pageSize: 5 }) }));
+    dispatch(getChannelArchive({ channelId, query: qs.stringify({ page: 1, pageSize: 6 }) }));
     dispatch(getChannelData(channelId));
   }, [dispatch, channelId]);
 
