@@ -23,18 +23,12 @@ const ChannelTalkContainer = ({ channel }) => {
 
   useEffect(() => {
     socket = io(`${process.env.REACT_APP_SOCKET_ENDPOINT}/channel-${channel.id}`);
-    if (user) {
-      socket.emit('join', { user }, (error) => {
-        if (error) {
-          alert(error);
-        }
-      });
-    }
   }, [location, user]);
 
   useEffect(() => {
     socket.on('message', (message) => {
       if (message) {
+        if (messages.length > 0 && messages[0].id === message.id) return;
         dispatch(concatChannelMessages(message));
       }
     });
