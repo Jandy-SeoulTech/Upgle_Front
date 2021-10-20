@@ -8,6 +8,7 @@ import { setPost } from '../../modules/write';
 import { useHistory } from 'react-router';
 
 const PostContainer = ({ channelId, postId }) => {
+  const { user } = useSelector((state) => state.user);
   const { channel } = useSelector((state) => state.channel);
   const { post } = useSelector((state) => state.post);
   const dispatch = useDispatch();
@@ -36,7 +37,15 @@ const PostContainer = ({ channelId, postId }) => {
 
   if (!channel || !post) return <Loading css={{ backgroundColor: '#fafafc' }} />;
 
-  return <Post post={post} channel={channel} onEditPost={onEditPost} onDeletePost={onDeletePost} />;
+  return (
+    <Post
+      userId={user.id}
+      post={post}
+      channel={channel}
+      onEditPost={onEditPost}
+      onDeletePost={onDeletePost}
+    />
+  );
 };
 
 export default PostContainer;
