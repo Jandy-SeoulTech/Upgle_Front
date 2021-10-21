@@ -26,7 +26,9 @@ const RoomCard = ({ room }) => {
         </Typography>
         <Typography css={description}>
           <Time className="icon" />
-          {new Date(room.createdAt).toLocaleString()}
+          {new Date(
+            room.status === 'Reservation' ? room.reservedAt : room.createdAt,
+          ).toLocaleString()}
         </Typography>
       </Box>
     </Box>
