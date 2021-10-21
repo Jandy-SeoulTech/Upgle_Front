@@ -4,14 +4,13 @@ import { Box } from '@material-ui/core';
 import { ReactComponent as DefaultImage } from '../../lib/assets/defaultImage.svg';
 import { ReactComponent as CancelImage } from '../../lib/assets/cancelImage.svg';
 import ImageUploading from 'react-images-uploading';
-import React from 'react';
 
-const UploadImage = ({ images, onUploadImage, onInitImage }) => {
+const UploadImage = ({ profileImage, onUploadProfileImage, onInitImage }) => {
   const onChange = (imageList) => {
     if (imageList.length === 0) return;
     const formData = new FormData();
     formData.append('files', imageList[0].file);
-    onUploadImage(formData);
+    onUploadProfileImage(formData);
   };
 
   return (
@@ -20,10 +19,10 @@ const UploadImage = ({ images, onUploadImage, onInitImage }) => {
         {({ onImageUpload, isDragging, dragProps }) => (
           <>
             <div {...dragProps} onClick={onImageUpload} css={dragSenser(isDragging)}></div>
-            {images.length === 0 ? (
+            {!profileImage ? (
               <DefaultImage css={currentImage} />
             ) : (
-              <img src={images[0]} alt="" css={currentImage} />
+              <img src={profileImage} alt="" css={currentImage} />
             )}
             <CancelImage css={cancelImage} onClick={onInitImage} />
           </>

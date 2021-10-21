@@ -3,20 +3,15 @@ import { css } from '@emotion/react';
 import { Box, Grid, TextareaAutosize, Typography } from '@material-ui/core';
 import palette from '../../../lib/styles/palette';
 import { useEffect, useState } from 'react';
-import { ReactComponent as DefaultImage } from '../../../lib/assets/defaultImage.svg';
-import { ReactComponent as CancelImage } from '../../../lib/assets/cancelImage.svg';
-import ImageUploading from 'react-images-uploading';
 import ClearIcon from '@material-ui/icons/Clear';
 import TextField from '../../common/TextField';
 import Button from '../../common/Button';
 import { isNickname, isPassword } from '../../../lib/util/validate';
 import { useInView } from 'react-intersection-observer';
+import UploadImageContainer from '../../../containers/common/UploadImageContainer';
 
 const ProfileSetting = ({
   user,
-  profileImage,
-  onUploadProfileImage,
-  onInitImage,
   onCheckNickname,
   nicknameDuplicateError,
   onUpdateProfile,
@@ -46,13 +41,6 @@ const ProfileSetting = ({
       setInterestTalent(user.profile.interestTalent.map((talent) => talent.contents));
     }
   }, [user]);
-
-  const onImageChange = (imageList) => {
-    if (imageList.length === 0) return;
-    const formData = new FormData();
-    formData.append('files', imageList[0].file);
-    onUploadProfileImage(formData);
-  };
 
   const [nicknameFormatError, setNicknameFormatError] = useState(false);
   const handleNicknameChange = (e) => {
@@ -214,33 +202,12 @@ const ProfileSetting = ({
           <Grid item container css={profileSettingContents}>
             <Grid id="profile" ref={profileRef} item container css={profileSettingContent}>
               <Grid xs={4} item>
-                <ImageUploading onChange={onImageChange}>
-                  {({ onImageUpload, isDragging, dragProps }) => (
-                    <div
-                      css={{
-                        position: 'relative',
-                        width: '11.25rem',
-                        height: '11.25rem',
-                        margin: 'auto',
-                      }}
-                    >
-                      <CancelImage css={cancelImage} onClick={onInitImage} />
-                      <div
-                        {...dragProps}
-                        onClick={onImageUpload}
-                        css={dragSenser(isDragging)}
-                      ></div>
-                      {!profileImage ? (
-                        <DefaultImage css={currentImage} />
-                      ) : (
-                        <img src={profileImage} alt="" css={currentImage} />
-                      )}
-                    </div>
-                  )}
-                </ImageUploading>
-                <Typography css={{ textAlign: 'center', marginTop: '25px' }}>
-                  {user.email}
-                </Typography>
+                <Grid xs={12} container justifyContent="center">
+                  <UploadImageContainer />
+                </Grid>
+                <Grid xs={12} container justifyContent="center">
+                  <Typography css={{ marginTop: '25px' }}>{user.email}</Typography>
+                </Grid>
               </Grid>
               <Grid xs={8} item container css={profileContentWrapper} spacing={2}>
                 <Grid item>
