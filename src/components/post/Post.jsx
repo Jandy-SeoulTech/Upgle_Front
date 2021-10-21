@@ -20,7 +20,7 @@ import { Viewer } from '@toast-ui/react-editor';
 import editorConfig from '../../lib/util/editorConfig';
 import StatusIcon from './PostStatusIcon';
 
-const Post = ({ post, channel, onEditPost, onDeletePost }) => {
+const Post = ({ userId, post, channel, onEditPost, onDeletePost }) => {
   const [menuAnchor, setMenuAnchor] = useState();
   const handleMenuClick = (e) => {
     if (!e) return;
@@ -39,14 +39,18 @@ const Post = ({ post, channel, onEditPost, onDeletePost }) => {
             <MenuItem>
               <ListItemText>신고하기</ListItemText>
             </MenuItem>
-            <Divider />
-            <MenuItem>
-              <ListItemText onClick={onEditPost}>수정하기</ListItemText>
-            </MenuItem>
-            <Divider />
-            <MenuItem onClick={onDeletePost}>
-              <ListItemText>삭제하기</ListItemText>
-            </MenuItem>
+            {userId === post.authorId && (
+              <>
+                <Divider />
+                <MenuItem>
+                  <ListItemText onClick={onEditPost}>수정하기</ListItemText>
+                </MenuItem>
+                <Divider />
+                <MenuItem onClick={onDeletePost}>
+                  <ListItemText>삭제하기</ListItemText>
+                </MenuItem>
+              </>
+            )}
           </MenuList>
         </Paper>
       </ClickAwayListener>
@@ -163,7 +167,7 @@ const menuButton = css`
 
 const menuWrapper = css`
   width: 8.34rem;
-  height: 11.25rem;
+  max-height: 11.25rem;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
   z-index: 1001;
   padding: 0;
@@ -172,6 +176,7 @@ const menuWrapper = css`
   .MuiListItem-root {
     padding: 0;
     flex: 1;
+    min-height: 3.4375rem;
     .MuiTypography-root {
       font-family: 'Noto Sans KR';
       font-size: 1.167rem;
