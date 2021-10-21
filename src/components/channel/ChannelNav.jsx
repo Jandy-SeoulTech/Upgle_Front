@@ -60,21 +60,23 @@ const ChannelNav = ({ channel, isParticipant }) => {
           </>
         )}
       </Box>
-      {channelNavReducer.map(
-        (item, index) =>
-          (!item.isParticipant || isParticipant) && (
-            <Typography
-              key={index}
-              css={navItem}
-              onClick={() => {
-                window.scrollTo(0, 0);
-                history.push(item.url);
-              }}
-            >
-              {item.title}
-            </Typography>
-          ),
-      )}
+      <Box css={channelSubMenu}>
+        {channelNavReducer.map(
+          (item, index) =>
+            (!item.isParticipant || isParticipant) && (
+              <Typography
+                key={index}
+                css={navItem({ isActivated: pathname === item.url })}
+                onClick={() => {
+                  window.scrollTo(0, 0);
+                  history.push(item.url);
+                }}
+              >
+                {item.title}
+              </Typography>
+            ),
+        )}
+      </Box>
     </Box>
   );
 };
@@ -110,14 +112,20 @@ const channelHead = css`
   }
 `;
 
-const navItem = css`
+const channelSubMenu = css`
+  display: flex;
+  column-gap: 1.875rem;
+`;
+
+const navItem = ({ isActivated }) => css`
   font-family: 'Noto Sans KR';
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
-  & + & {
-    margin-left: 3.125rem;
-  }
+  padding: 0.3125rem 0.625rem;
+  border-radius: 1.25rem;
+  background-color: ${isActivated && 'black'};
+  color: ${isActivated && 'white'};
 `;
 
 export default ChannelNav;
