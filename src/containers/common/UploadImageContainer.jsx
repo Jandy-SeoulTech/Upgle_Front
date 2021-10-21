@@ -1,26 +1,20 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import UploadImage from '../../components/common/UploadImage';
-import { initialize, uploadImages } from '../../modules/image';
+import { initImage, uploadImage } from '../../modules/image';
 
 const UploadImageContainer = (props) => {
   const { images } = useSelector((state) => state.image);
   const dispatch = useDispatch();
 
-  const uploadImage = (formData) => {
-    dispatch(uploadImages(formData));
+  const onUploadImage = (formData) => {
+    dispatch(uploadImage(formData));
   };
 
-  const initializeImage = () => {
-    dispatch(initialize());
+  const onInitImage = () => {
+    dispatch(initImage());
   };
-  return (
-    <UploadImage
-      images={images}
-      uploadImage={uploadImage}
-      initializeImage={initializeImage}
-    />
-  );
+  return <UploadImage images={images} onUploadImage={onUploadImage} onInitImage={onInitImage} />;
 };
 
 export default UploadImageContainer;

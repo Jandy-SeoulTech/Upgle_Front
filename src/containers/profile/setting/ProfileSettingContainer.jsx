@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { initialize, setImage, uploadImages } from '../../../modules/image';
+import { initImage, setProfileImage, uploadProfileImage } from '../../../modules/image';
 import { check } from '../../../modules/user';
 import { updateProfile } from '../../../modules/write';
 import { checkNickname, initAuth } from '../../../modules/auth';
@@ -12,7 +12,7 @@ const ProfileSettingContainer = () => {
   const { user } = useSelector((state) => state.user);
   const { auth, nicknameChecked } = useSelector((state) => state.auth);
   const { updatedProfile } = useSelector((state) => state.write);
-  const { images } = useSelector((state) => state.image);
+  const { profileImage } = useSelector((state) => state.image);
   const { checkedPassword, changedPassword } = useSelector((state) => state.profile);
 
   const onChangePassword = ({ password }) => {
@@ -32,17 +32,17 @@ const ProfileSettingContainer = () => {
         introduce,
         wellTalent,
         interestTalent,
-        src: images[0] || null,
+        src: profileImage,
       }),
     );
   };
 
-  const uploadImage = (formData) => {
-    dispatch(uploadImages(formData));
+  const onUploadProfileImage = (formData) => {
+    dispatch(uploadProfileImage(formData));
   };
 
-  const initializeImage = () => {
-    dispatch(initialize());
+  const onInitImage = () => {
+    dispatch(initImage());
   };
 
   const onCheckNickname = ({ nickname }) => {
@@ -50,13 +50,14 @@ const ProfileSettingContainer = () => {
   };
 
   useEffect(() => {
-    if (user?.profile) {
-      dispatch(setImage(user.profile.profileImage));
+    if (user?.profile?.profileImage) {
+      dispatch(setProfileImage(user.profile.profileImage));
     }
   }, [user]);
 
   useEffect(() => {
     return () => {
+      dispatch(initImage());
       dispatch(initAuth());
     };
   }, [dispatch]);
@@ -70,9 +71,9 @@ const ProfileSettingContainer = () => {
   return (
     <ProfileSetting
       user={user}
-      images={images}
-      uploadImage={uploadImage}
-      initializeImage={initializeImage}
+      profileImage={profileImage}
+      onUploadProfileImage={onUploadProfileImage}
+      onInitImage={onInitImage}
       onCheckNickname={onCheckNickname}
       nicknameDuplicateError={!nicknameChecked}
       onUpdateProfile={onUpdateProfile}
