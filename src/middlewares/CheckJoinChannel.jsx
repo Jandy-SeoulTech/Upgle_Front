@@ -7,7 +7,7 @@ const CheckJoinChannel = ({ Component, match }) => {
   const { user } = useSelector((state) => state.user);
   const { channel } = useSelector((state) => state.channel);
   const [finished, setFinished] = useState(false);
-  const [isParticipant, setIsParticipant] = useState(false);
+  const [isParticipant, setIsParticipant] = useState(null);
   const { channelId } = match.params; // URL 파라미터 조회하기
   const history = useHistory();
   const dispatch = useDispatch();

@@ -43,11 +43,7 @@ const ChannelRouter = () => {
         render={(props) => <CheckJoinChannel {...props} Component={ChannelRoomListPage} />}
       />
       <Route path="/channel/:channelId/archive" exact component={ArchiveListPage} />
-      <Route
-        path="/channel/:channelId/archive/:archiveId"
-        exact
-        render={(props) => <CheckJoinChannel {...props} Component={ArchivePage} />}
-      />
+      <Route path="/channel/:channelId/archive/:archiveId" exact component={ArchivePage} />
       <Route
         path="/channel/:channelId/editArchive"
         exact

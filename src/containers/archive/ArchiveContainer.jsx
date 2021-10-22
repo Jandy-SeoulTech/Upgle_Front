@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getChannelData } from '../../modules/channel';
 import Loading from '../../components/common/Loading';
@@ -13,6 +13,9 @@ const ArchiveContainer = ({ channelId, archiveId }) => {
   } = useSelector((state) => state.user);
   const { channel } = useSelector((state) => state.channel);
   const { archive } = useSelector((state) => state.archive);
+  const { user } = useSelector((state) => state.user);
+  const [isParticipant, setIsParticipant] = useState(null);
+  const [isFinished, setIsFinished] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -27,9 +30,30 @@ const ArchiveContainer = ({ channelId, archiveId }) => {
   };
 
   useEffect(() => {
+    if (channel && user) {
+      channel.admin.id === user.id && setIsParticipant(true);
+      channel.participants.map((participant) => {
+        if (participant.userId === user.id) {
+          setIsParticipant(true);
+        }
+      });
+      setIsFinished(true);
+    }
+  }, [channel, user]);
+
+  useEffect(() => {
     dispatch(getChannelData(channelId));
     dispatch(getArchive(archiveId));
   }, [dispatch, channelId, archiveId]);
+
+  useEffect(() => {
+    if (isFinished && archive) {
+      if (archive.status === 'Private' && !isParticipant) {
+        alert('먼저 채널에 가입해주세요');
+        history.push(`/channel/${channelId}/profile`);
+      }
+    }
+  }, [isFinished]);
 
   useEffect(() => {
     return () => {
@@ -37,7 +61,7 @@ const ArchiveContainer = ({ channelId, archiveId }) => {
     };
   }, [dispatch]);
 
-  if (!channel || !archive) return <Loading css={{ backgroundColor: '#fafafc' }} />;
+  if (!channel || !archive || !isFinished) return <Loading css={{ backgroundColor: '#fafafc' }} />;
 
   return (
     <Archive
