@@ -130,7 +130,7 @@ const ChannelProfile = ({
         <Box>
           <Typography css={sectionTitle}>채널 정보</Typography>
           <Box css={channelInfo}>
-            <Typography css={channelCategory}>{channel.category.category.name}</Typography>
+            <Typography css={channelCategory}>{channel.category.name}</Typography>
             <Grid container spacing={2} css={channelTagList}>
               {channel.tags.map((tag) => (
                 <Grid item key={tag.tagId}>
