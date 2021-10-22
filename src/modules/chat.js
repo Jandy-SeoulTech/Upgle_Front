@@ -59,14 +59,6 @@ const chat = handleActions(
       type: SEND_CHANNEL_MESSAGE,
     }),
     ...pender({
-      type: GET_ROOM_MESSAGES,
-      onSuccess: (state, { payload }) => ({
-        ...state,
-        messages: state.messages.concat(payload),
-        lastId: payload[payload.length - 1].id,
-      }),
-    }),
-    ...pender({
       type: REPLY_ROOM_MESSAGE,
       onSuccess: (state, { payload }) => ({
         ...state,
