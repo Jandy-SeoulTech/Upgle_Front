@@ -21,7 +21,7 @@ const ChannelCard = ({ channel }) => {
         <Typography css={total}>
           <Participants css={icon} /> {channel.participants?.length + 1}
         </Typography>
-        <Typography css={category}>{channel.category.category.name}</Typography>
+        <Typography css={category}>{channel.category.name}</Typography>
         <Box css={tagList}>
           {channel.tags.map((tag) => (
             <Typography key={tag.tagId}>#{tag.tag.name}</Typography>
