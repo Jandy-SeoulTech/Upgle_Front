@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import { Box, Grid, Typography } from '@material-ui/core';
 import { useState } from 'react';
 import { useHistory } from 'react-router';
+import AnswerListModalContainer from '../../containers/common/AnswerListModalContainer';
 import ReviewModalContainer from '../../containers/common/ReviewModalContainer';
 import { ReactComponent as Amico } from '../../lib/assets/amico.svg';
 import palette from '../../lib/styles/palette';
@@ -20,9 +21,12 @@ const MyChannel = ({
   onGetMychannel,
   onExitRoom,
   onCloseRoom,
+  onCreateRoomArchive,
 }) => {
   const [reviewRoom, setReviewRoom] = useState(null);
+  const [archiveRoom, setArchiveRoom] = useState(false);
   const history = useHistory();
+
   return (
     <Box css={myChannelWrapper}>
       <Box css={myChannelContent}>
@@ -41,6 +45,17 @@ const MyChannel = ({
           </Button>
         </Box>
 
+        {archiveRoom && (
+          <AnswerListModalContainer
+            roomId={archiveRoom?.id}
+            open={archiveRoom}
+            setOpen={setArchiveRoom}
+            onSuccess={(selectedAnswer) => {
+              onCreateRoomArchive({ room: archiveRoom, content: selectedAnswer.join('\n') });
+            }}
+          />
+        )}
+
         <ReviewModalContainer
           room={reviewRoom}
           open={!!reviewRoom}
@@ -54,19 +69,23 @@ const MyChannel = ({
             <Typography css={nullDescription}>아직 오픈한 채팅방이 없습니다.</Typography>
           )}
           <Grid container spacing={2}>
-            {ownerRoom.map((room) => (
-              <Grid key={room.id} item>
-                <ChatCard
-                  isClosed={room.status === 'Close'}
-                  isReserved={room.status === 'Reservation'}
-                  user={user}
-                  room={room}
-                  onCloseRoom={onCloseRoom}
-                  setReviewRoom={setReviewRoom}
-                  onGetMychannel={onGetMychannel}
-                />
-              </Grid>
-            ))}
+            {ownerRoom.map(
+              (room) =>
+                room.status !== 'Archived' && (
+                  <Grid key={room.id} item>
+                    <ChatCard
+                      isClosed={room.status === 'Close'}
+                      isReserved={room.status === 'Reservation'}
+                      user={user}
+                      room={room}
+                      onCloseRoom={onCloseRoom}
+                      setReviewRoom={setReviewRoom}
+                      onGetMychannel={onGetMychannel}
+                      setArchiveRoom={setArchiveRoom}
+                    />
+                  </Grid>
+                ),
+            )}
           </Grid>
         </Box>
 

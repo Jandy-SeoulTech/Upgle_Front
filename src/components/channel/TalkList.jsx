@@ -17,6 +17,7 @@ const TalkList = ({ user, message, messages, setMessage, handleSendMessage, hand
 
   const scrollBottom = () => {
     chatEndRef.current.scrollIntoView();
+    window.scroll(0, 0);
   };
 
   const onSendMessage = async () => {
