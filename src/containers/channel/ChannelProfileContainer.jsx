@@ -65,7 +65,7 @@ const ChannelProfileContainer = ({ channelId }) => {
   };
 
   useEffect(() => {
-    dispatch(getChannelArchive(channelId));
+    dispatch(getChannelArchive({ channelId, query: 'page=1&pageSize=5' }));
     dispatch(getChannelData(channelId));
     return () => {
       dispatch(initChannel());
