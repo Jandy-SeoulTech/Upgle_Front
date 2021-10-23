@@ -14,6 +14,7 @@ import { useHistory } from 'react-router-dom';
 import ProfileModal from '../common/ProfileModal';
 import ModalUserCard from '../common/ModalUserCard';
 import ArchiveCard from '../common/ArchiveCard';
+import AdminModalUserCard from '../common/AdminModalUserCard';
 
 const ChannelProfile = ({
   user,
@@ -30,11 +31,18 @@ const ChannelProfile = ({
   onUnfollow,
   onProfileFollow,
   onProfileUnfollow,
+  onBanUser,
+  onPassAdmin,
 }) => {
   const history = useHistory();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tabs, setTabs] = useState([{ key: 'members', name: '재능 공유 멤버', data: <></> }]);
   const [currentTab, setCurrentTab] = useState('members');
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
+  const [adminModalTabs, setAdminModalTabs] = useState([
+    { key: 'admin', name: '채널 멤버 관리', data: <></> },
+  ]);
+  const [currentAdminModalTab, setCurrentAdminModalTab] = useState('admin');
 
   useEffect(() => {
     const newTabs = [...tabs];
@@ -79,6 +87,31 @@ const ChannelProfile = ({
         );
     }
     setTabs(newTabs);
+  }, [channel]);
+
+  useEffect(() => {
+    const newTabs = [...adminModalTabs];
+    if (channel?.participants) {
+      newTabs.find((tab) => tab.key === 'admin').data =
+        channel.participants.length === 0 ? (
+          <Grid container height="67vh" justifyContent="center" alignItems="center">
+            <Typography css={noContents}>채널에 참여자가 없습니다.</Typography>
+          </Grid>
+        ) : (
+          <Grid>
+            {channel.participants.map((member, i) => (
+              <AdminModalUserCard
+                key={i}
+                user={member.user}
+                onBanUser={onBanUser}
+                onPassAdmin={onPassAdmin}
+                setIsAdminModalOpen={setIsAdminModalOpen}
+              />
+            ))}
+          </Grid>
+        );
+    }
+    setAdminModalTabs(newTabs);
   }, [channel]);
 
   return (
@@ -141,7 +174,17 @@ const ChannelProfile = ({
           </Box>
         </Box>
         <Box>
-          <Typography css={sectionTitle}>재능 공유 멤버</Typography>
+          <Typography css={[sectionTitle, { justifyContent: 'flex-start', columnGap: '1.125rem' }]}>
+            재능 공유 멤버
+            {user.id === channel.adminId && (
+              <Setting
+                css={{ cursor: 'pointer' }}
+                onClick={() => {
+                  setIsAdminModalOpen(true);
+                }}
+              />
+            )}
+          </Typography>
           <Box css={channelMemberList}>
             <Box css={adminWrapper}>
               <Typography css={adminTitle}>관리자</Typography>
@@ -174,6 +217,15 @@ const ChannelProfile = ({
               tabs={tabs}
               currentTab={currentTab}
               setCurrentTab={setCurrentTab}
+              sxOverlay={{ marginTop: '8.4375rem' }}
+              sxContent={{ height: '75vh' }}
+            />
+            <ProfileModal
+              isOpen={isAdminModalOpen}
+              setIsModalOpen={setIsAdminModalOpen}
+              tabs={adminModalTabs}
+              currentTab={currentAdminModalTab}
+              setCurrentTab={setCurrentAdminModalTab}
               sxOverlay={{ marginTop: '8.4375rem' }}
               sxContent={{ height: '75vh' }}
             />
@@ -428,6 +480,15 @@ const noContent = css`
   width: 100%;
   font-family: 'Noto Sans KR';
   color: #5f5f5f;
+`;
+
+const noContents = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
+  font-size: 14px;
+  color: #5f5f5f;
+  text-align: center;
+  height: 200px;
+  line-height: 200px;
 `;
 
 export default ChannelProfile;
