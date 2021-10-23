@@ -32,6 +32,9 @@ const ChannelTalkContainer = ({ channel }) => {
         dispatch(concatChannelMessages(message));
       }
     });
+    return () => {
+      socket.off('message');
+    };
   }, []);
 
   const handleSendMessage = async () => {
