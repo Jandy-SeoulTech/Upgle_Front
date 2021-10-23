@@ -2,6 +2,8 @@ import { createAction, handleActions } from 'redux-actions';
 import { pender } from 'redux-pender/lib/utils';
 import * as channelAPI from '../lib/api/channel';
 
+const PASS_ADMIN = 'channel/PASS_ADMIN';
+const BAN_USER = 'channel/BAN_USER';
 const GET_CHANNEL_DATA = 'channel/GET_CHANNEL_DATA';
 const GET_MYCHANNEL = 'channel/GET_MYCHANNEL';
 const ENTER_CHANNEL = 'channel/ENTER_CHANNEL';
@@ -10,6 +12,8 @@ const LIKE_CHANNEL = 'channel/LIKE_CHANNEL';
 const UNLIKE_CHANNEL = 'channel/UNLIKE_CHANNEL';
 const INIT_CHANNEL = 'channel/INIT_CHANNEL';
 
+export const passAdmin = createAction(PASS_ADMIN, channelAPI.passAdmin);
+export const banUser = createAction(BAN_USER, channelAPI.banUser);
 export const getChannelData = createAction(GET_CHANNEL_DATA, channelAPI.getChannelData);
 export const getMychannel = createAction(GET_MYCHANNEL, channelAPI.getMyChannel);
 export const enterChannel = createAction(ENTER_CHANNEL, channelAPI.enterChannel);
@@ -72,6 +76,28 @@ const channel = handleActions(
       onSuccess: (state, { payload: channel }) => ({
         ...state,
         channel,
+      }),
+    }),
+    ...pender({
+      type: BAN_USER,
+      onSuccess: (state, { payload: channel }) => ({
+        ...state,
+        channel,
+      }),
+      onFailure: (state, { payload: error }) => ({
+        ...state,
+        error,
+      }),
+    }),
+    ...pender({
+      type: PASS_ADMIN,
+      onSuccess: (state, { payload: channel }) => ({
+        ...state,
+        channel,
+      }),
+      onFailure: (state, { payload: error }) => ({
+        ...state,
+        error,
       }),
     }),
   },

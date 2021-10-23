@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import ChannelProfile from '../../components/channel/ChannelProfile';
 import {
+  banUser,
   enterChannel,
   exitChannel,
   getChannelData,
   initChannel,
   likeChannel,
+  passAdmin,
   unLikeChannel,
 } from '../../modules/channel';
 import { profileFollow, profileUnfollow } from '../../modules/profile';
@@ -64,6 +66,20 @@ const ChannelProfileContainer = ({ channelId }) => {
     dispatch(profileUnfollow({ followingId, isMe }));
   };
 
+  const onBanUser = ({ userId, username }) => {
+    const yes = window.confirm(`${username}님을 채널에서 내보내겠습니까?`);
+    if (yes) {
+      dispatch(banUser({ adminId: user.id, userId, channelId: channel.id }));
+    }
+  };
+
+  const onPassAdmin = ({ userId, username }) => {
+    const yes = window.confirm(`${username}님께 채널 관리 권한을 넘겨주시겠습니까?`);
+    if (yes) {
+      dispatch(passAdmin({ adminId: user.id, userId, channelId: channel.id }));
+    }
+  };
+
   useEffect(() => {
     dispatch(getChannelArchive({ channelId, query: 'page=1&pageSize=5' }));
     dispatch(getChannelData(channelId));
@@ -102,6 +118,8 @@ const ChannelProfileContainer = ({ channelId }) => {
       onUnfollow={onUnfollow}
       onProfileFollow={onProfileFollow}
       onProfileUnfollow={onProfileUnfollow}
+      onBanUser={onBanUser}
+      onPassAdmin={onPassAdmin}
     />
   );
 };

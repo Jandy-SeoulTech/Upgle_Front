@@ -1,11 +1,20 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Avatar, Box, Grid, Paper, Typography } from '@material-ui/core';
+import {
+  Avatar,
+  Box,
+  Grid,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 import { ReactComponent as LikeIcon } from '../../lib/assets/likeIcon.svg';
 import { ReactComponent as LikedButton } from '../../lib/assets/likedButton.svg';
 import { ReactComponent as UserPlus } from '../../lib/assets/userPlus.svg';
 import { ReactComponent as MoreIcon } from '../../lib/assets/moreIcon.svg';
 import { ReactComponent as Setting } from '../../lib/assets/setting.svg';
+import { ReactComponent as SearchIcon } from '../../lib/assets/searchIcon.svg';
 import palette from '../../lib/styles/palette';
 import CheckIcon from '@material-ui/icons/Check';
 import Button from '../common/Button';
@@ -14,6 +23,7 @@ import { useHistory } from 'react-router-dom';
 import ProfileModal from '../common/ProfileModal';
 import ModalUserCard from '../common/ModalUserCard';
 import ArchiveCard from '../common/ArchiveCard';
+import AdminModalUserCard from '../common/AdminModalUserCard';
 
 const ChannelProfile = ({
   user,
@@ -30,11 +40,19 @@ const ChannelProfile = ({
   onUnfollow,
   onProfileFollow,
   onProfileUnfollow,
+  onBanUser,
+  onPassAdmin,
 }) => {
   const history = useHistory();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tabs, setTabs] = useState([{ key: 'members', name: '재능 공유 멤버', data: <></> }]);
   const [currentTab, setCurrentTab] = useState('members');
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
+  const [adminModalTabs, setAdminModalTabs] = useState([
+    { key: 'admin', name: '채널 멤버 관리', data: <></> },
+  ]);
+  const [currentAdminModalTab, setCurrentAdminModalTab] = useState('admin');
+  const [keyword, setKeyword] = useState('');
 
   useEffect(() => {
     const newTabs = [...tabs];
@@ -63,9 +81,9 @@ const ChannelProfile = ({
               onProfileFollow={onProfileFollow}
               onProfileUnfollow={onProfileUnfollow}
             />
-            {channel.participants.map((member, i) => (
+            {channel.participants.map((member) => (
               <ModalUserCard
-                key={i}
+                key={`modal-user-card-${member.id}`}
                 loggedInUser={user}
                 profileUserId={member.userId}
                 user={member.user}
@@ -80,6 +98,51 @@ const ChannelProfile = ({
     }
     setTabs(newTabs);
   }, [channel]);
+
+  useEffect(() => {
+    const newTabs = [...adminModalTabs];
+    const members = channel.participants.filter((member) => member.user.nickname.includes(keyword));
+    if (channel?.participants) {
+      newTabs.find((tab) => tab.key === 'admin').data =
+        channel.participants.length === 0 ? (
+          <Grid container height="67vh" justifyContent="center" alignItems="center">
+            <Typography css={noContents}>채널에 참여자가 없습니다.</Typography>
+          </Grid>
+        ) : (
+          <Grid container justifyContent="center">
+            <TextField
+              sx={search}
+              placeholder="멤버를 검색해보세요."
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton size="small">
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+            />
+            {members.length === 0 ? (
+              <Typography css={noContents}>검색된 멤버가 없습니다.</Typography>
+            ) : (
+              members.map((member) => (
+                <AdminModalUserCard
+                  key={`admin-modal-user-card-${member.id}`}
+                  user={member.user}
+                  onBanUser={onBanUser}
+                  onPassAdmin={onPassAdmin}
+                  setIsAdminModalOpen={setIsAdminModalOpen}
+                />
+              ))
+            )}
+          </Grid>
+        );
+    }
+    setAdminModalTabs(newTabs);
+  }, [channel, keyword]);
 
   return (
     <>
@@ -141,7 +204,17 @@ const ChannelProfile = ({
           </Box>
         </Box>
         <Box>
-          <Typography css={sectionTitle}>재능 공유 멤버</Typography>
+          <Typography css={[sectionTitle, { justifyContent: 'flex-start', columnGap: '1.125rem' }]}>
+            재능 공유 멤버
+            {user.id === channel.adminId && (
+              <Setting
+                css={{ cursor: 'pointer' }}
+                onClick={() => {
+                  setIsAdminModalOpen(true);
+                }}
+              />
+            )}
+          </Typography>
           <Box css={channelMemberList}>
             <Box css={adminWrapper}>
               <Typography css={adminTitle}>관리자</Typography>
@@ -153,13 +226,11 @@ const ChannelProfile = ({
             </Box>
             <Box css={participantList}>
               {channel.participants.map((user) => (
-                <>
-                  <Avatar
-                    key={user.userId}
-                    src={user.user['profile'] && user.user.profile.profileImage}
-                    css={channelParticipant}
-                  />
-                </>
+                <Avatar
+                  key={user.userId}
+                  src={user.user['profile'] && user.user.profile.profileImage}
+                  css={channelParticipant}
+                />
               ))}
             </Box>
             <MoreIcon
@@ -174,6 +245,15 @@ const ChannelProfile = ({
               tabs={tabs}
               currentTab={currentTab}
               setCurrentTab={setCurrentTab}
+              sxOverlay={{ marginTop: '8.4375rem' }}
+              sxContent={{ height: '75vh' }}
+            />
+            <ProfileModal
+              isOpen={isAdminModalOpen}
+              setIsModalOpen={setIsAdminModalOpen}
+              tabs={adminModalTabs}
+              currentTab={currentAdminModalTab}
+              setCurrentTab={setCurrentAdminModalTab}
               sxOverlay={{ marginTop: '8.4375rem' }}
               sxContent={{ height: '75vh' }}
             />
@@ -428,6 +508,33 @@ const noContent = css`
   width: 100%;
   font-family: 'Noto Sans KR';
   color: #5f5f5f;
+`;
+
+const noContents = css`
+  font-family: 'Noto Sans KR', 'sans-serif' !important;
+  font-size: 14px;
+  color: #5f5f5f;
+  text-align: center;
+  height: 200px;
+  line-height: 200px;
+`;
+
+const search = css`
+  width: 90%;
+  margin: 1rem auto;
+
+  & .MuiOutlinedInput-root {
+    & fieldset {
+      border: 1px solid #7b7b7b;
+      border-radius: 1.625rem;
+    }
+    &:hover fieldset {
+      border-color: #7b7b7b;
+    }
+    &.Mui-focused fieldset {
+      border-color: #7b7b7b;
+    }
+  }
 `;
 
 export default ChannelProfile;
