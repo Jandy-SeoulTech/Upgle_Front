@@ -23,8 +23,14 @@ const ProfileSettingContainer = () => {
     dispatch(checkPassword({ password }));
   };
 
-  const onUpdateProfile = ({ nickname, department, introduce, wellTalent, interestTalent }) => {
-    dispatch(
+  const onUpdateProfile = async ({
+    nickname,
+    department,
+    introduce,
+    wellTalent,
+    interestTalent,
+  }) => {
+    await dispatch(
       updateProfile({
         userId: user.id,
         nickname,
@@ -35,6 +41,7 @@ const ProfileSettingContainer = () => {
         src: profileImage,
       }),
     );
+    dispatch(check());
   };
 
   const onCheckNickname = ({ nickname }) => {
