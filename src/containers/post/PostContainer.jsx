@@ -6,6 +6,7 @@ import Post from '../../components/post/Post';
 import Loading from '../../components/common/Loading';
 import { setPost } from '../../modules/write';
 import { useHistory } from 'react-router';
+import { concatImage } from '../../modules/image';
 
 const PostContainer = ({ channelId, postId }) => {
   const { user } = useSelector((state) => state.user);
@@ -16,6 +17,7 @@ const PostContainer = ({ channelId, postId }) => {
 
   const onEditPost = async () => {
     await dispatch(setPost(post));
+    await dispatch(concatImage(post.images.map((image) => image.src)));
     history.push(`/channel/${channelId}/editPost`);
   };
 

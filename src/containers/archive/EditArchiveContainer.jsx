@@ -4,9 +4,8 @@ import { useHistory } from 'react-router';
 import { getChannelData } from '../../modules/channel';
 import { changeArchive, createArchive, editArchive } from '../../modules/write';
 import { uploadImage } from '../../lib/api/image';
-import { concatImage } from '../../modules/image';
-import { initialize as initializePost } from '../../modules/write';
-import { initialize as initializeImages } from '../../modules/write';
+import { concatImage, initImage } from '../../modules/image';
+import { initialize as initializeWrite } from '../../modules/write';
 import EditArchive from '../../components/archive/EditArchive';
 
 const EditArchiveContainer = ({ channelId }) => {
@@ -51,8 +50,8 @@ const EditArchiveContainer = ({ channelId }) => {
   useEffect(() => {
     dispatch(getChannelData(channelId));
     return () => {
-      dispatch(initializePost());
-      dispatch(initializeImages());
+      dispatch(initializeWrite());
+      dispatch(initImage());
     };
   }, [dispatch, channelId]);
 
