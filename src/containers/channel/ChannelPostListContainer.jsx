@@ -21,7 +21,7 @@ const ChannelPostListContainer = ({ channelId }) => {
   } = qs.parse(location.search, { ignoreQueryPrefix: true });
 
   const onQueryChange = (key, value) => {
-    const query = { type, page, pageSize };
+    const query = { type, page: 1, pageSize: 10 };
     history.push(`/channel/${channelId}/post?${qs.stringify({ ...query, [key]: value })}`);
     window.scrollTo(0, 0);
   };
