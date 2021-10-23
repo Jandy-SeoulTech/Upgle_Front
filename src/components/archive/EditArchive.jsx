@@ -28,10 +28,6 @@ const EditArchive = ({
     }
   };
 
-  const onIsNoticeChange = (e) => {
-    handleChangeFiled({ key: 'status', value: e.target.checked ? 'Notice' : 'Close' });
-  };
-
   return (
     <Box css={wrapper}>
       <Box css={{ width: '71.25rem', display: 'flex', flexDirection: 'column' }}>

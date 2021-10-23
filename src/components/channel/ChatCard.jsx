@@ -18,11 +18,12 @@ const ChatCard = ({
   onExitRoom,
   setReviewRoom,
   onGetMychannel,
+  setArchiveRoom,
 }) => {
   const [exit, setExit] = useState(false);
 
   const handleMoveChat = () => {
-    if (isReserved) return;
+    if (room.status !== 'Open') return;
     window.open(`/room/${room.id}`, '_blank', 'width=600, height=900, toolbars=no, scrollbars=yes');
     return false;
   };
@@ -50,12 +51,13 @@ const ChatCard = ({
       {isClosed ? (
         <Box css={modalWrapper}>
           <Typography className="reviewTitle">종료된 채팅방 입니다.</Typography>
+
           {room.roomOwner.id === user.id ? (
             <Button
               className="exit"
               onClick={(e) => {
                 e.stopPropagation();
-                setReviewRoom(room);
+                setArchiveRoom(room);
               }}
             >
               기록하기
