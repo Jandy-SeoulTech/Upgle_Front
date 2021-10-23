@@ -14,6 +14,7 @@ import {
   Typography,
   ClickAwayListener,
   useMediaQuery,
+  Avatar,
 } from '@material-ui/core';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { memo, useEffect, useState } from 'react';
@@ -130,7 +131,11 @@ const Header = ({ user, onLogout }) => {
           >
             <Box>
               <IconButton css={iconButton} onClick={handleMenu}>
-                <UserProfile />
+                {user.profile.profileImage ? (
+                  <Avatar src={user.profile.profileImage} />
+                ) : (
+                  <UserProfile />
+                )}
               </IconButton>
               <Popper
                 open={!!menuAnchor}
