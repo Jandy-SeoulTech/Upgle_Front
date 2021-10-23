@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import EditChannel from '../../components/channel/EditChannel';
-import { setImage } from '../../modules/image';
+import { setProfileImage } from '../../modules/image';
 import { check } from '../../modules/user';
 import { changeChannel, createChannel, initialize, updateChannel } from '../../modules/write';
 
 const EditChannelContainer = (props) => {
   const { writeChannel } = useSelector((state) => state.write);
   const { id: channelId } = useSelector((state) => state.write.writeChannel);
-  const { images } = useSelector((state) => state.image);
+  const { profileImage } = useSelector((state) => state.image);
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -26,7 +26,7 @@ const EditChannelContainer = (props) => {
             userId: user.id,
             channelId,
             ...writeChannel,
-            src: images[0] || null,
+            src: profileImage,
           }),
         );
       } else {
@@ -35,7 +35,7 @@ const EditChannelContainer = (props) => {
             userId: user.id,
             ...writeChannel,
             category: writeChannel.category.id,
-            src: images[0] || null,
+            src: profileImage,
           }),
         );
       }
@@ -49,7 +49,7 @@ const EditChannelContainer = (props) => {
 
   useEffect(() => {
     if (channelId) {
-      dispatch(setImage(writeChannel.src));
+      dispatch(setProfileImage(writeChannel.src));
     }
   }, [channelId]);
 

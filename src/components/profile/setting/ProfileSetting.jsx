@@ -3,20 +3,15 @@ import { css } from '@emotion/react';
 import { Box, Grid, TextareaAutosize, Typography } from '@material-ui/core';
 import palette from '../../../lib/styles/palette';
 import { useEffect, useState } from 'react';
-import { ReactComponent as DefaultImage } from '../../../lib/assets/defaultImage.svg';
-import { ReactComponent as CancelImage } from '../../../lib/assets/cancelImage.svg';
-import ImageUploading from 'react-images-uploading';
 import ClearIcon from '@material-ui/icons/Clear';
 import TextField from '../../common/TextField';
 import Button from '../../common/Button';
 import { isNickname, isPassword } from '../../../lib/util/validate';
 import { useInView } from 'react-intersection-observer';
+import UploadImageContainer from '../../../containers/common/UploadImageContainer';
 
 const ProfileSetting = ({
   user,
-  images,
-  uploadImage,
-  initializeImage,
   onCheckNickname,
   nicknameDuplicateError,
   onUpdateProfile,
@@ -43,18 +38,9 @@ const ProfileSetting = ({
       setIntroduce(user.profile.introduce);
       setDepartment(user.profile.department);
       setWellTalent(user.profile.wellTalent.map((talent) => talent.contents));
-      setInterestTalent(
-        user.profile.interestTalent.map((talent) => talent.contents),
-      );
+      setInterestTalent(user.profile.interestTalent.map((talent) => talent.contents));
     }
   }, [user]);
-
-  const onImageChange = (imageList) => {
-    if (imageList.length === 0) return;
-    const formData = new FormData();
-    formData.append('files', imageList[0].file);
-    uploadImage(formData);
-  };
 
   const [nicknameFormatError, setNicknameFormatError] = useState(false);
   const handleNicknameChange = (e) => {
@@ -145,9 +131,7 @@ const ProfileSetting = ({
   };
 
   const handleDeleteInterestTalent = (i) => {
-    setInterestTalent(
-      interestTalent.filter((talent) => talent !== interestTalent[i]),
-    );
+    setInterestTalent(interestTalent.filter((talent) => talent !== interestTalent[i]));
   };
 
   const handleEditProfile = () => {
@@ -202,72 +186,30 @@ const ProfileSetting = ({
             </Typography>
             {user.provider === 'local' && (
               <Typography
-                className={
-                  isPasswordInView && !isProfileInView ? 'current' : ''
-                }
+                className={isPasswordInView && !isProfileInView ? 'current' : ''}
                 onClick={() => (window.location.href = '/setting#password')}
               >
                 비밀번호 관리
               </Typography>
             )}
             <Typography
-              className={
-                isAlarmInView && !isProfileInView && !isPasswordInView
-                  ? 'current'
-                  : ''
-              }
+              className={isAlarmInView && !isProfileInView && !isPasswordInView ? 'current' : ''}
               onClick={() => (window.location.href = '/setting#alarm')}
             >
               알림 설정
             </Typography>
           </Grid>
           <Grid item container css={profileSettingContents}>
-            <Grid
-              id="profile"
-              ref={profileRef}
-              item
-              container
-              css={profileSettingContent}
-            >
+            <Grid id="profile" ref={profileRef} item container css={profileSettingContent}>
               <Grid xs={4} item>
-                <ImageUploading onChange={onImageChange}>
-                  {({ onImageUpload, isDragging, dragProps }) => (
-                    <div
-                      css={{
-                        position: 'relative',
-                        width: '11.25rem',
-                        height: '11.25rem',
-                        margin: 'auto',
-                      }}
-                    >
-                      <CancelImage
-                        css={cancelImage}
-                        onClick={initializeImage}
-                      />
-                      <div
-                        {...dragProps}
-                        onClick={onImageUpload}
-                        css={dragSenser(isDragging)}
-                      ></div>
-                      {images.length === 0 ? (
-                        <DefaultImage css={currentImage} />
-                      ) : (
-                        <img src={images[0]} alt="" css={currentImage} />
-                      )}
-                    </div>
-                  )}
-                </ImageUploading>
-                <Typography css={{ textAlign: 'center', marginTop: '25px' }}>
-                  {user.email}
-                </Typography>
+                <Grid xs={12} container justifyContent="center">
+                  <UploadImageContainer />
+                </Grid>
+                <Grid xs={12} container justifyContent="center">
+                  <Typography css={{ marginTop: '25px' }}>{user.email}</Typography>
+                </Grid>
               </Grid>
-              <Grid
-                xs={8}
-                item
-                container
-                css={profileContentWrapper}
-                spacing={2}
-              >
+              <Grid xs={8} item container css={profileContentWrapper} spacing={2}>
                 <Grid item>
                   <Typography>닉네임</Typography>
                   <TextField
@@ -276,16 +218,14 @@ const ProfileSetting = ({
                     variant="outlined"
                     placeholder="10자 이내"
                     error={
-                      nicknameFormatError ||
-                      (nicknameDuplicateError && nickname !== user.nickname)
+                      nicknameFormatError || (nicknameDuplicateError && nickname !== user.nickname)
                     }
                     helperText={
                       (nicknameFormatError && '유효하지 않은 닉네임입니다.') ||
                       (nicknameDuplicateError &&
                         nickname !== user.nickname &&
                         '이미 등록된 닉네임입니다.') ||
-                      (!nicknameDuplicateError &&
-                        '✅ 사용 가능한 닉네임입니다.')
+                      (!nicknameDuplicateError && '✅ 사용 가능한 닉네임입니다.')
                     }
                     value={nickname}
                     onChange={handleNicknameChange}
@@ -319,8 +259,7 @@ const ProfileSetting = ({
                     onChange={handleChangeDepartment}
                     error={departmentLengthError}
                     helperText={
-                      departmentLengthError &&
-                      '글자수 제한을 조과하였습니다. (20자 이내)'
+                      departmentLengthError && '글자수 제한을 조과하였습니다. (20자 이내)'
                     }
                     css={input}
                   />
@@ -393,9 +332,7 @@ const ProfileSetting = ({
                 </Grid>
                 {updatedProfile && (
                   <Grid item>
-                    <Typography textAlign="center">
-                      ✅ 프로필을 수정했습니다.
-                    </Typography>
+                    <Typography textAlign="center">✅ 프로필을 수정했습니다.</Typography>
                   </Grid>
                 )}
                 <Grid item>
@@ -406,21 +343,9 @@ const ProfileSetting = ({
               </Grid>
             </Grid>
             {user.provider === 'local' && (
-              <Grid
-                id="password"
-                ref={passwordRef}
-                item
-                container
-                css={profileSettingContent}
-              >
+              <Grid id="password" ref={passwordRef} item container css={profileSettingContent}>
                 <Grid xs={4} item></Grid>
-                <Grid
-                  xs={8}
-                  item
-                  container
-                  css={profileContentWrapper}
-                  spacing={1.875}
-                >
+                <Grid xs={8} item container css={profileContentWrapper} spacing={1.875}>
                   <Grid item>
                     <Typography>현재 비밀번호</Typography>
                     <TextField
@@ -436,8 +361,7 @@ const ProfileSetting = ({
                       error={oldPasswordError || checkedPassword === false}
                       helperText={
                         (oldPasswordError && '현재 비밀번호를 입력해주세요.') ||
-                        (checkedPassword === false &&
-                          '현재 비밀번호가 일치하지 않습니다.')
+                        (checkedPassword === false && '현재 비밀번호가 일치하지 않습니다.')
                       }
                       css={input}
                     />
@@ -475,18 +399,13 @@ const ProfileSetting = ({
                         setNewPasswordCheckError(false);
                       }}
                       error={newPasswordCheckError}
-                      helperText={
-                        newPasswordCheckError &&
-                        '새 비밀번호가 일치하지 않습니다.'
-                      }
+                      helperText={newPasswordCheckError && '새 비밀번호가 일치하지 않습니다.'}
                       css={input}
                     />
                   </Grid>
                   {changedPassword && (
                     <Grid item>
-                      <Typography textAlign="center">
-                        ✅ 비밀번호를 수정했습니다.
-                      </Typography>
+                      <Typography textAlign="center">✅ 비밀번호를 수정했습니다.</Typography>
                     </Grid>
                   )}
                   <Grid item>
@@ -497,13 +416,7 @@ const ProfileSetting = ({
                 </Grid>
               </Grid>
             )}
-            <Grid
-              id="alarm"
-              ref={alarmRef}
-              item
-              css={profileSettingContent}
-              height="800px"
-            ></Grid>
+            <Grid id="alarm" ref={alarmRef} item css={profileSettingContent} height="800px"></Grid>
           </Grid>
         </Grid>
       </Grid>
@@ -624,9 +537,7 @@ const introduceForm = (lengthError) => css`
   resize: none;
   outline: ${lengthError && '1px solid red'};
   &:focus-visible {
-    outline: ${lengthError
-      ? '2px solid red !important;'
-      : '2px solid black !important;'};
+    outline: ${lengthError ? '2px solid red !important;' : '2px solid black !important;'};
   }
 `;
 

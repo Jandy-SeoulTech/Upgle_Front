@@ -1,4 +1,4 @@
-import { uploadImages } from './../api/image';
+import { uploadImage } from './../api/image';
 import { css } from '@emotion/react';
 
 const renderer = {
@@ -21,7 +21,7 @@ const hooks = {
   addImageBlobHook: async function (blob, callback) {
     let formData = new FormData();
     formData.append('files', blob);
-    const uploadedImageUrl = await uploadImages(formData);
+    const uploadedImageUrl = await uploadImage(formData);
     callback(uploadedImageUrl, 'alt text');
   },
 };

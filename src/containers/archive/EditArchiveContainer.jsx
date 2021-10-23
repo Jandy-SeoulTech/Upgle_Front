@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { getChannelData } from '../../modules/channel';
 import { changeArchive, createArchive, editArchive } from '../../modules/write';
-import { uploadImages } from '../../lib/api/image';
+import { uploadImage } from '../../lib/api/image';
 import { concatImage } from '../../modules/image';
 import { initialize as initializePost } from '../../modules/write';
 import { initialize as initializeImages } from '../../modules/write';
@@ -24,7 +24,7 @@ const EditArchiveContainer = ({ channelId }) => {
   const imageHook = async (blob, callback) => {
     let formData = new FormData();
     formData.append('files', blob);
-    const imgUrl = await uploadImages(formData);
+    const imgUrl = await uploadImage(formData);
     dispatch(concatImage(imgUrl));
     callback(imgUrl, 'alt text');
   };
