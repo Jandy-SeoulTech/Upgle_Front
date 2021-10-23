@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import UploadImage from '../../components/common/UploadImage';
 import { initImage, uploadProfileImage } from '../../modules/image';
@@ -14,6 +14,12 @@ const UploadImageContainer = (props) => {
   const onInitImage = () => {
     dispatch(initImage());
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(initImage());
+    };
+  }, []);
 
   return (
     <UploadImage

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import EditChannel from '../../components/channel/EditChannel';
-import { setProfileImage } from '../../modules/image';
+import { initImage, setProfileImage } from '../../modules/image';
 import { check } from '../../modules/user';
 import { changeChannel, createChannel, initialize, updateChannel } from '../../modules/write';
 
@@ -56,6 +56,7 @@ const EditChannelContainer = (props) => {
   useEffect(() => {
     return () => {
       dispatch(initialize());
+      dispatch(initImage());
     };
   }, [dispatch]);
 
