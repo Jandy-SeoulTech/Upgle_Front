@@ -49,6 +49,10 @@ const RoomContainer = ({ roomId }) => {
     socket.on('RoomInfo', (participantInfo) => {
       setParticipants(participantInfo);
     });
+    return () => {
+      socket.off('message');
+      socket.off('RoomInfo');
+    };
   }, []);
 
   const handleSendMessage = async () => {
