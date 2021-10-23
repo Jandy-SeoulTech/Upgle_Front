@@ -5,7 +5,7 @@ import Button from './Button';
 
 function AdminModalUserCard({ user, onBanUser, onPassAdmin, setIsAdminModalOpen }) {
   return (
-    <Grid container py={4} borderBottom="1px solid #E0E0E0">
+    <Grid container py={4} borderTop=".5px solid #E0E0E0" borderBottom=".5px solid #E0E0E0">
       <Grid item container xs={2}>
         <Avatar
           css={avatar}
@@ -95,14 +95,14 @@ const buttons = css`
 const banUserButton = css`
   background-color: black;
   color: white;
-  width: 120px;
-  height: 30px;
+  width: 7.5rem;
+  height: 2rem;
   border: none;
-  border-radius: 30px;
+  border-radius: 2rem;
 
   .title {
     font-family: 'Noto Sans KR', 'sans-serif' !important;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 700;
   }
 
@@ -115,14 +115,14 @@ const banUserButton = css`
 const passAdminButton = css`
   background-color: #ff0000;
   color: white;
-  width: 120px;
-  height: 30px;
+  width: 7.5rem;
+  height: 2rem;
   border: none;
-  border-radius: 30px;
+  border-radius: 2rem;
 
   .title {
     font-family: 'Noto Sans KR', 'sans-serif' !important;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 700;
   }
 

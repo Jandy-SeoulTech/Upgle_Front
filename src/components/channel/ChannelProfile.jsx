@@ -1,11 +1,20 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Avatar, Box, Grid, Paper, Typography } from '@material-ui/core';
+import {
+  Avatar,
+  Box,
+  Grid,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 import { ReactComponent as LikeIcon } from '../../lib/assets/likeIcon.svg';
 import { ReactComponent as LikedButton } from '../../lib/assets/likedButton.svg';
 import { ReactComponent as UserPlus } from '../../lib/assets/userPlus.svg';
 import { ReactComponent as MoreIcon } from '../../lib/assets/moreIcon.svg';
 import { ReactComponent as Setting } from '../../lib/assets/setting.svg';
+import { ReactComponent as SearchIcon } from '../../lib/assets/searchIcon.svg';
 import palette from '../../lib/styles/palette';
 import CheckIcon from '@material-ui/icons/Check';
 import Button from '../common/Button';
@@ -43,6 +52,7 @@ const ChannelProfile = ({
     { key: 'admin', name: '채널 멤버 관리', data: <></> },
   ]);
   const [currentAdminModalTab, setCurrentAdminModalTab] = useState('admin');
+  const [keyword, setKeyword] = useState('');
 
   useEffect(() => {
     const newTabs = [...tabs];
@@ -71,9 +81,9 @@ const ChannelProfile = ({
               onProfileFollow={onProfileFollow}
               onProfileUnfollow={onProfileUnfollow}
             />
-            {channel.participants.map((member, i) => (
+            {channel.participants.map((member) => (
               <ModalUserCard
-                key={i}
+                key={`modal-user-card-${member.id}`}
                 loggedInUser={user}
                 profileUserId={member.userId}
                 user={member.user}
@@ -91,6 +101,7 @@ const ChannelProfile = ({
 
   useEffect(() => {
     const newTabs = [...adminModalTabs];
+    const members = channel.participants.filter((member) => member.user.nickname.includes(keyword));
     if (channel?.participants) {
       newTabs.find((tab) => tab.key === 'admin').data =
         channel.participants.length === 0 ? (
@@ -98,21 +109,40 @@ const ChannelProfile = ({
             <Typography css={noContents}>채널에 참여자가 없습니다.</Typography>
           </Grid>
         ) : (
-          <Grid>
-            {channel.participants.map((member, i) => (
-              <AdminModalUserCard
-                key={i}
-                user={member.user}
-                onBanUser={onBanUser}
-                onPassAdmin={onPassAdmin}
-                setIsAdminModalOpen={setIsAdminModalOpen}
-              />
-            ))}
+          <Grid container justifyContent="center">
+            <TextField
+              sx={search}
+              placeholder="멤버를 검색해보세요."
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton size="small">
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+            />
+            {members.length === 0 ? (
+              <Typography css={noContents}>검색된 멤버가 없습니다.</Typography>
+            ) : (
+              members.map((member) => (
+                <AdminModalUserCard
+                  key={`admin-modal-user-card-${member.id}`}
+                  user={member.user}
+                  onBanUser={onBanUser}
+                  onPassAdmin={onPassAdmin}
+                  setIsAdminModalOpen={setIsAdminModalOpen}
+                />
+              ))
+            )}
           </Grid>
         );
     }
     setAdminModalTabs(newTabs);
-  }, [channel]);
+  }, [channel, keyword]);
 
   return (
     <>
@@ -196,13 +226,11 @@ const ChannelProfile = ({
             </Box>
             <Box css={participantList}>
               {channel.participants.map((user) => (
-                <>
-                  <Avatar
-                    key={user.userId}
-                    src={user.user['profile'] && user.user.profile.profileImage}
-                    css={channelParticipant}
-                  />
-                </>
+                <Avatar
+                  key={user.userId}
+                  src={user.user['profile'] && user.user.profile.profileImage}
+                  css={channelParticipant}
+                />
               ))}
             </Box>
             <MoreIcon
@@ -489,6 +517,24 @@ const noContents = css`
   text-align: center;
   height: 200px;
   line-height: 200px;
+`;
+
+const search = css`
+  width: 90%;
+  margin: 1rem auto;
+
+  & .MuiOutlinedInput-root {
+    & fieldset {
+      border: 1px solid #7b7b7b;
+      border-radius: 1.625rem;
+    }
+    &:hover fieldset {
+      border-color: #7b7b7b;
+    }
+    &.Mui-focused fieldset {
+      border-color: #7b7b7b;
+    }
+  }
 `;
 
 export default ChannelProfile;
