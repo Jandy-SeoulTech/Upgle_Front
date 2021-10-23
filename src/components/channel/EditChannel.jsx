@@ -69,6 +69,7 @@ const EditChannel = ({ writeChannel, handleChangeFiled, editChannel }) => {
               <Select
                 value={writeChannel.category}
                 css={formSelect}
+                renderValue={(selected) => selected.name}
                 onChange={(e) => {
                   handleChangeFiled({
                     key: 'category',

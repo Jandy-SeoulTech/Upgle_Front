@@ -26,6 +26,7 @@ const EditChannelContainer = (props) => {
             userId: user.id,
             channelId,
             ...writeChannel,
+            category: writeChannel.category.id,
             src: profileImage,
           }),
         );

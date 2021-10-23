@@ -112,7 +112,7 @@ export default handleActions(
         name: payload.name,
         introduce: payload.introduce,
         tags: payload.tags.map((tag) => tag.tag.name),
-        category: payload.category.name,
+        category: { name: payload.category.name },
         src: payload.channelImage,
       },
     }),
