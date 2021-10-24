@@ -131,7 +131,7 @@ const Header = ({ user, onLogout }) => {
           >
             <Box>
               <IconButton css={iconButton} onClick={handleMenu}>
-                {user.profile.profileImage ? (
+                {user.profile?.profileImage ? (
                   <Avatar src={user.profile.profileImage} />
                 ) : (
                   <UserProfile />
