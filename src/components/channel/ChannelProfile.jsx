@@ -59,7 +59,7 @@ const ChannelProfile = ({
     if (channel?.participants) {
       newTabs.find((tab) => tab.key === 'members').data =
         channel.participants.length === 0 ? (
-          <Grid container height="67vh" justifyContent="center" alignItems="center">
+          <Grid>
             <ModalUserCard
               loggedInUser={user}
               profileUserId={channel.admin.id}
