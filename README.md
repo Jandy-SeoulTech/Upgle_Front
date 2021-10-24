@@ -1,4 +1,4 @@
-<p align="center"><img width='300px' src="https://user-images.githubusercontent.com/24623403/129664202-0ac9857f-32f0-416e-915b-2254c4661bbc.png"></p>
+<p align="center"><img width='300px' src="https://user-images.githubusercontent.com/24623403/138607294-5eed866c-f7f8-4f24-9c0e-3bc6a4765e72.png"></p>
 <p align='center'>
   <img src='https://img.shields.io/github/package-json/v/Jandy-SeoulTech/Jandy_Web_Front'>
   <a href="https://github.com/Jandy-SeoulTech/Jandy_Web_Front/issues"><img src='https://img.shields.io/github/issues/Jandy-SeoulTech/Jandy_Web_Front'></a>
@@ -15,9 +15,25 @@
 
 비슷한 재능을 공유할 수 있는 **채널**에 가입해서 실시간 채팅, 화상, 음성 등으로 다른 사람들과 소통하면서 자신의 재능을 공유하거나, 키워나가세요!
 
+## ⭐️ 핵심 기능
+
+### 🌈 재능공유자와 학습자가 만나기 위한 채널 기능
+재능 공유자와 재능 참여자가 쉽게 만날 수 있는 **채널**을 만들어보세요!    
+누구나 채널을 만들 수 있고 누구나 채널에 가입할 수 있습니다.    
+채널을 통해 다른 사람들에게 자신만의 재능을 공유해주세요!😊
+
+### 👥  효율적인 재능 공유를 위한 채팅 및 화상방 기능
+재능 공유자가 편하게 재능을 공유하기 위해 **채팅 및 화상방**을 만들어주세요!    
+저희 서비스에서 채팅방과 화상방을 만들어서 좀더 효율적으로 재능을 공유하실 수 있습니다.👋🏻
+
+### 📝 재능 공유가 끝나고 기록하는 아카이빙 기능
+재능 공유가 끝나고 유익한 내용을 기록하고 싶다면?    
+재능 공유자가 채팅방에서 대화한 유익한 내용들을 직접 에디터를 통해 **아카이빙**으로 기록할 수 있습니다.    
+채널 가입자뿐만 아니라 다른 사람들에게도 유익한 내용을 공유해주세요!
+
 ## 서비스 결과물
 
-9월 9일 업데이트 예정
+서비스 주소 : https://upgle.hisfolio.com
 
 ## 💡 Front-End 기술 스택 (Technique Used)
 
@@ -56,6 +72,8 @@
   </tr>
 </tbody></table>
 
+### [프로젝트 구조](https://github.com/Jandy-SeoulTech/Jandy_Web_Front/wiki/Upgle%EC%9D%98-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B5%AC%EC%A1%B0)
+
 ## 🖥 컴퓨터 구성 / 필수 조건 안내 (Prerequisites)
 
 - ECMAScript 6 지원 브라우저 사용
@@ -68,28 +86,29 @@
 | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
 | 56+ ✔                                                                                               | 32+ ✔                                                                                                  | 16+ ✔                                                                                         | 42+ ✔                                                                                            | 8+ ✔                                                                                                |
 
-## ✍ 설치 및 실행 안내 (Installation & Execution Process)
+## 🌟 Contribute
+저희 서비스는 다른 사람들의 Contribute 를 원하고 있습니다. 👋🏻 아래는 설치 및 Contribute 가이드입니다.
+### installation
+> 원활한 실행을 위해서는 node LTS 이상의 버전을, 저희 서비스에 Contribute 하기 위해서는 node v16.8.0을 준비해주시기 바랍니다
 
 1. 업글 원격 저장소를 클론합니다.
-
-```bash
-$ git clone https://github.com/Jandy-SeoulTech/Jandy_Web_Front
 ```
-
+$ git clone https://github.com/Jandy-SeoulTech/Jandy_Web_Front.git
+```
 2. 생성된 로컬 저장소로 이동 후 모듈을 설치합니다.
-
-```bash
+```
 $ cd Jandy_Web_Front
-$ yarn install
+$ npm install
+```
+3. 위 작업이 완료되었다면 실행을 해주세요!
+```
+$ npm run start
 ```
 
-3. yarn start를 통해 리액트 앱을 실행시킵니다.
+### Contribute
+> 개발하시기 전 prettier가 에디터에 설정이 잘 돼있는지 확인해주세요!
 
-```bash
-$ yarn start
-```
-
-4. 브라우저에 http://localhost:3000 를 입력하여 사이트에 접속 할 수 있습니다.
+기여 가이드 라인을 따라서 해주시면 됩니다. [가이드라인](https://github.com/Jandy-SeoulTech/Jandy_Web_Back/blob/dev/CONTRIBUTING.md)
 
 ## 👨‍👩‍👧‍👦 팀 정보(Team Information)
 
@@ -118,7 +137,7 @@ $ yarn start
         <a href="https://github.com/KeisLuv5991"><img src="https://avatars.githubusercontent.com/u/38745815?v=4" width="150px" alt="최민준"/><br /><sub><b>최민준</b></sub></a>
      </td>
      <td align="center">
-        <a href="##"><img src="https://user-images.githubusercontent.com/28949213/129733334-66bf8833-ce33-4e1a-9503-d01f700635af.png" width="150px" alt="김연수"/><br /><sub><b>김연수</b></sub></a>
+        <a href="https://github.com/ssusukang"><img src="https://avatars.githubusercontent.com/u/80057422?v=4" width="150px" alt="김연수"/><br /><sub><b>김연수</b></sub></a>
      </td>
   <tr>
 
