@@ -6,6 +6,7 @@ import Archive from '../../components/archive/Archive';
 import { deleteArchive, getArchive, initArchive } from '../../modules/archive';
 import { setArchive } from '../../modules/write';
 import { useHistory } from 'react-router';
+import { concatImage } from '../../modules/image';
 
 const ArchiveContainer = ({ channelId, archiveId }) => {
   const {
@@ -21,6 +22,7 @@ const ArchiveContainer = ({ channelId, archiveId }) => {
 
   const onEditArchive = async () => {
     await dispatch(setArchive(archive));
+    await dispatch(concatImage(archive.images.map((image) => image.src)));
     history.push(`/channel/${channelId}/editArchive`);
   };
 
