@@ -1373,7 +1373,7 @@
   resolved "https://registry.yarnpkg.com/@fontsource/barlow/-/barlow-4.5.0.tgz#379614975be4cbb2f1b4a3d3e30d081fbf00ab5f"
   integrity sha512-GXDWy1hi40MgOH4j4AOZu1dWqVLTU67fkuwA10ZLXGsJoJNTT9dWpOYsmIkFDMiwuzfi6lR4O3tulnXuxkITtA==
 
-"@fontsource/noto-sans-kr@^4.5.0":
+"@fontsource/noto-sans-kr@^4.5.1":
   version "4.5.1"
   resolved "https://registry.yarnpkg.com/@fontsource/noto-sans-kr/-/noto-sans-kr-4.5.1.tgz#643080dd490e1f9990df9d431b8b42f751b8a19d"
   integrity sha512-3Qqk6hs6pbD80VEAnCf4T9tZaZOM5h8KhBCc2oiGvCik55SOx20x+0gemev2xxatr+SBlUYdeltK3EEDEg4UfQ==
