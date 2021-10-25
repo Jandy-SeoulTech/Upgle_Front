@@ -4,7 +4,7 @@
   <a href="https://github.com/Jandy-SeoulTech/Jandy_Web_Front/issues"><img src='https://img.shields.io/github/issues/Jandy-SeoulTech/Jandy_Web_Front'></a>
  <a href="https://github.com/Jandy-SeoulTech/Jandy_Web_Front/graphs/contributors"><img src='https://img.shields.io/github/contributors/Jandy-SeoulTech/Jandy_Web_Front'></a>
  <a href='https://github.com/Jandy-SeoulTech/Jandy_Web_Front/blob/main/LICENSE'><img src='https://img.shields.io/github/license/Jandy-SeoulTech/Jandy_Web_Front'></a>
- <a href='https://upgle.hisfolio.com'><img src='https://img.shields.io/badge/Test%20on-netlify-yellow'></a>
+ <a href='https://upgle.hisfolio.com'><img src='https://img.shields.io/badge/status-deploy-green'></a>
 </p>
 
 # 재능 공유 플랫폼 Upgle
