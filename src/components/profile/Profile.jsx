@@ -356,11 +356,13 @@ const Profile = ({
                 </Button>
                 <Typography css={reviewNum}>{profile.reviewed.length}</Typography>
               </Grid>
-              {profile.reviewed.map((review, i) => (
-                <Typography key={i} css={reviewText}>
-                  {review.content}
-                </Typography>
-              ))}
+              <Grid item flexDirection="column">
+                {profile.reviewed.map((review, i) => (
+                  <Typography key={i} css={reviewText}>
+                    {review.content}
+                  </Typography>
+                ))}
+              </Grid>
             </Grid>
           </Grid>
           {isMe && (
