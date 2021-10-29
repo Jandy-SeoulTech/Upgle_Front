@@ -213,11 +213,11 @@ const Signup = ({
               size="small"
               fullWidth
               label="비밀번호"
-              placeholder="8 ~ 10자 영문, 숫자 조합"
+              placeholder="8 ~ 16자 영문, 숫자 조합, 특수문자도 입력 가능"
               type="password"
               autoComplete="new-password"
               error={passwordError}
-              helperText={passwordError && '영문, 숫자 포함 8자리 이상 입력해주세요.'}
+              helperText={passwordError && '영문, 숫자 포함하여 8 ~ 16자 입력해주세요.'}
               value={password}
               onChange={handlePasswordChange}
               sx={input}
