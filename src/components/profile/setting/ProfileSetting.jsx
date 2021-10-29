@@ -90,13 +90,13 @@ const ProfileSetting = ({
 
   const handleWellKeyPress = (e) => {
     if (e.key === 'Enter') {
-      handleCreateWellTalent();
+      handleCreateWellTalent(wellInput.trim());
     }
   };
 
-  const handleCreateWellTalent = () => {
-    if (wellInput.length <= 10 && wellTalent.length < 10) {
-      setWellTalent(wellTalent.concat(wellInput));
+  const handleCreateWellTalent = (value) => {
+    if (value.length > 0 && value.length <= 10 && wellTalent.length < 10) {
+      setWellTalent(wellTalent.concat(value));
       setWellInput('');
     }
   };
@@ -119,13 +119,13 @@ const ProfileSetting = ({
 
   const handleInterestKeyPress = (e) => {
     if (e.key === 'Enter') {
-      handleCreateInterestTalent();
+      handleCreateInterestTalent(interestInput.trim());
     }
   };
 
-  const handleCreateInterestTalent = () => {
-    if (interestInput.length <= 10 && interestTalent.length < 10) {
-      setInterestTalent(interestTalent.concat(interestInput));
+  const handleCreateInterestTalent = (value) => {
+    if (value.length > 0 && value.length <= 10 && interestTalent.length < 10) {
+      setInterestTalent(interestTalent.concat(value));
       setInterestInput('');
     }
   };

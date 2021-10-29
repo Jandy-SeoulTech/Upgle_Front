@@ -5,7 +5,7 @@ const TagInput = ({ tagList, onCreate, ...props }) => {
   const [input, setInput] = useState('');
   const [lengthError, setLengthError] = useState(false);
 
-  const handleCahnge = (e) => {
+  const handleChange = (e) => {
     if (e.target.value.length > 10) {
       setLengthError(true);
       return;
@@ -21,9 +21,11 @@ const TagInput = ({ tagList, onCreate, ...props }) => {
   };
 
   const handleCreate = () => {
-    if (tagList.length < 10) {
-      onCreate(input);
+    const trimmedInput = input.trim();
+    if (trimmedInput.length > 0 && trimmedInput.length <= 10 && tagList.length < 10) {
+      onCreate(trimmedInput);
       setInput('');
+      setLengthError(false);
     }
   };
 
@@ -31,7 +33,7 @@ const TagInput = ({ tagList, onCreate, ...props }) => {
     <TextField
       placeholder="최대 10개까지 입력해주세요"
       value={input}
-      onChange={handleCahnge}
+      onChange={handleChange}
       onKeyPress={handleKeyPress}
       error={tagList.length >= 10 || lengthError}
       helperText={
