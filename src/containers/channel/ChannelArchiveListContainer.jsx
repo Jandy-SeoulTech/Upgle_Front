@@ -5,13 +5,14 @@ import Loading from '../../components/common/Loading';
 import { getChannelArchive, initArchive } from '../../modules/archive';
 import { getChannelData } from '../../modules/channel';
 import qs from 'qs';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import { setArchive } from '../../modules/write';
 
 const ChannelArchiveListContainer = ({ channelId }) => {
   const { channel } = useSelector((state) => state.channel);
   const { channelArchive, totalPage } = useSelector((state) => state.archive);
   const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
 
   const { page = 1, pageSize = 10 } = qs.parse(location.search, { ignoreQueryPrefix: true });
@@ -44,7 +45,7 @@ const ChannelArchiveListContainer = ({ channelId }) => {
     return () => {
       dispatch(initArchive());
     };
-  }, [dispatch, channelId]);
+  }, [dispatch, channelId, location.search]);
 
   if (!channel || !channelArchive) return <Loading css={{ backgroundColor: '#fafafc' }} />;
 
