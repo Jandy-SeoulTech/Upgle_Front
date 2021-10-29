@@ -5,22 +5,13 @@ import palette from '../../lib/styles/palette';
 import Button from '../common/Button';
 
 const NextButton = ({ data, activeStep, onClick }) => {
-  const steps = [
-    data.wellTalent,
-    data.interestTalent,
-    data.department,
-    data.introduce,
-    data.images,
-  ];
+  const steps = [data.wellTalent, data.interestTalent, data.department, data.introduce];
   return (
-    <Button
-      onClick={onClick}
-      css={steps[activeStep].length === 0 && skipButton}
-    >
-      {steps[activeStep].length === 0 ? (
-        '건너뛰기'
-      ) : activeStep === 4 ? (
+    <Button onClick={onClick} css={steps[activeStep]?.length === 0 && skipButton}>
+      {activeStep === 4 ? (
         '제출'
+      ) : steps[activeStep].length === 0 ? (
+        '건너뛰기'
       ) : (
         <>
           계속 <ArrowRight />
