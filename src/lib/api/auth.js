@@ -12,7 +12,7 @@ export const signup = async ({ email, password, nickname }) => {
 
 export const checkNickname = async ({ nickname }) => {
   const response = await axios.post('/api/Auth/nicknamecheck', { nickname });
-  return response.data.data;
+  return response.data;
 };
 
 export const checkEmail = async ({ email }) => {
