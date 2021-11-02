@@ -10,7 +10,7 @@ const UploadProfileContainer = (props) => {
   const { department, introduce, wellTalent, interestTalent } = useSelector(
     (state) => state.write.writeProfile,
   );
-  const { images } = useSelector((state) => state.image);
+  const { profileImage } = useSelector((state) => state.image);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -27,7 +27,7 @@ const UploadProfileContainer = (props) => {
           introduce,
           wellTalent,
           interestTalent,
-          src: images[0] || null,
+          src: profileImage,
         }),
       );
       dispatch(check());
@@ -47,7 +47,7 @@ const UploadProfileContainer = (props) => {
   return (
     <UploadProfile
       user={user}
-      data={{ department, introduce, wellTalent, interestTalent, images }}
+      data={{ department, introduce, wellTalent, interestTalent }}
       handleChangeFiled={handleChangeFiled}
       handleUploadProfile={handleUploadProfile}
     />
