@@ -40,7 +40,7 @@ const OAuthContainer = (props) => {
   const initializeNaverLogin = () => {
     const naverLogin = new naver.LoginWithNaverId({
       clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
-      callbackUrl: 'http://localhost:3000/signin',
+      callbackUrl: 'https://upgle.hisfolio.com/signin',
       isPopup: false,
       loginButton: { color: 'white', type: 1, height: '47' },
     });
