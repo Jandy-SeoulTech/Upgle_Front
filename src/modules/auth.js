@@ -1,6 +1,8 @@
 import { createAction, handleActions } from 'redux-actions';
+import createRequestSaga, { createRequestActionTypes } from '../lib/util/createRequestSaga';
 import * as authAPI from '../lib/api/auth';
 import { pender } from 'redux-pender';
+import { takeLatest } from '@redux-saga/core/effects';
 
 const SET_NICKNAME = 'auth/SET_NICKNAME';
 const NICKNAME_CHANGED = 'auth/NICKNAME_CHANGED';
@@ -8,7 +10,8 @@ const EMAIL_CHANGED = 'auth/EMAIL_CHANGED';
 const CHECK_VERIFICATION_CODE = 'auth/CHECK_VERIFICATION_CODE';
 const SEND_VERIFICATION_CODE = 'auth/SEND_VERIFICATION_CODE';
 const CHECK_EMAIL = 'auth/CHECK_EMAIL';
-const CHECK_NICKNAME = 'auth/CHECK_NICKNAME';
+const [CHECK_NICKNAME, CHECK_NICKNAME_SUCCESS, CHECK_NICKNAME_FAILURE] =
+  createRequestActionTypes('auth/CHECK_NICKNAME');
 const SIGNUP = 'auth/SIGNUP';
 const SIGNIN = 'auth/LOGIN';
 const SET_SIGNIN_ERROR = 'auth/SET_SIGNIN_ERROR';
@@ -29,7 +32,9 @@ export const sendVerificationCode = createAction(
   authAPI.sendVerificationCode,
 );
 export const checkEmail = createAction(CHECK_EMAIL, authAPI.checkEmail);
-export const checkNickname = createAction(CHECK_NICKNAME, authAPI.checkNickname);
+export const checkNickname = createAction(CHECK_NICKNAME, ({ nickname }) => ({
+  nickname,
+}));
 export const signup = createAction(SIGNUP, authAPI.signup);
 export const signin = createAction(SIGNIN, authAPI.signin);
 export const setSigninError = createAction(SET_SIGNIN_ERROR, (message) => message);
@@ -37,6 +42,12 @@ export const kakaoOauth = createAction(KAKAO_OAUTH, authAPI.kakaoOauth, (token) 
 export const googleOauth = createAction(GOOGLE_OAUTH, authAPI.googleOauth, (token) => token);
 export const naverOauth = createAction(NAVER_OAUTH, authAPI.naverOauth, (token) => token);
 export const initAuth = createAction(INIT_AUTH);
+
+const checkNicknameSaga = createRequestSaga(CHECK_NICKNAME, authAPI.checkNickname);
+
+export function* authSaga() {
+  yield takeLatest(CHECK_NICKNAME, checkNicknameSaga);
+}
 
 const initialState = {
   auth: null,
@@ -66,16 +77,13 @@ export default handleActions(
     ...pender({
       type: SET_NICKNAME,
     }),
-    ...pender({
-      type: CHECK_NICKNAME,
-      onSuccess: (state) => ({
-        ...state,
-        nicknameChecked: true,
-      }),
-      onFailure: (state) => ({
-        ...state,
-        nicknameChecked: false,
-      }),
+    [CHECK_NICKNAME_SUCCESS]: (state) => ({
+      ...state,
+      nicknameChecked: true,
+    }),
+    [CHECK_NICKNAME_FAILURE]: (state) => ({
+      ...state,
+      nicknameChecked: false,
     }),
     ...pender({
       type: CHECK_VERIFICATION_CODE,
