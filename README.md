@@ -49,7 +49,7 @@
       <a href="https://redux.js.org" target="_blank"> 
         <img src="https://github.com/devicons/devicon/blob/master/icons/redux/redux-original.svg" alt="redux" width="80" height="60"/> 
       </a><br>
-  React.js
+  Redux
     </td>
     <td width="120">
       <a href="https://material-ui.com" target="_blank"> 
